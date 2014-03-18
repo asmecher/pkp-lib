@@ -185,9 +185,7 @@ class Form {
 		// Determine the current locale to display fields with
 		$templateMgr->assign('formLocale', $this->getFormLocale());
 
-		// N.B: We have to call $templateMgr->display instead of ->fetch($display)
-		// in order for the TemplateManager::display hook to be called
-		$returner = $templateMgr->display($this->_template, null, null, $display);
+		$returner = $templateMgr->fetch($this->_template);
 
 		// Need to reset the FBV's form in case the template manager does another fetch on a template that is not within a form.
 		$nullVar = null;
