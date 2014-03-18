@@ -630,7 +630,7 @@
 								{* Create initial field list which will then be maintained via JS. *}
 								{foreach from=$availableFields name=availableFields key=fieldName item=field}
 									{capture assign=fieldValueVar}{ldelim}${$fieldName}{rdelim}{/capture}
-									{eval|assign:"fieldValue" var=$fieldValueVar}
+									{eval assign="fieldValue" var=$fieldValueVar}
 									{if $fieldValue != ''}
 										{if $field.required == 'true'}{assign var=hasRequiredField value=true}{/if}
 										{include file="controllers/grid/citation/form/citationInputField.tpl"

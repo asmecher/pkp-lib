@@ -60,9 +60,9 @@
 		{/if}{* $showRemember *}
 		{if !$hideRegisterLink}
 			{if $source}
-				{url|assign:cancelUrl page="user" op="register" source=$source}
+				{url assign=cancelUrl page="user" op="register" source=$source}
 			{else}
-				{url|assign:cancelUrl page="user" op="register"}
+				{url assign=cancelUrl page="user" op="register"}
 			{/if}
 			{fbvFormButtons cancelUrl=$cancelUrl cancelText="user.login.registerNewAccount" submitText="user.login"}
 		{else}

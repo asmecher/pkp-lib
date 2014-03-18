@@ -15,7 +15,7 @@
  *}
 
 {* Generate the link action's button. *}
-{if $contextId}
+{if isset($contextId)}
 	{assign var=staticId value=$contextId|concat:"-":$action->getId():"-button"}
 {else}
 	{assign var=staticId value=$action->getId()|concat:"-button"}

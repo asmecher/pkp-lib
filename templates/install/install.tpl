@@ -12,15 +12,15 @@
 {include file="common/header.tpl"}
 {/strip}
 
-{if is_writeable('config.inc.php')}{translate|assign:"writable_config" key="installer.checkYes"}{else}{translate|assign:"writable_config" key="installer.checkNo"}{/if}
-{if is_writeable('cache')}{translate|assign:"writable_cache" key="installer.checkYes"}{else}{translate|assign:"writable_cache" key="installer.checkNo"}{/if}
-{if is_writeable('public')}{translate|assign:"writable_public" key="installer.checkYes"}{else}{translate|assign:"writable_public" key="installer.checkNo"}{/if}
-{if is_writeable('cache/_db')}{translate|assign:"writable_db_cache" key="installer.checkYes"}{else}{translate|assign:"writable_db_cache" key="installer.checkNo"}{/if}
-{if is_writeable('cache/t_cache')}{translate|assign:"writable_templates_cache" key="installer.checkYes"}{else}{translate|assign:"writable_templates_cache" key="installer.checkNo"}{/if}
-{if is_writeable('cache/t_compile')}{translate|assign:"writable_templates_compile" key="installer.checkYes"}{else}{translate|assign:"writable_templates_compile" key="installer.checkNo"}{/if}
+{if is_writeable('config.inc.php')}{translate assign="writable_config" key="installer.checkYes"}{else}{translate assign="writable_config" key="installer.checkNo"}{/if}
+{if is_writeable('cache')}{translate assign="writable_cache" key="installer.checkYes"}{else}{translate assign="writable_cache" key="installer.checkNo"}{/if}
+{if is_writeable('public')}{translate assign="writable_public" key="installer.checkYes"}{else}{translate assign="writable_public" key="installer.checkNo"}{/if}
+{if is_writeable('cache/_db')}{translate assign="writable_db_cache" key="installer.checkYes"}{else}{translate assign="writable_db_cache" key="installer.checkNo"}{/if}
+{if is_writeable('cache/t_cache')}{translate assign="writable_templates_cache" key="installer.checkYes"}{else}{translate assign="writable_templates_cache" key="installer.checkNo"}{/if}
+{if is_writeable('cache/t_compile')}{translate assign="writable_templates_compile" key="installer.checkYes"}{else}{translate assign="writable_templates_compile" key="installer.checkNo"}{/if}
 
 {if !$phpIsSupportedVersion}
-	{translate|assign:"wrongPhpText" key="installer.installationWrongPhp"}
+	{translate assign="wrongPhpText" key="installer.installationWrongPhp"}
 {/if}
 
 <script>
@@ -29,7 +29,7 @@
 		$('#installForm').pkpHandler('$.pkp.controllers.form.FormHandler');
 	{rdelim});
 </script>
-{url|assign:"upgradeUrl" page="install" op="upgrade"}
+{url assign="upgradeUrl" page="install" op="upgrade"}
 <form class="pkp_form" method="post" id="installForm" action="{url op="install"}">
 	<input type="hidden" name="installing" value="0" />
 
@@ -39,9 +39,9 @@
 		{* The notification framework requires user sessions, which are not available on install. Use the template directly. *}
 		<div class="pkp_notification">
 			{if $dbErrorMsg}
-				{translate|assign:"errorMsg" key="common.error.databaseError" error=$dbErrorMsg}
+				{translate assign="errorMsg" key="common.error.databaseError" error=$dbErrorMsg}
 			{else}
-				{translate|assign:"errorMsg" key=$errorMsg}
+				{translate assign="errorMsg" key=$errorMsg}
 			{/if}
 			{include file="controllers/notification/inPlaceNotificationContent.tpl" notificationId=installer notificationStyleClass=notifyError notificationTitle="installer.installErrorsOccurred"|translate notificationContents=$errorMsg}
 		</div>

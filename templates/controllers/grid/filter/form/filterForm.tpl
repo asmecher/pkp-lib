@@ -51,7 +51,7 @@
 					<tr>
 						<td class="label">{fieldLabel name=$filterSetting->getName() key=$filterSetting->getDisplayName() required=$filterSettingRequired}</td>
 						{capture assign=settingValueVar}{ldelim}${$filterSetting->getName()}{rdelim}{/capture}
-						{eval|assign:"settingValue" var=$settingValueVar}
+						{eval assign="settingValue" var=$settingValueVar}
 						<td class="value">
 							{if $filterSetting|is_a:SetFilterSetting}
 								{fbvElement type="select" id=$filterSetting->getName() name=$filterSetting->getName()

@@ -10,7 +10,7 @@
 
 fetchNotificationUrl: '{url|escape:javascript router=$smarty.const.ROUTE_PAGE page='notification' op='fetchNotification' escape=false}',
 hasSystemNotifications: '{$hasSystemNotifications}'
-{if $requestOptions}
+{if isset($requestOptions)}
 	,
 	requestOptions: {ldelim}
 		{foreach name=levels from=$requestOptions key=level item=levelOptions}

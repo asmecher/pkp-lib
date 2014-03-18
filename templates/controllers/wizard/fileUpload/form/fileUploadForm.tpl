@@ -182,7 +182,7 @@
 
 		{if $showGenreSelector}
 			{fbvFormSection title="submission.upload.fileContents" required=true}
-				{translate|assign:"defaultLabel" key="submission.upload.selectBookElement"}
+				{translate assign="defaultLabel" key="submission.upload.selectBookElement"}
 				{fbvElement type="select" name="genreId" id="genreId" from=$submissionFileGenres translate=false defaultLabel=$defaultLabel defaultValue="" required="true" selected=$genreId}
 			{/fbvFormSection}
 		{/if}
@@ -192,7 +192,7 @@
 			{include file="controllers/fileUploadContainer.tpl" id="plupload"}
 		{/fbvFormSection}
 
-		{translate|assign:"maxFileUploadStatus" key="common.fileUpload.maxFileSizeStatus" fileSize=$maxFileUploadSize supportName=$currentContext->getSetting('supportName') supportEmail=$currentContext->getSetting('supportEmail')}
+		{translate assign="maxFileUploadStatus" key="common.fileUpload.maxFileSizeStatus" fileSize=$maxFileUploadSize supportName=$currentContext->getSetting('supportName') supportEmail=$currentContext->getSetting('supportEmail')}
 		{fbvFormSection description=$maxFileUploadStatus translate=false}{/fbvFormSection}
 
 		{if $ensuringLink}

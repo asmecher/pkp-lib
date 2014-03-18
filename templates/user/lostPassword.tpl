@@ -30,7 +30,7 @@
 		{fbvElement type="text" id="email" value=$username maxlength="90" size=$fbvStyles.size.MEDIUM}
 	{/fbvFormSection}
 	{if !$hideRegisterLink}
-		{url|assign:cancelUrl page="user" op="register"}
+		{url assign=cancelUrl page="user" op="register"}
 		{fbvFormButtons cancelUrl=$cancelUrl cancelText="user.login.registerNewAccount" submitText="user.login.resetPassword"}
 	{else}
 		{fbvFormButtons hideCancel=true submitText="user.login.resetPassword"}

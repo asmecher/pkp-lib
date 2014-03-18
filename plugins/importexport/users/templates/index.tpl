@@ -67,7 +67,7 @@
 		</script>
 		<form id="exportXmlForm" class="pkp_form" action="{plugin_url path="export"}" method="post">
 			{fbvFormArea id="exportForm"}
-				{url|assign:usersGridUrl router=$smarty.const.ROUTE_COMPONENT component="grid.users.exportableUsers.ExportableUsersGridHandler" op="fetchGrid"}
+				{url assign=usersGridUrl router=$smarty.const.ROUTE_COMPONENT component="grid.users.exportableUsers.ExportableUsersGridHandler" op="fetchGrid"}
 				{load_url_in_div id="usersGridContainer" url=$usersGridUrl}
 				{fbvFormButtons hideCancel="true"}
 			{/fbvFormArea}

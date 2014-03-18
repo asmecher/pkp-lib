@@ -22,7 +22,7 @@
 		<input type="hidden" id="userId" name="userId" value="{$userId|escape}" />
 
 		<div id="userRolesContainer" class="full left">
-			{url|assign:userRolesUrl router=$smarty.const.ROUTE_COMPONENT component="listbuilder.users.UserUserGroupListbuilderHandler" op="fetch" userId=$userId title="grid.user.addRoles" escape=false}
+			{url assign=userRolesUrl router=$smarty.const.ROUTE_COMPONENT component="listbuilder.users.UserUserGroupListbuilderHandler" op="fetch" userId=$userId title="grid.user.addRoles" escape=false}
 			{load_url_in_div id="userRolesContainer" url=$userRolesUrl}
 		</div>
 		{fbvFormButtons submitText="common.save"}

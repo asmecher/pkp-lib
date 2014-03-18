@@ -179,7 +179,7 @@ class Form {
 		$templateMgr->assign('isError', !$this->isValid());
 		$templateMgr->assign('errors', $this->getErrorsArray());
 
-		$templateMgr->register_function('form_language_chooser', array($this, 'smartyFormLanguageChooser'));
+		$templateMgr->registerPlugin('function', 'form_language_chooser', array($this, 'smartyFormLanguageChooser'));
 		$templateMgr->assign('formLocales', $this->supportedLocales);
 
 		// Determine the current locale to display fields with

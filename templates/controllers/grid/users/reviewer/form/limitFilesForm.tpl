@@ -22,7 +22,7 @@
 	<input type="hidden" name="submissionId" value="{$submissionId|escape}" />
 	<input type="hidden" name="reviewRoundId" value="{$reviewRoundId|escape}" />
 
-	{url|assign:limitReviewFilesGridUrl router=$smarty.const.ROUTE_COMPONENT component="grid.files.review.LimitReviewFilesGridHandler" op="fetchGrid" submissionId=$submissionId stageId=$stageId reviewRoundId=$reviewRoundId reviewAssignmentId=$reviewAssignmentId escape=false}
+	{url assign=limitReviewFilesGridUrl router=$smarty.const.ROUTE_COMPONENT component="grid.files.review.LimitReviewFilesGridHandler" op="fetchGrid" submissionId=$submissionId stageId=$stageId reviewRoundId=$reviewRoundId reviewAssignmentId=$reviewAssignmentId escape=false}
 	{load_url_in_div id="limitReviewFilesGrid" url=$limitReviewFilesGridUrl}
 
 	{fbvFormButtons submitText="editor.submissionReview.restrictFiles"}

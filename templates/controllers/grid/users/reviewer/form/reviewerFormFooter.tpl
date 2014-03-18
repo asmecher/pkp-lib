@@ -46,7 +46,7 @@
 		<h3>{translate key="editor.submissionReview.restrictFiles"}</h3>
 		<div>
 			<!-- Available review files -->
-			{url|assign:limitReviewFilesGridUrl router=$smarty.const.ROUTE_COMPONENT component="grid.files.review.LimitReviewFilesGridHandler" op="fetchGrid" submissionId=$submissionId stageId=$stageId reviewRoundId=$reviewRoundId escape=false}
+			{url assign=limitReviewFilesGridUrl router=$smarty.const.ROUTE_COMPONENT component="grid.files.review.LimitReviewFilesGridHandler" op="fetchGrid" submissionId=$submissionId stageId=$stageId reviewRoundId=$reviewRoundId escape=false}
 			{load_url_in_div id="limitReviewFilesGrid" url=$limitReviewFilesGridUrl}
 		</div>
 	</div>

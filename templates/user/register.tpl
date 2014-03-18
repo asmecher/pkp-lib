@@ -25,10 +25,10 @@
 
 {if !$implicitAuth}
 	{if !$existingUser}
-		{url|assign:"url" page="user" op="register" existingUser=1}
+		{url assign="url" page="user" op="register" existingUser=1}
 		<p>{translate key="user.register.alreadyRegisteredOtherContext" registerUrl=$url}</p>
 	{else}
-		{url|assign:"url" page="user" op="register"}
+		{url assign="url" page="user" op="register"}
 		<p>{translate key="user.register.notAlreadyRegisteredOtherContext" registerUrl=$url}</p>
 		<input type="hidden" name="existingUser" value="1"/>
 	{/if}
@@ -105,7 +105,7 @@
 		</li>
 	{/if}
 {/fbvFormArea}
-{url|assign:"url" page="index" escape=false}
+{url assign="url" page="index" escape=false}
 {fbvFormButtons submitText="user.register" cancelUrl=$url}
 
 {if ! $implicitAuth}

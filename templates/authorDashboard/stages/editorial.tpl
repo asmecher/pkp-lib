@@ -16,7 +16,7 @@
 				{include file="authorDashboard/submissionEmails.tpl" submissionEmails=$copyeditingEmails}
 
 				<!-- Display copyediting files grid -->
-				{url|assign:copyeditingFilesGridUrl router=$smarty.const.ROUTE_COMPONENT component="grid.files.copyedit.AuthorCopyeditingSignoffFilesGridHandler" op="fetchGrid" submissionId=$submission->getId() stageId=$smarty.const.WORKFLOW_STAGE_ID_EDITING escape=false}
+				{url assign=copyeditingFilesGridUrl router=$smarty.const.ROUTE_COMPONENT component="grid.files.copyedit.AuthorCopyeditingSignoffFilesGridHandler" op="fetchGrid" submissionId=$submission->getId() stageId=$smarty.const.WORKFLOW_STAGE_ID_EDITING escape=false}
 				{load_url_in_div id="copyeditingFilesGridDiv" url=$copyeditingFilesGridUrl}
 			{else}
 				{translate key="submission.stageNotInitiated"}

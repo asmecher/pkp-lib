@@ -9,7 +9,7 @@
  *}
 
 <!-- Archived submissions grid: Show all archived submissions -->
-{if array_intersect(array(ROLE_ID_SITE_ADMIN, ROLE_ID_MANAGER, ROLE_ID_SUB_EDITOR, ROLE_ID_REVIEWER, ROLE_ID_ASSISTANT), $userRoles)}
-	{url|assign:archivedSubmissionsListGridUrl router=$smarty.const.ROUTE_COMPONENT component="grid.submissions.archivedSubmissions.ArchivedSubmissionsListGridHandler" op="fetchGrid"}
+{if array_intersect(array($smarty.const.ROLE_ID_SITE_ADMIN, $smarty.const.ROLE_ID_MANAGER, $smarty.const.ROLE_ID_SUB_EDITOR, $smarty.const.ROLE_ID_REVIEWER, $smarty.const.ROLE_ID_ASSISTANT), $userRoles)}
+	{url assign=archivedSubmissionsListGridUrl router=$smarty.const.ROUTE_COMPONENT component="grid.submissions.archivedSubmissions.ArchivedSubmissionsListGridHandler" op="fetchGrid"}
 	{load_url_in_div id="archivedSubmissionsListGridContainer" url=$archivedSubmissionsListGridUrl}
 {/if}

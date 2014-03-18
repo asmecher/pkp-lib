@@ -83,7 +83,7 @@ function togglePossibleResponses(newValue, multipleResponsesElementTypesString) 
 				<p>reviewFormElementId: {$reviewFormElementId}</p>
 			</div>
 			<div id="elementOptionsContainer" class="full left">
-				{url|assign:elementOptionsUrl router=$smarty.const.ROUTE_COMPONENT component="listbuilder.settings.reviewForms.ReviewFormElementResponseItemListbuilderHandler" op="fetch" reviewFormId=$reviewFormId reviewFormElementId=$reviewFormElementId title="grid.reviewFormElement.responseItems" escape=false}
+				{url assign=elementOptionsUrl router=$smarty.const.ROUTE_COMPONENT component="listbuilder.settings.reviewForms.ReviewFormElementResponseItemListbuilderHandler" op="fetch" reviewFormId=$reviewFormId reviewFormElementId=$reviewFormElementId title="grid.reviewFormElement.responseItems" escape=false}
 				{load_url_in_div id="elementOptionsContainer" url=$elementOptionsUrl}
 			</div>
 		</div>

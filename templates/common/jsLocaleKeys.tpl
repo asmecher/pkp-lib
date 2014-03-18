@@ -13,7 +13,7 @@
 	jQuery.pkp = jQuery.pkp || {ldelim} {rdelim};
 	jQuery.pkp.locale = {ldelim} {rdelim};
 	{foreach from=$jsLocaleKeys item=keyName}
-		{translate|assign:"keyValue" key=$keyName}
+		{translate assign="keyValue" key=$keyName}
 		{* replace periods in the key name with underscores to prevent JS complaints about undefined variables *}
 		jQuery.pkp.locale.{$keyName|replace:'.':'_'|escape:"javascript"} = {if is_numeric($keyValue)}{$keyValue}{else}'{$keyValue|escape:"javascript"}'{/if};
 	{/foreach}

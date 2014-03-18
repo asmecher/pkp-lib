@@ -11,7 +11,7 @@
 <div class="pkp_structure_head_siteNav">
 	<ul class="pkp_helpers_flatlist pkp_helpers_align_left">
 		{if $isUserLoggedIn}
-			{if array_intersect(array(ROLE_ID_SITE_ADMIN), $userRoles)}
+			{if array_intersect(array($smarty.const.ROLE_ID_SITE_ADMIN), $userRoles)}
 				<li><a href="{if $multipleContexts}{url router=$smarty.const.ROUTE_PAGE context="index" page="admin" op="index"}{else}{url router=$smarty.const.ROUTE_PAGE page="admin" op="index"}{/if}">{translate key="navigation.admin"}</a></li>
 			{/if}
 		{/if}

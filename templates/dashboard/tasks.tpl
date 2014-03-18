@@ -39,5 +39,5 @@
 </form>
 <div class="pkp_helpers_clear"></div>
 
-{url|assign:notificationsGridUrl router=$smarty.const.ROUTE_COMPONENT component="grid.notifications.NotificationsGridHandler" op="fetchGrid" escape=false}
+{url assign=notificationsGridUrl router=$smarty.const.ROUTE_COMPONENT component="grid.notifications.NotificationsGridHandler" op="fetchGrid" escape=false}
 {load_url_in_div id="notificationsGrid" url=$notificationsGridUrl}

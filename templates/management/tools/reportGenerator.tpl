@@ -14,7 +14,7 @@
 {include file="common/header.tpl"}
 {/strip}
 
-{url|assign:reportGeneratorUrl router=$smarty.const.ROUTE_COMPONENT component="statistics.ReportGeneratorHandler" op="fetchReportGenerator" escape=false}
+{url assign=reportGeneratorUrl router=$smarty.const.ROUTE_COMPONENT component="statistics.ReportGeneratorHandler" op="fetchReportGenerator" escape=false}
 {load_url_in_div id="reportGeneratorContainer" url="$reportGeneratorUrl"}
 
 {include file="common/footer.tpl"}

@@ -9,7 +9,7 @@
  *}
 <!DOCTYPE html>
 <html>
-{if !$pageTitleTranslated}{translate|assign:"pageTitleTranslated" key=$pageTitle}{/if}
+{if !isset($pageTitleTranslated)}{translate assign=pageTitleTranslated key=$pageTitle}{/if}
 {include file="core:common/headerHead.tpl"}
 <body>
 	<script type="text/javascript">
@@ -29,7 +29,7 @@
 		{rdelim});
 	</script>
 	<div class="pkp_structure_page">
-		{url|assign:fetchHeaderUrl router=$smarty.const.ROUTE_COMPONENT component="page.PageHandler" op="header" escape=false}
+		{url assign=fetchHeaderUrl router=$smarty.const.ROUTE_COMPONENT component="page.PageHandler" op="header" escape=false}
 		{load_url_in_div class="pkp_structure_head" id="headerContainer" url=$fetchHeaderUrl}
 		<div class="pkp_structure_body">
 			<div class="pkp_structure_content">
@@ -39,8 +39,7 @@
 					{/if}
 				</div>
 
-				{url|assign:fetchSidebarUrl router=$smarty.const.ROUTE_COMPONENT component="page.PageHandler" op="sidebar" params=$additionalArgs escape=false}
-
+				{url assign=fetchSidebarUrl router=$smarty.const.ROUTE_COMPONENT component="page.PageHandler" op="sidebar" params=$additionalArgs escape=false}
 
 				{load_url_in_div id="sidebarContainer" url=$fetchSidebarUrl}
 

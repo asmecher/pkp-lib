@@ -37,7 +37,7 @@
 
 	{fbvFormArea id="type"}
 		{fbvFormSection title="common.type" required=true}
-			{translate|assign:"defaultLabel" key="common.chooseOne"}
+			{translate assign="defaultLabel" key="common.chooseOne"}
 			{fbvElement type="select" from=$fileTypes id="fileType" selected=$fileType defaultValue="" defaultLabel=$defaultLabel}
 		{/fbvFormSection}
 	{/fbvFormArea}

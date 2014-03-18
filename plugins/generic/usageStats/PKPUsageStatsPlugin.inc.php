@@ -117,7 +117,7 @@ class PKPUsageStatsPlugin extends GenericPlugin {
 		switch($verb) {
 			case 'settings':
 				$templateMgr = TemplateManager::getManager();
-				$templateMgr->register_function('plugin_url', array(&$this, 'smartyPluginUrl'));
+				$templateMgr->registerPlugin('function', 'plugin_url', array(&$this, 'smartyPluginUrl'));
 				$settingsForm = new UsageStatsSettingsForm($this);
 				$settingsForm->initData();
 				$pluginModalContent = $settingsForm->fetch($request);

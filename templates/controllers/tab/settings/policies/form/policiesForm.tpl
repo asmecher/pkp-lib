@@ -20,8 +20,8 @@
 	{include file="controllers/notification/inPlaceNotification.tpl" notificationId="policiesFormNotification"}
 	{include file="controllers/tab/settings/wizardMode.tpl" wizardMode=$wizardMode}
 
-	{url|assign:"sampleCopyrightWordingUrl" router=$smarty.const.ROUTE_PAGE page="information" op="sampleCopyrightWording"}
-	{translate|assign:"authorCopyrightNoticeDescription" key="manager.setup.authorCopyrightNotice.description" sampleCopyrightWordingUrl=$sampleCopyrightWordingUrl}
+	{url assign="sampleCopyrightWordingUrl" router=$smarty.const.ROUTE_PAGE page="information" op="sampleCopyrightWording"}
+	{translate assign="authorCopyrightNoticeDescription" key="manager.setup.authorCopyrightNotice.description" sampleCopyrightWordingUrl=$sampleCopyrightWordingUrl}
 
 	{fbvFormArea id="policiesFormArea"}
 		{fbvFormSection label="manager.setup.authorCopyrightNotice" description=$authorCopyrightNoticeDescription translate=false}
@@ -39,8 +39,8 @@
 				{fbvElement type="textarea" multilingual=true name="focusScopeDesc" id="focusScopeDesc" value=$focusScopeDesc rich=true}
 			{/fbvFormSection}
 			{fbvFormSection label="manager.setup.openAccessPolicy" description="manager.setup.openAccessPolicy.description"}
-				{url|assign:"accessAndSecurityUrl" page="settings" op="access"}
-				{translate|assign:"securitySettingsNote" key="manager.setup.securitySettings.note" accessAndSecurityUrl=$accessAndSecurityUrl}
+				{url assign="accessAndSecurityUrl" page="settings" op="access"}
+				{translate assign="securitySettingsNote" key="manager.setup.securitySettings.note" accessAndSecurityUrl=$accessAndSecurityUrl}
 				{fbvElement type="textarea" multilingual="true" name="openAccessPolicy" id="openAccessPolicy" value=$openAccessPolicy rich=true}
 			{/fbvFormSection}
 			{fbvFormSection label="manager.setup.reviewPolicy" description="manager.setup.peerReview.description"}

@@ -7,27 +7,26 @@
  *
  * Include the submission progress bar
  *}
- 
 <div class="submission_progress_wrapper">
 	<ul class="submission_progress pkp_helpers_flatlist">
 		{foreach key=key from=$workflowStages item=stage}
 			{assign var="progressClass" value=""}
 			{assign var="currentClass" value=""}
-			{translate|assign:"stageTitle" key="submission.noActionRequired"}
+			{translate assign="stageTitle" key="submission.noActionRequired"}
 			{if $stageNotifications[$key]}
 				{assign var="progressClass" value="actionNeeded"}
-				{translate|assign:"stageTitle" key="submission.actionNeeded"}
+				{translate assign="stageTitle" key="submission.actionNeeded"}
 			{/if}
 			{if !array_key_exists($key, $accessibleWorkflowStages)}
 				{assign var="progressClass" value="stageDisabled"}
 			{/if}
 			{if $submissionIsReady && $stage.path == $smarty.const.WORKFLOW_STAGE_PATH_PRODUCTION}
 				{assign var="progressClass" value="productionReady"}
-				{translate|assign:"stageTitle" key="submission.productionReady"}
+				{translate assign="stageTitle" key="submission.productionReady"}
 			{/if}
 			{if $key == $stageId}
 				{assign var="currentClass" value="current"}
-				{translate|assign:"stageTitle" key="submission.currentStage"}
+				{translate assign="stageTitle" key="submission.currentStage"}
 			{/if}
 			<li class="{$progressClass} {$currentClass}">
 				{if array_key_exists($key, $accessibleWorkflowStages)}

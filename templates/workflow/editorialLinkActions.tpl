@@ -8,7 +8,7 @@
  * Show editorial link actions.
  *}
 {if !empty($editorActions)}
-	{if array_intersect(array(ROLE_ID_MANAGER, ROLE_ID_SUB_EDITOR), $userRoles)}
+	{if array_intersect(array($smarty.const.ROLE_ID_MANAGER, $smarty.const.ROLE_ID_SUB_EDITOR), $userRoles)}
 		{assign var="editorDecisionActionsId" value="editor_decision_actions_"|concat:$stageId}
 		<script type="text/javascript">
 		// Initialise JS handler.

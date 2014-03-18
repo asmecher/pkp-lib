@@ -13,7 +13,7 @@
 {include file="common/header.tpl"}
 {/strip}
 
-{url|assign:"loginUrl" page="login"}
+{url assign="loginUrl" page="login"}
 {translate key="installer.installationComplete" loginUrl=$loginUrl}
 
 {if $writeConfigFailed}

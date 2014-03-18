@@ -74,8 +74,6 @@
 		{include file="common/minifiedScripts.tpl"}
 	{/if}
 
-	{$deprecatedJavascript}
-
 	{$deprecatedThemeStyles}
 
 	{$additionalHeadData}
