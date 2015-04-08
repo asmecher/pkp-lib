@@ -22,7 +22,7 @@
 	<input type="hidden" name="stageId" value="{$stageId|escape}" />
 
 	<!-- Available submission files -->
-	{url|assign:filesForReviewUrl router=$smarty.const.ROUTE_COMPONENT component="grid.files.submission.SelectableSubmissionDetailsFilesGridHandler" op="fetchGrid" submissionId=$submissionId stageId=$stageId escape=false}
+	{url assign=filesForReviewUrl router=$smarty.const.ROUTE_COMPONENT component="grid.files.submission.SelectableSubmissionDetailsFilesGridHandler" op="fetchGrid" submissionId=$submissionId stageId=$stageId escape=false}
 	{load_url_in_div id="filesForReviewGrid" url=$filesForReviewUrl}
 	{fbvFormButtons submitText="editor.submission.decision.sendExternalReview"}
 </form>

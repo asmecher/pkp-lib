@@ -8,5 +8,5 @@
  * Publication process genres (submission file types).
  *
  *}
-{url|assign:genresUrl router=$smarty.const.ROUTE_COMPONENT component="grid.settings.genre.GenreGridHandler" op="fetchGrid" escape=false}
+{url assign=genresUrl router=$smarty.const.ROUTE_COMPONENT component="grid.settings.genre.GenreGridHandler" op="fetchGrid" escape=false}
 {load_url_in_div id="genresContainer" url=$genresUrl}

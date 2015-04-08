@@ -35,5 +35,5 @@
 	<ul class="interests">
 		{if $FBV_interests}{foreach from=$FBV_interests item=interest}<li class="hidden">{$interest|escape}</li>{/foreach}{/if}
 	</ul>
-	{if $FBV_label_content}<span>{$FBV_label_content}</span>{/if}
+	{if !empty($FBV_label_content)}<span>{$FBV_label_content}</span>{/if}
 </div>

@@ -8,6 +8,6 @@
  * Include for stage participants grid.
  *}
 <div class="participant_popover" style="display: none;">
-	{url|assign:stageParticipantGridUrl router=$smarty.const.ROUTE_COMPONENT component="grid.users.stageParticipant.StageParticipantGridHandler" op="fetchGrid" submissionId=$submission->getId() stageId=$stageId escape=false}
+	{url assign=stageParticipantGridUrl router=$smarty.const.ROUTE_COMPONENT component="grid.users.stageParticipant.StageParticipantGridHandler" op="fetchGrid" submissionId=$submission->getId() stageId=$stageId escape=false}
 	{load_url_in_div id="stageParticipantGridContainer" url=$stageParticipantGridUrl}
 </div>

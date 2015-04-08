@@ -26,7 +26,7 @@
 <div id="submissionHeader" class="pkp_page_header">
 	<div class="pkp_helpers_align_right">
 		<ul class="submission_actions pkp_helpers_flatlist">
-			{if array_intersect(array(ROLE_ID_MANAGER, ROLE_ID_SUB_EDITOR), $userRoles)}
+			{if array_intersect(array($smarty.const.ROLE_ID_MANAGER, $smarty.const.ROLE_ID_SUB_EDITOR), $userRoles)}
 				<li>{include file="linkAction/linkAction.tpl" action=$submissionEntryAction}</li>
 			{/if}
 			<li>{include file="linkAction/linkAction.tpl" action=$submissionInformationCenterAction}</li>
@@ -35,7 +35,7 @@
 	</div>
 	<div class="pkp_helpers_align_left"><span class="h2">{$pageTitleTranslated}</span></div>
 
-	{url|assign:submissionProgressBarUrl op="submissionProgressBar" submissionId=$submission->getId() stageId=$stageId contextId="submission" escape=false}
+	{url assign=submissionProgressBarUrl op="submissionProgressBar" submissionId=$submission->getId() stageId=$stageId contextId="submission" escape=false}
 	{load_url_in_div id="submissionProgressBarDiv" url=$submissionProgressBarUrl class="submissionProgressBar"}
 
 </div>

@@ -54,9 +54,7 @@
 	<!-- Pines Notify build/cache -->
 	<script src="{$baseUrl}/lib/pkp/js/lib/pnotify/buildcustom.php?mode=js{if $useMinifiedJavaScript}&amp;min=1{/if}&amp;modules="></script>
 
-	{$deprecatedJavascript}
+	{if !empty($deprecatedThemeStyles)}{$deprecatedThemeStyles}{/if}
 
-	{$deprecatedThemeStyles}
-
-	{$additionalHeadData}
+	{if !empty($additionalHeadData)}{$additionalHeadData}{/if}
 </head>

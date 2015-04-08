@@ -25,12 +25,12 @@
 		{fbvFormSection description="manager.setup.lockssDescription"}
 		{/fbvFormSection}
 
-		{url|assign:"lockssExistingArchiveUrl" router=$smarty.const.ROUTE_PAGE page="user" op="email" template="LOCKSS_EXISTING_ARCHIVE"}
-		{url|assign:"lockssNewArchiveUrl" router=$smarty.const.ROUTE_PAGE page="user" op="email" template="LOCKSS_NEW_ARCHIVE"}
-		{translate|assign:"lockssRegisterDescription" key="manager.setup.lockssRegister" lockssExistingArchiveUrl=$lockssExistingArchiveUrl lockssNewArchiveUrl=$lockssNewArchiveUrl}
+		{url assign="lockssExistingArchiveUrl" router=$smarty.const.ROUTE_PAGE page="user" op="email" template="LOCKSS_EXISTING_ARCHIVE"}
+		{url assign="lockssNewArchiveUrl" router=$smarty.const.ROUTE_PAGE page="user" op="email" template="LOCKSS_NEW_ARCHIVE"}
+		{translate assign="lockssRegisterDescription" key="manager.setup.lockssRegister" lockssExistingArchiveUrl=$lockssExistingArchiveUrl lockssNewArchiveUrl=$lockssNewArchiveUrl}
 		{fbvFormSection list="true" description=$lockssRegisterDescription translate=false}
-			{url|assign:"lockssUrl" router=$smarty.const.ROUTE_PAGE page="gateway" op="lockss"}
-			{translate|assign:"enableLockssLabel" key="manager.setup.lockssEnable" lockssUrl=$lockssUrl}
+			{url assign="lockssUrl" router=$smarty.const.ROUTE_PAGE page="gateway" op="lockss"}
+			{translate assign="enableLockssLabel" key="manager.setup.lockssEnable" lockssUrl=$lockssUrl}
 			{fbvElement type="checkbox" id="enableLockss" value="1" checked=$enableLockss label=$enableLockssLabel translate=false}
 		{/fbvFormSection}
 
@@ -44,8 +44,8 @@
 		{/fbvFormSection}
 
 		{fbvFormSection list="true" description="manager.setup.clockssRegister"}
-			{url|assign:"clockssUrl" router=$smarty.const.ROUTE_PAGE page="gateway" op="clockss"}
-			{translate|assign:"enableClockssLabel" key="manager.setup.clockssEnable" clockssUrl=$clockssUrl}
+			{url assign="clockssUrl" router=$smarty.const.ROUTE_PAGE page="gateway" op="clockss"}
+			{translate assign="enableClockssLabel" key="manager.setup.clockssEnable" clockssUrl=$clockssUrl}
 			{fbvElement type="checkbox" id="enableClockss" value="1" checked=$enableClockss label=$enableClockssLabel translate=false}
 		{/fbvFormSection}
 

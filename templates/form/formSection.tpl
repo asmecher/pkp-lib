@@ -10,18 +10,20 @@
 
 
 <div {if $FBV_id}id="{$FBV_id|escape}" {/if}class="section {$FBV_class|escape} {$FBV_layoutInfo|escape}">
-	{if $FBV_label}
-		{if $FBV_translate}{translate|assign:"FBV_labelTranslated" key=$FBV_label|escape}
-		{else}{assign var="FBV_labelTranslated" value=$FBV_Label}{/if}
+	{if !empty($FBV_label)}
+		{if $FBV_translate}{translate assign="FBV_labelTranslated" key=$FBV_label|escape}
+		{else}{assign var="FBV_labelTranslated" value=$FBV_label}{/if}
 		{if $FBV_labelFor}<label for="{$FBV_labelFor|escape}">{$FBV_labelTranslated}</label>
 		{else}<span class="label">{$FBV_labelTranslated}</span>{/if}
 	{/if}
 	{if $FBV_description}<span><label class="sub_label">{if $FBV_translate}{translate key=$FBV_description}{else}{$FBV_description}{/if}</label></span>{/if}
 	{if $FBV_listSection}<ul class="checkbox_and_radiobutton">{/if}
-		{if $FBV_title}<label {if $FBV_labelFor} for="{$FBV_labelFor|escape}"{/if}>{if $FBV_translate}{translate key=$FBV_title}{else}{$FBV_title}{/if}{if $FBV_required}<span class="req">*</span>{/if}</label>{/if}
-			{foreach from=$FBV_sectionErrors item=FBV_error}
-				<p class="error">{$FBV_error|escape}</p>
-			{/foreach}
+		{if $FBV_title}<label {if $FBV_labelFor} for="{$FBV_labelFor|escape}"{/if}>{if $FBV_translate}{translate key=$FBV_title}{else}{$FBV_title}{/if}{if !empty($FBV_required)}<span class="req">*</span>{/if}</label>{/if}
+			{if !empty($FBV_sectionErrors)}
+				{foreach from=$FBV_sectionErrors item=FBV_error}
+					<p class="error">{$FBV_error|escape}</p>
+				{/foreach}
+			{/if}
 
 			{$FBV_content}
 	{if $FBV_listSection}</ul>{/if}

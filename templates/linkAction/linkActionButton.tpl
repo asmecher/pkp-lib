@@ -13,15 +13,12 @@
  *  hoverTitle: Whether to show the title as hover text only.
  *}
 
-{if !$imageClass}
-	{assign var="imageClass" value="sprite"}
-{/if}
 <a href="javascript:$.noop();" id="{$buttonId|escape}"{strip}
 	{/strip}{if $action->getImage()}{strip}
-		{/strip} class="{$imageClass} {$action->getImage()|escape} pkp_controllers_linkAction"{strip}
-		{/strip} title="{$action->getHoverTitle()|escape}">{if $hoverTitle}&nbsp;{else}{$action->getTitle()|escape}{/if}{strip}
+		{/strip} class="{$imageClass|default:"sprite"} {$action->getImage()|escape} pkp_controllers_linkAction"{strip}
+		{/strip} title="{$action->getHoverTitle()|escape}">{if !empty($hoverTitle)}&nbsp;{else}{$action->getTitle()|escape}{/if}{strip}
 	{/strip}{else}{strip}
 		{/strip} class="pkp_controllers_linkAction"{strip}
-		{/strip} title="{$action->getHoverTitle()|escape}">{if !$hoverTitle}{$action->getTitle()|strip_unsafe_html}{/if}{strip}
+		{/strip} title="{$action->getHoverTitle()|escape}">{if empty($hoverTitle)}{$action->getTitle()|strip_unsafe_html}{/if}{strip}
 	{/strip}{/if}{strip}
 {/strip}</a>

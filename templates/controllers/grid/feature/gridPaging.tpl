@@ -10,7 +10,7 @@
 
 <div class="gridPaging">
 	<div class="gridItemsPerPage pkp_helpers_align_left pkp_form">
-		{translate key=common.itemsPerPage}:<select class="itemsPerPage"></select>
+		{translate key="common.itemsPerPage"}:<select class="itemsPerPage"></select>
 	</div>
 	<div class="pkp_helpers_align_right">
 		{page_info iterator=$iterator itemsPerPage=$currentItemsPerPage}

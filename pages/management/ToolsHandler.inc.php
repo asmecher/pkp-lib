@@ -115,7 +115,7 @@ class ToolsHandler extends ManagementHandler {
 		$templateMgr->assign('contextObjectName', __($application->getNameKey()));
 
 		$reportPlugins = PluginRegistry::loadCategory('reports');
-		$templateMgr->assign_by_ref('reportPlugins', $reportPlugins);
+		$templateMgr->assign('reportPlugins', $reportPlugins);
 
 		$templateMgr->assign('defaultMetricType', $context->getSetting('defaultMetricType'));
 		$availableMetricTypes = $context->getMetricTypes(true);

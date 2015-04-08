@@ -9,14 +9,14 @@
  *}
 
 {fbvFormArea id="userGroups" title="user.roles" class=border}
-	{if $currentContext}
-		{translate|assign:"userGroupSectionLabel" key="user.register.registerAs" contextName=$currentContext->getLocalizedName()}
+	{if isset($currentContext)}
+		{translate assign="userGroupSectionLabel" key="user.register.registerAs" contextName=$currentContext->getLocalizedName()}
 		{fbvFormSection label=$userGroupSectionLabel translate=false list=true}
 			{include file="user/userGroupSelfRegistration.tpl" context=$currentContext authorUserGroups=$authorUserGroups reviewerUserGroups=$reviewerUserGroups readerUserGroups=$readerUserGroups}
 		{/fbvFormSection}
 	{/if}
 
-	{if $showOtherContexts}
+	{if isset($showOtherContexts)}
 		{capture assign="otherContextContent"}
 			{foreach from=$contexts item=context}
 				{if !$currentContext || $context->getId() != $currentContext->getId()}

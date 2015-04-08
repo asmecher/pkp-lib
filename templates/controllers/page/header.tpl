@@ -13,7 +13,6 @@
 		$('#headerTemplateContainer').pkpHandler(
 			'$.pkp.pages.header.HeaderHandler',
 			{ldelim}
-				requestedPage: '{$requestedPage|escape:"javascript"}',
 				fetchUnreadNotificationsCountUrl: '{url|escape:javascript router=$smarty.const.ROUTE_COMPONENT component="grid.notifications.NotificationsGridHandler" op="getUnreadNotificationsCount"}'
 			{rdelim});
 	{rdelim});

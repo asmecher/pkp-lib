@@ -9,7 +9,7 @@
  *}
 {if !is_null($row->getId())}
 	{assign var=rowIdPrefix value="component-"|concat:$row->getGridId()}
-	{if $categoryId}
+	{if !empty($categoryId)}
 		{assign var=rowIdPrefix value=$rowIdPrefix|concat:"-category-":$categoryId|escape}
 	{/if}
 	{assign var=rowId value=$rowIdPrefix|concat:"-row-":$row->getId()}
@@ -29,7 +29,7 @@
 			{if is_a($row, 'GridCategoryRow') && $column->hasFlag('collapseAllColumnsInCategories')}
 				{assign var=columnSpan value=$grid->getColumnsCount()-1}
 			{/if}
-			<td {if $columnSpan && $smarty.foreach.columnLoop.iteration == 2}colspan="{$columnSpan}"{/if}
+			<td {if isset($columnSpan) && $smarty.foreach.columnLoop.iteration == 2}colspan="{$columnSpan}"{/if}
 			{if $column->hasFlag('firstColumn')} class="first_column{if !$row->hasActions() && !$row->getNoActionMessage()} no_actions{/if}"{/if}
 			{if ($row->hasActions() || $row->getNoActionMessage()) && $column->hasFlag('firstColumn')}
 					>

@@ -8,5 +8,5 @@
  * Display list of review form elements.
  *
  *}
-{url|assign:reviewFormElementsUrl router=$smarty.const.ROUTE_COMPONENT component="grid.settings.reviewForms.ReviewFormElementsGridHandler" op="fetchGrid" reviewFormId=$reviewFormId}
+{url assign=reviewFormElementsUrl router=$smarty.const.ROUTE_COMPONENT component="grid.settings.reviewForms.ReviewFormElementsGridHandler" op="fetchGrid" reviewFormId=$reviewFormId}
 {load_url_in_div id="ReviewFormElementsGridContainer" url=$reviewFormElementsUrl}

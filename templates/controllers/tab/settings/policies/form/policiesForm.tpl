@@ -30,8 +30,8 @@
 				{fbvElement type="textarea" multilingual=true name="focusScopeDesc" id="focusScopeDesc" value=$focusScopeDesc rich=true}
 			{/fbvFormSection}
 			{fbvFormSection label="manager.setup.openAccessPolicy" description="manager.setup.openAccessPolicy.description"}
-				{url|assign:"accessAndSecurityUrl" page="settings" op="access"}
-				{translate|assign:"securitySettingsNote" key="manager.setup.securitySettings.note" accessAndSecurityUrl=$accessAndSecurityUrl}
+				{url assign="accessAndSecurityUrl" page="settings" op="access"}
+				{translate assign="securitySettingsNote" key="manager.setup.securitySettings.note" accessAndSecurityUrl=$accessAndSecurityUrl}
 				{fbvElement type="textarea" multilingual="true" name="openAccessPolicy" id="openAccessPolicy" value=$openAccessPolicy rich=true}
 			{/fbvFormSection}
 			{fbvFormSection label="manager.setup.reviewPolicy" description="manager.setup.peerReview.description"}

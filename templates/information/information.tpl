@@ -9,7 +9,7 @@
  *
  *}
 {strip}
-	{if !$contentOnly}
+	{if !isset($contentOnly)}
 		{include file="common/header.tpl"}
 	{/if}
 {/strip}
@@ -19,7 +19,7 @@
 </div>
 
 {strip}
-	{if !$contentOnly}
+	{if !isset($contentOnly)}
 		{include file="common/footer.tpl"}
 	{/if}
 {/strip}

@@ -13,7 +13,7 @@
 {include file="common/header.tpl"}
 {/strip}
 
-{if $loginMessage}
+{if isset($loginMessage)}
 	<span class="instruct">{translate key=$loginMessage}</span>
 	<br />
 	<br />
@@ -36,7 +36,7 @@
 	<form class="pkp_form" id="signinForm" method="post" action="{$loginUrl}" style="width: 400px;">
 {/if}
 
-{if $error}
+{if isset($error)}
 	<span class="pkp_form_error">{translate key=$error reason=$reason}</span>
 	<br />
 	<br />
@@ -47,10 +47,10 @@
 {if ! $implicitAuth}
 	{fbvFormArea id="loginFields"}
 		{fbvFormSection label="user.username" for="username"}
-			{fbvElement type="text" id="username" value=$username maxlength="32" size=$fbvStyles.size.MEDIUM}
+			{fbvElement type="text" id="username" value=$username|default:"" maxlength="32" size=$fbvStyles.size.MEDIUM}
 		{/fbvFormSection}
 		{fbvFormSection label="user.password" for="password"}
-			{fbvElement type="text" password=true id="password" value=$password maxlength="32" size=$fbvStyles.size.MEDIUM}
+			{fbvElement type="text" password=true id="password" value=$password|default:"" maxlength="32" size=$fbvStyles.size.MEDIUM}
 			<a href="{url page="login" op="lostPassword"}">{translate key="user.login.forgotPassword"}</a>
 		{/fbvFormSection}
 		{if $showRemember}
@@ -58,11 +58,11 @@
 				{fbvElement type="checkbox" label="user.login.rememberUsernameAndPassword" id="remember" value="1" checked=$remember}
 			{/fbvFormSection}
 		{/if}{* $showRemember *}
-		{if !$hideRegisterLink}
+		{if !isset($hideRegisterLink)}
 			{if $source}
-				{url|assign:cancelUrl page="user" op="register" source=$source}
+				{url assign=cancelUrl page="user" op="register" source=$source}
 			{else}
-				{url|assign:cancelUrl page="user" op="register"}
+				{url assign=cancelUrl page="user" op="register"}
 			{/if}
 			{fbvFormButtons cancelUrl=$cancelUrl cancelText="user.login.registerNewAccount" submitText="user.login"}
 		{else}

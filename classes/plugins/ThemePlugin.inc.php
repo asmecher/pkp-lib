@@ -41,10 +41,9 @@ abstract class ThemePlugin extends LazyLoadPlugin {
 			$templateManager->addStyleSheet($dispatcher->url($request, ROUTE_COMPONENT, null, 'page.PageHandler', 'css', null, array('name' => $this->getName())), STYLE_SEQUENCE_LATE);
 
 			// If this theme uses templates, ensure they're given priority.
-			array_unshift(
-				$templateManager->template_dir,
-				$path = Core::getBaseDir() . DIRECTORY_SEPARATOR . $this->getPluginPath() . '/templates'
-			);
+			$templateDirs = $templateManager->getTemplateDir();
+			array_unshift($templateDirs, Core::getBaseDir() . DIRECTORY_SEPARATOR . $this->getPluginPath() . '/templates');
+			$templateManager->setTemplateDir($templateDirs);
 		}
 		return $result;
 	}

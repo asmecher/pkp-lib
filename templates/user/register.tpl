@@ -30,10 +30,10 @@
 
 {if !$implicitAuth}
 	{if !$existingUser}
-		{url|assign:"url" page="user" op="register" existingUser=1}
+		{url assign="url" page="user" op="register" existingUser=1}
 		<p>{translate key="user.register.alreadyRegisteredOtherContext" registerUrl=$url}</p>
 	{else}
-		{url|assign:"url" page="user" op="register"}
+		{url assign="url" page="user" op="register"}
 		<p>{translate key="user.register.notAlreadyRegisteredOtherContext" registerUrl=$url}</p>
 		<input type="hidden" name="existingUser" value="1"/>
 	{/if}
@@ -71,7 +71,7 @@
 
 	{include file="user/userGroups.tpl"}
 
-	{if !$implicitAuth && !$existingUser}
+	{if !isset($implicitAuth) && !isset($existingUser)}
 		{fbvFormSection label="user.sendPassword" list=true}
 			{if $sendPassword}
 				{fbvElement type="checkbox" id="sendPassword" value="1" label="user.sendPassword.description" checked="checked"}
@@ -79,18 +79,18 @@
 				{fbvElement type="checkbox" id="sendPassword" value="1" label="user.sendPassword.description"}
 			{/if}
 		{/fbvFormSection}
-	{/if}
 
-	{if !$implicitAuth && !$existingUser && $captchaEnabled}
-		<li>
-		{fieldLabel name="captcha" required=true key="common.captchaField" class="desc"}
-		<span>
-			{$reCaptchaHtml}
-		</span>
-		</li>
+		{if isset($captchaEnabled)}
+			<li>
+			{fieldLabel name="captcha" required=true key="common.captchaField" class="desc"}
+			<span>
+				{$reCaptchaHtml}
+			</span>
+			</li>
+		{/if}
 	{/if}
 {/fbvFormArea}
-{url|assign:"url" page="index" escape=false}
+{url assign="url" page="index" escape=false}
 {fbvFormButtons submitText="user.register" cancelUrl=$url}
 
 {if ! $implicitAuth}

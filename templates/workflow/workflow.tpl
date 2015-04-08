@@ -29,7 +29,7 @@
 
 <div id="submissionWorkflow">
 
-{url|assign:submissionHeaderUrl op="submissionHeader" submissionId=$submission->getId() stageId=$stageId contextId="submission" escape=false}
+{url assign=submissionHeaderUrl op="submissionHeader" submissionId=$submission->getId() stageId=$stageId contextId="submission" escape=false}
 {load_url_in_div id="submissionHeaderDiv" url=$submissionHeaderUrl class="submissionHeader"}
 
 {include file="controllers/notification/inPlaceNotification.tpl" notificationId="workflowNotification" requestOptions=$workflowNotificationRequestOptions}

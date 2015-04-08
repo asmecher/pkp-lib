@@ -116,7 +116,7 @@ class Nlm30CitationSchemaCitationOutputFormatFilter extends TemplateBasedFilter 
 				$templateMgr->assign($templateVariable, $input->getStatement($propertyName, $propertyLocale));
 			} else {
 				// Delete potential leftovers from previous calls
-				$templateMgr->clear_assign($templateVariable);
+				$templateMgr->clearAssign($templateVariable);
 			}
 		}
 	}

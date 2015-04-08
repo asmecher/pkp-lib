@@ -8,7 +8,7 @@
  * Generic keyword input control
  *}
 {assign var="uniqId" value="-"|concat:$FBV_uniqId|escape}
-{if $FBV_multilingual && count($formLocales) > 1}
+{if !empty($FBV_multilingual) && count($formLocales) > 1}
 	{foreach from=$formLocales key=thisFormLocale item=thisFormLocaleName}
 		<script>
 			$(document).ready(function(){ldelim}
@@ -16,7 +16,7 @@
 					itemName: "keywords",
 					fieldName: "{$thisFormLocale|escape}-{$FBV_id|escape}",
 					allowSpaces: true,
-					{if $FBV_sourceUrl && !$FBV_disabled}
+					{if $FBV_sourceUrl && empty($FBV_disabled)}
 						tagSource: function(search, showChoices) {ldelim}
 							$.ajax({ldelim}
 								url: "{$FBV_sourceUrl}", {* this url should return a JSON array of possible keywords *}
@@ -32,7 +32,7 @@
 				{rdelim});
 
 				{** Tag-it has no "read-only" option, so we must remove input elements to disable the widget **}
-				{if $FBV_disabled}
+				{if !empty($FBV_disabled)}
 					$("#{$thisFormLocale|escape}-{$FBV_id|concat:$uniqId|escape}").find('.tagit-close, .tagit-new').remove();
 				{/if}
 			{rdelim});
@@ -50,7 +50,7 @@
 			<ul class="localization_popover_container localizable {if $formLocale != $currentLocale} flag flag_{$formLocale|escape}{/if}" id="{$formLocale|escape}-{$FBV_id|escape}{$uniqId}">
 				{if $FBV_currentKeywords}{foreach from=$FBV_currentKeywords.$formLocale item=currentKeyword}<li>{$currentKeyword|escape}</li>{/foreach}{/if}
 			</ul>
-			{if $FBV_label_content}<span>{$FBV_label_content}</span>{/if}
+			{if !empty($FBV_label_content)}<span>{$FBV_label_content}</span>{/if}
 			<br />
 			<span>
 				<div class="localization_popover">
@@ -68,9 +68,9 @@
 		$(document).ready(function(){ldelim}
 			$("#{$FBV_id}{$uniqId}").tagit({ldelim}
 				itemName: "keywords",
-				fieldName: "{if $FBV_multilingual}{$formLocale|escape}-{/if}{$FBV_id|escape}",
+				fieldName: "{if !empty($FBV_multilingual)}{$formLocale|escape}-{/if}{$FBV_id|escape}",
 				allowSpaces: true,
-				{if $FBV_sourceUrl && !$FBV_disabled}
+				{if $FBV_sourceUrl && empty($FBV_disabled)}
 					tagSource: function(search, showChoices) {ldelim}
 						$.ajax({ldelim}
 							url: "{$FBV_sourceUrl}", {* this url should return a JSON array of possible keywords *}
@@ -86,7 +86,7 @@
 			{rdelim});
 
 			{** Tag-it has no "read-only" option, so we must remove input elements to disable the widget **}
-			{if $FBV_disabled}
+			{if !empty($FBV_disabled)}
 				$("#{$FBV_id|escape}{$uniqId}").find('.tagit-close, .tagit-new').remove();
 				$("#{$FBV_id|escape}{$uniqId}:empty").removeClass('tagit');
 			{/if}
@@ -95,6 +95,6 @@
 
 	<!-- The container which will be processed by tag-it.js as the interests widget -->
 	<ul id="{$FBV_id|escape}{$uniqId}">{if $FBV_currentKeywords}{foreach from=$FBV_currentKeywords.$formLocale item=currentKeyword}<li>{$currentKeyword|escape}</li>{/foreach}{/if}</ul>
-	{if $FBV_label_content}<span>{$FBV_label_content}</span>{/if}
+	{if !empty($FBV_label_content)}<span>{$FBV_label_content}</span>{/if}
 	<br />
 {/if}

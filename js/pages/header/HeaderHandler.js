@@ -21,8 +21,7 @@
 	 *
 	 * @param {jQueryObject} $headerElement The HTML element encapsulating
 	 *  the header.
-	 * @param {{requestedPage: string,
-	 *  fetchUnreadNotificationsCountUrl: string}} options Handler options.
+	 * @param {{fetchUnreadNotificationsCountUrl: string}} options Handler options.
 	 */
 	$.pkp.pages.header.HeaderHandler =
 			function($headerElement, options) {
@@ -51,7 +50,7 @@
 	/**
 	 * Site handler options.
 	 * @private
-	 * @type {{requestedPage: string}?}
+	 * @type {{fetchUnreadNotificationsCountUrl: string}?}
 	 */
 	$.pkp.pages.header.HeaderHandler.prototype.options_ = null;
 
@@ -112,35 +111,8 @@
 	$.pkp.pages.header.HeaderHandler.prototype.initializeMenu_ =
 			function() {
 		var $header = this.getHtmlElement(),
-				$menu = $('ul.sf-menu', $header),
-				requestedPage = this.options_.requestedPage,
-				currentUrl = window.location.href,
-				$linkInMenu = $('a[href="' + currentUrl + '"]', $menu).
-						parentsUntil('ul.sf-menu').last();
+				$menu = $('ul.sf-menu', $header);
 		$menu.superfish();
-
-		if ($linkInMenu.length === 0 && requestedPage !== '') {
-			// Search for the current url inside the menu links. If not present,
-			// remove part of the url and try again until we've removed the
-			// page handler part.
-			while (true) {
-				// Make the url less specific.
-				currentUrl = currentUrl.substr(0, currentUrl.lastIndexOf('/'));
-
-				// Make sure we still have the page handler part in url.
-				if (currentUrl.indexOf(requestedPage) === -1) {
-					break;
-				}
-
-				$linkInMenu = $linkInMenu.add($('a[href="' + currentUrl + '"]',
-						$menu).parentsUntil('ul.sf-menu').last());
-			}
-		}
-
-		if ($linkInMenu.length === 1) {
-			// Add the current page style.
-			$('a', $linkInMenu).first().addClass('pkp_helpers_underline');
-		}
 	};
 
 

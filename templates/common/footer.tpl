@@ -49,6 +49,8 @@
 
 </div><!-- pkp_structure_page -->
 
-{$additionalFooterData}
+{if !empty($additionalFooterData)}
+	{$additionalFooterData}
+{/if}
 </body>
 </html>

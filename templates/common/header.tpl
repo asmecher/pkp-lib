@@ -9,7 +9,7 @@
  *}
 <!DOCTYPE html>
 <html lang="{$currentLocale|replace:"_":"-"}" xml:lang="{$currentLocale|replace:"_":"-"}">
-{if !$pageTitleTranslated}{translate|assign:"pageTitleTranslated" key=$pageTitle}{/if}
+{if empty($pageTitleTranslated)}{translate assign="pageTitleTranslated" key=$pageTitle}{/if}
 {include file="core:common/headerHead.tpl"}
 <body class="pkp_page_{$requestedPage|escape} pkp_op_{$requestedOp|escape}">
 	<script type="text/javascript">
@@ -29,18 +29,17 @@
 		{rdelim});
 	</script>
 	<div class="pkp_structure_page">
-		{url|assign:fetchHeaderUrl router=$smarty.const.ROUTE_COMPONENT component="page.PageHandler" op="header" escape=false}
+		{url assign=fetchHeaderUrl router=$smarty.const.ROUTE_COMPONENT component="page.PageHandler" op="header" escape=false}
 		{load_url_in_div class="pkp_structure_head" id="headerContainer" url=$fetchHeaderUrl}
 		<div class="pkp_structure_body">
 			<div class="pkp_structure_content">
 				<div class="line">
-					{if !$noContextsConfigured}
+					{if empty($noContextsConfigured)}
 						{include file="header/search.tpl"}
 					{/if}
 				</div>
 
-				{url|assign:fetchSidebarUrl router=$smarty.const.ROUTE_COMPONENT component="page.PageHandler" op="sidebar" params=$additionalArgs escape=false}
-
+				{url assign=fetchSidebarUrl router=$smarty.const.ROUTE_COMPONENT component="page.PageHandler" op="sidebar" escape=false}
 
 				{load_url_in_div id="sidebarContainer" url=$fetchSidebarUrl}
 
@@ -53,6 +52,6 @@
 
 				<div class="pkp_structure_main">
 					{** allow pages to provide their own titles **}
-					{if !$suppressPageTitle}
+					{if empty($suppressPageTitle)}
 						<h2 class="title_left">{$pageTitleTranslated}</h2>
 					{/if}

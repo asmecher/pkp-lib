@@ -8,7 +8,6 @@
  * Form field label
  *}
 
-<label{if !$FBV_suppressId} for="{$FBV_name|escape}"{/if}{if $FBV_class} class="{$FBV_class|escape}"{/if} >
-	{$FBV_label}{if $FBV_required}<span class="req">*</span>{/if}
+<label{if empty($FBV_suppressId)} for="{$FBV_name|escape}"{/if}{if !empty($FBV_class)} class="{$FBV_class|escape}"{/if} >
+	{$FBV_label}{if !empty($FBV_required)}<span class="req">*</span>{/if}
 </label>
-

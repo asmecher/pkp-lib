@@ -31,7 +31,7 @@
 			{capture assign="reviewReminderNote"}{translate key="manager.setup.reviewOptions.automatedReminders"} {translate key="manager.setup.reviewOptions.automatedRemindersDisabled"}{/capture}
 			{fbvFormSection label="manager.setup.reviewOptions.reviewerReminders"|translate description=$reviewReminderNote translate=false}{/fbvFormSection}
 
-			{translate|assign:"reminderDefault" key="manager.setup.reviewOptions.neverSendReminder"}
+			{translate assign="reminderDefault" key="manager.setup.reviewOptions.neverSendReminder"}
 
 			{fbvFormSection description="manager.setup.reviewOptions.remindForInvite"}
 				{if $scheduledTasksDisabled}{assign var="disabled" value=true}{else}{assign var="disabled" value=false}{/if}
@@ -44,7 +44,7 @@
 			{/fbvFormSection}
 		{/fbvFormArea}
 
-		{url|assign:reviewFormsUrl router=$smarty.const.ROUTE_COMPONENT component="grid.settings.reviewForms.ReviewFormGridHandler" op="fetchGrid"}
+		{url assign=reviewFormsUrl router=$smarty.const.ROUTE_COMPONENT component="grid.settings.reviewForms.ReviewFormGridHandler" op="fetchGrid"}
 		{load_url_in_div id="reviewFormGridContainer" url=$reviewFormsUrl}
 
 		{fbvFormArea id="reviewProcessDetails"}

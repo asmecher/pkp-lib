@@ -7,8 +7,8 @@
  *
  * Common site sidebar.
  *}
-{call_hook|assign:"leftSidebarCode" name="Templates::Common::LeftSidebar"}
-{call_hook|assign:"rightSidebarCode" name="Templates::Common::RightSidebar"}
+{call_hook assign="leftSidebarCode" name="Templates::Common::LeftSidebar"}
+{call_hook assign="rightSidebarCode" name="Templates::Common::RightSidebar"}
 {if !$leftSidebarCode && !$rightSidebarCode}
 	{* Temporary fix for #7258 *}
 	<div class="pkp_structure_nosidebar">

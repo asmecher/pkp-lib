@@ -12,7 +12,7 @@
  * Copyright (c) 2000-2015 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
- * @class TemplateManager
+ * @class PKPTemplateManager
  * @ingroup template
  *
  * @brief Class for accessing the underlying template engine.
@@ -55,6 +55,9 @@ class PKPTemplateManager extends Smarty {
 	/** @var PKPRequest */
 	private $_request;
 
+	/** @var PKPTemplateResource */
+	private $_pkpTemplateResource;
+
 	/**
 	 * Constructor.
 	 * Initialize template engine and assign basic template variables.
@@ -64,23 +67,24 @@ class PKPTemplateManager extends Smarty {
 		assert(is_a($request, 'PKPRequest'));
 		$this->_request = $request;
 
-		parent::Smarty();
+		parent::__construct();
 
 		// Set up Smarty configuration
 		$baseDir = Core::getBaseDir();
 		$cachePath = CacheManager::getFileCachePath();
 
-		// Set the default template dir (app's template dir)
-		$this->app_template_dir = $baseDir . DIRECTORY_SEPARATOR . 'templates';
-		// Set fallback template dir (core's template dir)
-		$this->core_template_dir = $baseDir . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'pkp' . DIRECTORY_SEPARATOR . 'templates';
+		$this->setTemplateDir($baseDir . DIRECTORY_SEPARATOR . 'templates');
+		import('lib.pkp.classes.template.PKPTemplateResource');
+		$pkpTemplateDir = $baseDir . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'pkp' . DIRECTORY_SEPARATOR . 'templates';
+		$this->_pkpTemplateResource = new PKPTemplateResource($pkpTemplateDir);
 
-		$this->template_dir = array($this->app_template_dir, $this->core_template_dir);
-		$this->compile_dir = $cachePath . DIRECTORY_SEPARATOR . 't_compile';
-		$this->config_dir = $cachePath . DIRECTORY_SEPARATOR . 't_config';
-		$this->cache_dir = $cachePath . DIRECTORY_SEPARATOR . 't_cache';
+		$this->addTemplateDir($pkpTemplateDir);
 
-		$this->_cacheability = CACHEABILITY_NO_STORE; // Safe default
+		$this->setCompileDir($cachePath . DIRECTORY_SEPARATOR . 't_compile');
+		$this->setConfigDir($cachePath . DIRECTORY_SEPARATOR . 't_config');
+		$this->setCacheDir($cachePath . DIRECTORY_SEPARATOR . 't_cache');
+
+		$this->setCaching(Smarty::CACHING_OFF);
 
 		// Are we using implicit authentication?
 		$this->assign('implicitAuth', Config::getVar('security', 'implicit_auth'));
@@ -136,48 +140,43 @@ class PKPTemplateManager extends Smarty {
 		if (($localeStyleSheet = AppLocale::getLocaleStyleSheet($locale)) != null) $this->addStyleSheet($this->_request->getBaseUrl() . '/' . $localeStyleSheet);
 
 		// Register custom functions
-		$this->register_modifier('translate', array('AppLocale', 'translate'));
-		$this->register_modifier('strip_unsafe_html', array('String', 'stripUnsafeHtml'));
-		$this->register_modifier('String_substr', array('String', 'substr'));
-		$this->register_modifier('to_array', array($this, 'smartyToArray'));
-		$this->register_modifier('compare', array($this, 'smartyCompare'));
-		$this->register_modifier('concat', array($this, 'smartyConcat'));
-		$this->register_modifier('escape', array($this, 'smartyEscape'));
-		$this->register_modifier('strtotime', array($this, 'smartyStrtotime'));
-		$this->register_modifier('explode', array($this, 'smartyExplode'));
-		$this->register_modifier('assign', array($this, 'smartyAssign'));
-		$this->register_function('translate', array($this, 'smartyTranslate'));
-		$this->register_function('null_link_action', array($this, 'smartyNullLinkAction'));
-		$this->register_function('flush', array($this, 'smartyFlush'));
-		$this->register_function('call_hook', array($this, 'smartyCallHook'));
-		$this->register_function('html_options_translate', array($this, 'smartyHtmlOptionsTranslate'));
-		$this->register_block('iterate', array($this, 'smartyIterate'));
-		$this->register_function('page_links', array($this, 'smartyPageLinks'));
-		$this->register_function('page_info', array($this, 'smartyPageInfo'));
-		$this->register_function('icon', array($this, 'smartyIcon'));
-		$this->register_modifier('truncate', array($this, 'smartyTruncate'));
+		$this->registerPlugin('modifier', 'translate', array('AppLocale', 'translate'));
+		$this->registerPlugin('modifier', 'strip_unsafe_html', array('String', 'stripUnsafeHtml'));
+		$this->registerPlugin('modifier', 'String_substr', array('String', 'substr'));
+		$this->registerPlugin('modifier', 'to_array', array($this, 'smartyToArray'));
+		$this->registerPlugin('modifier', 'compare', array($this, 'smartyCompare'));
+		$this->registerPlugin('modifier', 'concat', array($this, 'smartyConcat'));
+		$this->registerPlugin('modifier', 'escape', array($this, 'smartyEscape'));
+		$this->registerPlugin('modifier', 'strtotime', array($this, 'smartyStrtotime'));
+		$this->registerPlugin('modifier', 'explode', array($this, 'smartyExplode'));
+		$this->registerPlugin('modifier', 'assign', array($this, 'smartyAssign'));
+		$this->registerPlugin('function', 'translate', array($this, 'smartyTranslate'));
+		$this->registerPlugin('function', 'null_link_action', array($this, 'smartyNullLinkAction'));
+		$this->registerPlugin('function', 'flush', array($this, 'smartyFlush'));
+		$this->registerPlugin('function', 'call_hook', array($this, 'smartyCallHook'));
+		$this->registerPlugin('function', 'html_options_translate', array($this, 'smartyHtmlOptionsTranslate'));
+		$this->registerPlugin('block', 'iterate', array($this, 'smartyIterate'));
+		$this->registerPlugin('function', 'page_links', array($this, 'smartyPageLinks'));
+		$this->registerPlugin('function', 'page_info', array($this, 'smartyPageInfo'));
+		$this->registerPlugin('function', 'icon', array($this, 'smartyIcon'));
+		$this->registerPlugin('modifier', 'truncate', array($this, 'smartyTruncate'));
 
 		// Modified vocabulary for creating forms
 		$fbv = $this->getFBV();
-		$this->register_block('fbvFormSection', array($fbv, 'smartyFBVFormSection'));
-		$this->register_block('fbvFormArea', array($fbv, 'smartyFBVFormArea'));
-		$this->register_function('fbvFormButtons', array($fbv, 'smartyFBVFormButtons'));
-		$this->register_function('fbvElement', array($fbv, 'smartyFBVElement'));
+		$this->registerPlugin('block', 'fbvFormSection', array($fbv, 'smartyFBVFormSection'));
+		$this->registerPlugin('block', 'fbvFormArea', array($fbv, 'smartyFBVFormArea'));
+		$this->registerPlugin('function', 'fbvFormButtons', array($fbv, 'smartyFBVFormButtons'));
+		$this->registerPlugin('function', 'fbvElement', array($fbv, 'smartyFBVElement'));
 		$this->assign('fbvStyles', $fbv->getStyles());
 
-		$this->register_function('fieldLabel', array($fbv, 'smartyFieldLabel'));
+		$this->registerPlugin('function', 'fieldLabel', array($fbv, 'smartyFieldLabel'));
 
 		// register the resource name "core"
-		$this->register_resource('core', array(
-			array($this, 'smartyResourceCoreGetTemplate'),
-			array($this, 'smartyResourceCoreGetTimestamp'),
-			array($this, 'smartyResourceCoreGetSecure'),
-			array($this, 'smartyResourceCoreGetTrusted')
-		));
+		$this->registerResource('core', $this->_pkpTemplateResource);
 
-		$this->register_function('url', array($this, 'smartyUrl'));
+		$this->registerPlugin('function', 'url', array($this, 'smartyUrl'));
 		// ajax load into a div
-		$this->register_function('load_url_in_div', array($this, 'smartyLoadUrlInDiv'));
+		$this->registerPlugin('function', 'load_url_in_div', array($this, 'smartyLoadUrlInDiv'));
 
 		/**
 		 * Kludge to make sure no code that tries to connect to the
@@ -254,10 +253,10 @@ class PKPTemplateManager extends Smarty {
 	/**
 	 * @see Smarty::fetch()
 	 */
-	function fetch($resource_name, $cache_id = null, $compile_id = null, $display = false) {
+	function fetch($resource_name, $cache_id = null, $compile_id = null) {
 		// Add additional java script URLs
 		if (!empty($this->_javaScripts)) {
-			$baseUrl = $this->get_template_vars('baseUrl');
+			$baseUrl = $this->getTemplateVars('baseUrl');
 			$scriptOpen = '	<script type="text/javascript" src="';
 			$scriptClose = '"></script>';
 			$javaScript = '';
@@ -265,7 +264,7 @@ class PKPTemplateManager extends Smarty {
 				$javaScript .= $scriptOpen . $baseUrl . '/' . $script . $scriptClose . "\n";
 			}
 
-			$additionalHeadData = $this->get_template_vars('additionalHeadData');
+			$additionalHeadData = $this->getTemplateVars('additionalHeadData');
 			$this->assign('additionalHeadData', $additionalHeadData."\n".$javaScript);
 		}
 
@@ -273,8 +272,8 @@ class PKPTemplateManager extends Smarty {
 		$this->assign('stylesheets', $this->_styleSheets);
 
 		$result = null;
-		if ($display == false && HookRegistry::call('TemplateManager::fetch', array($this, $resource_name, $cache_id, $compile_id, &$result))) return $result;
-		return parent::fetch($resource_name, $cache_id, $compile_id, $display);
+		if (HookRegistry::call('TemplateManager::fetch', array($this, $resource_name, $cache_id, $compile_id, &$result))) return $result;
+		return parent::fetch($resource_name, $cache_id, $compile_id);
 	}
 
 	/**
@@ -291,16 +290,7 @@ class PKPTemplateManager extends Smarty {
 	/**
 	 * Display the template.
 	 */
-	function display($template, $sendContentType = null, $hookName = null, $display = true) {
-		// Set the defaults
-		// N.B: This was moved from method signature to allow calls such as: ->display($template, null, null, false)
-		if ( is_null($sendContentType) ) {
-			$sendContentType = 'text/html';
-		}
-		if ( is_null($hookName) ) {
-			$hookName = 'TemplateManager::display';
-		}
-
+	function display($template, $sendContentType = 'text/html', $hookName = 'TemplateManager::display') {
 		$charset = Config::getVar('i18n', 'client_charset');
 
 		// Give any hooks registered against the TemplateManager
@@ -323,7 +313,7 @@ class PKPTemplateManager extends Smarty {
 			}
 
 			// Actually display the template.
-			return $this->fetch($template, null, null, $display);
+			echo $this->fetch($template, null, null);
 		} else {
 			// Display the results of the plugin.
 			echo $output;
@@ -442,7 +432,7 @@ class PKPTemplateManager extends Smarty {
 	 * 	Translation variables can be specified also as an optional
 	 * 	associative array named "params".
 	 * @param $smarty Smarty
-	 * @return string the localized string, including any parameter substitutions
+	 * @return string the localized string, including any parameter substitutions (unless assigning results to a variable).
 	 */
 	function smartyTranslate($params, $smarty) {
 		if (isset($params) && !empty($params)) {
@@ -455,7 +445,15 @@ class PKPTemplateManager extends Smarty {
 				unset($params['params']);
 				$params = array_merge($params, $paramsArray);
 			}
-			return __($key, $params);
+			$result = __($key, $params);
+
+			if (isset($params['assign'])) {
+				// Caller specified that the result should be assigned
+				$smarty->assign($params['assign'], $result);
+				return '';
+			} else {
+				return $result;
+			}
 		}
 	}
 
@@ -472,7 +470,7 @@ class PKPTemplateManager extends Smarty {
 
 		$id = $params['id'];
 		$key = isset($params['key'])?$params['key']:null;
-		$hoverTitle = isset($params['hoverTitle'])?true:false;
+		$hoverTitle = isset($params['hoverTitle'])?true:null;
 		$image = isset($params['image'])?$params['image']:null;
 		$translate = isset($params['translate'])?false:true;
 
@@ -531,11 +529,11 @@ class PKPTemplateManager extends Smarty {
 	 *  - key: (optional) Name of variable to receive index of current item
 	 */
 	function smartyIterate($params, $content, $smarty, &$repeat) {
-		$iterator =& $smarty->get_template_vars($params['from']);
+		$iterator =& $smarty->getTemplateVars($params['from']);
 
 		if (isset($params['key'])) {
 			if (empty($content)) $smarty->assign($params['key'], 1);
-			else $smarty->assign($params['key'], $smarty->get_template_vars($params['key'])+1);
+			else $smarty->assign($params['key'], $smarty->getTemplateVars($params['key'])+1);
 		}
 
 		// If the iterator is empty, we're finished.
@@ -549,10 +547,10 @@ class PKPTemplateManager extends Smarty {
 
 		if (isset($params['key'])) {
 			list($key, $value) = $iterator->nextWithKey();
-			$smarty->assign_by_ref($params['item'], $value);
-			$smarty->assign_by_ref($params['key'], $key);
+			$smarty->assign($params['item'], $value);
+			$smarty->assign($params['key'], $key);
 		} else {
-			$smarty->assign_by_ref($params['item'], $iterator->next());
+			$smarty->assign($params['item'], $iterator->next());
 		}
 		return $content;
 	}
@@ -571,7 +569,7 @@ class PKPTemplateManager extends Smarty {
 				// build image tag with standarized size of 16x16
 				$disabled = (isset($params['disabled']) && !empty($params['disabled']));
 				if (!isset($params['path'])) $params['path'] = 'lib/pkp/templates/images/icons/';
-				$iconHtml = '<img src="' . $smarty->get_template_vars('baseUrl') . '/' . $params['path'];
+				$iconHtml = '<img src="' . $smarty->getTemplateVars('baseUrl') . '/' . $params['path'];
 				$iconHtml .= $params['name'] . ($disabled ? '_disabled' : '') . '.gif" width="16" height="14" alt="';
 
 				// if alt parameter specified use it, otherwise use localization version
@@ -611,7 +609,7 @@ class PKPTemplateManager extends Smarty {
 		if (isset($params['itemsPerPage'])) {
 			$itemsPerPage = $params['itemsPerPage'];
 		} else {
-			$itemsPerPage = $smarty->get_template_vars('itemsPerPage');
+			$itemsPerPage = $smarty->getTemplateVars('itemsPerPage');
 			if (!is_numeric($itemsPerPage)) $itemsPerPage=25;
 		}
 
@@ -649,11 +647,17 @@ class PKPTemplateManager extends Smarty {
 
 	/**
 	 * Call hooks from a template.
+	 * @return string Template output.
 	 */
 	function smartyCallHook($params, $smarty) {
 		$output = null;
 		HookRegistry::call($params['name'], array(&$params, &$smarty, &$output));
-		return $output;
+		if (isset($params['assign'])) {
+			$smarty->assign($params['assign'], $output);
+			return '';
+		} else {
+			return $output;
+		}
 	}
 
 	/**
@@ -670,6 +674,8 @@ class PKPTemplateManager extends Smarty {
 	 * - anchor
 	 * - escape (default to true unless otherwise specified)
 	 * - params: parameters to include in the URL if available as an array
+	 * - assign: Variable to assign the resulting URL to (optional)
+	 * @return string Template output.
 	 */
 	function smartyUrl($parameters, $smarty) {
 		if ( !isset($parameters['context']) ) {
@@ -737,7 +743,15 @@ class PKPTemplateManager extends Smarty {
 		}
 
 		// Let the dispatcher create the url
-		return $dispatcher->url($this->_request, $router, $context, $handler, $op, $path, $parameters, $anchor, !isset($escape) || $escape);
+		$result = $dispatcher->url($this->_request, $router, $context, $handler, $op, $path, $parameters, $anchor, !isset($escape) || $escape);
+
+		if (isset($parameters['assign'])) {
+			// Caller specified that the result should be assigned
+			$smarty->assign($parameters['assign'], $result);
+			return '';
+		} else {
+			return $result;
+		}
 	}
 
 	/**
@@ -774,7 +788,7 @@ class PKPTemplateManager extends Smarty {
 		unset($params['iterator']);
 		unset($params['name']);
 
-		$numPageLinks = $smarty->get_template_vars('numPageLinks');
+		$numPageLinks = $smarty->getTemplateVars('numPageLinks');
 		if (!is_numeric($numPageLinks)) $numPageLinks=10;
 
 		$page = $iterator->getPage();

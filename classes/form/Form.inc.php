@@ -145,7 +145,7 @@ class Form {
 	 *  if no template has been specified on class instantiation.
 	 */
 	function display($request = null, $template = null) {
-		$this->fetch($request, $template, true);
+		echo $this->fetch($request, $template);
 	}
 
 	/**
@@ -153,10 +153,9 @@ class Form {
 	 * @param $request PKPRequest
 	 * @param $template string the template to be rendered, mandatory
 	 *  if no template has been specified on class instantiation.
-	 * @param $display boolean
 	 * @return string the rendered form
 	 */
-	function fetch($request, $template = null, $display = false) {
+	function fetch($request, $template = null) {
 		// Set custom template.
 		if (!is_null($template)) $this->_template = $template;
 
@@ -181,7 +180,7 @@ class Form {
 		$templateMgr->assign('isError', !$this->isValid());
 		$templateMgr->assign('errors', $this->getErrorsArray());
 
-		$templateMgr->register_function('form_language_chooser', array($this, 'smartyFormLanguageChooser'));
+		$templateMgr->registerPlugin('function', 'form_language_chooser', array($this, 'smartyFormLanguageChooser'));
 		$templateMgr->assign('formLocales', $this->supportedLocales);
 
 		// Determine the current locale to display fields with
@@ -189,7 +188,7 @@ class Form {
 
 		// N.B: We have to call $templateMgr->display instead of ->fetch($display)
 		// in order for the TemplateManager::display hook to be called
-		$returner = $templateMgr->display($this->_template, null, null, $display);
+		$returner = $templateMgr->fetch($this->_template);
 
 		// Need to reset the FBV's form in case the template manager does another fetch on a template that is not within a form.
 		$nullVar = null;

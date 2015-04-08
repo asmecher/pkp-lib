@@ -10,7 +10,7 @@
 
 {assign var="uniqId" value="-"|concat:$FBV_uniqId|escape}
 <div{if $FBV_layoutInfo} class="{$FBV_layoutInfo}"{/if}>
-{if $FBV_multilingual && count($formLocales) > 1}
+{if !empty($FBV_multilingual) && count($formLocales) > 1}
 	<script>
 	$(function() {ldelim}
 		$('#{$FBV_id|escape:javascript}-localization-popover-container{$uniqId}').pkpHandler(
@@ -23,14 +23,14 @@
 		<input type="{if $FBV_isPassword}password{else}text{/if}"
 			{$FBV_textInputParams}
 			class="localizable {if $FBV_class}{$FBV_class|escape}{/if}{if $FBV_validation} {$FBV_validation}{/if}{if $formLocale != $currentLocale} locale_{$formLocale|escape}{/if}"
-			{if $FBV_disabled} disabled="disabled"{/if}
-			{if $FBV_readonly} readonly="readonly"{/if}
+			{if !empty($FBV_disabled)} disabled="disabled"{/if}
+			{if !empty($FBV_readonly)} readonly="readonly"{/if}
 			value="{$FBV_value[$formLocale]|escape}"
 			name="{$FBV_name|escape}[{$formLocale|escape}]"
 			id="{$FBV_id|escape}-{$formLocale|escape}{$uniqId}"
 		/>
 
-		{$FBV_label_content}
+		{if !empty($FBV_label_content)}{$FBV_label_content}{/if}
 
 		<span>
 			<div class="localization_popover">
@@ -39,8 +39,8 @@
 						{$FBV_textInputParams}
 						placeholder="{$thisFormLocaleName|escape}"
 						class="multilingual_extra flag flag_{$thisFormLocale|escape}{if $FBV_sizeInfo} {$FBV_sizeInfo|escape}{/if}"
-						{if $FBV_disabled} disabled="disabled"{/if}
-						{if $FBV_readonly} readonly="readonly"{/if}
+						{if !empty($FBV_disabled)} disabled="disabled"{/if}
+						{if !empty($FBV_readonly)} readonly="readonly"{/if}
 						value="{$FBV_value[$thisFormLocale]|escape}"
 						name="{$FBV_name|escape}[{$thisFormLocale|escape}]"
 						id="{$FBV_id|escape}-{$thisFormLocale|escape}{$uniqId}"
@@ -56,14 +56,14 @@
 	<input	type="{if $FBV_isPassword}password{else}text{/if}"
 		{$FBV_textInputParams}
 		class="field text{if $FBV_class} {$FBV_class|escape}{/if}{if $FBV_validation} {$FBV_validation}{/if}"
-		{if $FBV_disabled} disabled="disabled"{/if}
-		{if $FBV_readonly} readonly="readonly"{/if}
-		name="{$FBV_name|escape}{if $FBV_multilingual}[{$formLocale|escape}]{/if}"
-		value="{if $FBV_multilingual}{$FBV_value[$formLocale]|escape}{else}{$FBV_value|escape}{/if}"
+		{if !empty($FBV_disabled)} disabled="disabled"{/if}
+		{if !empty($FBV_readonly)} readonly="readonly"{/if}
+		name="{$FBV_name|escape}{if !empty($FBV_multilingual)}[{$formLocale|escape}]{/if}"
+		value="{if !empty($FBV_multilingual)}{$FBV_value[$formLocale]|escape}{else}{$FBV_value|escape}{/if}"
 		id="{$FBV_id|escape}{$uniqId}"
 		{if $FBV_tabIndex} tabindex="{$FBV_tabIndex|escape}"{/if}
 	/>
 
-	<span>{$FBV_label_content}</span>
+	{if !empty($FBV_label_content)}<span>{$FBV_label_content}</span>{/if}
 {/if}
 </div>

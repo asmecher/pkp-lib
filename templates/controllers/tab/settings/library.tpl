@@ -8,5 +8,5 @@
  * File library management.
  *
  *}
-{url|assign:libraryGridUrl router=$smarty.const.ROUTE_COMPONENT component="grid.settings.library.LibraryFileAdminGridHandler" op="fetchGrid" canEdit=$canEdit escape=false}
+{url assign=libraryGridUrl router=$smarty.const.ROUTE_COMPONENT component="grid.settings.library.LibraryFileAdminGridHandler" op="fetchGrid" canEdit=$canEdit escape=false}
 {load_url_in_div id="libraryGridDiv" url=$libraryGridUrl}

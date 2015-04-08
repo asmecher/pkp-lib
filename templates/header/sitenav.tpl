@@ -10,11 +10,11 @@
 <div class="pkp_structure_head_siteNav">
 	<ul class="pkp_helpers_flatlist pkp_helpers_align_left">
 		{if $isUserLoggedIn}
-			{if array_intersect(array(ROLE_ID_SITE_ADMIN), $userRoles)}
-				<li><a href="{if $multipleContexts}{url router=$smarty.const.ROUTE_PAGE context="index" page="admin" op="index"}{else}{url router=$smarty.const.ROUTE_PAGE page="admin" op="index"}{/if}">{translate key="navigation.admin"}</a></li>
+			{if array_intersect(array($smarty.const.ROLE_ID_SITE_ADMIN), $userRoles)}
+				<li><a href="{if !empty($multipleContexts)}{url router=$smarty.const.ROUTE_PAGE context="index" page="admin" op="index"}{else}{url router=$smarty.const.ROUTE_PAGE page="admin" op="index"}{/if}">{translate key="navigation.admin"}</a></li>
 			{/if}
 		{/if}
-		{if $multipleContexts}
+		{if !empty($multipleContexts)}
 			<li>{include file="header/contextSwitcher.tpl"}</li>
 		{/if}
 	</ul>
@@ -29,7 +29,7 @@
 				 *}
 				<a href="#" id="notificationsToggle">{translate key="common.tasks"} (<span id="unreadNotificationCount">{$unreadNotificationCount}</span>)</a>
 				<div id="notificationsPopover" style="display: none;">
-					{url|assign:notificationsGridUrl router=$smarty.const.ROUTE_COMPONENT component="grid.notifications.NotificationsGridHandler" op="fetchGrid" escape=false}
+					{url assign=notificationsGridUrl router=$smarty.const.ROUTE_COMPONENT component="grid.notifications.NotificationsGridHandler" op="fetchGrid" escape=false}
 					{load_url_in_div id="notificationsGrid" url=$notificationsGridUrl}
 				</div>
 			</li>
@@ -38,8 +38,8 @@
 			{if $isUserLoggedInAs}
 				<li><a href="{url router=$smarty.const.ROUTE_PAGE page="login" op="signOutAsUser"}">{translate key="user.logOutAs"} {$loggedInUsername|escape}</a></li>
 			{/if}
-		{elseif !$notInstalled}
-			{if !$hideRegisterLink}
+		{elseif empty($notInstalled)}
+			{if empty($hideRegisterLink)}
 				<li><a href="{url router=$smarty.const.ROUTE_PAGE page="user" op="register"}">{translate key="navigation.register"}</a></li>
 			{/if}
 			<li><a href="{url router=$smarty.const.ROUTE_PAGE page="login"}">{translate key="navigation.login"}</a></li>

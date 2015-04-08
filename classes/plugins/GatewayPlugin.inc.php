@@ -77,7 +77,7 @@ abstract class GatewayPlugin extends Plugin {
 	 */
 	function manage($verb, $args, &$message, &$messageParams, &$pluginModalContent = null) {
 		$templateManager = TemplateManager::getManager($this->getRequest());
-		$templateManager->register_function('plugin_url', array($this, 'smartyPluginUrl'));
+		$templateManager->registerPlugin('function', 'plugin_url', array($this, 'smartyPluginUrl'));
 		switch ($verb) {
 			case 'enable':
 				$this->setEnabled(true);

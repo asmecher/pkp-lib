@@ -16,7 +16,7 @@
 
 {* Generate the link action's options. *}
 {ldelim}
-	{if $selfActivate}
+	{if !empty($selfActivate)}
 		selfActivate: {$selfActivate},
 	{/if}
 	staticId: '{$staticId}',

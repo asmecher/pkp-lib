@@ -56,7 +56,7 @@
 
 	{$additionalProfileFormContent}
 
-	{url|assign:cancelUrl page="dashboard"}
+	{url assign=cancelUrl page="dashboard"}
 	{fbvFormButtons submitText="common.save" cancelUrl=$cancelUrl}
 </form>
 

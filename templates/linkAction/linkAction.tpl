@@ -15,7 +15,7 @@
  *}
 
 {* Generate the link action's button. *}
-{if $contextId}
+{if isset($contextId)}
 	{assign var=staticId value=$contextId|concat:"-":$action->getId():"-button"}
 {else}
 	{assign var=staticId value=$action->getId()|concat:"-button"}
@@ -29,7 +29,7 @@
 	$(function() {ldelim}
 		$('#{$buttonId}').pkpHandler(
 			'$.pkp.controllers.linkAction.LinkActionHandler',
-				{include file="linkAction/linkActionOptions.tpl" action=$action selfActivate=$selfActivate staticId=$staticId}
+				{include file="linkAction/linkActionOptions.tpl" action=$action selfActivate=$selfActivate|default:false staticId=$staticId}
 			);
 	{rdelim});
 </script>
