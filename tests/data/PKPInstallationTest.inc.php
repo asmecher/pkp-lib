@@ -22,6 +22,79 @@ abstract class PKPInstallationTest extends WebTestCase {
 	 */
 	abstract protected function _getInstallerText();
 
+	function testOpen() {
+		$this->open(self::$baseUrl);
+	}
+
+	function testOpen2() {
+		$this->open(self::$baseUrl);
+		$this->assertTextPresent($this->_getInstallerText());
+	}
+
+	function testAdminFields() {
+		$this->open(self::$baseUrl);
+		$this->assertTextPresent($this->_getInstallerText());
+
+		// Administrator
+		$this->waitForElementPresent('id=adminUsername');
+		$this->type('id=adminUsername', 'admin');
+		$this->type('id=adminPassword', 'adminadmin');
+		$this->type('id=adminPassword2', 'adminadmin');
+		$this->type('id=adminEmail', 'pkpadmin@mailinator.com');
+	}
+
+	function testDbFields() {
+		$this->open(self::$baseUrl);
+		$this->assertTextPresent($this->_getInstallerText());
+
+		// Administrator
+		$this->waitForElementPresent('id=adminUsername');
+		$this->type('id=adminUsername', 'admin');
+		$this->type('id=adminPassword', 'adminadmin');
+		$this->type('id=adminPassword2', 'adminadmin');
+		$this->type('id=adminEmail', 'pkpadmin@mailinator.com');
+
+		// Database
+		$this->select('id=databaseDriver', 'label=' . getenv('DBTYPE'));
+		$this->type('id=databaseHost', getenv('DBHOST'));
+		$this->type('id=databasePassword', getenv('DBPASSWORD'));
+		$this->type('id=databaseUsername', getenv('DBUSERNAME'));
+		$this->type('id=databaseName', getenv('DBNAME'));
+		$this->click('id=createDatabase');
+	}
+
+	function testAllFields() {
+		$this->open(self::$baseUrl);
+		$this->assertTextPresent($this->_getInstallerText());
+
+		// Administrator
+		$this->waitForElementPresent('id=adminUsername');
+		$this->type('id=adminUsername', 'admin');
+		$this->type('id=adminPassword', 'adminadmin');
+		$this->type('id=adminPassword2', 'adminadmin');
+		$this->type('id=adminEmail', 'pkpadmin@mailinator.com');
+
+		// Database
+		$this->select('id=databaseDriver', 'label=' . getenv('DBTYPE'));
+		$this->type('id=databaseHost', getenv('DBHOST'));
+		$this->type('id=databasePassword', getenv('DBPASSWORD'));
+		$this->type('id=databaseUsername', getenv('DBUSERNAME'));
+		$this->type('id=databaseName', getenv('DBNAME'));
+		$this->click('id=createDatabase');
+
+		// Locale
+		$this->click('id=additionalLocales-en_US');
+		$this->click('id=additionalLocales-fr_CA');
+		$this->select('id=connectionCharset', 'label=Unicode (UTF-8)');
+		$this->select('id=databaseCharset', 'label=Unicode (UTF-8)');
+
+		// Files
+		$this->type('id=filesDir', getenv('FILESDIR'));
+
+		// Other
+		$this->select('id=encryption', 'label=SHA1');
+	}
+
 	/**
 	 * Install the application. Requires configuration items to be specified
 	 * in environment variables -- see getenv(...) calls below.
