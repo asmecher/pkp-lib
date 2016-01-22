@@ -91,7 +91,10 @@
 					this.options.cancelButton + '</a>';
 		}
 
-		$modal.append('<div class="footer">' + buttons + '</div>');
+		$modal.append('<div class="footer">' + buttons + '</div>')
+
+		$modal.find('.pkpModalConfirmButton').on(
+				'click', this.callbackWrapper(this.modalConfirm));
 
 		return /** @type {jQueryObject} */ $modal;
 	};
