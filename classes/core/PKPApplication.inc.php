@@ -44,9 +44,8 @@ class PKPApplication {
 		// Configure error reporting
 		// FIXME: Error logging needs to be suppressed for strict
 		// and deprecation errors in PHP5 as long as we support PHP 4.
-		// This is primarily for static method warnings and warnings
-		// about use of ... =& new ... Static class members cannot be
-		// declared in PHP4 and ... =& new ... is deprecated since PHP 5.
+		// This is primarily for static method warnings.
+		// Static class members cannot be declared in PHP4.
 		$errorReportingLevel = E_ALL;
 		if (defined('E_STRICT')) $errorReportingLevel &= ~E_STRICT;
 		if (defined('E_DEPRECATED')) $errorReportingLevel &= ~E_DEPRECATED;
@@ -64,7 +63,7 @@ class PKPApplication {
 		mt_srand(((double) microtime()) * 1000000);
 
 		import('lib.pkp.classes.core.Core');
-		import('lib.pkp.classes.core.String');
+		import('lib.pkp.classes.core.PKPString');
 		import('lib.pkp.classes.core.Registry');
 
 		import('lib.pkp.classes.config.Config');
@@ -92,8 +91,9 @@ class PKPApplication {
 
 		import('classes.i18n.AppLocale');
 
-		String::init();
+		PKPString::init();
 		set_error_handler(array($this, 'errorHandler'));
+		if (function_exists('set_exception_handler')) set_exception_handler(array($this, 'exceptionHandler'));
 
 		$microTime = Core::microtime();
 		Registry::set('system.debug.startTime', $microTime);
