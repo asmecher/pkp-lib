@@ -4,8 +4,8 @@
 <!--
   * locale/zh_TW/manager.xml
   *
-  * Copyright (c) 2014-2015 Simon Fraser University Library
-  * Copyright (c) 2000-2015 John Willinsky
+  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2000-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
   *
   * Localization strings for the zh_TW (繁體中文) locale.
@@ -141,7 +141,6 @@
 	<message key="manager.setup.homeTitleImageInvalid"></message>
 	<message key="manager.setup.loggingAndAuditing">記錄和決算</message>
 	<message key="manager.setup.pageHeaderLogoImageInvalid">無效的頁面標頭圖標(logo)圖像格式。可接受的格式為.gif、.jpg、.png的檔案格式。</message>
-	<message key="manager.setup.pageHeaderTitleImageInvalid">無效的頁面標頭標題圖像格式。可接受的格式為.gif、.jpg、.png的檔案格式。</message>
 	<message key="manager.setup.selectOne">請選擇一項</message>
 	<message key="manager.statistics">統計報告</message>
 	<message key="manager.statistics.statistics.count.value">{$count} ({$percentage}%)</message>

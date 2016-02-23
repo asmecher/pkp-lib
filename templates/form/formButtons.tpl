@@ -1,8 +1,8 @@
 {**
  * templates/form/formButtons.tpl
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * Form button bar
@@ -29,11 +29,7 @@
 					buttonSelector="#"|concat:$cancelButtonId
 					cancelUrl=$FBV_cancelUrl}
 		{/if}
-		{if $FBV_formReset}
-			{fbvElement type="link" class="resetButton" id="resetButton"|concat:"-":uniqid label=$FBV_cancelText}
-		{else}
-			{fbvElement type="link" class="cancelButton" id=$cancelButtonId label=$FBV_cancelText}
-		{/if}
+		<a href="#" id="{$cancelButtonId}" class="cancelButton">{translate key=$FBV_cancelText}</a>
 	{/if}
 
 	{* Submit button *}
@@ -46,6 +42,5 @@
 				 dialogText="$FBV_confirmSubmit"}
 	{/if}
 	{fbvElement type="submit" class="submitFormButton" id=$submitButtonId label=$FBV_submitText translate=$FBV_translate disabled=$FBV_submitDisabled}
-	<div class="pkp_helpers_progressIndicator"></div>
-	<div class="clear"></div>
+	<span class="pkp_spinner"></span>
 {/fbvFormSection}

@@ -4,11 +4,11 @@
 <!--
   * locale/gl_ES/user.xml
   *
-  * Copyright (c) 2014-2015 Simon Fraser University Library
-  * Copyright (c) 2000-2015 John Willinsky
+  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2000-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
   *
-  * Localization strings for the gl_ES (Galego (Galiza)) locale.
+  * Localization strings for the gl_ES (Galego) locale.
   *
   -->
 
@@ -23,7 +23,6 @@
 	<message key="user.dateRegistered">Data de rexistro</message>
 	<message key="user.editMyProfile">Editar o meu perfil</message>
 	<message key="user.email">Correo-e</message>
-	<message key="user.fax">Fax</message>
 	<message key="user.feminine">Feminino</message>
 	<message key="user.firstName">Primeir nome</message>
 	<message key="user.gender">Xénero</message>
@@ -105,7 +104,6 @@
 	<message key="user.affiliation.description">(A túa institución, ej. "Universidade de Santiago de Compostela")</message>
 	<message key="user.gossip">Notas privadas</message>
 	<message key="user.profile.form.affiliationRequired">Compre ter unha afiliación</message>
-	<message key="user.confirmEmail">Confirmar correo electrónico</message>
 	<message key="user.repeatPassword">Repite o contrasinal</message>
 	<message key="user.register.form.emailsDoNotMatch">Os campos de correo electrónico non coinciden.</message>
 </locale>

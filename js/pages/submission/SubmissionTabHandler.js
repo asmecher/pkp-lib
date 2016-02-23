@@ -4,8 +4,8 @@
 /**
  * @file js/pages/submission/SubmissionTabHandler.js
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class SubmissionTabHandler
@@ -93,10 +93,11 @@
 
 		switch (parseInt(submissionProgress, 10)) {
 			case 0: return []; // Completed
-			case 1: return [1, 2, 3, 4];
-			case 2: return [2, 3, 4];
-			case 3: return [3, 4];
-			case 4: return [];
+			case 1: return [1, 2, 3, 4, 5];
+			case 2: return [2, 3, 4, 5];
+			case 3: return [3, 4, 5];
+			case 4: return [4, 5];
+			case 5: return [];
 		}
 		throw new Error('Illegal submission step number!');
 	};

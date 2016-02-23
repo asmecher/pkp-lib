@@ -4,8 +4,8 @@
 <!--
   * xml/schema/notes.xml
   *
-  * Copyright (c) 2014-2015 Simon Fraser University Library
-  * Copyright (c) 2000-2015 John Willinsky
+  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2000-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
   *
   * Notes schema in XML.
@@ -35,7 +35,9 @@
 			<NOTNULL/>
 		</field>
 		<field name="date_modified" type="T" />
-		<field name="title" type="C2" size="255" />
+		<field name="title" type="C2" size="255">
+			<!-- This field is no longer used since OJS 3.0a / OMP 1.2 -->
+		</field>
 		<field name="contents" type="X"/>
 		<index name="notes_assoc">
 			<col>assoc_type</col>

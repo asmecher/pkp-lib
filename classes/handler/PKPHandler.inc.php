@@ -3,8 +3,8 @@
 /**
  * @file classes/handler/PKPHandler.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @package core
@@ -420,14 +420,18 @@ class PKPHandler {
 
 		AppLocale::requireComponents(
 			LOCALE_COMPONENT_PKP_COMMON,
-			LOCALE_COMPONENT_PKP_USER
+			LOCALE_COMPONENT_PKP_USER,
+			LOCALE_COMPONENT_APP_COMMON
 		);
-		if (defined('LOCALE_COMPONENT_APP_COMMON')) {
-			AppLocale::requireComponents(LOCALE_COMPONENT_APP_COMMON);
+
+		$userRoles = (array) $this->getAuthorizedContextObject(ASSOC_TYPE_USER_ROLES);
+		if (array_intersect(array(ROLE_ID_MANAGER), $userRoles)) {
+			AppLocale::requireComponents(LOCALE_COMPONENT_PKP_MANAGER);
 		}
 
 		$templateMgr = TemplateManager::getManager($request);
-		$templateMgr->assign('userRoles', $this->getAuthorizedContextObject(ASSOC_TYPE_USER_ROLES));
+		$templateMgr->assign('userRoles', $userRoles);
+
 		$accessibleWorkflowStages = $this->getAuthorizedContextObject(ASSOC_TYPE_ACCESSIBLE_WORKFLOW_STAGES);
 		if ($accessibleWorkflowStages) $templateMgr->assign('accessibleWorkflowStages', $accessibleWorkflowStages);
 	}
@@ -505,6 +509,7 @@ class PKPHandler {
 	function requireSSL() {
 		return true;
 	}
+
 }
 
 ?>

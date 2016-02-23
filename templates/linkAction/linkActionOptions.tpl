@@ -1,8 +1,8 @@
 {**
  * linkAction/linkActionOptions.tpl
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * Create a link action
@@ -19,12 +19,12 @@
 	{if $selfActivate}
 		selfActivate: {$selfActivate},
 	{/if}
-	staticId: '{$staticId}',
+	staticId: {$staticId|json_encode},
 	{assign var="actionRequest" value=$action->getActionRequest()}
-	actionRequest: '{$actionRequest->getJSLinkActionRequest()}',
+	actionRequest: {$actionRequest->getJSLinkActionRequest()|json_encode},
 	actionRequestOptions: {ldelim}
 		{foreach name=actionRequestOptions from=$actionRequest->getLocalizedOptions() key=optionName item=optionValue}
-			{$optionName}: {if $optionValue}'{$optionValue|escape:javascript}'{else}false{/if}{if !$smarty.foreach.actionRequestOptions.last},{/if}
+			{$optionName|json_encode}: {$optionValue|json_encode},
 		{/foreach}
 	{rdelim}
 {rdelim}

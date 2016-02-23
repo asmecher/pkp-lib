@@ -2,8 +2,8 @@
 /**
  * @file classes/workflow/linkAction/ExpediteSubmissionLinkAction.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class ExpediteSubmissionLinkAction
@@ -24,14 +24,19 @@ class ExpediteSubmissionLinkAction extends LinkAction {
 	 */
 	function ExpediteSubmissionLinkAction($request, $submissionId) {
 		$router = $request->getRouter();
+		$dispatcher = $router->getDispatcher();
+		import('lib.pkp.classes.linkAction.request.AjaxModal');
 		parent::LinkAction(
 			'expedite',
-			new RemoteActionConfirmationModal(
-				__('submission.submit.expediteSubmission.description'),
-				__('submission.submit.expediteSubmission'),
-				$router->url($request, null, 'workflow', 'expedite', $submissionId),
-				'modal_edit'
-			),
+			new AjaxModal(
+	                        $dispatcher->url(
+	                                $request, ROUTE_PAGE, null,
+	                                'workflow',
+	                                'expedite', (int) $submissionId
+	                        ),
+	                        __('submission.submit.expediteSubmission'),
+	                        'modal_information'
+	                ),
 			__('submission.submit.expediteSubmission')
 		);
 	}

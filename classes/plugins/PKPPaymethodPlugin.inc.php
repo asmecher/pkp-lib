@@ -3,7 +3,7 @@
 /**
  * @file classes/plugins/PKPPaymethodPlugin.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
+ * Copyright (c) 2014-2016 Simon Fraser University Library
  * Copyright (c) 2006-2009 Gunther Eysenbach, Juan Pablo Alperin, MJ Suhonos
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
@@ -32,11 +32,9 @@ abstract class PKPPaymethodPlugin extends Plugin {
 	 * 	the plugin will not be registered.
 	 */
 	function register($category, $path) {
-		$success = parent::register($category, $path);
-		if ($success) {
-			HookRegistry::register('Template::Manager::Payment::displayPaymentSettingsForm', array($this, '_smartyDisplayPaymentSettingsForm'));
-		}
-		return $success;
+		if (!parent::register($category, $path)) return false;
+		HookRegistry::register('Template::Manager::Payment::displayPaymentSettingsForm', array($this, '_smartyDisplayPaymentSettingsForm'));
+		return true;
 	}
 
 	/**
@@ -110,8 +108,7 @@ abstract class PKPPaymethodPlugin extends Plugin {
 	 * @param $request PKPRequest
 	 */
 	function handle($args, $request) {
-		// Subclass should probably override.
-		$request->redirect(null, null, 'index');
+		assert(false); // Unhandled case; should never happen.
 	}
 }
 

@@ -1,24 +1,42 @@
 {**
  * controllers/tab/settings/formImageView.tpl
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * Form image view.
  *
  *}
 
-<br />
-<img src="{$publicFilesDir}/{$file.uploadName|escape:"url"}?{$file.dateUploaded}" width="{$file.width|escape}" height="{$file.height|escape}" style="border: 0;" alt="{$commonAltText}" />
-<br />
-<div class="inline">
-	{translate key="common.fileName"}: {$file.name|escape} {$file.dateUploaded|date_format:$datetimeFormatShort}<br />
-	{if $file.altText}
-		{translate key="common.altText"}:{$file.altText|escape}
-	{/if}
+<div class="pkp_form_file_view pkp_form_image_view">
+
+	<div class="img">
+		<img src="{$publicFilesDir}/{$file.uploadName|escape:"url"}?{$file.dateUploaded}" alt="{$commonAltText}" />
+	</div>
+
+	<div class="data">
+		<span class="title">
+			{translate key="common.fileName"}
+		</span>
+		<span class="value">
+			{$file.name|escape}
+		</span>
+		<span class="title">
+			{translate key="common.uploadedDate"}
+		</span>
+		<span class="value">
+			{$file.dateUploaded|date_format:$datetimeFormatShort}
+		</span>
+		<span class="title">
+			{translate key="common.altText"}
+		</span>
+		<span class="value">
+			{$file.altText|escape}
+		</span>
+
+		<div id="{$deleteLinkAction->getId()}" class="actions">
+			{include file="linkAction/linkAction.tpl" action=$deleteLinkAction contextId=$fileSettingName}
+		</div>
+	</div>
 </div>
-<div id="{$deleteLinkAction->getId()}" class="pkp_linkActions inline">
-	{include file="linkAction/linkAction.tpl" action=$deleteLinkAction contextId=$fileSettingName}
-</div>
-<div class="pkp_helpers_clear"></div>

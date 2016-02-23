@@ -3,8 +3,8 @@
 /**
  * @file classes/controllers/grid/citation/form/CitationForm.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class CitationForm
@@ -435,7 +435,7 @@ class CitationForm extends Form {
 				'rawCitation' => strip_tags($citation->getRawCitation())
 			);
 			import('lib.pkp.classes.mail.MailTemplate');
-			$mail = new MailTemplate('CITATION_EDITOR_AUTHOR_QUERY', null, false, null, true, true);
+			$mail = new MailTemplate('CITATION_EDITOR_AUTHOR_QUERY', null, null, true, true);
 			$mail->assignParams($emailParams);
 			$templateMgr->assign('authorQuerySubject', $mail->getSubject());
 			$templateMgr->assign('authorQueryBody', $mail->getBody());

@@ -3,8 +3,8 @@
 /**
  * @file controllers/grid/files/SubmissionFilesCategoryGridDataProvider.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class SubmissionFilesCategoryDataProvider
@@ -44,11 +44,8 @@ class SubmissionFilesCategoryGridDataProvider extends CategoryGridDataProvider {
 	 * @copydoc CategoryGridDataProvider::setDataProvider()
 	 */
 	function setDataProvider($gridDataProvider) {
-		if (is_a($gridDataProvider, 'SubmissionFilesGridDataProvider')) {
-			parent::setDataProvider($gridDataProvider);
-		} else {
-			assert(false);
-		}
+		assert(is_a($gridDataProvider, 'SubmissionFilesGridDataProvider'));
+		parent::setDataProvider($gridDataProvider);
 	}
 
 
@@ -87,10 +84,10 @@ class SubmissionFilesCategoryGridDataProvider extends CategoryGridDataProvider {
 	/**
 	 * @copydoc CategoryGridDataProvider::loadCategoryData()
 	 */
-	function &loadCategoryData($request, $categoryDataElement, $filter = null, $reviewRound = null) {
+	function loadCategoryData($request, $categoryDataElement, $filter = null, $reviewRound = null) {
 		$submissionFileDao = DAORegistry::getDAO('SubmissionFileDAO'); /* @var $submissionFileDao SubmissionFileDAO */
 		$dataProvider = $this->getDataProvider();
-		$submission = $dataProvider->getSubmission();
+		$submission = $this->getAuthorizedContextObject(ASSOC_TYPE_SUBMISSION);
 		$stageId = $categoryDataElement;
 		$fileStage = $this->_getFileStageByStageId($stageId);
 		$stageSubmissionFiles = null;
@@ -110,13 +107,12 @@ class SubmissionFilesCategoryGridDataProvider extends CategoryGridDataProvider {
 			$submissionFiles = $this->_submissionFiles;
 			$stageSubmissionFiles = array();
 			foreach ($submissionFiles as $key => $submissionFile) {
-				if ($submissionFile->getFileStage() == $fileStage) {
+				if (in_array($submissionFile->getFileStage(), (array) $fileStage)) {
 					$stageSubmissionFiles[$key] = $submissionFile;
 				}
 			}
 		}
-
-		return $dataProvider->prepareSubmissionFileData($stageSubmissionFiles);
+		return $dataProvider->prepareSubmissionFileData($stageSubmissionFiles, false, $filter);
 	}
 
 
@@ -174,7 +170,7 @@ class SubmissionFilesCategoryGridDataProvider extends CategoryGridDataProvider {
 	 * which file stage will be present on each workflow stage category
 	 * of the grid.
 	 * @param $stageId int
-	 * @return int
+	 * @return int|array
 	 */
 	function _getFileStageByStageId($stageId) {
 		switch($stageId) {
@@ -186,7 +182,7 @@ class SubmissionFilesCategoryGridDataProvider extends CategoryGridDataProvider {
 				return SUBMISSION_FILE_REVIEW_FILE;
 				break;
 			case WORKFLOW_STAGE_ID_EDITING:
-				return SUBMISSION_FILE_FINAL;
+				return array(SUBMISSION_FILE_FINAL, SUBMISSION_FILE_COPYEDIT, SUBMISSION_FILE_QUERY);
 				break;
 			case WORKFLOW_STAGE_ID_PRODUCTION:
 				return SUBMISSION_FILE_PRODUCTION_READY;

@@ -1,8 +1,8 @@
 {**
  * templates/user/loginChangePassword.tpl
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * Form to change a user's password in order to login.
@@ -48,7 +48,7 @@
 		{fbvFormButtons}
 	{/fbvFormArea}
 
+	<p><span class="formRequired">{translate key="common.requiredField"}</span></p>
 </form>
-<p><span class="formRequired">{translate key="common.requiredField"}</span></p>
 
 {include file="common/footer.tpl"}

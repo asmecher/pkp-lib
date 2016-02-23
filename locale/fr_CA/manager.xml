@@ -4,8 +4,8 @@
 <!--
   * locale/fr_CA/manager.xml
   *
-  * Copyright (c) 2014-2015 Simon Fraser University Library
-  * Copyright (c) 2000-2015 John Willinsky
+  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2000-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
   *
   * Localization strings for the fr_CA (Français (Canada)) locale.
@@ -148,7 +148,6 @@
 	<message key="manager.setup.layout.unselected">Non sélectionné</message>
 	<message key="manager.setup.loggingAndAuditing">Journalisation et audit</message>
 	<message key="manager.setup.pageHeaderLogoImageInvalid">Format d'image du logo de l'en-tête de la page invalide. Les formats acceptés sont .gif, .jpg, ou .png.</message>
-	<message key="manager.setup.pageHeaderTitleImageInvalid">Format d'image de l'en-tête de la page invalide. Les formats acceptés sont .gif, .jpg, ou .png.</message>
 	<message key="manager.setup.selectOne">En sélectionner un</message>
 	<message key="manager.setup.sortableByComponent">Peut être trié par composante</message>
 	<message key="manager.statistics">Statistiques et rapports</message>
@@ -174,7 +173,6 @@
 	<message key="plugins.categories.themes">Plugiciels de thème</message>
 	<message key="manager.emails.form.emailKeyRequired">Une clé de courriel unique est obligatoire pour le courriel.</message>
 	<message key="manager.setup.errorDeletingItem">Il s'est produit une erreur lors de la suppression de cet élément.</message>
-	<message key="manager.reviewerSearch.advancedSearch">Recherche avancée d'évaluateurs</message>
 	<message key="manager.reviewerSearch.searchByName">Chercher un évaluateur par nom</message>
 	<message key="manager.reviewerSearch.doneAmount">Nombre d'évaluations terminé</message>
 	<message key="manager.reviewerSearch.avgAmount">Nombre de jours moyen par évaluation</message>
@@ -245,7 +243,6 @@
 	<message key="manager.language.submissions">Soumissions</message>
 	<message key="manager.language.forms">Formulaires</message>
 	<message key="manager.language.reloadLocalizedDefaultSettings">Retélécharger les paramètres par défaut</message>
-	<message key="manager.reviewerSearch.advancedSearch.short">Recherche avancée</message>
 	<message key="manager.reviewerSearch.searchByName.short">Recherche pas nom</message>
 	<message key="manager.statistics.city">Ville</message>
 	<message key="manager.statistics.region">Région</message>
@@ -281,7 +278,6 @@
 	<message key="manager.website.imageFileRequired">Un fichier image est requis. Assurez-vous d'avoir choisi et téléchargé un fichier.</message>
 	<message key="manager.language.ui">UI</message>
 	<message key="manager.masthead.title">Bloc-générique</message>
-	<message key="manager.navigation">Navigation</message>
 	<message key="manager.publication.libraryDescription"><![CDATA[Ces fichiers ont été préparés à titre de modèles et de guides pour être utilisés dans le cadre des documents de soumission <span class="pkp_help_title">  </span>.]]></message>
 	<message key="manager.emails.disable.message">Vous êtes sur le point de désactiver ce modèle pour les courriels. Si des processus systèmes utilisent ce modèle, ils ne l'utiliseront plus. Vous souhaitez confirmer cette opération?</message>
 	<message key="manager.emails.enable.message">Vous êtes sur le point de désactiver ce courriel. Vous souhaitez confirmer cette opération?</message>
@@ -383,29 +379,6 @@ Il arrive parfois qu'une seule statistique d'utilisation doit être utilisée, p
 	<message key="settings.roles.uniqueAbbrev">Vous devez déterminer une abbréviation de rôle unique.</message>
 	<message key="settings.roles.roleIdRequired">Vous devez préciser un niveau d'autorisation pour le rôle.</message>
 	<message key="settings.roles.stageIdRequired">Vous devez préciser une étape qui sera assignée.</message>
-	<message key="grid.content.navigation.footer">Pied de page</message>
-	<message key="grid.content.navigation.footer.noneExist">Il n'y a aucun pied de page.</message>
-	<message key="grid.content.navigation.footer.addCategory">Ajouter une catégorie</message>
-	<message key="grid.action.deleteFooterCategory">Supprimer la catégorie du pied de page.</message>
-	<message key="grid.content.navigation.footer.FooterLink">Liens du pied de page</message>
-	<message key="grid.content.navigation.footer.editCategory">Modifier la catégorie</message>
-	<message key="grid.content.navigation.footer.deleteCategory">Supprimer la catégorie</message>
-	<message key="grid.content.navigation.footer.titleRequired">Vous devez fournir un titre</message>
-	<message key="grid.content.navigation.footer.descriptionRequired">Vous devez fournir une description</message>
-	<message key="grid.action.addFooterCategoryLink">Ajouter une nouvelle catégorie de pied de page</message>
-	<message key="grid.action.editFooterCategory">Modifier cette catégorie de pied de page</message>
-	<message key="grid.content.navigation.socialMedia">Médias sociaux</message>
-	<message key="grid.content.navigation.socialMedia.platform">Plateforme</message>
-	<message key="grid.content.navigation.socialMedia.addSocialLink">Ajouter un lien social</message>
-	<message key="grid.content.navigation.socialMedia.includeInCatalog">Utiliser ceci pour chaque item publié dans le catalogue?</message>
-	<message key="grid.content.navigation.socialMedia.inCatalog">Utilisé dans le catalogue</message>
-	<message key="grid.action.addMedia">Ajouter un nouveau type de médias sociaux</message>
-	<message key="notification.addedFooterCategory">Catégorie ajoutée</message>
-	<message key="notification.editedFooterCategory">Catégorie modifiée</message>
-	<message key="notification.removedFooterCategory">Catégorie supprimée</message>
-	<message key="notification.addedSocialMedia">Réseau de médias sociaux ajouté.</message>
-	<message key="notification.editedSocialMedia">Réseau de médias sociaux modifié.</message>
-	<message key="notification.removedSocialMedia">Réseau de médias sociaux supprimé.</message>
 	<message key="settings.libraryFiles.category.contracts">Contrats</message>
 	<message key="settings.libraryFiles.category.marketing">Marketing</message>
 	<message key="settings.libraryFiles.category.permissions">Permissions</message>
@@ -415,12 +388,6 @@ Il arrive parfois qu'une seule statistique d'utilisation doit être utilisée, p
 	<message key="manager.website.title">Paramètres du site Web</message>
 	<message key="manager.distribution">Distribution</message>
 	<message key="manager.distribution.title">Paramètres de la distribution</message>
-	<message key="grid.content.navigation.footer.deleteCategoryConfirm">Vous voulez vraiment supprimer cette catégorie? Cette action n'est pas réversible et les liens dans cette catégorie seront également supprimés.</message>
-	<message key="grid.content.navigation.footer.pathRequired">Un chemin d'accès est requis et il doit être unique.</message>
-	<message key="grid.content.navigation.footer.pathInUse">Ce chemin d'accès est actuellement utilisé par une autre catégorie.</message>
-	<message key="grid.content.navigation.socialMedia.code">Bloc de code pour le partage social</message>
-	<message key="grid.content.navigation.socialMedia.platformRequired">Vous devez indiquer le titre de la plateforme (Facebook, Google+, etc.)</message>
-	<message key="grid.content.navigation.socialMedia.codeRequired">Vous devez saisir le code que vous désirez utiliser pour afficher le réseau social.</message>
 	<message key="settings.libraryFiles.fileRequired">Un fichier bibliothèque est requis. Assurez-vous d'avoir choisi et téléchargé un fichier.</message>
 	<message key="settings.libraryFiles.nameRequired">Vous devez donner un nom à ce fichier bibliothèque.</message>
 	<message key="settings.libraryFiles.typeRequired">Un type de fichier est nécessaire pour ce fichier bibliothèque.</message>

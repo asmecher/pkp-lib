@@ -3,8 +3,8 @@
 /**
  * @file classes/plugins/ThemePlugin.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class ThemePlugin
@@ -27,26 +27,29 @@ abstract class ThemePlugin extends LazyLoadPlugin {
 	 * @copydoc Plugin::register
 	 */
 	function register($category, $path) {
-		$this->pluginPath = $path;
-
-		$result = parent::register($category, $path);
-
+		if (!parent::register($category, $path)) return false;
 		$request = $this->getRequest();
-		if ($result && $this->getEnabled() && !defined('SESSION_DISABLE_INIT')) {
+		if ($this->getEnabled() && !defined('SESSION_DISABLE_INIT')) {
 			$templateManager = TemplateManager::getManager($request);
 			HookRegistry::register('PageHandler::displayCss', array($this, '_displayCssCallback'));
 
-			// Add the stylesheet.
-			$dispatcher = $request->getDispatcher();
-			$templateManager->addStyleSheet($dispatcher->url($request, ROUTE_COMPONENT, null, 'page.PageHandler', 'css', null, array('name' => $this->getName())), STYLE_SEQUENCE_LATE);
+			$context = $request->getContext();
+			$site = $request->getSite();
+			$contextOrSite = $context?$context:$site;
 
-			// If this theme uses templates, ensure they're given priority.
-			array_unshift(
-				$templateManager->template_dir,
-				$path = Core::getBaseDir() . DIRECTORY_SEPARATOR . $this->getPluginPath() . '/templates'
-			);
+			// Add the stylesheet.
+			if ($contextOrSite->getSetting('themePluginPath') == basename($path)) {
+				$dispatcher = $request->getDispatcher();
+				$templateManager->addStyleSheet($dispatcher->url($request, ROUTE_COMPONENT, null, 'page.PageHandler', 'css', null, array('name' => $this->getName())), STYLE_SEQUENCE_LATE);
+
+				// If this theme uses templates, ensure they're given priority.
+				array_unshift(
+					$templateManager->template_dir,
+					$path = Core::getBaseDir() . DIRECTORY_SEPARATOR . $this->getPluginPath() . '/templates'
+				);
+			}
 		}
-		return $result;
+		return true;
 	}
 
 	/**
@@ -100,11 +103,10 @@ abstract class ThemePlugin extends LazyLoadPlugin {
 				$lastModified = time();
 
 				// Compile this theme's styles
-				require_once('lib/pkp/lib/vendor/leafo/lessphp/lessc.inc.php');
-				$less = new lessc($lessFile);
-				$less->importDir = $this->getPluginPath(); // @see PKPTemplateManager::compileStylesheet
-				$themeStyles = $less->parse();
-				$compiledStyles = str_replace('{$baseUrl}', $request->getBaseUrl(), $themeStyles);
+				require_once('lib/pkp/lib/vendor/oyejorge/less.php/lessc.inc.php');
+				$less = new Less_Parser(array( 'relativeUrls' => false ));
+				$less->parseFile ($lessFile);
+				$compiledStyles = str_replace('{$baseUrl}', $request->getBaseUrl(), $less->getCss());
 
 				// Give other plugins the chance to intervene
 				HookRegistry::call('ThemePlugin::compileCss', array($request, $less, &$compiledStylesheetFile, &$compiledStyles));

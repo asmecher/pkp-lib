@@ -3,8 +3,8 @@
 /**
  * @file controllers/grid/users/reviewer/form/ReviewerForm.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class ReviewerForm
@@ -402,23 +402,22 @@ class ReviewerForm extends Form {
 	// Protected methods.
 	//
 	/**
-	 * Get the link action that fetchs the search
-	 * by name form content.
+	 * Get the link action that fetchs the advanced search form content
 	 * @param $request Request
 	 * @return LinkAction
 	 */
-	function getSearchByNameAction($request) {
+	function getAdvancedSearchAction($request) {
 		$reviewRound = $this->getReviewRound();
 
 		$actionArgs['submissionId'] = $this->getSubmissionId();
 		$actionArgs['stageId'] = $reviewRound->getStageId();
 		$actionArgs['reviewRoundId'] = $reviewRound->getId();
-		$actionArgs['selectionType'] = REVIEWER_SELECT_SEARCH_BY_NAME;
+		$actionArgs['selectionType'] = REVIEWER_SELECT_ADVANCED_SEARCH;
 
 		return new LinkAction(
 			'addReviewer',
 			new AjaxAction($request->url(null, null, 'reloadReviewerForm', null, $actionArgs)),
-			__('editor.submission.returnToSimpleSearch'),
+			__('editor.submission.backToSearch'),
 			'return'
 		);
 	}

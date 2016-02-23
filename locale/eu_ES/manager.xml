@@ -4,11 +4,11 @@
 <!--
   * locale/eu_ES/manager.xml
   *
-  * Copyright (c) 2014-2015 Simon Fraser University Library
-  * Copyright (c) 2000-2015 John Willinsky
+  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2000-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
   *
-  * Localization strings for the eu_ES (Basque (Euskara)) locale.
+  * Localization strings for the eu_ES (Euskara) locale.
   *
   -->
 
@@ -146,7 +146,6 @@
 	<message key="manager.setup.layout.unselected">Hautatu gabe</message>
 	<message key="manager.setup.loggingAndAuditing">Log-erregistroa eta kontrola</message>
 	<message key="manager.setup.pageHeaderLogoImageInvalid">Orri-buruko logoaren irudi-formatua ez da baliozkoa: .gif, .jpg, edo .png formatuak bakarrik onartzen dira.</message>
-	<message key="manager.setup.pageHeaderTitleImageInvalid">Orri-buruko tituluaren irudi-formatua ez da baliozkoa: .gif, .jpg, edo .png formatuak bakarrik onartzen dira.</message>
 	<message key="manager.setup.selectOne">Hautatu bat</message>
 	<message key="manager.statistics"><![CDATA[Estatistikak eta txostenak]]></message>
 	<message key="manager.statistics.statistics.count.value">{$count} (% {$percentage})</message>
@@ -172,7 +171,6 @@
 	<message key="manager.setup.errorDeletingItem">Errorea elementu hau ezabatzean.</message>
 	<message key="manager.setup.citationFilterParserDescription">Datu-basea instalatu ondoren, exekutatu ezazu berritze-tresna, mesedez. Exekutatu ezazu 'php tools/upgrade.php upgrade' horretarako dagoen instalazio-direktorio nagusian.</message>
 	<message key="manager.setup.citationAssistant">Aipua markatzeko laguntzailea</message>
-	<message key="manager.reviewerSearch.advancedSearch">Ebaluatzaileen bilaketa aurreratua</message>
 	<message key="manager.reviewerSearch.searchByName">Ebaluatzailea izenez bilatu</message>
 	<message key="manager.reviewerSearch.doneAmount">Amaitutako ebaluazio kopurua</message>
 	<message key="manager.reviewerSearch.avgAmount">Ebaluazioa egiteko egunak</message>
@@ -224,8 +222,6 @@
 	<message key="manager.emails.resetAll.message">Txantiloi guztiak berrezartzen badituzu, posta elektronikoaren txantiloi guztien aldaketak galduko dira. Eragiketa baieztatu nahi duzu?</message>
 	<message key="manager.emails.reset.message">Txantiloi hau berrezartzen baduzu, mezuko datu guztiak berrezarriko dira lehenetsitako balioetan, eta aldaketa guztiak galduko dira. Eragiketa baieztatu nahi duzu?</message>
 	<message key="manager.masthead.title">Idazpurua</message>
-	<message key="manager.navigation">Nabigazioa</message>
-	<message key="manager.reviewerSearch.advancedSearch.short">Bilaketa aurreratua</message>
 	<message key="manager.reviewerSearch.searchByName.short">Izenaren araberako bilaketa</message>
 	<message key="manager.reviewerSearch.form.instructions">Erabili beheko inprimakia bilatu nahi dituzun hitzentzako gehienezko balioak ezartzeko. Inprimakiak eremu horietako batez besteko kalkulatuak ditu.</message>
 	<message key="manager.reviewerSearch.form.interests.instructions">Sartu berrikuslearen interesak, komek bananduta...</message>

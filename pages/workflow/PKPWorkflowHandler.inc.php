@@ -3,8 +3,8 @@
 /**
  * @file pages/workflow/PKPWorkflowHandler.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class WorkflowHandler
@@ -48,10 +48,10 @@ abstract class PKPWorkflowHandler extends Handler {
 			// This policy will deny access if user has no accessible workflow stage.
 			// Otherwise it will build an authorized object with all accessible
 			// workflow stages and authorize user operation access.
-			import('classes.security.authorization.internal.UserAccessibleWorkflowStageRequiredPolicy');
+			import('lib.pkp.classes.security.authorization.internal.UserAccessibleWorkflowStageRequiredPolicy');
 			$this->addPolicy(new UserAccessibleWorkflowStageRequiredPolicy($request));
 		} else {
-			import('classes.security.authorization.WorkflowStageAccessPolicy');
+			import('lib.pkp.classes.security.authorization.WorkflowStageAccessPolicy');
 			$this->addPolicy(new WorkflowStageAccessPolicy($request, $args, $roleAssignments, 'submissionId', $this->identifyStageId($request, $args)));
 		}
 
@@ -179,9 +179,7 @@ abstract class PKPWorkflowHandler extends Handler {
 	 * @param $args array
 	 * @param $request PKPRequest
 	 */
-	function expedite($args, $request) {
-		assert(false);
-	}
+	abstract function expedite($args, $request);
 
 	/**
 	 * Fetch JSON-encoded editor decision options.
@@ -313,7 +311,7 @@ abstract class PKPWorkflowHandler extends Handler {
 
 		$router = $request->getRouter();
 
-		$submission =& $this->getAuthorizedContextObject(ASSOC_TYPE_SUBMISSION);
+		$submission = $this->getAuthorizedContextObject(ASSOC_TYPE_SUBMISSION);
 		$stageId = $this->getAuthorizedContextObject(ASSOC_TYPE_WORKFLOW_STAGE);
 
 		// Construct array with workflow stages data.
@@ -339,6 +337,12 @@ abstract class PKPWorkflowHandler extends Handler {
 		$templateMgr->assign(
 			'submissionInformationCenterAction',
 			new SubmissionInfoCenterLinkAction($request, $submission->getId())
+		);
+
+		import('lib.pkp.controllers.modals.documentLibrary.linkAction.SubmissionLibraryLinkAction');
+		$templateMgr->assign(
+			'submissionLibraryAction',
+			new SubmissionLibraryLinkAction($request, $submission->getId())
 		);
 	}
 
@@ -390,6 +394,7 @@ abstract class PKPWorkflowHandler extends Handler {
 	 * @param $user PKPUser
 	 * @param $stageId integer
 	 * @param $contextId integer
+	 * @return boolean
 	 */
 	protected function notificationOptionsByStage($user, $stageId, $contextId) {
 		$submission = $this->getAuthorizedContextObject(ASSOC_TYPE_SUBMISSION);

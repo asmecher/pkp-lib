@@ -3,8 +3,8 @@
 /**
  * @file controllers/listbuilder/files/FilesListbuilderHandler.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class FilesListbuilderHandler
@@ -51,8 +51,8 @@ class FilesListbuilderHandler extends ListbuilderHandler {
 	 * @copydoc PKPHandler::authorize()
 	 */
 	function authorize($request, &$args, $roleAssignments, $stageId = null) {
-		import('classes.security.authorization.WorkflowStageAccessPolicy'); // context-specific.
-		import('classes.security.authorization.SubmissionAccessPolicy'); // context-specific.
+		import('lib.pkp.classes.security.authorization.WorkflowStageAccessPolicy'); // context-specific.
+		import('lib.pkp.classes.security.authorization.SubmissionAccessPolicy'); // context-specific.
 		if ($stageId !== null) $this->addPolicy(new WorkflowStageAccessPolicy($request, $args, $roleAssignments, 'submissionId', $stageId), true);
 		else $this->addPolicy(new SubmissionAccessPolicy($request, $args, $roleAssignments));
 
@@ -122,7 +122,7 @@ class FilesListbuilderHandler extends ListbuilderHandler {
 	/**
 	 * @copydoc GridHandler::getRowDataElement()
 	 */
-	function getRowDataElement($request, &$rowId) {
+	protected function getRowDataElement($request, &$rowId) {
 		// fallback on the parent if a rowId is found
 		if (!empty($rowId)) {
 			return parent::getRowDataElement($request, $rowId);

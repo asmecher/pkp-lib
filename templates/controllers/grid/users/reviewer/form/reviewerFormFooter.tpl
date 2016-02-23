@@ -1,20 +1,13 @@
 {**
  * templates/controllers/grid/user/reviewer/form/reviewerFormFooter.tpl
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * The non-searching part of the add reviewer form
  *
  *}
-<script type="text/javascript">
-	$(function() {ldelim}
-		// Attach the form handler.
-		$('#reviewerFormFooter').pkpHandler('$.pkp.controllers.grid.users.reviewer.form.ReviewerFormFooterHandler');
-	{rdelim});
-</script>
-
 <div id="reviewerFormFooter" class="reviewerFormFooterContainer">
 	<!--  message template choice -->
 	{fbvFormSection title="stageParticipants.notify.chooseMessage" for="template" size=$fbvStyles.size.medium}
@@ -23,7 +16,7 @@
 
 	<!--  Message to reviewer textarea -->
 	{fbvFormSection title="editor.review.personalMessageToReviewer" for="personalMessage"}
-		{fbvElement type="textarea" name="personalMessage" id="personalMessage" value=$personalMessage variables=$emailVariables rich=true}
+		{fbvElement type="textarea" name="personalMessage" id="personalMessage" value=$personalMessage variables=$emailVariables rich=true rows=25}
 	{/fbvFormSection}
 
 	<!-- skip email checkbox -->
@@ -37,13 +30,20 @@
 	{/fbvFormSection}
 
 	{include file="controllers/grid/users/reviewer/form/noFilesWarning.tpl"}
-	<div id="filesAccordion">
-		<h3>{translate key="editor.submissionReview.restrictFiles"}</h3>
-		<div>
-			<!-- Available review files -->
-			{url|assign:limitReviewFilesGridUrl router=$smarty.const.ROUTE_COMPONENT component="grid.files.review.LimitReviewFilesGridHandler" op="fetchGrid" submissionId=$submissionId stageId=$stageId reviewRoundId=$reviewRoundId escape=false}
-			{load_url_in_div id="limitReviewFilesGrid" url=$limitReviewFilesGridUrl}
-		</div>
+
+	{capture assign="extraContent"}
+		<!-- Available review files -->
+		{url|assign:limitReviewFilesGridUrl router=$smarty.const.ROUTE_COMPONENT component="grid.files.review.LimitReviewFilesGridHandler" op="fetchGrid" submissionId=$submissionId stageId=$stageId reviewRoundId=$reviewRoundId escape=false}
+		{load_url_in_div id="limitReviewFilesGrid" url=$limitReviewFilesGridUrl}
+	{/capture}
+	<div id="filesAccordian" class="section">
+		{include file="controllers/extrasOnDemand.tpl"
+			id="filesAccordianController"
+			widgetWrapper="#filesAccordian"
+			moreDetailsText="editor.submissionReview.restrictFiles"
+			lessDetailsText="editor.submissionReview.restrictFiles.hide"
+			extraContent=$extraContent
+		}
 	</div>
 
 	{fbvFormSection list=true title="editor.submissionReview.reviewType"}

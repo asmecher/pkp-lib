@@ -1,8 +1,8 @@
 /**
  * @file js/controllers/form/AjaxFormHandler.js
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class AjaxFormHandler
@@ -141,12 +141,12 @@
 			this.enableFormControls();
 		}
 
-		$(this.getHtmlElement()).find('.pkp_helpers_progressIndicator').hide();
-		this.getHtmlElement().find(':submit').button();
-
 		// Trigger the notify user event, passing this
 		// html element as data.
 		this.trigger('notifyUser', [this.getHtmlElement()]);
+
+		// Hide the form spinner.
+		this.hideSpinner();
 
 		return processedJsonData.status;
 	};

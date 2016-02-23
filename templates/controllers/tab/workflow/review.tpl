@@ -1,8 +1,8 @@
 {**
  * templates/workflow/review.tpl
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * Review workflow stage.
@@ -14,12 +14,12 @@
 			'$.pkp.controllers.TabHandler',
 			{ldelim}
 				{assign var=roundIndex value=$lastReviewRoundNumber-1}
-				selected: {$roundIndex}
+				selected: {$roundIndex},
+				disabled: [{$lastReviewRoundNumber}]
 			{rdelim}
 		);
 	{rdelim});
 </script>
-{include file="controllers/tab/workflow/stageParticipants.tpl"}
 
 {if $reviewRounds}
 	<div id="reviewTabs" class="pkp_controllers_tab">
@@ -31,13 +31,14 @@
 			{/foreach}
 			{if $newRoundAction}
 				<li>
-					{* FIXME: this <a> tag is here just to get the CSS to work *}
-					<a id="newRoundTabContainer" href="/" style="padding-left: 0px; padding-right: 0px;"></a>
 					{include file="linkAction/linkAction.tpl" image="add_item" action=$newRoundAction contextId="newRoundTabContainer"}
 				</li>
 			{/if}
 		</ul>
 	</div>
+
+	{url|assign:queriesGridUrl router=$smarty.const.ROUTE_COMPONENT component="grid.queries.QueriesGridHandler" op="fetchGrid" submissionId=$submission->getId() stageId=$stageId escape=false}
+	{load_url_in_div id="queriesGrid" url=$queriesGridUrl}
 {else}
 	<p>{translate key="editor.review.notInitiated"}</p>
 {/if}

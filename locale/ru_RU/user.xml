@@ -4,11 +4,11 @@
 <!--
   * locale/ru_RU/user.xml
   *
-  * Copyright (c) 2014-2015 Simon Fraser University Library
-  * Copyright (c) 2000-2015 John Willinsky
+  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2000-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
   *
-  * Localization strings for the ru_RU (Russian) locale.
+  * Localization strings for the ru_RU (Русский) locale.
   *
   -->
 
@@ -23,7 +23,6 @@
 	<message key="user.dateRegistered">Дата регистрации</message>
 	<message key="user.editMyProfile">Изменить профиль</message>
 	<message key="user.email">E-mail адрес</message>
-	<message key="user.fax">Факс</message>
 	<message key="user.feminine">Ж</message>
 	<message key="user.firstName">Имя</message>
 	<message key="user.gender">Пол</message>
@@ -107,7 +106,6 @@
 	<message key="user.affiliation.description">(Ваше место работы, например, Московский государственный университет имени М.В. Ломоносова)</message>
 	<message key="user.authorization.accessDenied">Доступ запрещен.</message>
 	<message key="user.authorization.loginRequired">Необходимо указать имя пользователя.</message>
-	<message key="user.confirmEmail">Подтвердите Email</message>
 	<message key="user.gossip">Личные примечания</message>
 	<message key="user.hello">Приветствуем,</message>
 	<message key="user.profile.form.countryRequired">Необходимо указать страну.</message>

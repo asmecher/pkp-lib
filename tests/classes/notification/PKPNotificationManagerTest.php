@@ -3,8 +3,8 @@
 /**
  * @file tests/classes/notification/PKPNotificationManagerTest.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class PKPNotificationManagerTest
@@ -212,7 +212,7 @@ class PKPNotificationManagerTest extends PKPTestCase {
 		$notificationMgrStub = $this->getMgrStubForCreateNotificationTests(array(), $emailedNotifications, array('getMailTemplate'));
 
 		// Stub a PKPRequest object.
-		$requestStub = $this->getMock('PKPRequest', array('getSite'));
+		$requestStub = $this->getMock('PKPRequest', array('getSite', 'getContext'));
 
 		// Some site, user and notification data are required for composing the email.
 		// Retrieve/define them so we can check later.
@@ -223,6 +223,7 @@ class PKPNotificationManagerTest extends PKPTestCase {
 		$userLastName = 'UserLastName';
 		$userEmail = 'user@email.com';
 		$notificationContents = $notificationMgrStub->getNotificationContents($requestStub, $expectedNotification);
+		$contextTitle = 'Context title';
 
 		// Build a test user object.
 		import('lib.pkp.classes.user.PKPUser');
@@ -248,7 +249,7 @@ class PKPNotificationManagerTest extends PKPTestCase {
 		                 ->with($this->equalTo($userEmail), $this->equalTo($userFullName));
 		$mailTemplateMock->expects($this->any())
 		                 ->method('assignParams')
-		                 ->with($this->logicalAnd($this->contains($notificationContents), $this->contains($siteTitle)));
+		                 ->with($this->logicalAnd($this->contains($notificationContents), $this->contains($contextTitle)));
 		$mailTemplateMock->expects($this->once())
 		                 ->method('send');
 
@@ -274,6 +275,18 @@ class PKPNotificationManagerTest extends PKPTestCase {
 		$requestStub->expects($this->any())
 		            ->method('getSite')
 		            ->will($this->returnValue($siteStub));
+
+		// Stub context.
+		$contextStub = $this->getMock('Context',
+			array('getLocalizedName'));
+		$contextStub->expects($this->any())
+		            ->method('getLocalizedName')
+		            ->will($this->returnValue($contextTitle));
+
+		// Inject context stub into our request stub.
+		$requestStub->expects($this->any())
+		            ->method('getContext')
+		            ->will($this->returnValue($contextStub));
 
 		// Register a UserDao stub to return the test user.
 		$userDaoStub = $this->getMock('UserDAO', array('getById'));

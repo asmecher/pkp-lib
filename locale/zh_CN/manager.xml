@@ -4,8 +4,8 @@
 <!--
   * locale/zh_CN/manager.xml
   *
-  * Copyright (c) 2014-2015 Simon Fraser University Library
-  * Copyright (c) 2000-2015 John Willinsky
+  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2000-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
   *
   * Localization strings for the en_US (English) locale.
@@ -148,7 +148,6 @@
 	<message key="manager.setup.layout.unselected">没有选择的</message>
 	<message key="manager.setup.loggingAndAuditing">日志记录与审计</message>
 	<message key="manager.setup.pageHeaderLogoImageInvalid">无效的页面头部Logo图片格式或者上传失败，有效的格式有 .gif, .jpg, or .png.</message>
-	<message key="manager.setup.pageHeaderTitleImageInvalid">无效的页面头部标题图片格式或者上传失败，有效的格式有 .gif, .jpg, or .png.</message>
 	<message key="manager.setup.selectOne">选择</message>
 	<message key="manager.statistics"><![CDATA[状态 &amp; 报告]]></message>
 	<message key="manager.statistics.statistics.count.value">{$count} ({$percentage}%)</message>
@@ -177,7 +176,6 @@
 	<message key="manager.reviewerSearch.interests">审阅兴趣</message>
 	<message key="manager.setup.citationAssistant">引文标记助理</message>
 	<message key="manager.setup.citationFilterParser">引文提取</message>
-	<message key="manager.reviewerSearch.advancedSearch">高级审稿人检索</message>
 	<message key="manager.setup.citationFilterLookup">引文检查</message>
 	<message key="manager.setup.citationOutput">引文输出</message>
 	<message key="manager.setup.errorDeletingItem">在删除这个项目过程中发生了一个错误</message>
@@ -199,8 +197,6 @@
 	<message key="manager.announcements.datePublish">已出版</message>
 	<message key="manager.emails.addEmail">添加电子邮件模版</message>
 	<message key="manager.emails.details">模板详细</message>
-	<message key="manager.navigation">导航</message>
-	<message key="manager.reviewerSearch.advancedSearch.short">高级搜索</message>
 	<message key="manager.reviewerSearch.searchByName.short">根据名字检索</message>
 	<message key="manager.emails.data">模板信息数据</message>
 	<message key="manager.emails.disable.message">你是要禁用此电子邮件模板。如果有使用此模板的系统进程，他们不会用它了。你要确认此操作？</message>

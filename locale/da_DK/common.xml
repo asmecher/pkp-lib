@@ -4,11 +4,11 @@
 <!--
   * locale/da_DK/common.xml
   *
-  * Copyright (c) 2014-2015 Simon Fraser University Library
-  * Copyright (c) 2000-2015 John Willinsky
+  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2000-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
   *
-  * Localization strings for the da_DK (Danish) locale.
+  * Localization strings for the da_DK (Dansk) locale.
   *
   -->
 
@@ -16,7 +16,6 @@
 	<message key="about.aboutSite">Om webstedet</message>
 	<message key="about.contact">Kontaktperson</message>
 	<message key="about.contact.email">E-mail</message>
-	<message key="about.contact.fax">Fax</message>
 	<message key="about.contact.phone">Telefon</message>
 	<message key="about.contact.principalContact">Primær kontaktperson</message>
 	<message key="about.contact.supportContact">Kontaktperson for support</message>
@@ -331,7 +330,6 @@
 	<message key="common.warning">Advarsel</message>
 	<message key="common.confirm">Bekræft</message>
 	<message key="common.content">Tilfreds</message>
-	<message key="common.considered">Overvejet</message>
 	<message key="common.declined">Afslået</message>
 	<message key="common.finish">Afslut</message>
 	<message key="common.go">Start</message>
@@ -358,8 +356,6 @@
 	<message key="form.emailRequired">En e-mail-adresse er påkrævet</message>
 	<message key="form.dataHasChanged">Dataene i denne formular er ændret. Fortsæt alligevel?</message>
 	<message key="form.invalidImage">Et ugyldigt billede blev uploadet. De accepterede formater er .png, .gif eller .jpg</message>
-	<message key="help.toggleInlineHelpOn">Hjælp slået til</message>
-	<message key="help.toggleInlineHelpOff">Hjælp slået fra</message>
 	<message key="navigation.access"><![CDATA[Brugere &amp; roller]]></message>
 	<message key="navigation.admin">Administration</message>
 	<message key="navigation.browseByAuthor">Efter forfatter</message>

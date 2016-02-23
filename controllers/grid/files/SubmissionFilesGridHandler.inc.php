@@ -3,8 +3,8 @@
 /**
  * @file controllers/grid/files/SubmissionFilesGridHandler.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class SubmissionFilesGridHandler
@@ -41,7 +41,7 @@ class SubmissionFilesGridHandler extends GridHandler {
 	 * @param $capabilities integer A bit map with zero or more
 	 *  FILE_GRID_* capabilities set.
 	 */
-	function SubmissionFilesGridHandler(&$dataProvider, $stageId, $capabilities) {
+	function SubmissionFilesGridHandler($dataProvider, $stageId, $capabilities = 0) {
 		parent::GridHandler($dataProvider);
 
 		if ($stageId) {
@@ -74,7 +74,7 @@ class SubmissionFilesGridHandler extends GridHandler {
 	 * Get the authorized submission.
 	 * @return Submission
 	 */
-	function &getSubmission() {
+	function getSubmission() {
 		// We assume proper authentication by the data provider.
 		$submission = $this->getAuthorizedContextObject(ASSOC_TYPE_SUBMISSION);
 		assert(is_a($submission, 'Submission'));
@@ -144,6 +144,46 @@ class SubmissionFilesGridHandler extends GridHandler {
 		$this->setEmptyRowText('grid.noFiles');
 	}
 
+	/**
+	 * @copyDoc GridHandler::getFilterForm()
+	 */
+	protected function getFilterForm() {
+		return 'controllers/grid/files/filesGridFilter.tpl';
+	}
+
+	/**
+	 * @copyDoc GridHandler::renderFilter()
+	 */
+	function renderFilter($request, $filterData = array()) {
+		return parent::renderFilter(
+			$request,
+			array(
+				'columns' => $this->getFilterColumns(),
+				'gridId' => $this->getId()
+			)
+		);
+	}
+
+	/**
+	 * @copyDoc GridHandler::getFilterSelectionData()
+	 */
+	function getFilterSelectionData($request) {
+		return array(
+			'search' => (string) $request->getUserVar('search'),
+			'column' => (string) $request->getUserVar('column'),
+		);
+	}
+
+	/**
+	 * Get which columns can be used by users to filter data.
+	 * @return Array
+	 */
+	protected function getFilterColumns() {
+		return array(
+			'name' => __('common.name'),
+		);
+	}
+
 
 	//
 	// Overridden methods from GridHandler
@@ -151,7 +191,7 @@ class SubmissionFilesGridHandler extends GridHandler {
 	/**
 	 * @copydoc GridHandler::getRowInstance()
 	 */
-	function getRowInstance() {
+	protected function getRowInstance() {
 		return new SubmissionFilesGridRow($this->getCapabilities(), $this->getStageId());
 	}
 

@@ -4,8 +4,8 @@
 <!--
   * locale/ja_JP/manager.xml
   *
-  * Copyright (c) 2014-2015 Simon Fraser University Library
-  * Copyright (c) 2000-2015 John Willinsky
+  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2000-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
   *
   * Localization strings for the ja_JP (日本語) locale.
@@ -147,7 +147,6 @@
 	<message key="manager.setup.layout.unselected">未選択のコンポーネント</message>
 	<message key="manager.setup.loggingAndAuditing">ログ出力と監査</message>
 	<message key="manager.setup.pageHeaderLogoImageInvalid">ページヘッダのロゴ画像フォーマットが不正です。利用できるフォーマットは、.gif、.jpg、.pngの3つです。</message>
-	<message key="manager.setup.pageHeaderTitleImageInvalid">ページヘッダの誌名画像フォーマットが不正です。利用できるフォーマットは、.gif、.jpg、.pngの3つです。</message>
 	<message key="manager.setup.selectOne">1つ選択してください</message>
 	<message key="manager.statistics">統計と報告書</message>
 	<message key="manager.statistics.statistics.count.value">{$count}（{$percentage}%）</message>
@@ -169,7 +168,6 @@
 	<message key="plugins.categories.themes.description">システムの外観を変更することができます。</message>
 	<message key="plugins.categories.themes">テーマプラグイン</message>
 	<message key="manager.emails.form.emailKeyRequired">ユニークなメールテンプレート識別キーが必要です。</message>
-	<message key="manager.reviewerSearch.advancedSearch">詳細査読者検索</message>
 	<message key="manager.reviewerSearch.searchByName">者読者名で検索</message>
 	<message key="manager.reviewerSearch.doneAmount">完了した査読数</message>
 	<message key="manager.reviewerSearch.avgAmount">1論文あたりの平均査読所要日数</message>

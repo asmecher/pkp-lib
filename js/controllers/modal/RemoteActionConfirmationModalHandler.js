@@ -1,8 +1,8 @@
 /**
  * @file js/controllers/modal/RemoteActionConfirmationModalHandler.js
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class RemoteActionConfirmationModalHandler
@@ -88,9 +88,11 @@
 	 *
 	 * @param {HTMLElement} dialogElement The element the
 	 *  dialog was created on.
+	 * @param {Event} event The click event.
 	 */
 	$.pkp.controllers.modal.RemoteActionConfirmationModalHandler.prototype.
-			modalConfirm = function(dialogElement) {
+			modalConfirm = function(dialogElement, event) {
+		event.preventDefault();
 
 		$.post(this.remoteAction_,
 				this.callbackWrapper(this.remoteResponse), 'json');

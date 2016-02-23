@@ -3,8 +3,8 @@
 /**
  * @file controllers/grid/files/signoff/SignoffFilesGridCellProvider.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class SignoffFilesGridCellProvider
@@ -50,7 +50,6 @@ class SignoffFilesGridCellProvider extends GridCellProvider {
 	 * @copydoc GridCellProvider::getCellActions()
 	 */
 	function getCellActions($request, $row, $column, $position = GRID_ACTION_POSITION_DEFAULT) {
-		$actions = array();
 		$submissionFile = $row->getData();
 		assert(is_a($submissionFile, 'SubmissionFile'));
 
@@ -63,15 +62,13 @@ class SignoffFilesGridCellProvider extends GridCellProvider {
 				$rowData = array('submissionFile' => $submissionFile);
 				$row->setData($rowData);
 				$actions = $fileNameColumn->getCellActions($request, $row);
-
 				// Back the row data as expected by the signoff grid.
 				$row->setData($submissionFile);
-				break;
+				return $actions;
 			case 'approved';
-				$actions[] = $this->_getApprovedCellAction($request, $submissionFile, $this->getCellState($row, $column));
-				break;
+				return array($this->_getApprovedCellAction($request, $submissionFile, $this->getCellState($row, $column)));
 		}
-		return $actions;
+		return parent::getCellActions($request, $row, $column, $position);
 	}
 
 	/**
@@ -123,24 +120,13 @@ class SignoffFilesGridCellProvider extends GridCellProvider {
 		import('lib.pkp.classes.linkAction.LinkAction');
 		import('lib.pkp.classes.linkAction.request.RemoteActionConfirmationModal');
 
+		if ($cellState == 'new') {
+			$approveLabel = __('grid.action.approve');
+		} else {
+			$approveLabel = __('grid.action.disapprove');
+		}
+
 		switch ($this->getStageId()) {
-			case WORKFLOW_STAGE_ID_EDITING:
-				$remoteActionUrl = $router->url(
-					$request, null, 'grid.files.copyedit.CopyeditingFilesGridHandler',
-					'approveCopyedit', null, $actionArgs
-				);
-				if ($cellState == 'new') {
-					$approveText = __('editor.submission.editorial.approveCopyeditDescription');
-				} else {
-					$approveText = __('editor.submission.editorial.disapproveCopyeditDescription');
-				}
-
-				$modal = new RemoteActionConfirmationModal($approveText, __('editor.submission.editorial.approveCopyeditFile'),
-					$remoteActionUrl, 'modal_approve_file');
-
-				return new LinkAction('approveCopyedit-' . $submissionFile->getFileId(),
-					$modal, __('editor.submission.decision.approveProofs'), 'task ' . $cellState);
-
 			case WORKFLOW_STAGE_ID_PRODUCTION:
 				$remoteActionUrl = $router->url(
 					$request, null, 'modals.editorDecision.EditorDecisionHandler',
@@ -153,12 +139,14 @@ class SignoffFilesGridCellProvider extends GridCellProvider {
 					$approveText = __('editor.submission.decision.disapproveProofsDescription');
 				}
 
-				$modal = new RemoteActionConfirmationModal($approveText, __('editor.submission.decision.approveProofs'),
+				$modal = new RemoteActionConfirmationModal($approveText, $approveLabel,
 					$remoteActionUrl, 'modal_approve_file');
 
 				$toolTip = ($cellState == 'completed') ? __('grid.action.pageProofApproved') : null;
 				return new LinkAction('approveProof-' . $submissionFile->getFileId(),
-					$modal, __('editor.submission.decision.approveProofs'), 'task ' . $cellState, $toolTip);
+					$modal, $approveLabel, 'task ' . $cellState);
+			default:
+				assert(false);
 		}
 	}
 }

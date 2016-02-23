@@ -3,8 +3,8 @@
 /**
  * @file controllers/grid/files/final/ManageFinalDraftFilesGridHandler.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class ManageFinalDraftFilesGridHandler
@@ -64,8 +64,10 @@ class ManageFinalDraftFilesGridHandler extends SelectableSubmissionFileListCateg
 		$manageFinalDraftFilesForm->readInputData();
 
 		if ($manageFinalDraftFilesForm->validate()) {
-			$dataProvider = $this->getDataProvider();
-			$manageFinalDraftFilesForm->execute($args, $request, $dataProvider->loadCategoryData($request, $this->getStageId()));
+			$manageFinalDraftFilesForm->execute(
+				$args, $request,
+				$this->getGridCategoryDataElements($request, $this->getStageId())
+			);
 
 			// Let the calling grid reload itself
 			return DAO::getDataChangedEvent();

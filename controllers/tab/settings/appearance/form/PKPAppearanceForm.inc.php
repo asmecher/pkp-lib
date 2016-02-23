@@ -3,8 +3,8 @@
 /**
  * @file controllers/tab/settings/appearance/form/PKPAppearanceForm.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class PKPAppearanceForm
@@ -28,8 +28,6 @@ class PKPAppearanceForm extends ContextSettingsForm {
 	function PKPAppearanceForm($wizardMode = false, $additionalSettings = array()) {
 
 		$settings = array_merge($additionalSettings, array(
-			'pageHeaderTitleType' => 'int',
-			'pageHeaderTitle' => 'string',
 			'additionalHomeContent' => 'string',
 			'pageHeader' => 'string',
 			'pageFooter' => 'string',
@@ -55,7 +53,6 @@ class PKPAppearanceForm extends ContextSettingsForm {
 	function getImagesSettingsName() {
 		return array(
 			'homepageImage' => 'common.homepageImage.altText',
-			'pageHeaderTitleImage' => 'common.pageHeader.altText',
 			'pageHeaderLogoImage' => 'common.pageHeaderLogo.altText',
 		);
 	}
@@ -68,8 +65,6 @@ class PKPAppearanceForm extends ContextSettingsForm {
 	 */
 	function getLocaleFieldNames() {
 		return array(
-			'pageHeaderTitleType',
-			'pageHeaderTitle',
 			'additionalHomeContent',
 			'pageHeader',
 			'pageFooter',
@@ -248,9 +243,7 @@ class PKPAppearanceForm extends ContextSettingsForm {
 				$plugin->setSeq((int) $newRowId['sequence']);
 				break;
 			case 'rightContext':
-				$plugin->setEnabled(true);
-				$plugin->setBlockContext(BLOCK_CONTEXT_RIGHT_SIDEBAR);
-				$plugin->setSeq((int) $newRowId['sequence']);
+				// Deprecated
 				break;
 			default:
 				assert(false);

@@ -3,8 +3,8 @@
 /**
  * @file classes/task/FileLoader.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class FileLoader
@@ -52,6 +52,9 @@ abstract class FileLoader extends ScheduledTask {
 	/** @var array List of staged back files after processing. */
 	private $_stagedBackFiles = array();
 
+	/** @var boolean Whether to compress the archived files or not. */
+	private $_compressArchives = false;
+
 	/**
 	 * Constructor.
 	 * @param $args array script arguments
@@ -93,7 +96,7 @@ abstract class FileLoader extends ScheduledTask {
 
 
 	//
-	// Getters
+	// Getters and setters.
 	//
 	/**
 	 * Return the staging path.
@@ -127,6 +130,22 @@ abstract class FileLoader extends ScheduledTask {
 		return $this->_archivePath;
 	}
 
+	/**
+	 * Return whether the archives must be compressed or not.
+	 * @return boolean
+	 */
+	function getCompressArchives() {
+		return $this->_compressArchives;
+	}
+
+	/**
+	 * Set whether the archives must be compressed or not.
+	 * @param $compressArchives boolean
+	 */
+	function setCompressArchives($compressArchives) {
+		$this->_compressArchives = $compressArchives;
+	}
+
 
 	//
 	// Public methods
@@ -138,7 +157,12 @@ abstract class FileLoader extends ScheduledTask {
 		if (!$this->checkFolderStructure()) return false;
 
 		$foundErrors = false;
-		while($filePath = $this->_claimNextFile()) {
+		while(!is_null($filePath = $this->_claimNextFile())) {
+			if ($filePath === false) {
+				// Problem claiming the file.
+				$foundErrors = true;
+				break;
+			}
 			try {
 				$result = $this->processFile($filePath);
 			} catch(Exception $e) {
@@ -231,6 +255,29 @@ abstract class FileLoader extends ScheduledTask {
 	 */
 	abstract protected function processFile($filePath);
 
+	/**
+	 * Move file between filesystem directories.
+	 * @param $sourceDir string
+	 * @param $destDir string
+	 * @param $filename string
+	 * @return string The destination path of the moved file.
+	 */
+	protected function moveFile($sourceDir, $destDir, $filename) {
+		$currentFilePath = $sourceDir . DIRECTORY_SEPARATOR . $filename;
+		$destinationPath = $destDir . DIRECTORY_SEPARATOR . $filename;
+
+		if (!rename($currentFilePath, $destinationPath)) {
+			$message = __('admin.fileLoader.moveFileFailed', array('filename' => $filename,
+				'currentFilePath' => $currentFilePath, 'destinationPath' => $destinationPath));
+			$this->addExecutionLogEntry($message, SCHEDULED_TASK_MESSAGE_TYPE_ERROR);
+
+			// Script shoudl always stop if it can't manipulate files inside
+			// its own directory system.
+			fatalError($message);
+		}
+
+		return $destinationPath;
+	}
 
 	//
 	// Private helper methods.
@@ -248,15 +295,27 @@ abstract class FileLoader extends ScheduledTask {
 			if ($filename == '..' || $filename == '.' ||
 				in_array($filename, $this->_stagedBackFiles)) continue;
 
-			$processingFilePath = $this->_moveFile($this->_stagePath, $this->_processingPath, $filename);
+			$processingFilePath = $this->moveFile($this->_stagePath, $this->_processingPath, $filename);
 			break;
+		}
+
+		if (pathinfo($processingFilePath, PATHINFO_EXTENSION) == 'gz') {
+			$fileMgr = new FileManager();
+			$errorMsg = null;
+			if ($processingFilePath = $fileMgr->decompressFile($processingFilePath, $errorMsg)) {
+				$filename = pathinfo($processingFilePath, PATHINFO_BASENAME);
+			} else {
+				$this->moveFile($this->_processingPath, $this->_stagePath, $filename);
+				$this->addExecutionLogEntry($errorMsg, SCHEDULED_TASK_MESSAGE_TYPE_ERROR);
+				return false;
+			}
 		}
 
 		if ($processingFilePath) {
 			$this->_claimedFilename = $filename;
 			return $processingFilePath;
 		} else {
-			return false;
+			return null;
 		}
 	}
 
@@ -264,45 +323,31 @@ abstract class FileLoader extends ScheduledTask {
 	 * Reject the current claimed file.
 	 */
 	private function _rejectFile() {
-		$this->_moveFile($this->_processingPath, $this->_rejectPath, $this->_claimedFilename);
+		$this->moveFile($this->_processingPath, $this->_rejectPath, $this->_claimedFilename);
 	}
 
 	/**
 	 * Archive the current claimed file.
 	 */
 	private function _archiveFile() {
-		$this->_moveFile($this->_processingPath, $this->_archivePath, $this->_claimedFilename);
+		$this->moveFile($this->_processingPath, $this->_archivePath, $this->_claimedFilename);
+		$filePath = $this->_archivePath . DIRECTORY_SEPARATOR . $this->_claimedFilename;
+		$returner = true;
+		if ($this->getCompressArchives()) {
+			$fileMgr = new FileManager();
+			$errorMsg = null;
+			if (!$returner = $fileMgr->compressFile($filePath, $errorMsg)) {
+				$this->addExecutionLogEntry($errorMsg, SCHEDULED_TASK_MESSAGE_TYPE_ERROR);
+			}
+		}
+		return $returner;
 	}
 
 	/**
 	 * Stage the current claimed file.
 	 */
 	private function _stageFile() {
-		$this->_moveFile($this->_processingPath, $this->_stagePath, $this->_claimedFilename);
-	}
-
-	/**
-	 * Move file between filesystem directories.
-	 * @param $sourceDir string
-	 * @param $destDir string
-	 * @param $filename string
-	 * @return string The destination path of the moved file.
-	 */
-	private function _moveFile($sourceDir, $destDir, $filename) {
-		$currentFilePath = $sourceDir . DIRECTORY_SEPARATOR . $filename;
-		$destinationPath = $destDir . DIRECTORY_SEPARATOR . $filename;
-
-		if (!rename($currentFilePath, $destinationPath)) {
-			$message = __('admin.fileLoader.moveFileFailed', array('filename' => $filename,
-				'currentFilePath' => $currentFilePath, 'destinationPath' => $destinationPath));
-			$this->addExecutionLogEntry($message, SCHEDULED_TASK_MESSAGE_TYPE_ERROR);
-
-			// Script shoudl always stop if it can't manipulate files inside
-			// its own directory system.
-			fatalError($message);
-		}
-
-		return $destinationPath;
+		$this->moveFile($this->_processingPath, $this->_stagePath, $this->_claimedFilename);
 	}
 
 	/**

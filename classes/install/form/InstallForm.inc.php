@@ -3,8 +3,8 @@
 /**
  * @file classes/install/form/InstallForm.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class InstallForm
@@ -66,13 +66,6 @@ class InstallForm extends MaintenanceForm {
 			'utf8' => 'Unicode (UTF-8)'
 		);
 
-		$this->supportedEncryptionAlgorithms = array (
-			'md5' => 'MD5'
-		);
-		if (function_exists('sha1')) {
-			$this->supportedEncryptionAlgorithms['sha1'] = 'SHA1';
-		}
-
 		$this->supportedDatabaseDrivers = array (
 			// <adodb-driver> => array(<php-module>, <name>)
 			'mysql' => array('mysql', 'MySQL'),
@@ -92,7 +85,6 @@ class InstallForm extends MaintenanceForm {
 		$this->addCheck(new FormValidatorCustom($this, 'locale', 'required', 'installer.form.localeRequired', array('AppLocale', 'isLocaleValid')));
 		$this->addCheck(new FormValidatorInSet($this, 'clientCharset', 'required', 'installer.form.clientCharsetRequired', array_keys($this->supportedClientCharsets)));
 		$this->addCheck(new FormValidator($this, 'filesDir', 'required', 'installer.form.filesDirRequired'));
-		$this->addCheck(new FormValidatorInSet($this, 'encryption', 'required', 'installer.form.encryptionRequired', array_keys($this->supportedEncryptionAlgorithms)));
 		$this->addCheck(new FormValidator($this, 'adminUsername', 'required', 'installer.form.usernameRequired'));
 		$this->addCheck(new FormValidatorAlphaNum($this, 'adminUsername', 'required', 'installer.form.usernameAlphaNumeric'));
 		$this->addCheck(new FormValidator($this, 'adminPassword', 'required', 'installer.form.passwordRequired'));
@@ -112,13 +104,13 @@ class InstallForm extends MaintenanceForm {
 		$templateMgr->assign('clientCharsetOptions', $this->supportedClientCharsets);
 		$templateMgr->assign('connectionCharsetOptions', $this->supportedConnectionCharsets);
 		$templateMgr->assign('databaseCharsetOptions', $this->supportedDatabaseCharsets);
-		$templateMgr->assign('encryptionOptions', $this->supportedEncryptionAlgorithms);
 		$templateMgr->assign('allowFileUploads', get_cfg_var('file_uploads') ? __('common.yes') : __('common.no'));
 		$templateMgr->assign('maxFileUploadSize', get_cfg_var('upload_max_filesize'));
 		$templateMgr->assign('databaseDriverOptions', $this->checkDBDrivers());
 		$templateMgr->assign('supportsMBString', String::hasMBString() ? __('common.yes') : __('common.no'));
 		$templateMgr->assign('phpIsSupportedVersion', version_compare(PHP_REQUIRED_VERSION, PHP_VERSION) != 1);
-		$templateMgr->assign('xslEnabled', Core::checkGeneralPHPModule('xsl'));
+		import('lib.pkp.classes.xslt.XSLTransformer');
+		$templateMgr->assign('xslEnabled', XSLTransformer::checkSupport());
 		$templateMgr->assign('xslRequired', REQUIRES_XSL);
 		$templateMgr->assign('phpRequiredVersion', PHP_REQUIRED_VERSION);
 		$templateMgr->assign('phpVersion', PHP_VERSION);
@@ -145,7 +137,6 @@ class InstallForm extends MaintenanceForm {
 			'clientCharset' => 'utf-8',
 			'connectionCharset' => '',
 			'databaseCharset' => '',
-			'encryption' => function_exists('sha1')?'sha1':'md5',
 			'filesDir' =>  $docRoot . 'files',
 			'databaseDriver' => 'mysql',
 			'databaseHost' => 'localhost',
@@ -154,6 +145,7 @@ class InstallForm extends MaintenanceForm {
 			'databaseName' => Application::getName(),
 			'createDatabase' => 1,
 			'oaiRepositoryId' => Application::getName() . '.' . $this->_request->getServerHost(),
+			'enableBeacon' => true,
 		);
 	}
 
@@ -168,7 +160,6 @@ class InstallForm extends MaintenanceForm {
 			'connectionCharset',
 			'databaseCharset',
 			'filesDir',
-			'encryption',
 			'adminUsername',
 			'adminPassword',
 			'adminPassword2',
@@ -179,7 +170,8 @@ class InstallForm extends MaintenanceForm {
 			'databasePassword',
 			'databaseName',
 			'createDatabase',
-			'oaiRepositoryId'
+			'oaiRepositoryId',
+			'enableBeacon',
 		));
 
 		if ($this->getData('additionalLocales') == null || !is_array($this->getData('additionalLocales'))) {

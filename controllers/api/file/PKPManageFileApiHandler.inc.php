@@ -3,8 +3,8 @@
 /**
  * @file controllers/api/file/PKPManageFileApiHandler.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class PKPManageFileApiHandler
@@ -34,7 +34,7 @@ abstract class PKPManageFileApiHandler extends Handler {
 	// Implement methods from PKPHandler
 	//
 	function authorize($request, &$args, $roleAssignments) {
-		import('classes.security.authorization.SubmissionFileAccessPolicy');
+		import('lib.pkp.classes.security.authorization.SubmissionFileAccessPolicy');
 		$this->addPolicy(new SubmissionFileAccessPolicy($request, $args, $roleAssignments, SUBMISSION_FILE_ACCESS_MODIFY));
 
 		return parent::authorize($request, $args, $roleAssignments);
@@ -73,15 +73,6 @@ abstract class PKPManageFileApiHandler extends Handler {
 
 		foreach ($signoffs as $signoff) {
 			$signoffDao->deleteObject($signoff);
-
-			// Delete for all users.
-			$notificationMgr->updateNotification(
-				$request,
-				array(NOTIFICATION_TYPE_AUDITOR_REQUEST, NOTIFICATION_TYPE_COPYEDIT_ASSIGNMENT),
-				null,
-				ASSOC_TYPE_SIGNOFF,
-				$signoff->getId()
-			);
 
 			$notificationMgr->updateNotification(
 				$request,
@@ -131,7 +122,7 @@ abstract class PKPManageFileApiHandler extends Handler {
 				);
 			}
 
-			$this->indexSubmissionFiles($submission, $submissionFile);
+			$this->removeFileIndex($submission, $submissionFile);
 			$fileManager = $this->getFileManager($submission->getContextId(), $submission->getId());
 			$fileManager->deleteFile($submissionFile->getFileId(), $submissionFile->getRevision());
 
@@ -231,20 +222,19 @@ abstract class PKPManageFileApiHandler extends Handler {
 
 			return DAO::getDataChangedEvent();
 		} else {
-			return new JSONMessage(false, $metadataForm->fetch($request));
+			return new JSONMessage(true, $metadataForm->fetch($request));
 		}
 	}
 
 	/**
-	 * Indexes the files associated with a submission.
-	 * Must be implemented by sub classes.
+	 * Remove the submission file index.
 	 * @param $submission Submission
 	 * @param $submissionFile SubmissionFile
 	 */
-	abstract function indexSubmissionFiles($submission, $submissionFile);
+	abstract function removeFileIndex($submission, $submissionFile);
 
 	/**
-	 * indexes the files associated with a submission.
+	 * Get the submission file manager.
 	 * @param $contextId int the context id.
 	 * @param $submissionId int the submission id.
 	 * @return SubmissionFileManager

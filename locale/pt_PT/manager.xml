@@ -4,11 +4,11 @@
 <!--
   * locale/pt_PT/manager.xml
   *
-  * Copyright (c) 2014-2015 Simon Fraser University Library
-  * Copyright (c) 2000-2015 John Willinsky
+  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2000-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
   *
-  * Localization strings for the pt_PT (Português) locale.
+  * Localization strings for the pt_PT (Português (Portugal)) locale.
   *
   -->
 
@@ -147,7 +147,6 @@
 	<message key="manager.setup.layout.unselected">Não marcados</message>
 	<message key="manager.setup.loggingAndAuditing">Controle e Auditoria</message>
 	<message key="manager.setup.pageHeaderLogoImageInvalid">Formato de imagem inválido. Formatos aceitáveis são .gif, .jpg ou .png.</message>
-	<message key="manager.setup.pageHeaderTitleImageInvalid">Formato de imagem inválido. Formatos aceitáveis são .gif, .jpg ou .png.</message>
 	<message key="manager.setup.selectOne">Escolha uma opção</message>
 	<message key="manager.statistics"><![CDATA[Estatísticas &amp; Relatórios]]></message>
 	<message key="manager.statistics.reports">Gerador de Relatórios</message>
@@ -172,7 +171,6 @@
 	<message key="plugins.categories.themes">Plugins de Visual</message>
 	<message key="manager.emails.form.emailKeyRequired">É requerida uma única chave para o email.</message>
 	<message key="manager.setup.errorDeletingItem">Ocorreu um erro ao eliminar este item.</message>
-	<message key="manager.reviewerSearch.advancedSearch">Busca avançada de avaliadores</message>
 	<message key="manager.reviewerSearch.searchByName">Buscar por nome do avaliador</message>
 	<message key="manager.reviewerSearch.doneAmount">Total de avaliações concluídas</message>
 	<message key="manager.reviewerSearch.avgAmount">Média de dias para avaliar</message>

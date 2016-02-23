@@ -4,11 +4,11 @@
 <!--
   * locale/tr_TR/manager.xml
   *
-  * Copyright (c) 2014-2015 Simon Fraser University Library
-  * Copyright (c) 2000-2015 John Willinsky
+  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2000-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
   *
-  * Localization strings for the tr_TR (Türkiye Türkçesi) locale.
+  * Localization strings for the tr_TR (Türkçe) locale.
   *
   -->
 
@@ -140,7 +140,6 @@
 	<message key="manager.plugins.sitePlugin">Bu tüm siteyi ilgilendiren bir eklentidir. Yalnız site yöneticisi eklentiyi kullanabilir.</message>
 	<message key="manager.plugins">Sistem Eklentileri</message>
 	<message key="manager.readingTools">Okuma Araçları</message>
-	<message key="manager.reviewerSearch.advancedSearch">Gelişmiş Hakem Arama</message>
 	<message key="manager.reviewerSearch.searchByName">İsime Göre Hakem Arama</message>
 	<message key="manager.reviewerSearch.doneAmount">Tamamlanmış Değerlendirmeler</message>
 	<message key="manager.reviewerSearch.avgAmount">Değerlendirme gün ortalaması</message>
@@ -228,14 +227,11 @@
 	<message key="manager.emails.resetAll.message">If you reset all templates, all modifications to the email templates will be lost.  Do you want to confirm this operation?</message>
 	<message key="manager.emails.reset.message">If you reset this template, all message data will be reset to its default value, losing all modifications.  Do you want to confirm this operation?</message>
 	<message key="manager.masthead.title">Yönetici Listesi</message>
-	<message key="manager.navigation">Yön Bulma</message>
-	<message key="manager.reviewerSearch.advancedSearch.short">Gelişmiş Arama</message>
 	<message key="manager.reviewerSearch.searchByName.short">Ada Göre Ara</message>
 	<message key="manager.reviewerSearch.form.instructions">Use the form below to set the maximum values for the terms you wish to search for.  The form is pre-populated with the calculated averages of those fields.</message>
 	<message key="manager.reviewerSearch.form.interests.instructions">Enter reviewer interests, separated by commas...</message>
 	<message key="manager.setup.layout.blockManagement">Yan Taraf Yönetimi</message>
 	<message key="manager.setup.pageHeaderLogoImageInvalid">Hatalı sayfa logo görseli veya hatalı yükleme. Kabul edilebilir biçimler: .gif, .jpg veya .png.</message>
-	<message key="manager.setup.pageHeaderTitleImageInvalid">Hatalı sayfa başlığı görseli biçimi veya hatalı yükleme. Kabul edilebilir biçimler: .gif, .jpg veya .png.</message>
 	<message key="plugins.categories.metadata">Üst Veri Eklentileri</message>
 	<message key="plugins.categories.metadata.description">Metadata Plugins implement additional meta-data standards.</message>
 	<message key="plugins.categories.citationLookup">Atıf Veri Tabanı Bağlantı Eklentileri</message>

@@ -3,8 +3,8 @@
 /**
  * @file controllers/grid/users/reviewer/form/CreateReviewerForm.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class CreateReviewerForm
@@ -40,9 +40,9 @@ class CreateReviewerForm extends ReviewerForm {
 	 * @see Form::fetch()
 	 */
 	function fetch($request) {
-		$searchByNameAction = $this->getSearchByNameAction($request);
+		$advancedSearchAction = $this->getAdvancedSearchAction($request);
 
-		$this->setReviewerFormAction($searchByNameAction);
+		$this->setReviewerFormAction($advancedSearchAction);
 		return parent::fetch($request);
 	}
 
@@ -97,6 +97,7 @@ class CreateReviewerForm extends ReviewerForm {
 		} else {
 			$user->setPassword(Validation::encryptCredentials($this->getData('username'), $password));
 		}
+		$user->setMustChangePassword(true); // Emailed P/W not safe
 
 		$user->setDateRegistered(Core::getCurrentDate());
 		$reviewerId = $userDao->insertObject($user);

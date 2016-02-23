@@ -3,8 +3,8 @@
 /**
  * @file classes/announcement/AnnouncementDAO.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class AnnouncementDAO
@@ -280,7 +280,8 @@ class AnnouncementDAO extends DAO {
 			FROM announcements
 			WHERE assoc_type = ?
 				AND assoc_id = ?
-				AND (date_expire IS NULL OR date_expire > CURRENT_DATE)
+				AND (date_expire IS NULL OR DATE(date_expire) > CURRENT_DATE)
+				AND (DATE(date_posted) <= CURRENT_DATE)
 			ORDER BY announcement_id DESC',
 			array((int) $assocType, (int) $assocId),
 			$rangeInfo
@@ -303,7 +304,8 @@ class AnnouncementDAO extends DAO {
 			FROM announcements
 			WHERE assoc_type = ?
 				AND assoc_id = ?
-				AND (date_expire IS NULL OR date_expire > CURRENT_DATE)
+				AND (date_expire IS NULL OR DATE(date_expire) > CURRENT_DATE)
+				AND (DATE(date_posted) <= CURRENT_DATE)
 			ORDER BY announcement_id DESC LIMIT ?',
 			array((int) $assocType, (int) $assocId, (int) $numAnnouncements),
 			$rangeInfo

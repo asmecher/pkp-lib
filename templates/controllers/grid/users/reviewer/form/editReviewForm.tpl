@@ -1,8 +1,8 @@
 {**
  * templates/controllers/grid/user/reviewer/form/editReviewForm.tpl
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * Limit the review files available to a reviewer who has already been
@@ -29,6 +29,7 @@
 
 	{include file="controllers/grid/users/reviewer/form/noFilesWarning.tpl"}
 
+	<h3>{translate key="editor.submissionReview.restrictFiles"}</h3>
 	{url|assign:limitReviewFilesGridUrl router=$smarty.const.ROUTE_COMPONENT component="grid.files.review.LimitReviewFilesGridHandler" op="fetchGrid" submissionId=$submissionId stageId=$stageId reviewRoundId=$reviewRoundId reviewAssignmentId=$reviewAssignmentId escape=false}
 	{load_url_in_div id="limitReviewFilesGrid" url=$limitReviewFilesGridUrl}
 

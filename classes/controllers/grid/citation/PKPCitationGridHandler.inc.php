@@ -3,8 +3,8 @@
 /**
  * @file controllers/grid/citation/PKPCitationGridHandler.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class PKPCitationGridHandler
@@ -155,8 +155,7 @@ class PKPCitationGridHandler extends GridHandler {
 				null,
 				false,
 				'controllers/grid/citation/citationGridCell.tpl',
-				$cellProvider,
-				array('multiline' => true)
+				$cellProvider
 			)
 		);
 	}
@@ -168,7 +167,7 @@ class PKPCitationGridHandler extends GridHandler {
 	/**
 	 * @see GridHandler::getRowInstance()
 	 */
-	function getRowInstance() {
+	protected function getRowInstance() {
 		// Return a citation row
 		return new PKPCitationGridRow();
 	}

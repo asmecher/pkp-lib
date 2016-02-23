@@ -4,11 +4,11 @@
 <!--
   * locale/el_GR/user.xml
   *
-  * Copyright (c) 2014-2015 Simon Fraser University Library
-  * Copyright (c) 2000-2015 John Willinsky
+  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2000-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
   *
-  * Localization strings for the el_GR (Greek) locale.
+  * Localization strings for the el_GR (ελληνικά) locale.
   *
   -->
 
@@ -23,7 +23,6 @@
 	<message key="user.dateRegistered">Ημερομηνία εγγραφής</message>
 	<message key="user.editMyProfile">Επεξεργασία του Προφίλ μου</message>
 	<message key="user.email">Email</message>
-	<message key="user.fax">Φαξ</message>
 	<message key="user.feminine">Θ</message>
 	<message key="user.firstName">Όνομα</message>
 	<message key="user.gender">Φύλο</message>
@@ -111,7 +110,6 @@
 	<message key="user.authorization.restrictedSiteAccess">Η πρόσβασή σας δεν ήταν δυνατή. Η πρόσβαση στον ιστότοπο αυτό είναι προς το παρόν περιορισμένη.</message>
 	<message key="user.authorization.roleBasedAccessDenied">Ο υφιστάμενος ρόλος δεν έχει δικαίωμα πρόσβασης σε αυτή τη λειτουργία.</message>
 	<message key="user.authorization.userGroupRequired">Πρέπει να δημιουργήσετε μια έγκυρη ομάδα χρηστών για να προσπελάσετε αυτή τη λειτουργία.</message>
-	<message key="user.confirmEmail">Επιβεβαίωση email</message>
 	<message key="user.gossip">Ιδιωτικές σημειώσεις</message>
 	<message key="user.repeatPassword">Επανάληψη Κωδικού</message>
 	<message key="user.profile.form.affiliationRequired">Θα πρέπει να δηλώσετε την ισχέση σας με έναν φορέα.</message>

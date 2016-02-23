@@ -3,8 +3,8 @@
 /**
  * @file controllers/tab/settings/reviewStage/form/PKPReviewStageForm.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class ReviewStageForm
@@ -31,7 +31,7 @@ class PKPReviewStageForm extends ContextSettingsForm {
 					'numWeeksPerReview' => 'int',
 					'numDaysBeforeInviteReminder' => 'int',
 					'numDaysBeforeSubmitReminder' => 'int',
-					'rateReviewerOnQuality' => 'bool',
+					// 'rateReviewerOnQuality' => 'bool', /* http://github.com/pkp/pkp-lib/issues/372 */
 					'showEnsuringLink' => 'bool',
 					'reviewerCompetingInterestsRequired' => 'bool',
 					'defaultReviewMode' => 'int',

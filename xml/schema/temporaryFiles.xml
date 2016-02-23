@@ -4,8 +4,8 @@
 <!--
   * xml/schema/temporaryFiles.xml
   *
-  * Copyright (c) 2014-2015 Simon Fraser University Library
-  * Copyright (c) 2000-2015 John Willinsky
+  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2000-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
   *
   * Temporary file management support for the PKP database schema in XML.
@@ -37,7 +37,7 @@
 		<field name="date_uploaded" type="T">
 			<NOTNULL/>
 		</field>
-		<descr>Temporary file storage; used to keep attachments across multiple email composition requests</descr>
+		<descr>Temporary file storage</descr>
 		<index name="temporary_files_user_id">
 			<col>user_id</col>
 		</index>

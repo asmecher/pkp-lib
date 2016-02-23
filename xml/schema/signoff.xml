@@ -4,8 +4,8 @@
 <!--
   * xml/schema/signoff.xml
   *
-  * Copyright (c) 2014-2015 Simon Fraser University Library
-  * Copyright (c) 2000-2015 John Willinsky
+  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2000-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
   *
   * Signoff schema in XML.
@@ -36,13 +36,21 @@
 		<field name="user_id" type="I8">
 			<NOTNULL/>
 		</field>
-		<field name="file_id" type="I8" />
-		<field name="file_revision" type="I8" />
+		<field name="file_id" type="I8">
+			<!-- NOTE: This is no longer used since OJS 3.0a / OMP 1.2 -->
+		</field>
+		<field name="file_revision" type="I8">
+			<!-- NOTE: This is no longer used since OJS 3.0a / OMP 1.2 -->
+		</field>
 		<field name="date_notified" type="T"/>
 		<field name="date_underway" type="T"/>
 		<field name="date_completed" type="T"/>
-		<field name="date_acknowledged" type="T"/>
-		<field name="user_group_id" type="I8" />
+		<field name="date_acknowledged" type="T">
+			<!-- NOTE: This is no longer used since OJS 3.0a / OMP 1.2 -->
+		</field>
+		<field name="user_group_id" type="I8">
+			<!-- NOTE: This is no longer used since OJS 3.0a / OMP 1.2 -->
+		</field>
 		<descr>Signoffs</descr>
 		<index name="signoff_symbolic">
 			<col>assoc_type</col>

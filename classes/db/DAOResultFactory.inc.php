@@ -3,8 +3,8 @@
 /**
  * @file classes/db/DAOResultFactory.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class DAOResultFactory
@@ -101,10 +101,10 @@ class DAOResultFactory extends ItemIterator {
 			$dao =& $this->dao;
 			$row = $this->records->getRowAssoc(false);
 			$result = $dao->$functionName($row);
-			if (!$this->records->MoveNext()) $this->_cleanup();
+			if (!$this->records->MoveNext()) $this->close();
 			return $result;
 		} else {
-			$this->_cleanup();
+			$this->close();
 			$nullVar = null;
 			return $nullVar;
 		}
@@ -181,7 +181,7 @@ class DAOResultFactory extends ItemIterator {
 	function eof() {
 		if ($this->records == null) return true;
 		if ($this->records->EOF) {
-			$this->_cleanup();
+			$this->close();
 			return true;
 		}
 		return false;
@@ -196,13 +196,15 @@ class DAOResultFactory extends ItemIterator {
 	}
 
 	/**
-	 * PRIVATE function used internally to clean up the record set.
+	 * Clean up the record set.
 	 * This is called aggressively because it can free resources.
 	 */
-	function _cleanup() {
-		$this->records->close();
-		unset($this->records);
-		$this->records = null;
+	function close() {
+		if ($this->records) {
+			$this->records->close();
+			unset($this->records);
+			$this->records = null;
+		}
 	}
 
 	/**

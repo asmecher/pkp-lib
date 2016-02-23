@@ -3,8 +3,8 @@
 /**
  * @file plugins/generic/usageStats/GeoLocationTool.php
  *
- * Copyright (c) 2013-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2013-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class GeoLocationTool
@@ -30,7 +30,7 @@ class GeoLocationTool {
 	 * Use the method isPresent() to check if the database file is present before use.
 	 */
 	function GeoLocationTool() {
-		$geoLocationDbFile = dirname(__FILE__) . DIRECTORY_SEPARATOR . "GeoLiteCity.dat";
+		$geoLocationDbFile = str_replace(PKP_LIB_PATH . DIRECTORY_SEPARATOR, '', dirname(__FILE__)) . DIRECTORY_SEPARATOR . "GeoLiteCity.dat";
 		if (file_exists($geoLocationDbFile)) {
 			$isDbFilePresent = true;
 			$this->_geoLocationTool = geoip_open($geoLocationDbFile, GEOIP_STANDARD);

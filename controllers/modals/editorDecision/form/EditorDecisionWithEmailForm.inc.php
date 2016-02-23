@@ -3,8 +3,8 @@
 /**
  * @file controllers/modals/editorDecision/form/EditorDecisionWithEmailForm.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class EditorDecisionWithEmailForm
@@ -77,10 +77,11 @@ class EditorDecisionWithEmailForm extends EditorDecisionForm {
 
 		$email = new SubmissionMailTemplate($submission, $emailKeys[$this->getDecision()]);
 
+		$submissionUrl = $dispatcher->url($request, ROUTE_PAGE, null, 'authorDashboard', 'submission', $submission->getId());
 		$paramArray = array(
 			'authorName' => $submission->getAuthorString(),
 			'editorialContactSignature' => $user->getContactSignature(),
-			'submissionUrl' => $dispatcher->url($request, ROUTE_PAGE, null, 'authorDashboard', 'submission', $submission->getId()),
+			'submissionUrl' => "<a href=\"$submissionUrl\">$submissionUrl</a>",
 		);
 		$email->assignParams($paramArray);
 
@@ -147,6 +148,8 @@ class EditorDecisionWithEmailForm extends EditorDecisionForm {
 			$templateMgr = TemplateManager::getManager($request);
 			$templateMgr->assign('saveFormOperation', $this->getSaveFormOperation());
 		}
+
+		$templateMgr->assign('allowedVariables', $this->_getAllowedVariables($request));
 
 		return parent::fetch($request);
 	}
@@ -256,12 +259,26 @@ class EditorDecisionWithEmailForm extends EditorDecisionForm {
 		if (!$this->getData('skipEmail')) {
 			$router = $request->getRouter();
 			$dispatcher = $router->getDispatcher();
-			$paramArray = array(
+			$context = $request->getContext();
+			$email->assignParams(array(
 				'submissionUrl' => $dispatcher->url($request, ROUTE_PAGE, null, 'authorDashboard', 'submission', $submission->getId()),
-			);
-			$email->assignParams($paramArray);
+				'contextName' => $context->getLocalizedName(),
+			));
 			$email->send($request);
 		}
+	}
+
+	/**
+	 * Get a list of allowed email template variables.
+	 * @param $request PKPRequest Request object
+	 * @return array
+	 */
+	function _getAllowedVariables($request) {
+		return array(
+			'submissionUrl' => __('common.url'),
+			'contextName' => $request->getContext()->getLocalizedName(),
+			'editorialContactSignature' => __('user.signature'),
+		);
 	}
 }
 

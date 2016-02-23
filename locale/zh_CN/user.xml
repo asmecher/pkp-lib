@@ -4,8 +4,8 @@
 <!--
   * locale/zh_CN/user.xml
   *
-  * Copyright (c) 2014-2015 Simon Fraser University Library
-  * Copyright (c) 2000-2015 John Willinsky
+  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2000-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
   *
   * Localization strings for the en_US (English) locale.
@@ -23,7 +23,6 @@
 	<message key="user.dateRegistered">注册时间</message>
 	<message key="user.editMyProfile">编辑我的信息</message>
 	<message key="user.email">电子邮件</message>
-	<message key="user.fax">传真</message>
 	<message key="user.feminine">F</message>
 	<message key="user.firstName">名</message>
 	<message key="user.gender">性别</message>
@@ -101,7 +100,6 @@
 	<message key="user.username">用户名</message>
 	<message key="user.workingLanguages">工作语言</message>
 	<message key="user.register.completeForm">填写这个表格以注册到这个期刊.</message>
-	<message key="user.confirmEmail">确认邮件</message>
 	<message key="user.repeatPassword">重复密码</message>
 	<message key="user.profile.form.affiliationRequired">联系地址是必须的</message>
 	<message key="user.register.form.emailsDoNotMatch">电子邮件地址不匹配</message>

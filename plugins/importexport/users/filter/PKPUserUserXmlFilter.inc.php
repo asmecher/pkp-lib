@@ -3,8 +3,8 @@
 /**
  * @file plugins/importexport/users/filter/PKPUserUserXmlFilter.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class PKPUserUserXmlFilter
@@ -126,7 +126,6 @@ class PKPUserUserXmlFilter extends NativeExportFilter {
 		$this->createOptionalNode($doc, $userNode, 'inline_help', $user->getInlineHelp() ? 'true' : 'false');
 		$this->createOptionalNode($doc, $userNode, 'auth_id', $user->getAuthId());
 		$this->createOptionalNode($doc, $userNode, 'auth_string', $user->getAuthStr());
-		$this->createOptionalNode($doc, $userNode, 'fax', $user->getFax());
 		$this->createOptionalNode($doc, $userNode, 'phone', $user->getPhone());
 		$this->createOptionalNode($doc, $userNode, 'mailing_address', $user->getMailingAddress());
 		$this->createOptionalNode($doc, $userNode, 'billing_address', $user->getBillingAddress());

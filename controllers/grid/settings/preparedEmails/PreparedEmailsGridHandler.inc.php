@@ -3,8 +3,8 @@
 /**
  * @file controllers/grid/settings/preparedEmails/PreparedEmailsGridHandler.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class PreparedEmailsGridHandler
@@ -39,8 +39,8 @@ class PreparedEmailsGridHandler extends GridHandler {
 	 * @copydoc PKPHandler::authorize()
 	 */
 	function authorize($request, $args, $roleAssignments) {
-		import('lib.pkp.classes.security.authorization.PkpContextAccessPolicy');
-		$this->addPolicy(new PkpContextAccessPolicy($request, $roleAssignments));
+		import('lib.pkp.classes.security.authorization.ContextAccessPolicy');
+		$this->addPolicy(new ContextAccessPolicy($request, $roleAssignments));
 		return parent::authorize($request, $args, $roleAssignments);
 	}
 
@@ -56,8 +56,6 @@ class PreparedEmailsGridHandler extends GridHandler {
 
 		// Set the grid title.
 		$this->setTitle('grid.preparedEmails.title');
-
-		$this->setInstructions('grid.preparedEmails.description');
 
 		// Grid actions
 		import('lib.pkp.controllers.grid.settings.preparedEmails.linkAction.EditEmailLinkAction');
@@ -102,7 +100,7 @@ class PreparedEmailsGridHandler extends GridHandler {
 	/**
 	 * @see GridHandler::loadData()
 	 */
-	function loadData($request, $filter) {
+	protected function loadData($request, $filter) {
 		// Elements to be displayed in the grid
 		$emailTemplateDao = DAORegistry::getDAO('EmailTemplateDAO'); /* @var $emailTemplateDao EmailTemplateDAO */
 		$context = $request->getContext();
@@ -121,7 +119,7 @@ class PreparedEmailsGridHandler extends GridHandler {
 	 * Get the row handler - override the default row handler
 	 * @return PreparedEmailsGridRow
 	 */
-	function getRowInstance() {
+	protected function getRowInstance() {
 		return new PreparedEmailsGridRow();
 	}
 

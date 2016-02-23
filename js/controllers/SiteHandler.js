@@ -4,8 +4,8 @@
 /**
  * @file js/controllers/SiteHandler.js
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class SiteHandler
@@ -42,17 +42,8 @@
 		this.bind('redirectRequested', this.redirectToUrl);
 		this.bind('notifyUser', this.fetchNotificationHandler_);
 		this.bind('updateHeader', this.updateHeaderHandler_);
-		this.bind('updateSidebar', this.updateSidebarHandler_);
 		this.bind('callWhenClickOutside', this.callWhenClickOutsideHandler_);
 		this.bind('mousedown', this.mouseDownHandler_);
-		this.bind('urlInDivLoaded', this.setMainMaxWidth_);
-
-		// Listen for grid initialized events so the inline help
-		// can be shown or hidden.
-		this.bind('gridInitialized', this.updateHelpDisplayHandler_);
-
-		// Listen for help toggle events.
-		this.bind('toggleInlineHelp', this.toggleInlineHelpHandler_);
 
 		// Bind the pageUnloadHandler_ method to the DOM so it is
 		// called.
@@ -61,8 +52,6 @@
 		// Avoid IE8 caching ajax results. If it does, widgets like
 		// grids will not refresh correctly.
 		$.ajaxSetup({cache: false});
-
-		$('select.applyPlugin', $widgetWrapper).selectBox();
 
 		// Check if we have notifications to show.
 		if (options.hasSystemNotifications) {
@@ -74,14 +63,17 @@
 				this.registerUnsavedFormElement_));
 		this.bind('unregisterChangedForm', this.callbackWrapper(
 				this.unregisterUnsavedFormElement_));
-		this.bind('modalCanceled', this.callbackWrapper(
-				this.unregisterUnsavedFormElement_));
 		this.bind('unregisterAllForms', this.callbackWrapper(
 				this.unregisterAllFormElements_));
 
-		// Add event handler to the modal open event that fixes stacking ui issues
-		this.bind('modalOpen', this.callbackWrapper(
-				this.stackModal_));
+		// React to a modal events
+		this.bind('pkpModalOpen', this.callbackWrapper(this.openModal_));
+		this.bind('pkpModalClose', this.callbackWrapper(this.closeModal_));
+
+		this.bind('pkpObserveScrolling', this.callbackWrapper(
+				this.registerScrollingObserver_));
+		this.bind('pkpRemoveScrollingObserver', this.callbackWrapper(
+				this.unregisterScrollingObserver_));
 
 		this.outsideClickChecks_ = {};
 	};
@@ -92,6 +84,14 @@
 	//
 	// Private properties
 	//
+	/**
+	 * Help context.
+	 * @private
+	 * @type {string?}
+	 */
+	$.pkp.controllers.SiteHandler.prototype.helpContext_ = null;
+
+
 	/**
 	 * Site handler options.
 	 * @private
@@ -142,11 +142,17 @@
 	 */
 	$.pkp.controllers.SiteHandler.prototype.triggerTinyMCESetup =
 			function(tinyMCEObject) {
+		var target = $('#' + tinyMCEObject.id), height;
 
 		// For read-only controls, set up TinyMCE read-only mode.
-		if ($('#' + tinyMCEObject.id).attr('readonly')) {
+		if (target.attr('readonly')) {
 			tinyMCEObject.settings.readonly = true;
 		}
+
+		// Set height based on textarea rows
+		height = target.attr('rows') || 10; // default: 10
+		height *= 20; // 20 pixels per row
+		tinyMCEObject.settings.height = height.toString() + 'px';
 
 		// Add a fake HTML5 placeholder when the editor is intitialized
 		tinyMCEObject.on('init', function(tinyMCEObject) {
@@ -197,7 +203,7 @@
 					'#' + tinyMCEObject.id);
 
 			e.content = e.content.replace(
-					/\{\$([a-zA-Z]+)\}/g, function(match, contents, offset, s) {
+					/\{\$([a-zA-Z]+)\}(?![^<]*>)/g, function(match, contents, offset, s) {
 						if (variablesParsed[contents] !== undefined) {
 							return $.pkp.classes.TinyMCEHelper.prototype.getVariableElement(
 									contents, variablesParsed[contents]).html();
@@ -216,6 +222,32 @@
 			});
 			e.content = $content.html();
 		});
+
+		// In fullscreen mode, also present the toolbar.
+		tinyMCEObject.on('FullscreenStateChanged init', function(e) {
+			var target = e.target, $container = $(target.editorContainer);
+			if (target.plugins.fullscreen) {
+				if (target.plugins.fullscreen.isFullscreen()) {
+					$container.find('.mce-toolbar[role=\'menubar\']').show();
+				} else {
+					$container.find('.mce-toolbar[role=\'menubar\']').hide();
+				}
+			}
+		});
+	};
+
+
+	/**
+	 * Get the current window dimensions.
+	 * @return {Object} The current window dimensions (height and width)
+	 * in pixels.
+	 */
+	$.pkp.controllers.SiteHandler.prototype.getWindowDimensions =
+			function() {
+		var dimensions = {'height': $(window).height(),
+			'width': $(window).width()};
+
+		return dimensions;
 	};
 
 
@@ -297,57 +329,6 @@
 	// Private methods.
 	//
 	/**
-	 * Respond to a user toggling the display of inline help.
-	 * @private
-	 * @param {HTMLElement} sourceElement The element that
-	 *  issued the event.
-	 * @param {Event} event The triggering event.
-	 * @return {boolean} Always returns false.
-	 */
-	$.pkp.controllers.SiteHandler.prototype.toggleInlineHelpHandler_ =
-			function(sourceElement, event) {
-
-		// persist the change on the server.
-		$.ajax({url: this.options_.toggleHelpUrl});
-
-		this.options_.inlineHelpState = this.options_.inlineHelpState ? 0 : 1;
-		this.updateHelpDisplayHandler_();
-
-		// Stop further event processing
-		return false;
-	};
-
-
-	/**
-	 * Callback to listen to grid initialization events. Used to
-	 * toggle the inline help display on them.
-	 * @private
-	 * @param {HTMLElement=} opt_sourceElement The element that issued the
-	 *  "gridInitialized" event.
-	 * @param {Event=} opt_event The "gridInitialized" event.
-	 */
-	$.pkp.controllers.SiteHandler.prototype.updateHelpDisplayHandler_ =
-			function(opt_sourceElement, opt_event) {
-		var $bodyElement, inlineHelpState;
-
-		$bodyElement = this.getHtmlElement();
-		inlineHelpState = this.options_.inlineHelpState;
-		if (inlineHelpState) {
-			// the .css() call removes the CSS applied to the legend intially,
-			// so it is not shown while the page is being loaded.
-			$bodyElement.find('.pkp_grid_description, #legend, .pkp_help').
-					css('visibility', 'visible').show();
-			$bodyElement.find('[id^="toggleHelp"]').html(
-					this.options_.toggleHelpOffText);
-		} else {
-			$bodyElement.find('.pkp_grid_description, #legend, .pkp_help').hide();
-			$bodyElement.find('[id^="toggleHelp"]').html(
-					this.options_.toggleHelpOnText);
-		}
-	};
-
-
-	/**
 	 * Fetch the notification data.
 	 * @private
 	 * @param {HTMLElement} sourceElement The element that issued the
@@ -386,21 +367,7 @@
 	 */
 	$.pkp.controllers.SiteHandler.prototype.updateHeaderHandler_ =
 			function(sourceElement, event) {
-		var handler = $.pkp.classes.Handler.getHandler($('#headerContainer'));
-		handler.reload();
-	};
-
-
-	/**
-	 * Fetch the sidebar (e.g. on sidebar configuration change).
-	 * @param {HTMLElement} sourceElement The element that issued the
-	 *  update sidebar event.
-	 * @param {Event} event The "fetch sidebar" event.
-	 * @private
-	 */
-	$.pkp.controllers.SiteHandler.prototype.updateSidebarHandler_ =
-			function(sourceElement, event) {
-		var handler = $.pkp.classes.Handler.getHandler($('#sidebarContainer'));
+		var handler = $.pkp.classes.Handler.getHandler($('#navigationUserWrapper'));
 		handler.reload();
 	};
 
@@ -612,71 +579,76 @@
 
 
 	/**
-	 * Set the maximum width for the pkp_structure_main div.
-	 * This will prevent content with larger widths (like photos)
-	 * messing up with layout.
+	 * Reacts to a modal being opened. Adds a class to the body representing
+	 * a modal open state.
 	 * @private
-	 * @param {HTMLElement} sourceElement The element that
-	 *  issued the event.
-	 * @param {Event} event The triggering event.
-	 * @param {?string} data additional event data.
+	 * @param {HTMLElement} handledElement The modal that has been added
+	 * @param {HTMLElement} siteHandlerElement The html element
+	 * attached to this handler.
+	 * @param {HTMLElement} sourceElement The element wishes to
+	 * register.
+	 * @param {Event} event The formChanged event.
 	 */
-	$.pkp.controllers.SiteHandler.prototype.setMainMaxWidth_ =
-			function(sourceElement, event, data) {
+	$.pkp.controllers.SiteHandler.prototype.openModal_ =
+			function(handledElement, siteHandlerElement, sourceElement, event) {
+		this.getHtmlElement().addClass('modal_is_visible');
+	};
 
-		var $site = this.getHtmlElement(), structureContentWidth, leftSideBarWidth,
-				rightSideBarWidth, $mainDiv = $('.pkp_structure_main', $site),
-				mainExtraWidth, mainMaxWidth, lastTabOffset, tabsContainerOffset,
-				$lastTab, $allTabs = $mainDiv.find('.ui-tabs').tabs();
 
-		if (data == 'sidebarContainer') {
-			structureContentWidth = $('.pkp_structure_content', $site).width();
+	/**
+	 * Reacts to a modal being closed. Removes a class from the body
+	 * representing a modal closed state, after checking if no other modals are
+	 * open.
+	 * @private
+	 * @param {HTMLElement} handledElement The modal that has been added
+	 * @param {HTMLElement} siteHandlerElement The html element
+	 * attached to this handler.
+	 * @param {HTMLElement} sourceElement The element wishes to
+	 * register.
+	 * @param {Event} event The formChanged event.
+	 */
+	$.pkp.controllers.SiteHandler.prototype.closeModal_ =
+			function(handledElement, siteHandlerElement, sourceElement, event) {
 
-			leftSideBarWidth = $('.pkp_structure_sidebar_left', $site).
-					outerWidth(true);
-			rightSideBarWidth = $('.pkp_structure_sidebar_right', $site).
-					outerWidth(true);
-
-			// Check for padding, margin or border.
-			mainExtraWidth = $mainDiv.outerWidth(true) - $mainDiv.width();
-			mainMaxWidth = structureContentWidth - (
-					leftSideBarWidth + rightSideBarWidth + mainExtraWidth);
-
-			$mainDiv.css('max-width', mainMaxWidth);
-
-			if ($mainDiv.find('.stTabsInnerWrapper').length == 1) {
-				$mainDiv.find('.stTabsMainWrapper').width($mainDiv.outerWidth(true));
-				tabsContainerOffset = $mainDiv.find('.ui-tabs-nav').offset().left +
-						$mainDiv.find('.ui-tabs-nav').outerWidth(true);
-				$lastTab = $mainDiv.find('.ui-tabs-nav').find('li').last();
-				lastTabOffset = $lastTab.offset().left + $lastTab.outerWidth(true);
-				if (lastTabOffset <= tabsContainerOffset) {
-					$mainDiv.find('.stTabsMainWrapper').find('div').first().hide();
-				} else {
-					$mainDiv.find('.stTabsMainWrapper').find('div').first().show();
-				}
-			}
+		var $htmlElement = this.getHtmlElement();
+		if (!$htmlElement.find('.pkp_modal.is_visible').length) {
+			$htmlElement.removeClass('modal_is_visible');
 		}
 	};
 
 
 	/**
-	 * Fixes modal stacking overlay issue where stacked modal overlays don't
-	 * get layered directly below the modal
+	 * Register a function to observe the body scrolling event.
 	 * @private
+	 * @param {Object} siteHandler The site handler object.
 	 * @param {HTMLElement} siteHandlerElement The html element
 	 * attached to this handler.
-	 * @param {HTMLElement} sourceElement The element that
-	 *  issued the event.
-	 * @param {Event} event The triggering event.
-	 * @param {HTMLElement} handledElement The modal that is being added
+	 * @param {Object} event The pkpObserveScrolling event object.
+	 * @param {Function} observerFunction The observer function.
+	 * @return {boolean}
 	 */
-	$.pkp.controllers.SiteHandler.prototype.stackModal_ =
-			function(siteHandlerElement, sourceElement, event, handledElement) {
-		var $dialogElement = $(handledElement).parent(),
-				$dialogElementOverlay = $dialogElement.next('.ui-widget-overlay');
+	$.pkp.controllers.SiteHandler.prototype.registerScrollingObserver_ =
+			function(siteHandler, siteHandlerElement, event, observerFunction) {
+		$(document).scroll(observerFunction);
+		return false;
+	};
 
-		$dialogElementOverlay.css('z-index', $dialogElement.css('z-index') - 1);
+
+	/**
+	 * Unregister a function that was observing the body scrolling event.
+	 * @private
+	 * @param {Object} siteHandler The site handler object.
+	 * @param {HTMLElement} siteHandlerElement The html element
+	 * attached to this handler.
+	 * @param {Object} event The pkpRemoveScrollingObserver event object.
+	 * @param {Function} observerFunction The observer function.
+	 * @return {boolean}
+	 */
+	$.pkp.controllers.SiteHandler.prototype.unregisterScrollingObserver_ =
+			function(siteHandler, siteHandlerElement, event, observerFunction) {
+		var castObserverFunction = /** @type {function()} */ observerFunction;
+		$(document).unbind('scroll', castObserverFunction);
+		return false;
 	};
 
 /** @param {jQuery} $ jQuery closure. */

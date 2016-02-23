@@ -3,8 +3,8 @@
 /**
  * @file controllers/grid/admin/systemInfo/ServerInfoGridHandler.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class ServerInfoGridHandler
@@ -66,7 +66,6 @@ class ServerInfoGridHandler extends GridHandler {
 
 		// Basic grid configuration.
 		$this->setTitle('admin.serverInformation');
-		$this->setInstructions('admin.serverInformationDescription');
 
 		//
 		// Grid columns.
@@ -105,7 +104,7 @@ class ServerInfoGridHandler extends GridHandler {
 	/**
 	 * @copydoc GridHandler::loadData()
 	 */
-	function loadData($request, $filter) {
+	protected function loadData($request, $filter) {
 
 		$dbconn = DBConnection::getConn();
 		$dbServerInfo = $dbconn->ServerInfo();

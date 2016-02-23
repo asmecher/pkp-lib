@@ -3,8 +3,8 @@
 /**
  * @file controllers/informationCenter/PKPSubmissionInformationCenterHandler.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class PKPSubmissionInformationCenterHandler
@@ -149,8 +149,11 @@ class PKPSubmissionInformationCenterHandler extends InformationCenterHandler {
 	function viewHistory($args, $request) {
 		$this->setupTemplate($request);
 		$templateMgr = TemplateManager::getManager($request);
-		$templateMgr->assign('submissionId', $this->_submission->getId());
-		return $templateMgr->fetchJson('controllers/informationCenter/submissionHistory.tpl');
+		$dispatcher = $request->getDispatcher();
+		return $templateMgr->fetchAjax(
+			'eventLogGrid',
+			$dispatcher->url($request, ROUTE_COMPONENT, null, 'grid.eventLog.SubmissionEventLogGridHandler', 'fetchGrid', null, $this->_getLinkParams())
+		);
 	}
 
 	/**

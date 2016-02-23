@@ -1,8 +1,8 @@
 /**
  * @file js/controllers/TabHandler.js
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class TabHandler
@@ -293,11 +293,10 @@
 				$anchorElement = $('<a/>')
 					.text(jsonContent.title)
 					.attr('href', jsonContent.url),
-				$closeSpanElement = $('<span/>')
-					.addClass('ui-icon')
-					.addClass('ui-icon-close')
+				$closeSpanElement = $('<a/>')
+					.addClass('close')
 					.text($.pkp.locale.common_close)
-					.attr('role', 'presentation'),
+					.attr('href', '#'),
 				$liElement = $('<li/>')
 					.append($anchorElement)
 					.append($closeSpanElement);

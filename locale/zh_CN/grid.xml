@@ -4,8 +4,8 @@
 <!--
   * locale/zh_CN/grid.xml
   *
-  * Copyright (c) 2014-2015 Simon Fraser University Library
-  * Copyright (c) 2003-2015 John Willinsky
+  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2003-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
   *
   * Localization strings for the en_US (English) locale.
@@ -71,10 +71,6 @@
 	<message key="grid.action.editPreparedEmail">编辑此电子邮件模板</message>
 	<message key="grid.action.disableEmail">禁用此电子邮件模板</message>
 	<message key="grid.action.resetEmail">此电子邮件模板重置默认</message>
-	<message key="grid.action.addSignoff">加入这个文件的​​审核响应</message>
-	<message key="grid.action.deleteSignoff">删除此签收</message>
-	<message key="grid.action.fileSignoff">签收这个文件</message>
-	<message key="grid.action.readSignoff">阅读这签收</message>
 	<message key="grid.action.expandAll">全部展开</message>
 	<message key="grid.user.disableReason">禁止用户的原因</message>
 	<message key="grid.user.enableReason">启用用户的原因</message>

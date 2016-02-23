@@ -4,8 +4,8 @@
 <!--
   * locale/en_US/submission.xml
   *
-  * Copyright (c) 2014-2015 Simon Fraser University Library
-  * Copyright (c) 2000-2015 John Willinsky
+  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2000-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
   *
   * Localization strings.
@@ -135,11 +135,12 @@
 	<message key="metadata.property.validationMessage.name-type">Please make sure that you set a valid name type. Supported values are 'personal', 'corporate' and 'conference'.</message>
 	<!-- FIXME: end -->
 
-	<message key="common.queue.long.submissionsUnassigned">Unassigned Submissions</message>
-	<message key="common.queue.long.myAssigned">My Assigned Submissions</message>
+	<message key="common.queue.long.submissionsUnassigned">Unassigned</message>
+	<message key="common.queue.long.myAssigned">My Assigned</message>
 	<message key="common.queue.long.submissionsArchived">Archived Submissions</message>
 	<message key="submission.authors">Authors</message>
-	<message key="submission.mySubmissions">My Authored Submissions</message>
+	<message key="submission.shortAuthor">{$author} et al.</message>
+	<message key="submission.mySubmissions">My Authored</message>
 	<message key="submission.addFile">Upload File</message>
 	<message key="submission.agencies">Agencies</message>
 	<message key="submission.abstractViews">Abstract Views</message>
@@ -267,9 +268,9 @@
 	<message key="submission.comments.subject">Subject</message>
 	<message key="submission.complete">Complete</message>
 	<message key="submission.contributors">List of Contributors</message>
-	<message key="submission.contributorsDescription">The list of contributors associated with this submission may include other authors; individual chapter authors of an edited volume; volume editors; and/or translators. One contributor from the list may be assigned as the primary contact for editorial correspondence; this does not necessarily have to be the submitting author.</message>
 	<message key="submission.copyedited">Copyedited</message>
 	<message key="submission.copyediting">Copyediting</message>
+	<message key="submission.queryNoteFiles">Discussion Files</message>
 	<message key="submission.coverage">Coverage Information</message>
 	<message key="submission.coverage.tip">The following fields provide information about your submission's coverage.  Coverage may include chronologcal periods (1920-1940, 17th century), and geographical locations ('Boston, MA', or 'Northern England').  If you wish, you may use the sample coverage field to include a relevant example from your own work.</message>
 	<message key="submission.coverage.chron">Chronological or historical coverage</message>
@@ -280,7 +281,7 @@
 	<message key="submission.due">Due</message>
 	<message key="submission.editing">Editing</message>
 	<message key="submission.editMetadata">Edit Metadata</message>
-	<message key="submission.editorial">Editorial</message>
+	<message key="submission.editorial">Copyediting</message>
 	<message key="submission.email.backToEmailLog">Back to Email Log</message>
 	<message key="submission.email.confirmClearLog">Are you sure you want to clear the email log for this submission?</message>
 	<message key="submission.email.confirmDeleteLogEntry">Are you sure you want to delete this email log entry?</message>
@@ -434,7 +435,6 @@
 	<message key="submission.submit.fileAdded">File Added</message>
 	<message key="submission.submit.includeInBrowse">Include this contributor in browse lists?</message>
 	<message key="submission.submit.newFile">Submit a New File</message>
-	<message key="submission.submit.errorDeletingAuthor">There was an error removing the author.</message>
 	<message key="submission.submit.metadataForm">Additional Refinements</message>
 	<message key="submission.submit.metadataForm.tip">Add additional information for your submission.  Press 'enter' after each term.</message>
 	<message key="submission.submit.submissionLocale">Submission Language</message>
@@ -443,7 +443,7 @@
 	<message key="submission.submit.dependentFiles">Dependent Files</message>
 	<message key="submission.manageDependentFiles">Manage Dependent Files</message>
 	<message key="submission.upload.dependent">Upload a Dependent File</message>
-	<message key="submission.dependent.upload.description">Upload files that this production file requires in order to display correctly (HTML, CSS, etc.)</message>
+	<message key="submission.upload.query">Upload a Discussion File</message>
 	<message key="submission.summary">Summary</message>
 	<message key="submission.supplementaryFiles">Supplementary Files</message>
 	<message key="submission.supportingAgencies">Supporting Agencies</message>
@@ -473,6 +473,9 @@
 
 	<!-- Workflow keys -->
 	<message key="workflow.review.internalReview">Internal Review</message>
+	<message key="workflow.stage.any">Any Stage</message>
+	<message key="workflow.stage">Stage</message>
+
 
 	<!-- Submission status -->
 	<message key="submission.status.editorial">In Copyediting</message>
@@ -529,7 +532,7 @@
 
 	<!-- Participants -->
 	<message key="editor.submission.stageParticipants">Participants</message>
-	
+
 	<!-- Stage Participants grid -->
 	<message key="editor.submission.noneAssigned">None Assigned</message>
 	<message key="editor.submission.participant">Participant</message>
@@ -548,8 +551,8 @@
 	<message key="editor.submission.decision.decline">Decline Submission</message>
 	<message key="editor.submission.decision.sendToProduction">Send To Production</message>
 	<message key="editor.submission.decision.sendInternalReview">Send to Internal Review</message>
-	<message key="editor.submission.decision.approveProofs">Approve Proofs</message>
 	<message key="editor.submission.decision.approveProofsDescription">The page proof file must be checked as approved to be made Available. Do you want to approve it?</message>
+	<message key="editor.submission.decision.approveProofs">Approve Proofs</message>
 	<message key="editor.submission.decision.disapproveProofsDescription">This file proof will no longer be publicly available for download or purchase. Do you want to disapprove it?</message>
 
 	<!-- workflow navigation keys -->
@@ -559,7 +562,7 @@
 
 	<message key="reviewer.submission.reviewFiles">Review Files</message>
 	<message key="submission.submit.currentFile">Current file</message>
-	<message key="submission.finalDraft">Final Draft Files</message>
+	<message key="submission.finalDraft">Draft Files</message>
 
 	<!-- Auditor keys -->
 	<message key="editor.submission.addAuditorError">There was an error trying to assign the auditor. Please Try again.</message>
@@ -644,4 +647,22 @@
 	<message key="submission.license.cc.by-nd4.footer"><![CDATA[<a rel="license" href="http://creativecommons.org/licenses/by-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nd/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nd/4.0/">Creative Commons Attribution-NoDerivatives 4.0 International License</a>.]]></message>
 	<message key="submission.license.cc.by4.footer"><![CDATA[<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.]]></message>
 	<message key="submission.license.cc.by-sa4.footer"><![CDATA[<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.]]></message>
+
+	<!-- Submission Queries -->
+	<message key="submission.queries.submission">Pre-Review Discussions</message>
+	<message key="submission.queries.review">Review Discussions</message>
+	<message key="submission.queries.editorial">Copyediting Discussions</message>
+	<message key="submission.queries.production">Production Discussions</message>
+	<message key="submission.query.subject">Subject</message>
+	<message key="submission.query.messages">Messages</message>
+	<message key="submission.query.replies">Replies</message>
+	<message key="submission.query.from">From</message>
+	<message key="submission.query.lastReply">Last Reply</message>
+	<message key="submission.query.closed">Closed</message>
+	<message key="submission.query.addNote">Add Message</message>
+	<message key="grid.action.openNoteForm">Add a new reply to the discussion</message>
+	<message key="submission.query.activity">There is new activity in a conversation.</message>
+	<message key="submission.query.new">There is a new query to respond to.</message>
+	<message key="submission.query.activity.contents">There is new activity in the conversation titled "{$queryTitle}" regarding the submission "{$submissionTitle}".</message>
+	<message key="submission.query.new.contents">You have been added to a conversation titled "{$queryTitle}" regarding the submission "{$submissionTitle}".</message>
 </locale>

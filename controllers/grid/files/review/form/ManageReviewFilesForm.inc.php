@@ -3,8 +3,8 @@
 /**
  * @file controllers/grid/files/review/form/ManageReviewFilesForm.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class ManageReviewFilesForm
@@ -89,6 +89,16 @@ class ManageReviewFilesForm extends ManageSubmissionFilesForm {
 	 */
 	function execute($args, $request, $stageSubmissionFiles) {
 		parent::execute($args, $request, $stageSubmissionFiles, SUBMISSION_FILE_REVIEW_FILE);
+	}
+
+	/**
+	 * @copydoc ManageSubmissionFilesForm::importFile()
+	 */
+	protected function importFile($context, $submissionFile, $fileStage) {
+		$newSubmissionFile = parent::importFile($context, $submissionFile, $fileStage);
+
+		$submissionFileDao = DAORegistry::getDAO('SubmissionFileDAO');
+		$submissionFileDao->assignRevisionToReviewRound($newSubmissionFile->getFileId(), $newSubmissionFile->getRevision(), $this->getReviewRound());
 	}
 }
 

@@ -3,8 +3,8 @@
 /**
  * @file classes/controllers/grid/GridRow.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class GridRow
@@ -39,9 +39,6 @@ class GridRow extends GridBodyElement {
 
 	/** @var boolean true if the row has been modified */
 	var $_isModified;
-
-	/** @var string an optional message to display as a 'grid action' in place of real grid actions */
-	var $_noActionMessage;
 
 	/**
 	 * @var array row actions, the first key represents
@@ -131,22 +128,6 @@ class GridRow extends GridBodyElement {
 	 */
 	function getIsModified() {
 		return $this->_isModified;
-	}
-
-	/**
-	 * Set the no action message for the row.
-	 * @param $message string
-	 */
-	function setNoActionMessage($message) {
-		$this->_noActionMessage = $message;
-	}
-
-	/**
-	 * Get the no action message for this row.
-	 * @return string
-	 */
-	function getNoActionMessage() {
-		return $this->_noActionMessage;
 	}
 
 	/**

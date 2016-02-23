@@ -1,8 +1,8 @@
 /**
  * @file styles/controllers/grid/grid.less
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @ingroup pkp_controllers_grid
@@ -10,133 +10,472 @@
  * @brief Classes for grid structure
  */
 
-div.pkp_controllers_grid {
-	
-	margin-top: 20px;
-	
-	a.search_extras_expand, a.search_extras_collapse {
-		float: right !important;
+.pkp_controllers_grid {
+	position: relative;
+	margin-bottom: @double * 2;
+
+	.header,
+	.footer {
+		.pkp_helpers_clear;
 	}
 
-	div.actions {
-		margin-top: 10px;
+	// Header
+	.header {
+		position: relative;
+
+		h4 {
+			display: inline-block;
+			font-size: @font-base;
+			margin: 0;
+		}
 	}
 
+	// Footer
+	.footer {
+		background: @bg;
+		padding-left: 1em;
+		padding-right: 1em;
+	}
+
+	// Actions (header + footer )
+	.actions {
+		display: inline-block;
+		float: right;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+
+		li {
+			display: inline-block;
+			margin-right: 1em;
+
+			&:last-child {
+				margin-right: 0;
+			}
+		}
+
+		a {
+			position: relative;
+			top: 1px; // alignment to account for filter toggle offset
+			display: inline-block;
+			line-height: @double;
+			font-size: @font-sml;
+			text-decoration: none;
+		}
+	}
+
+	// Search filter
+	.pkp_linkaction_search {
+		&:extend( .fa );
+		padding: 0 1px; // 1px prevents aliased icon from getting clipped at the edge
+		background: transparent;
+		transition: all 0.3s ease;
+
+		&:before {
+			margin-right: 0.5em;
+		}
+	}
+
+	.pkp_linkaction_search:before {
+		content: @fa-var-search;
+	}
+
+	.pkp_linkaction_search.is_open {
+		padding: 0 @base;
+		background: @bg-light;
+		border: @bg-border-light;
+		border-bottom: none;
+	}
+
+	// Search filter
+	.filter {
+		padding: @base;
+		font-size: @font-sml;
+		background: @bg-light;
+		border: @bg-border-light;
+		border-bottom: none;
+
+		label {
+			font-size: @font-sml;
+			font-weight: @normal;
+			font-style: italic;
+		}
+
+		.section {
+			margin-bottom: @half;
+
+			&:last-child {
+				margin-bottom: 0;
+			}
+		}
+
+		.pkp_spinner {
+			display: none;
+		}
+
+		.pkp_controllers_extrasOnDemand {
+
+			> a {
+				line-height: @double;
+				padding-left: @double + @base;
+			}
+
+			> a .fa {
+				line-height: @double;
+				width: @double;
+				height: @double;
+			}
+		}
+	}
+
+	// Grid rows
 	table {
 		width: 100%;
 	}
 
-	thead, tr.gridRow td, tr.row_controls td, .empty td {
-		border-bottom: 1px solid #dedede;
+	tr {
+		position: static;
+		border: @bg-border-light;
+		border-top: none;
+
 	}
-	
-	tr.gridRow td {
+
+	// Content rows only
+	.gridRow {
+		border-top: @bg-border-light;
+	}
+
+	th,
+	td {
+		padding-left: @base;
+		padding-right: @base;
 		vertical-align: top;
-		padding: 6px 0 6px 12px;
 	}
 
-	tr.mouse_over {
-		background-color: #F7F5F4;
-	}
-	
-	tr.category {
-		background-color: #f2f2f2;
-		border-top: 1px solid #dedede;
-		border-bottom: 1px solid #dedede;
-		height: 32px;
-		
-		span.category_items_number {
-			font-size: 90%;
-			color: #6d6d6d;
-		}	
-	}
-	
-	.empty td {
-		padding-left: 10px;
-		text-align: left;
-		height: 30px;
-	}
-	
-	thead tr {
-		height: 30px; /* Must be set for tr rather than th for Chromium. */
-		padding: 4px 0;
-	}
+	thead {
+		font-size: @font-tiny;
+		line-height: 16px;
+		color: @text-light;
+		color: @text-light-rgba;
+		border: @bg-border-light;
 
-	thead th {
-		padding: 0 12px; /* Padding top/bottom must be 0 for IE7 compatibility. */
-		vertical-align: middle;
-		text-align: center;
-		font-size: 80%;
-		color:#888;
-	}
-
-	thead th:first-child {
-		padding-left: 35px;
+		th {
+			padding-top: @half;
+			padding-bottom: @half;
+			font-weight: @normal;
+			border-left: @bg-border-light;
+		}
 	}
 
 	td {
-		color: #777777;
+		position: relative;
+		padding-top: @half;
+		padding-bottom: @half - 1;
+		line-height: @line-base;
+	}
+
+	// Empty row
+	.empty td {
+		padding: 8px 0;
+		font-size: @font-sml;
+		font-style: italic;
+		line-height: @line-base;
+		color: @text-light;
+		color: @text-light-rgba;
 		text-align: center;
-		font-size: 100%;
-		padding: 0px;
 	}
 
-	th:first-child, td:first-child, td.first_column, .category_grid_body td:first-child + td {
-		text-align: left !important;
+	// Expand/collapse row actions
+	.has_extras td:first-child,
+	.row_controls td:first-child {
+		padding-left: @double;
 	}
 
-	td.first_column {
-		color: #333333;
+	.show_extras,
+	.hide_extras {
+		position: absolute;
+		top: @half; // matches td padding
+		left: 0;
+		width: @double;
+		height: @line-base; // matches td line-height
+		line-height: @line-base;
+		text-align: center;
+		cursor: pointer;
+		text-decoration: none;
 	}
 
-	td.category {
-		display: table-row;
-	}
-	
-	tr.no_border, td.no_border {
-		border-bottom: none !important;
-	}
-	
-	.default_category_style td {
-		font-size: 90%;
-		text-transform: uppercase;
+	.show_extras:before {
+		&:extend(.pkp_caret);
+		&:extend(.pkp_caret_right);
+		margin-top: -4px;
 	}
 
-	tr.category td.no_actions {
-		vertical-align: middle;
-		top: 0;
-		padding-left: 10px !important;
-	}
-	
-	.wrapper {
-		margin-bottom: 10px;
-	}
-	
-	.grid_header .pkp_grid_description {
-		font-family: Arial, Helvetica, sans-serif;
-		padding:10px;
-		color:#999;
-		font-weight:normal;
-		font-size:80%;
-		line-height: 14px;
-	}
-	
-	.grid_header_bar {
-		background-color: #d5e7f4;
-		padding: 3px 10px 3px 0px;
-	}
-	
-	.grid_header_bar h3 {
-		display:inline;
-		padding: 0px 0px 0px 10px;
-		vertical-align:middle;
-		line-height: 24px;
-	}
-	
-	.grid_header_bar a {
-		float:left;
+	.hide_extras:before {
+		&:extend(.pkp_caret);
+		&:extend(.pkp_caret_down);
 	}
 
+	// Ordering items
+	.pkp_linkaction_moveItem {
+		&:extend( .fa );
+
+		&:before {
+			content: @fa-var-sort;
+		}
+	}
+
+	.ordering {
+
+		&:hover {
+			background: @bg;
+		}
+
+		.show_extras,
+		.hide_extras {
+			display: none;
+		}
+
+		.row_actions {
+			right: auto;
+			left: 0;
+		}
+	}
+
+	.order_finish_controls {
+		margin-top: @base;
+		text-align: right;
+
+		.saveButton {
+			&:extend( .pkp_button );
+
+			&:hover,
+			&:focus {
+				&:extend( .pkp_button:hover );
+			}
+
+			&[disabled] {
+				&:extend(.pkp_button[disabled]);
+			}
+		}
+
+		.cancelFormButton {
+			margin-left: 1em;
+			color: @no;
+		}
+	}
+
+	// Labels within a grid cell which appear before a link action in the cell
+	// @todo This is designed for file IDs. If used elsewhere, we'll need to check
+	//  how this styling impacts on other uses
+	.gridCellContainer .label.before_actions {
+		display: inline-block;
+		margin-right: 0.5em;
+		padding: 0 0.5em;
+		background: @bg;
+		border-radius: 0.25em;
+		font-size: 12px; // extra small
+	}
+
+	// Infinite scroll
+	.scrollable {
+		position: relative;
+		max-height: 150px;
+		overflow: auto;
+	}
+
+	// Actions inline with the row
+	.row_actions {
+		position: absolute;
+		top: @half;
+		right: 0;
+
+		> a {
+			&:extend(.fa);
+			width: 24px;
+			height: 24px;
+			line-height: 24px;
+			text-align: center;
+			text-decoration: none;
+		}
+	}
+
+	// Secondary row of actions
+	.row_controls {
+		display: none;
+		background: @bg-light;
+
+		td {
+			line-height: @line-base;
+			padding-top: 3px;
+			padding-bottom: 3px;
+		}
+
+		a {
+			display: inline-block;
+			margin-right: 1em;
+			font-size: @font-sml;
+			text-decoration: none;
+
+			&:hover,
+			&:focus {
+				text-decoration: underline;
+			}
+		}
+	}
+
+	.pkp_linkaction_disable,
+	.pkp_linkaction_delete,
+	.pkp_linkaction_remove_item ,
+	.pkp_linkaction_deleteFile,
+	.pkp_linkaction_remove,
+	.pkp_linkaction_deleteContributor,
+	.pkp_linkaction_deleteSponsor,
+	.pkp_linkaction_deleteSection,
+	.pkp_linkaction_deleteGenre,
+	.pkp_linkaction_deleteSubmissionChecklist,
+	.pkp_linkaction_resetAll,
+	.pkp_linkaction_resetEmail,
+	.pkp_linkaction_removeUserGroup,
+	.pkp_linkaction_deleteAuthor,
+	.pkp_linkaction_deleteQuery {
+		color: @offset;
+	}
+
+	// Icons
+	.checked,
+	.notChecked {
+		&:extend(.fa);
+	}
+
+	.checked:after {
+		content: @fa-var-check-square-o;
+		color: @yes;
+	}
+
+	.notChecked:after {
+		content: @fa-var-ban;
+		color: @no;
+	}
+
+	// Pagination
+	.gridPaging {
+		.pkp_helpers_clear;
+		padding-top: @half;
+		padding-bottom: @half;
+		font-size: @font-sml;
+		color: @text-light;
+		color: @text-light-rgba;
+		border-top: 1px solid @bg;
+
+		.gridItemsPerPage {
+			float: left;
+
+			select {
+				display: inline-block;
+				width: auto;
+				height: @line-sml;
+				margin-left: 0.5em;
+			}
+		}
+
+		.gridPages {
+			float: right;
+
+			a {
+				display: inline-block;
+				padding: 0 0.5em;
+				background: @bg;
+				border-radius: 0.25em;
+				line-height: @double;
+				text-decoration: none;
+			}
+		}
+	}
+
+	// Items shown for infinite scrolling
+	.gridPagingScrolling {
+		position: relative;
+		border-top: @bg-border-light;
+		font-size: @font-sml;
+		color: @text-light;
+		color: @text-light-rgba;
+		text-align: center;
+		height: @double;
+		line-height: @double;
+
+		.item_count {
+			position: absolute;
+			right: 0;
+		}
+
+		.pkp_linkaction_icon_more_items {
+			font-weight: @bold;
+			text-decoration: none;
+
+			&:before {
+				&:extend(.pkp_caret);
+				&:extend(.pkp_caret_down);
+				position: relative;
+				top: 1px;
+				margin-right: 0.5em;
+			}
+		}
+
+		.pkp_loading {
+			visibility: hidden;
+			position: absolute;
+			top: 0;
+			width: 100%;
+			line-height: @double;
+			background: @lift;
+			opacity: 0;
+			transition: 0.3s opacity, 0.3s visibility;
+		}
+	}
+
+	&.loading {
+
+		.gridPagingScrolling {
+
+			.pkp_loading {
+				visibility: visible;
+				opacity: 1;
+			}
+		}
+	}
+}
+
+// Categorized grids
+.pkp_grid_category {
+
+	.gridRow.category,
+	.category_controls {
+		background: @bg;
+		font-size: @font-sml;
+		color: @text-light;
+		color: @text-light-rgba;
+	}
+}
+
+// Listbuilder grids
+.pkp_controllers_listbuilder {
+
+	.gridRow {
+
+		.pkp_linkaction_delete {
+
+			&:before {
+				&:extend(.fa);
+				content: @fa-var-times;
+			}
+		}
+	}
+}
+
+// TODO check if these styles can be removed
+.pkp_controllers_grid {
+
+	// See TODO at lib/pkp/templates/controllers/grid.tpl:54
 	.options {
 		float: right;
 		line-height: 24px;
@@ -152,77 +491,7 @@ div.pkp_controllers_grid {
 		margin-left: 20px;
 	}
 
-	.hidetext {
-		display:none;
-	}
-
-	.row_container {
-		display: table;
-		overflow: hidden;
-	}
-
-	.row_actions {
-		display: block;
-	}
-	
-	.row_actions a {
-		display: block;
-		cursor: pointer;
-		width: 24px;
-		float: right;
-	}
-
-	.row_file {
-		display: table-cell;
-		padding: 0 10px 0 5px;
-		vertical-align:top;
-	}
-
-	.row_file a.pkp_controllers_linkAction {
-		margin-right: 10px;
-	}
-
-	.multiline {
-		line-height: 125%; /* IE7 doesn't support "inherit", all other browsers will ignore this. */
-		line-height: inherit;
-	}
-
-	.row_controls {
-		display: none;
-	}
-
-	.row_controls td {
-		padding-left: 48px;
-		padding-top: 5px; 
-		line-height: 25px;
-		height: 25px;
-	}
-	
-	.category_controls td {
-		padding-left: 9px;
-	}
-	
-	.row_controls td.indent_row {
-		padding-left: 0px;
-	}
-
-	.row_controls a {
-		float:left;
-		margin-right: 20px;
-		text-decoration: none;
-		color: #777;
-		font-size: 90%;
-	}
-	
-	
-	.row_controls a:hover {
-		text-decoration: underline;
-	}
-
-	a.focus {
-		background-position: 0 bottom;
-	}
-
+	// See TODO at /var/www/html/ojs/lib/pkp/templates/controllers/grid/common/cell/statusCell.tpl
 	a.task {
 		width: 100%;
 		text-indent: -1500px;
@@ -232,110 +501,5 @@ div.pkp_controllers_grid {
 		background-repeat: no-repeat;
 		margin: 0;
 		height: 24px;
-	}
-	
-	.grid_link_actions_below a {
-		font-size: 90%;
-	}
-
-	/* Below was taken from the theme */
-
-	table {
-		background-color: #fff;
-	}
-
-	tr.alternate_row, tr.alternate_row .row_file {
-		background-color: #f5f5f5;
-	}
-
-	th {
-		color: #20538d;
-	}
-
-	/* FIXME: This should go somewhere else. */
-	a.task:hover {
-		background-color: #efefef;
-	}
-
-	.ui-widget {
-		font-size: 90%;
-	}
-
-
-	/* @group More/Less Detail Toggle */
-	.toggleDetailContainer {
-		margin: 20px 0 20px 0;
-	}
-
-	.toggleDetail {
-		display: block;
-		text-indent: -99999px;
-		overflow: hidden;
-		background-repeat: no-repeat;
-		width: 16px;
-		height: 16px;
-		background-image: url({$baseUrl}/lib/pkp/styles/images/ui-icons_222222_256x240.png);
-	}
-
-	.moreDetail {
-		background-position: -48px -192px;
-	}
-
-	.lessDetail {
-		background-position: -64px -192px;
-	}
-
-	.visible {
-		display: block;
-	}
-	
-	.grid_controls {
-  		padding: 5px;
-  		height:26px;
-	}
-	
-	.ordering:hover {
-		background: #EAF3F8 !important;  
-	}
-	
-	tr.gridRow td.indent_row, .row_controls td.indent_row {
-		padding: 0 !important;
-	}
-	
-	tbody .ui-sortable-placeholder {
-		display: block;
-		visibility: visible !important;
-		height: 40px;
-		background-color: #EAF3F8 !important;
-	}
-	
-	tbody.ui-sortable-helper {
-		display:table;
-	}
-	
-	.gridCellContainer {
-		.gridLabelBeforeActions {
-			margin-right: 20px;
-		}
-	}
-	
-	div.gridPaging select.itemsPerPage {
-		width: auto;
-		margin-left: 5px;
-	}
-	
-	.indent_row, .indent_col {
-		width:5px;
-	}
-}
-
-div.pkp_controllers_category_grid {
-	
-	thead th:first-child {
-		padding-left: 5px;
-	}
-	
-	thead th:nth-child(2) {
-		padding-left: 35px;
 	}
 }

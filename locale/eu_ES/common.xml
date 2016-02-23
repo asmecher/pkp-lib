@@ -4,11 +4,11 @@
 <!--
   * locale/eu_ES/common.xml
   *
-  * Copyright (c) 2014-2015 Simon Fraser University Library
-  * Copyright (c) 2000-2015 John Willinsky
+  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2000-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
   *
-  * Localization strings for the eu_ES (Basque (Euskara)) locale.
+  * Localization strings for the eu_ES (Euskara) locale.
   *
   -->
 
@@ -16,7 +16,6 @@
 	<message key="about.aboutSite">Guneari buruz</message>
 	<message key="about.contact">Kontaktua</message>
 	<message key="about.contact.email">Helb. el.</message>
-	<message key="about.contact.fax">Faxa</message>
 	<message key="about.contact.phone">Telefonoa</message>
 	<message key="about.contact.principalContact">Kontaktu nagusia</message>
 	<message key="about.contact.supportContact">Laguntza teknikoko kontaktua</message>
@@ -330,7 +329,6 @@
 	<message key="common.warning">Oharra</message>
 	<message key="common.confirm">Baieztatu</message>
 	<message key="common.content">Edukia</message>
-	<message key="common.considered">Kontuan hartuta</message>
 	<message key="common.declined">Uko egina</message>
 	<message key="common.finish">Amaitua</message>
 	<message key="common.go">Aurrera</message>
@@ -363,8 +361,6 @@
 	<message key="navigation.sitemap">Gunearen mapa</message>
 	<message key="navigation.system">Sistema</message>
 	<message key="navigation.userManagement">Erabiltzaileen kudeaketa</message>
-	<message key="help.toggleInlineHelpOn">Laguntza aktibatua</message>
-	<message key="help.toggleInlineHelpOff">Laguntza desaktibatua</message>
 	<message key="navigation.browseByAuthor">Egileka</message>
 	<message key="navigation.publicMenu">Menu publikoa</message>
 	<message key="navigation.setup">Konfigurazioa</message>

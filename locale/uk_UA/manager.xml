@@ -4,11 +4,11 @@
 <!--
   * locale/uk_UA/manager.xml
   *
-  * Copyright (c) 2014-2015 Simon Fraser University Library
-  * Copyright (c) 2000-2015 John Willinsky
+  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2000-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
   *
-  * Localization strings for the uk_UA (Ukrainian) locale.
+  * Localization strings for the uk_UA (Українська) locale.
   *
   * Translated by Denys Solovianenko, 2011
   * V. I. Vernadsky National Library of Ukraine
@@ -141,7 +141,6 @@
 	<message key="manager.plugins.sitePlugin">Це загальносистемний модуль. Лише адміністратор сайту може керувати цим модулем.</message>
 	<message key="manager.plugins">Модулі системи</message>
 	<message key="manager.readingTools">Інструментарій для читання</message>
-	<message key="manager.reviewerSearch.advancedSearch">Складний пошук рецензента</message>
 	<message key="manager.reviewerSearch.searchByName">Пошук рецензента за іменем</message>
 	<message key="manager.reviewerSearch.doneAmount">Кількість завершених рецензій</message>
 	<message key="manager.reviewerSearch.avgAmount">Середня тривалість рецензування (діб)</message>
@@ -198,7 +197,6 @@
 	<message key="manager.setup.loggingAndAuditing">Журналізація та аудит</message>
 	<message key="manager.setup.metaCitationsDescription">Для того, щоб включити функціональність для редагування пристатейної бібліографії, активуйте прапорець нижче. Це дозволить авторам включати до подань оригінальні списки пристатейної бібліографії. Крім того, редакторам буде надана можливість використовувати помічник розмітки цитат, який дає змогу перевіряти коректність і точність оригінальних цитат шляхом зв'язку з зовнішніми базами даних, такими як WorldCat, ISBNdb, PubMed та інші. Підтверджені цитати можуть експортуватися у файли фінальних гранок.</message>
 	<message key="manager.setup.pageHeaderLogoImageInvalid">Вивантаження невдале або неприпустимий формат зображення для логотипу заголовку сторінки. Припустимими форматами є .gif, .jpg або .png.</message>
-	<message key="manager.setup.pageHeaderTitleImageInvalid">Вивантаження невдале або неприпустимий формат зображення для заголовку сторінки. Припустимими форматами є .gif, .jpg або .png.</message>
 	<message key="manager.setup.selectOne">Оберіть одне з наступного</message>
 	<message key="manager.statistics">Статистика та звіти</message>
 	<message key="manager.statistics.statistics.count.value">{$count} ({$percentage}%)</message>
@@ -223,8 +221,6 @@
 	<message key="manager.emails.details">Інформація шаблону</message>
 	<message key="manager.emails.resetAll.message">Якщо Ви перевантажите всі шаблони, всі зміни шаблонів листів будуть втрачені. Ви підтверджуєте цю дію?</message>
 	<message key="manager.emails.reset.message">Якщо Ви перевантажите цей шаблон, всі фрагменти тексту будуть повернені до стандартних значень, а всі зміни втрачені. Ви підтверджуєте цю дію?</message>
-	<message key="manager.navigation">Навігація</message>
-	<message key="manager.reviewerSearch.advancedSearch.short">Розширений пошук</message>
 	<message key="manager.reviewerSearch.form.interests.instructions">Вкажіть наукові інтереси, розділені комами...</message>
 	<message key="plugins.categories.metadata">Модулі метаданих</message>
 	<message key="plugins.categories.metadata.description">Модулі метаданих дозволяють використання додаткових стандартів метаданих.</message>

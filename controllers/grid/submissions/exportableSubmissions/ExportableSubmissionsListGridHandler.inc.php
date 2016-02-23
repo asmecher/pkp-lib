@@ -3,8 +3,8 @@
 /**
  * @file controllers/grid/submissions/exportableSubmissions/ExportableSubmissionsListGridHandler.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class ExportableSubmissionsListGridHandler
@@ -31,19 +31,31 @@ class ExportableSubmissionsListGridHandler extends SubmissionsListGridHandler {
 
 
 	//
-	// Implement template methods from SubmissionListGridHandler
+	// Implement template methods from GridHandler
 	//
 	/**
-	 * @copydoc SubmissionListGridHandler::getSubmissions()
+	 * @copydoc GridHandler::loadData()
 	 */
-	function getSubmissions($request) {
+	function loadData($request, $filter) {
 		// Default implementation fetches all submissions.
 		$submissionDao = Application::getSubmissionDAO();
 		$context = $request->getContext();
+
+		list($search, $column, $stageId) = $this->getFilterValues($filter);
+		$title = $author = null;
+		if ($column == 'title') {
+			$title = $search;
+		} elseif ($column == 'author') {
+			$author = $search;
+		}
+
 		return $submissionDao->getByStatus(
 			array(STATUS_DECLINED, STATUS_PUBLISHED, STATUS_QUEUED),
 			null,
 			$context?$context->getId():null,
+			$title,
+			$author,
+			$stageId,
 			$this->getGridRangeInfo($request, $this->getId())
 		);
 	}

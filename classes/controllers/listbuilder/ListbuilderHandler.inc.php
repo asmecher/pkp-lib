@@ -3,8 +3,8 @@
 /**
  * @file classes/controllers/listbuilder/ListbuilderHandler.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class ListbuilderHandler
@@ -183,6 +183,7 @@ class ListbuilderHandler extends GridHandler {
 	 * Persist a new entry insert.
 	 * @param $request Request object
 	 * @param $newRowId mixed ID of row to modify
+	 * @return boolean
 	 */
 	function insertEntry($request, $newRowId) {
 		fatalError('ABSTRACT METHOD');

@@ -3,8 +3,8 @@
 /**
  * @file tests/functional/pages/submission/FunctionalSubmissionBaseTestCase.inc.php
  *
- * Copyright (c) 2013-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2013-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class FunctionalSubmissionBaseTestCase
@@ -73,11 +73,12 @@ abstract class FunctionalSubmissionBaseTestCase extends WebTestCase {
 		$submissionId = (integer)$submissionId;
 
 		// Close the upload file modal.
-		$this->click("id=cancelButton");
+		$this->click('id=cancelButton');
 
 		// Save the second step without uploading a file.
 		$this->waitForElementNotPresent('css=div.plupload_buttons');
-		$this->click('css=button.submitFormButton');
+		$this->waitForElementPresent($selector = '//button[contains(., \'Save and continue\')]');
+		$this->click($selector);
 
 		//
 		// Third submission page.
@@ -92,15 +93,17 @@ abstract class FunctionalSubmissionBaseTestCase extends WebTestCase {
 		if ($this->verified()) {
 			// TinyMCE hack.
 			$jsScript = "selenium.browserbot.getCurrentWindow().document".
-			            ".querySelector('iframe[id^=abstract]').contentDocument.body.innerHTML = ".
-			            "'$title abstract'";
+				".querySelector('iframe[id^=abstract]').contentDocument.body.innerHTML = ".
+				"'$title abstract'";
 			$this->getEval($jsScript);
 		} else {
 			$this->type('css=[id^=abstract]', $title . ' abstract');
 		}
 
-		$this->click("css=#submitStep3Form .submitFormButton");
-		$this->waitForElementPresent($selector = '//span[text()=\'OK\']/..');
+		$this->click('css=#submitStep3Form .submitFormButton');
+		$this->waitForElementPresent($selector = 'css=#submitStep4Form .submitFormButton');
+		$this->click($selector);
+		$this->waitForElementPresent($selector = 'link=OK');
 		$this->click($selector);
 
 		$authorDashboardLink = self::$baseUrl . '/index.php/publicknowledge/authorDashboard/submission/' . $submissionId;

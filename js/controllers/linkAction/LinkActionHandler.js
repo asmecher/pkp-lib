@@ -4,8 +4,8 @@
 /**
  * @file js/controllers/linkAction/LinkActionHandler.js
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class LinkActionHandler
@@ -61,11 +61,6 @@
 				'settings are required in a LinkActionHandler'].join(''));
 		}
 
-		// Bind the handler for image preview.
-		if ($handledElement.hasClass('image')) {
-			this.bind('mouseover', this.imagePreviewHandler_);
-		}
-
 		// Configure the callback called when the link
 		// action request finishes.
 		options.actionRequestOptions.finishCallback =
@@ -93,8 +88,8 @@
 		// the notify user event.
 		this.bind('dataChanged', this.dataChangedHandler_);
 
-		// Bind the 'modalCanceled' event, so we can re-enable submit buttons
-		this.bind('modalCanceled', this.removeDisabledCssClass_);
+		// Re-enable submit buttons when a modal is closed
+		this.bind('pkpModalClose', this.removeDisabledAttribute_);
 
 		if (options.selfActivate) {
 			this.trigger('click');
@@ -151,32 +146,6 @@
 
 
 	//
-	// Private methods
-	//
-	/**
-	 * Preview an image when hovering over its link in the grid.
-	 *
-	 * @private
-	 *
-	 * @param {HTMLElement} sourceElement The element that
-	 *  issued the event.
-	 * @param {Event} event The triggering event.
-	 */
-	$.pkp.controllers.linkAction.LinkActionHandler.prototype.
-			imagePreviewHandler_ = function(sourceElement, event) {
-
-		// Use the jQuery imagepreview plug-in to show the image.
-		var $sourceElement = $(sourceElement);
-		$sourceElement.imgPreview({
-			preloadImages: false,
-			imgCSS: {
-				width: '300px'
-			}
-		});
-	};
-
-
-	//
 	// Public methods
 	//
 	/**
@@ -228,7 +197,7 @@
 		// only remove the disabled state if it is not a submit button.
 		// we let FormHandler remove that after a form is submitted.
 		if (!this.getHtmlElement().is(':submit')) {
-			this.removeDisabledCssClass_();
+			this.removeDisabledAttribute_();
 		}
 
 		actionRequestUrl = this.getUrl();
@@ -246,7 +215,7 @@
 	$.pkp.controllers.linkAction.LinkActionHandler.prototype.
 			disableLink = function() {
 		var $linkActionElement = $(this.getHtmlElement());
-		$linkActionElement.addClass('ui-state-disabled');
+		$linkActionElement.attr('disabled', 'disabled');
 		if (this.getHtmlElement().is('a')) {
 			$linkActionElement.attr('href', '#');
 		}
@@ -263,10 +232,10 @@
 	 * @private
 	 */
 	$.pkp.controllers.linkAction.LinkActionHandler.prototype.
-			removeDisabledCssClass_ = function() {
+			removeDisabledAttribute_ = function() {
 
 		var $linkActionElement = $(this.getHtmlElement());
-		$linkActionElement.removeClass('ui-state-disabled');
+		$linkActionElement.removeAttr('disabled');
 	};
 
 

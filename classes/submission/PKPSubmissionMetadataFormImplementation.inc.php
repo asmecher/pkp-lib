@@ -3,8 +3,8 @@
 /**
  * @file classes/submission/SubmissionMetadataFormImplementation.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class SubmissionMetadataFormImplementation
@@ -113,7 +113,7 @@ class PKPSubmissionMetadataFormImplementation {
 	 */
 	function readInputData() {
 		// 'keywords' is a tagit catchall that contains an array of values for each keyword/locale combination on the form.
-		$userVars = array('title', 'prefix', 'subtitle', 'abstract', 'coverageGeo', 'coverageChron', 'coverageSample', 'type', 'subjectClass', 'source', 'rights', 'keywords');
+		$userVars = array('title', 'prefix', 'subtitle', 'abstract', 'coverageGeo', 'coverageChron', 'coverageSample', 'type', 'subjectClass', 'source', 'rights', 'keywords', 'citations');
 		$this->_parentForm->readUserVars($userVars);
 	}
 
@@ -146,6 +146,7 @@ class PKPSubmissionMetadataFormImplementation {
 		$submission->setSubjectClass($this->_parentForm->getData('subjectClass'), null); // Localized
 		$submission->setRights($this->_parentForm->getData('rights'), null); // Localized
 		$submission->setSource($this->_parentForm->getData('source'), null); // Localized
+		$submission->setCitations($this->_parentForm->getData('citations'));
 
 		// Save the submission
 		$submissionDao->updateObject($submission);

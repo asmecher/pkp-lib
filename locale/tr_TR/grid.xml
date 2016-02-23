@@ -4,11 +4,11 @@
 <!--
   * locale/tr_TR/grid.xml
   *
-  * Copyright (c) 2014-2015 Simon Fraser University Library
-  * Copyright (c) 2000-2015 John Willinsky
+  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2000-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
   *
-  * Localization strings for the tr_TR (Turkish) locale.
+  * Localization strings for the tr_TR (Türkçe) locale.
   *
   -->
 
@@ -122,9 +122,6 @@
 	<message key="grid.action.sendReminder">Kullanıcıya görev hatırlatması gönder</message>
 	<message key="grid.action.newRound">Yeni tur oluştur</message>
 	<message key="grid.action.viewReviewGuidelines">Hakem rehberini göster</message>
-	<message key="grid.action.deleteSignoff">Bu çıkışı sil</message>
-	<message key="grid.action.fileSignoff">Bu dosyadan çık</message>
-	<message key="grid.action.readSignoff">Bu çıkışı oku</message>
 	<message key="grid.action.viewCompetingInterestGuidelines">Çıkar Çelişkisi Rehberleri Politikasını Görüntüle</message>
 	<message key="grid.action.thankReviewer">Bu hakeme bir teşekkür mesajı gönder</message>
 	<message key="grid.action.uploadFile">Dosya yükle</message>

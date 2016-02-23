@@ -3,8 +3,8 @@
 /**
  * @file controllers/wizard/fileUpload/FileUploadWizardHandler.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class FileUploadWizardHandler
@@ -253,7 +253,7 @@ class PKPFileUploadWizardHandler extends FileManagementHandler {
 	 */
 	function displayFileUploadForm($args, $request) {
 		// Instantiate, configure and initialize the form.
-		import('controllers.wizard.fileUpload.form.SubmissionFilesUploadForm'); // app-specific
+		import('lib.pkp.controllers.wizard.fileUpload.form.SubmissionFilesUploadForm');
 		$submission = $this->getSubmission();
 		$fileForm = new SubmissionFilesUploadForm(
 			$request, $submission->getId(), $this->getStageId(), $this->getUploaderRoles(), $this->getUploaderGroupIds(), $this->getFileStage(),
@@ -275,7 +275,7 @@ class PKPFileUploadWizardHandler extends FileManagementHandler {
 	function uploadFile($args, $request, $fileModifyCallback = null) {
 		// Instantiate the file upload form.
 		$submission = $this->getSubmission();
-		import('controllers.wizard.fileUpload.form.SubmissionFilesUploadForm'); // app-specific
+		import('lib.pkp.controllers.wizard.fileUpload.form.SubmissionFilesUploadForm');
 		$uploadForm = new SubmissionFilesUploadForm(
 			$request, $submission->getId(), $this->getStageId(), null, null, $this->getFileStage(),
 			$this->getRevisionOnly(), $this->getReviewRound(), null, $this->getAssocType(), $this->getAssocId()

@@ -3,8 +3,8 @@
 /**
  * @file controllers/grid/submissions/unassignedSubmissions/UnassignedSubmissionsListGridHandler.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class UnassignedSubmissionsListGridHandler
@@ -22,6 +22,7 @@ define('FILTER_EDITOR_ALL', 0);
 define('FILTER_EDITOR_ME', 1);
 
 class UnassignedSubmissionsListGridHandler extends SubmissionsListGridHandler {
+	
 	/**
 	 * Constructor
 	 */
@@ -52,18 +53,19 @@ class UnassignedSubmissionsListGridHandler extends SubmissionsListGridHandler {
 
 
 	//
-	// Implement template methods from SubmissionListGridHandler
+	// Implement methods from GridHandler
 	//
 	/**
-	 * @copydoc SubmissionListGridHandler::getSubmissions()
+	 * @copydoc GridHandler::loadData()
 	 */
-	function getSubmissions($request, $userId) {
+	protected function loadData($request, $filter) {
 		$submissionDao = Application::getSubmissionDAO(); /* @var $submissionDao SubmissionDAO */
 
 		// Determine whether this is a Sub Editor or Manager.
 		// Managers can access all submissions, Sub Editors
 		// only assigned submissions.
 		$user = $request->getUser();
+		$userId = $user->getId();
 
 		// Get all submissions for all contexts that user is
 		// enrolled in as manager or series editor.
@@ -82,31 +84,25 @@ class UnassignedSubmissionsListGridHandler extends SubmissionsListGridHandler {
 			$accessibleContexts[] = $context->getId();
 		}
 
-		$accessibleSubmissions = array();
-
-		// Don't use range info to retrieve the object, because we do
-		// some more filtering below, and that would end up breaking
-		// the range info. FIXME: to speed up the process, do all
-		// the filtering needed in SQL and use range info here.
-		$submissionFactory = $submissionDao->getBySubEditorId(
-			$accessibleContexts,
-			null,
-			false, // do not include STATUS_DECLINED submissions
-			false  // include only unpublished submissions
-		);
-
-		if (!$submissionFactory->wasEmpty()) {
-			$stageAssignmentDao = DAORegistry::getDAO('StageAssignmentDAO');
-			while ($submission = $submissionFactory->next()) {
-				if (!$stageAssignmentDao->editorAssignedToStage($submission->getId())) {
-					$accessibleSubmissions[$submission->getId()] = $submission;
-				}
-			}
+		list($search, $column, $stageId) = $this->getFilterValues($filter);
+		$title = $author = null;
+		if ($column == 'title') {
+			$title = $search;
+		} else {
+			$author = $search;
 		}
 
 		$rangeInfo = $this->getGridRangeInfo($request, $this->getId());
-		import('lib.pkp.classes.core.VirtualArrayIterator');
-		return VirtualArrayIterator::factory($accessibleSubmissions, $rangeInfo);
+		return $submissionDao->getBySubEditorId(
+			$accessibleContexts,
+			null,
+			false, // do not include STATUS_DECLINED submissions
+			false,  // include only unpublished submissions
+			$title,
+			$author,
+			$stageId,
+			$rangeInfo
+		);
 	}
 }
 

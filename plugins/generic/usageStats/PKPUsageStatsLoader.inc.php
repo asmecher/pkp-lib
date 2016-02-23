@@ -3,8 +3,8 @@
 /**
  * @file plugins/generic/usageStats/PKPUsageStatsLoader.php
  *
- * Copyright (c) 2013-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2013-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class PKPUsageStatsLoader
@@ -47,6 +47,10 @@ abstract class PKPUsageStatsLoader extends FileLoader {
 	function PKPUsageStatsLoader($args) {
 		$plugin = PluginRegistry::getPlugin('generic', 'usagestatsplugin'); /* @var $plugin UsageStatsPlugin */
 		$this->_plugin = $plugin;
+
+		if ($plugin->getSetting(CONTEXT_ID_NONE, 'compressArchives')) {
+			$this->setCompressArchives(true);
+		}
 
 		$arg = current($args);
 
@@ -92,36 +96,7 @@ abstract class PKPUsageStatsLoader extends FileLoader {
 
 			$this->checkFolderStructure(true);
 
-			if ($this->_autoStage) {
-				// Copy all log files to stage directory, except the current day one.
-				$fileMgr = new FileManager();
-				$logFiles = array();
-				$logsDirFiles =  glob($plugin->getUsageEventLogsPath() . DIRECTORY_SEPARATOR . '*');
-				// It's possible that the processing directory have files that
-				// were being processed but the php process was stopped before
-				// finishing the processing. Just copy them to the stage directory too.
-				$processingDirFiles = glob($this->getProcessingPath() . DIRECTORY_SEPARATOR . '*');
-				if (is_array($logsDirFiles)) {
-					$logFiles = array_merge($logFiles, $logsDirFiles);
-				}
-				
-				if (is_array($processingDirFiles)) {
-					$logFiles = array_merge($logFiles, $processingDirFiles);
-				}
-				
-				foreach ($logFiles as $filePath) {
-					// Make sure it's a file.
-					if ($fileMgr->fileExists($filePath)) {
-						// Avoid current day file.
-						$filename = pathinfo($filePath, PATHINFO_BASENAME);
-						$currentDayFilename = $plugin->getUsageEventCurrentDayLogName();
-						if ($filename == $currentDayFilename) continue;
-						if ($fileMgr->copyFile($filePath, $this->getStagePath() . DIRECTORY_SEPARATOR . $filename)) {
-							$fileMgr->deleteFile($filePath);
-						}
-					}
-				}
-			}	
+
 		}
 	}
 
@@ -147,7 +122,19 @@ abstract class PKPUsageStatsLoader extends FileLoader {
 			return false;
 		}
 
-		return parent::executeActions();
+		// It's possible that the processing directory has files that
+		// were being processed but the php process was stopped before
+		// finishing the processing, or there may be a concurrent process running.
+		// Warn the user if this is the case.
+		$processingDirFiles = glob($this->getProcessingPath() . DIRECTORY_SEPARATOR . '*');
+		$processingDirError = is_array($processingDirFiles) && count($processingDirFiles);
+		if ($processingDirError) {
+			$this->addExecutionLogEntry(__('plugins.generic.usageStats.processingPathNotEmpty', array('directory' => $this->getProcessingPath())), SCHEDULED_TASK_MESSAGE_TYPE_ERROR);
+		}
+
+		if ($this->_autoStage) $this->autoStage();
+
+		return (parent::executeActions() && !$processingDirError);
 	}
 
 	/**
@@ -172,8 +159,8 @@ abstract class PKPUsageStatsLoader extends FileLoader {
 
 		while(!feof($fhandle)) {
 			$lineNumber++;
-			$line = fgets($fhandle);
-			if ($line == '') continue;
+			$line = trim(fgets($fhandle));
+			if (empty($line) || substr($line, 0, 1) === "#") continue; // Spacing or comment lines.
 			$entryData = $this->_getDataFromLogEntry($line);
 			if (!$this->_isLogEntryValid($entryData, $lineNumber)) {
 				throw new Exception(__('plugins.generic.usageStats.invalidLogEntry',
@@ -182,10 +169,6 @@ abstract class PKPUsageStatsLoader extends FileLoader {
 
 			// Avoid internal apache requests.
 			if ($entryData['url'] == '*') continue;
-
-			// Avoid url with file extension (accept no extension or php only).
-			$fileExtension = pathinfo($entryData['url'], PATHINFO_EXTENSION);
-			if ($fileExtension && substr_count($fileExtension, 'php') == false) continue;
 
 			// Avoid non sucessful requests.
 			$sucessfulReturnCodes = array(200, 304);
@@ -203,10 +186,18 @@ abstract class PKPUsageStatsLoader extends FileLoader {
 
 			if(!$assocId || !$assocType) continue;
 
-			list($countryCode, $cityName, $region) = $geoTool ? $geoTool->getGeoLocation($entryData['ip']) : array(null, null, null);
+			$countryCode = $cityName = $region = null;
+			$plugin = $this->_plugin;
+			if (!$plugin->getSetting(CONTEXT_ID_NONE, 'dataPrivacyOption')) {
+				list($countryCode, $cityName, $region) = $geoTool ? $geoTool->getGeoLocation($entryData['ip']) : array(null, null, null);
+				// Check optional columns setting.
+				$optionalColumns = $plugin->getSetting(CONTEXT_ID_NONE, 'optionalColumns');
+				if (!in_array(STATISTICS_DIMENSION_CITY, $optionalColumns)) $cityName = null;
+				if (!in_array(STATISTICS_DIMENSION_REGION, $optionalColumns)) $cityName = $region = null;
+			}
 			$day = date('Ymd', $entryData['date']);
 
-			$type = $this->getFileType($assocType, $assocId);
+			$type = $this->getFileTypeFromAssoc($assocType, $assocId);
 
 			// Implement double click filtering.
 			$entryHash = $assocType . $assocId . $entryData['ip'];
@@ -246,10 +237,8 @@ abstract class PKPUsageStatsLoader extends FileLoader {
 		$statsDao->deleteByLoadId($loadId);
 
 		if (!$loadResult) {
-			// Improve the error message.
-			$errorMsg = __('plugins.generic.usageStats.loadDataError',
-				array('file' => $filePath, 'error' => $errorMsg));
-			
+			$this->addExecutionLogEntry(__('plugins.generic.usageStats.loadDataError',
+				array('file' => $filePath)), SCHEDULED_TASK_MESSAGE_TYPE_ERROR);
 			return FILE_LOADER_RETURN_TO_STAGING;
 		} else {
 			return true;
@@ -270,6 +259,41 @@ abstract class PKPUsageStatsLoader extends FileLoader {
 	// Protected methods.
 	//
 	/**
+	 * Auto stage usage stats log files, also moving files that
+	 * might be in processing folder to stage folder.
+	 */
+	protected function autoStage() {
+		$plugin = $this->_plugin;
+
+		// Copy all log files to stage directory, except the current day one.
+		$fileMgr = new FileManager();
+		$logFiles = array();
+		$logsDirFiles =  glob($plugin->getUsageEventLogsPath() . DIRECTORY_SEPARATOR . '*');
+		// It's possible that the processing directory have files that
+		// were being processed but the php process was stopped before
+		// finishing the processing. Just copy them to the stage directory too.
+		$processingDirFiles = glob($this->getProcessingPath() . DIRECTORY_SEPARATOR . '*');
+		if (is_array($logsDirFiles)) {
+			$logFiles = array_merge($logFiles, $logsDirFiles);
+		}
+
+		if (is_array($processingDirFiles)) {
+			$logFiles = array_merge($logFiles, $processingDirFiles);
+		}
+
+		foreach ($logFiles as $filePath) {
+			// Make sure it's a file.
+			if ($fileMgr->fileExists($filePath)) {
+				// Avoid current day file.
+				$filename = pathinfo($filePath, PATHINFO_BASENAME);
+				$currentDayFilename = $plugin->getUsageEventCurrentDayLogName();
+				if ($filename == $currentDayFilename) continue;
+				$this->moveFile(pathinfo($filePath, PATHINFO_DIRNAME), $this->getStagePath(), $filename);
+			}
+		}
+	}
+
+	/**
 	* Based on the passed object data, get the file type.
 	* @param $assocType int
 	* @param $assocId int
@@ -277,7 +301,7 @@ abstract class PKPUsageStatsLoader extends FileLoader {
 	* constants STATISTICS_FILE_TYPE... if the
 	* object is a file, if not, return null.
 	*/
-	protected function getFileType($assocType, $assocId) {
+	protected function getFileTypeFromAssoc($assocType, $assocId) {
 		// Check downloaded file type, if any.
 		$file = null;
 		$type = null;
@@ -286,39 +310,52 @@ abstract class PKPUsageStatsLoader extends FileLoader {
 			$file = $submissionFileDao->getLatestRevision($assocId);
 		}
 
-		if ($file) {
-			$fileType = $file->getFileType();
-			$fileExtension = pathinfo($file->getOriginalFileName(), PATHINFO_EXTENSION);
-			switch ($fileType) {
-				case 'application/pdf':
-				case 'application/x-pdf':
-				case 'text/pdf':
-				case 'text/x-pdf':
+		if ($file) $type = $this->getFileTypeFromFile($file);
+
+		return $type;
+	}
+
+	/**
+	 * Associate the passed file type with one of the file
+	 * type statistics constants.
+	 * @param $file PKPFile
+	 * @return int One of the file type constants STATISTICS_FILE_TYPE...
+	 */
+	protected function getFileTypeFromFile($file) {
+		if (!is_a($file, 'PKPFile')) {
+			throw new Exception('Wrong object type, expected PKPFile.');
+		}
+		$fileType = $file->getFileType();
+		$fileExtension = pathinfo($file->getOriginalFileName(), PATHINFO_EXTENSION);
+		switch ($fileType) {
+			case 'application/pdf':
+			case 'application/x-pdf':
+			case 'text/pdf':
+			case 'text/x-pdf':
+				$type = STATISTICS_FILE_TYPE_PDF;
+				break;
+			case 'application/octet-stream':
+				if ($fileExtension == 'pdf') {
 					$type = STATISTICS_FILE_TYPE_PDF;
-					break;
-				case 'application/octet-stream':
-					if ($fileExtension == 'pdf') {
-						$type = STATISTICS_FILE_TYPE_PDF;
-					} else {
-						$type = STATISTICS_FILE_TYPE_OTHER;
-					}
-					break;
-				case 'application/msword':
-					$type = STATISTICS_FILE_TYPE_DOC;
-					break;
-				case 'application/zip':
-					if ($fileExtension == 'docx') {
-						$type = STATISTICS_FILE_TYPE_DOC;
-					} else {
-						$type = STATISTICS_FILE_TYPE_OTHER;
-					}
-					break;
-				case 'text/html':
-					$type = STATISTICS_FILE_TYPE_HTML;
-					break;
-				default:
+				} else {
 					$type = STATISTICS_FILE_TYPE_OTHER;
-			}
+				}
+				break;
+			case 'application/msword':
+				$type = STATISTICS_FILE_TYPE_DOC;
+				break;
+			case 'application/zip':
+				if ($fileExtension == 'docx') {
+					$type = STATISTICS_FILE_TYPE_DOC;
+				} else {
+					$type = STATISTICS_FILE_TYPE_OTHER;
+				}
+				break;
+			case 'text/html':
+				$type = STATISTICS_FILE_TYPE_HTML;
+				break;
+			default:
+				$type = STATISTICS_FILE_TYPE_OTHER;
 		}
 
 		return $type;
@@ -429,19 +466,20 @@ abstract class PKPUsageStatsLoader extends FileLoader {
 			$parseRegex = $plugin->getSetting(0, 'accessLogFileParseRegex');
 		} else {
 			// Regex to parse this plugin's log access files.
-			$parseRegex = '/^(\S+) \S+ \S+ "(.*?)" (\S+) (\S+) "(.*?)"/';
+			$parseRegex = '/^(?P<ip>\S+) \S+ \S+ "(?P<date>.*?)" (?P<url>\S+) (?P<returnCode>\S+) "(?P<userAgent>.*?)"/';
 		}
 
 		// The default regex will parse only apache log files in combined format.
-		if (!$parseRegex) $parseRegex = '/^(\S+) \S+ \S+ \[(.*?)\] "\S+ (\S+).*?" (\S+) \S+ ".*?" "(.*?)"/';
+		if (!$parseRegex) $parseRegex = '/^(?P<ip>\S+) \S+ \S+ \[(?P<date>.*?)\] "\S+ (?P<url>\S+).*?" (?P<returnCode>\S+) \S+ ".*?" "(?P<userAgent>.*?)"/';
 
 		$returner = array();
 		if (preg_match($parseRegex, $entry, $m)) {
-			$returner['ip'] = $m[1];
-			$returner['date'] = strtotime($m[2]);
-			$returner['url'] = urldecode($m[3]);
-			$returner['returnCode'] = $m[4];
-			$returner['userAgent'] = $m[5];
+			$associative = count(array_filter(array_keys($m), 'is_string')) > 0;
+			$returner['ip'] = $associative ? $m['ip'] : $m[1];
+			$returner['date'] = strtotime($associative ? $m['date'] : $m[2]);
+			$returner['url'] = urldecode($associative ? $m['url'] : $m[3]);
+			$returner['returnCode'] = $associative ? $m['returnCode'] : $m[4];
+			$returner['userAgent'] = $associative ? $m['userAgent'] : $m[5];
 		}
 
 		return $returner;
@@ -484,7 +522,7 @@ abstract class PKPUsageStatsLoader extends FileLoader {
 		if (is_array($contextPaths) && !$page && $operation == 'index') {
 			$page = 'index';
 		}
-	
+
 		if (empty($contextPaths) || !$page || !$operation) return $noMatchesReturner;
 
 		$pageAndOperation = $page . '/' . $operation;

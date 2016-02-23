@@ -4,8 +4,8 @@
 <!--
   * locale/it_IT/manager.xml
   *
-  * Copyright (c) 2014-2015 Simon Fraser University Library
-  * Copyright (c) 2000-2015 John Willinsky
+  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2000-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
   *
   * Localization strings for the it_IT (Italiano) locale.
@@ -147,7 +147,6 @@
 	<message key="manager.setup.layout.unselected">Non selezionato</message>
 	<message key="manager.setup.loggingAndAuditing">Registrazione e certificazione</message>
 	<message key="manager.setup.pageHeaderLogoImageInvalid">Formato dell'immagine del logo per la testata non valido. I formati accettati sono .gif, .jpg, o .png.</message>
-	<message key="manager.setup.pageHeaderTitleImageInvalid">Formato dell'immagine-titolo per la testata non valido. I formati accettati sono .gif, .jpg, o .png.</message>
 	<message key="manager.setup.selectOne">Scegli</message>
 	<message key="manager.statistics"><![CDATA[Statistiche &amp; Report]]></message>
 	<message key="manager.statistics.statistics.count.value">{$count} ({$percentage}%)</message>
@@ -178,7 +177,6 @@
 	<message key="manager.setup.filter.lookup.grid.descriptionConfirm">Hai scelto di aggiungere il database {$filterDisplayName}. Premi 'OK' per confermare.</message>
 	<message key="manager.reviewerSearch.searchByName">Cerca un Revisore per nome</message>
 	<message key="manager.reviewerSearch.doneAmount">Numero di revisioni completate</message>
-	<message key="manager.reviewerSearch.advancedSearch">Ricerca avanzata dei revisori</message>
 	<message key="manager.reviewerSearch.avgAmount">Giorni impiegati per la revisione</message>
 	<message key="manager.reviewerSearch.lastAmount">Giorni trascorsi dall'ultima revisione</message>
 	<message key="manager.reviewerSearch.interests">Interessi per la revisione</message>
@@ -220,8 +218,6 @@
 	<message key="manager.announcements.datePublish">Pubblicato</message>
 	<message key="manager.emails.details">Dettagli del template</message>
 	<message key="manager.masthead.title">Redazione</message>
-	<message key="manager.navigation">Navigazione</message>
-	<message key="manager.reviewerSearch.advancedSearch.short">Ricerca avanzata</message>
 	<message key="manager.reviewerSearch.searchByName.short">Cerca per nome</message>
 	<message key="manager.emails.addEmail">Aggiungi un modello email</message>
 	<message key="manager.emails.data">Modello per i dati del messaggio</message>

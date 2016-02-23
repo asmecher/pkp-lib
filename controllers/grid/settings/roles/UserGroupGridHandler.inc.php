@@ -3,8 +3,8 @@
 /**
  * @file controllers/grid/settings/roles/UserGroupGridHandler.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class UserGroupGridHandler
@@ -59,8 +59,8 @@ class UserGroupGridHandler extends GridHandler {
 	 * @copydoc PKPHandler::authorize()
 	 */
 	function authorize($request, &$args, $roleAssignments) {
-		import('lib.pkp.classes.security.authorization.PkpContextAccessPolicy');
-		$this->addPolicy(new PkpContextAccessPolicy($request, $roleAssignments));
+		import('lib.pkp.classes.security.authorization.ContextAccessPolicy');
+		$this->addPolicy(new ContextAccessPolicy($request, $roleAssignments));
 
 		$operation = $request->getRequestedOp();
 		$workflowStageRequiredOps = array('assignStage', 'unassignStage');
@@ -105,7 +105,6 @@ class UserGroupGridHandler extends GridHandler {
 
 		// Basic grid configuration.
 		$this->setTitle('grid.roles.currentRoles');
-		$this->setInstructions('settings.roles.gridDescription');
 
 		// Add grid-level actions.
 		$router = $request->getRouter();
@@ -151,7 +150,7 @@ class UserGroupGridHandler extends GridHandler {
 	/**
 	 * @copydoc GridHandler::loadData()
 	 */
-	function loadData($request, $filter) {
+	protected function loadData($request, $filter) {
 		$contextId = $this->_getContextId();
 		$userGroupDao = DAORegistry::getDAO('UserGroupDAO'); /* @var $userGroupDao UserGroupDAO */
 
@@ -173,21 +172,19 @@ class UserGroupGridHandler extends GridHandler {
 		$rangeInfo = $this->getGridRangeInfo($request, $this->getId());
 
 		if ($stageIdFilter && $stageIdFilter != 0) {
-			$userGroups = $userGroupDao->getUserGroupsByStage($contextId, $stageIdFilter, false, false, $roleIdFilter, $rangeInfo);
+			return $userGroupDao->getUserGroupsByStage($contextId, $stageIdFilter, false, false, $roleIdFilter, $rangeInfo);
 		} else if ($roleIdFilter && $roleIdFilter != 0) {
-			$userGroups = $userGroupDao->getByRoleId($contextId, $roleIdFilter, false, $rangeInfo);
+			return $userGroupDao->getByRoleId($contextId, $roleIdFilter, false, $rangeInfo);
 		} else {
-			$userGroups = $userGroupDao->getByContextId($contextId, $rangeInfo);
+			return $userGroupDao->getByContextId($contextId, $rangeInfo);
 		}
-
-		return $userGroups;
 	}
 
 	/**
 	 * @copydoc GridHandler::getRowInstance()
 	 * @return UserGroupGridRow
 	 */
-	function getRowInstance() {
+	protected function getRowInstance() {
 		import('lib.pkp.controllers.grid.settings.roles.UserGroupGridRow');
 		return new UserGroupGridRow();
 	}
@@ -232,7 +229,7 @@ class UserGroupGridHandler extends GridHandler {
 	 * @see GridHandler::getFilterForm()
 	 * @return string Filter template.
 	 */
-	function getFilterForm() {
+	protected function getFilterForm() {
 		return 'controllers/grid/settings/roles/userGroupsGridFilter.tpl';
 	}
 

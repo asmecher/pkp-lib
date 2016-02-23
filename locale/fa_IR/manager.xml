@@ -4,11 +4,11 @@
 <!--
   * locale/fa_IR/manager.xml
   *
-  * Copyright (c) 2014-2015 Simon Fraser University Library
-  * Copyright (c) 2000-2015 John Willinsky
+  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2000-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
   *
-  * Localization strings for the fa_IR (Persian) locale.
+  * Localization strings for the fa_IR (فارسی) locale.
   *
   -->
 
@@ -147,7 +147,6 @@
 	<message key="manager.setup.layout.unselected">انتخاب نشده</message>
 	<message key="manager.setup.loggingAndAuditing">ورود و ممیزی</message>
 	<message key="manager.setup.pageHeaderLogoImageInvalid">فرمات تصویر لوگوی هدر صفحات نامناسب است.  فرمات های قابل قبول عبارت است از .gif, .jpg, or .png.</message>
-	<message key="manager.setup.pageHeaderTitleImageInvalid">فرمات تصویر عنوان هدر صفحات نامناسب است. فزمات های قابل قبول عبارت است .gif, .jpg, or .png.</message>
 	<message key="manager.setup.selectOne">یکی را انتخاب کنید</message>
 	<message key="manager.statistics">آمار و گزارشات</message>
 	<message key="manager.statistics.statistics.count.value">{$count} ({$percentage}%)</message>
@@ -169,7 +168,6 @@
 	<message key="plugins.categories.themes.description">پلاگین های چهره می توانند برای تغییر ظاهر سیستم استفاده شوند</message>
 	<message key="plugins.categories.themes">پلاگین های چهره</message>
 	<message key="manager.emails.form.emailKeyRequired">یک کلید منحصر به فرد ایمیل برای ایمیل لازم است</message>
-	<message key="manager.reviewerSearch.advancedSearch">جستجوی پیشرفته کارشناس</message>
 	<message key="manager.reviewerSearch.searchByName">جستجوی کارشناس بر اساس نام</message>
 	<message key="manager.reviewerSearch.doneAmount">تعداد کارشناسی های کامل شده</message>
 	<message key="manager.reviewerSearch.avgAmount">میانگین روزهای صرف شده برای کارشناسی</message>

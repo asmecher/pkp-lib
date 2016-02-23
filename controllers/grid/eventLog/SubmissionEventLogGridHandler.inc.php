@@ -3,8 +3,8 @@
 /**
  * @file controllers/grid/eventLog/SubmissionEventLogGridHandler.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class SubmissionEventLogGridHandler
@@ -70,7 +70,7 @@ class SubmissionEventLogGridHandler extends GridHandler {
 	 * @param $roleAssignments array
 	 */
 	function authorize($request, &$args, $roleAssignments) {
-		import('classes.security.authorization.SubmissionAccessPolicy');
+		import('lib.pkp.classes.security.authorization.SubmissionAccessPolicy');
 		$this->addPolicy(new SubmissionAccessPolicy($request, $args, $roleAssignments));
 		return parent::authorize($request, $args, $roleAssignments);
 	}
@@ -135,7 +135,7 @@ class SubmissionEventLogGridHandler extends GridHandler {
 	 * @see GridHandler::getRowInstance()
 	 * @return EventLogGridRow
 	 */
-	function getRowInstance() {
+	protected function getRowInstance() {
 		return new EventLogGridRow($this->getSubmission());
 	}
 
@@ -155,7 +155,7 @@ class SubmissionEventLogGridHandler extends GridHandler {
 	/**
 	 * @copydoc GridHandler::loadData
 	 */
-	function loadData($request, $filter = null) {
+	protected function loadData($request, $filter = null) {
 		$submissionEventLogDao = DAORegistry::getDAO('SubmissionEventLogDAO');
 		$submissionEmailLogDao = DAORegistry::getDAO('SubmissionEmailLogDAO');
 
@@ -200,12 +200,12 @@ class SubmissionEventLogGridHandler extends GridHandler {
 		assert(is_a($emailLogEntry, 'EmailLogEntry'));
 
 		$text = array();
-		$text[] = __('email.from') . ': ' . $emailLogEntry->getFrom();
-		$text[] =  __('email.to') . ': ' . $emailLogEntry->getRecipients();
-		$text[] =  __('email.subject') . ': ' . $emailLogEntry->getSubject();
+		$text[] = __('email.from') . ': ' . htmlspecialchars($emailLogEntry->getFrom());
+		$text[] =  __('email.to') . ': ' . htmlspecialchars($emailLogEntry->getRecipients());
+		$text[] =  __('email.subject') . ': ' . htmlspecialchars($emailLogEntry->getSubject());
 		$text[] = $emailLogEntry->getBody();
 
-		return nl2br(htmlentities(implode(PHP_EOL . PHP_EOL, $text)));
+		return nl2br(String::stripUnsafeHtml(implode(PHP_EOL . PHP_EOL, $text)));
 	}
 }
 

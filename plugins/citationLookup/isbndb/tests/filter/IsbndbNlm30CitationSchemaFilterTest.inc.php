@@ -3,8 +3,8 @@
 /**
  * @file plugins/citationLookup/isbndb/tests/filter/IsbndbNlm30CitationSchemaFilterTest.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class IsbndbNlm30CitationSchemaFilterTest
@@ -16,6 +16,12 @@
 import('lib.pkp.plugins.metadata.nlm30.tests.filter.Nlm30CitationSchemaFilterTestCase');
 
 class IsbndbNlm30CitationSchemaFilterTest extends Nlm30CitationSchemaFilterTestCase {
-	const ISBNDB_TEST_APIKEY = 'K6WLK8YW';
+	/**
+	 * Get the ISBNDB API key
+	 * @return string
+	 */
+	protected function _getIsbndbApiKey() {
+		return getenv('ISBNDB_TEST_APIKEY');
+	}
 }
 ?>

@@ -4,8 +4,8 @@
 <!--
   * locale/nl_NL/common.xml
   *
-  * Copyright (c) 2014-2015 Simon Fraser University Library
-  * Copyright (c) 2000-2015 John Willinsky
+  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2000-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
   *
   * Localization strings for the nl_NL (Nederlands) locale.
@@ -16,7 +16,6 @@
 	<message key="about.aboutSite">Over de site</message>
 	<message key="about.contact">Contactpersoon</message>
 	<message key="about.contact.email">E-mail</message>
-	<message key="about.contact.fax">Fax</message>
 	<message key="about.contact.phone">Telefoon</message>
 	<message key="about.contact.principalContact">Primaire contactpersoon</message>
 	<message key="about.contact.supportContact">Contactpersoon ondersteuning</message>
@@ -342,8 +341,6 @@
 	<message key="common.plugins">Plugins</message>
 	<message key="form.confirmSubmit">Weet u zeker dat u dit formulier wilt insturen?</message>
 	<message key="form.emailRequired">een e-mail adres is verplicht</message>
-	<message key="help.toggleInlineHelpOn">Help uit</message>
-	<message key="help.toggleInlineHelpOff">Help aan</message>
 	<message key="navigation.access">Gebruikersrollen</message>
 	<message key="navigation.admin">Beheer</message>
 	<message key="navigation.settings">Instellingen</message>
@@ -368,7 +365,6 @@
 	<message key="navigation.setup">Instellen</message>
 	<message key="navigation.sitemap">Site Map</message>
 	<message key="common.acknowledged">Erkend</message>
-	<message key="common.considered">Overwogen</message>
 	<message key="common.notified">Bericht gegeven</message>
 	<message key="common.reset">Herstel</message>
 </locale>

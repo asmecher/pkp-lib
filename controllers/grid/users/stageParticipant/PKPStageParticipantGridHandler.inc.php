@@ -3,8 +3,8 @@
 /**
  * @file controllers/grid/users/stageParticipant/StageParticipantGridHandler.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class StageParticipantGridHandler
@@ -37,6 +37,7 @@ class PKPStageParticipantGridHandler extends CategoryGridHandler {
 			array(ROLE_ID_MANAGER, ROLE_ID_SUB_EDITOR),
 			array_merge($peOps, array('addParticipant', 'deleteParticipant', 'saveParticipant', 'fetchUserList'))
 		);
+		$this->setTitle('editor.submission.stageParticipants');
 	}
 
 
@@ -47,7 +48,7 @@ class PKPStageParticipantGridHandler extends CategoryGridHandler {
 	 * Get the authorized submission.
 	 * @return Submission
 	 */
-	function &getSubmission() {
+	function getSubmission() {
 		return $this->getAuthorizedContextObject(ASSOC_TYPE_SUBMISSION);
 	}
 
@@ -67,7 +68,7 @@ class PKPStageParticipantGridHandler extends CategoryGridHandler {
 	 */
 	function authorize($request, &$args, $roleAssignments) {
 		$stageId = (int) $request->getUserVar('stageId');
-		import('classes.security.authorization.WorkflowStageAccessPolicy');
+		import('lib.pkp.classes.security.authorization.WorkflowStageAccessPolicy');
 		$this->addPolicy(new WorkflowStageAccessPolicy($request, $args, $roleAssignments, 'submissionId', $stageId));
 		return parent::authorize($request, $args, $roleAssignments);
 	}
@@ -165,15 +166,14 @@ class PKPStageParticipantGridHandler extends CategoryGridHandler {
 	/**
 	 * @copydoc GridHandler::getRowInstance()
 	 */
-	function getRowInstance() {
-		$submission = $this->getSubmission();
-		return new StageParticipantGridRow($submission, $this->getStageId(), $this->_canAdminister());
+	protected function getRowInstance() {
+		return new StageParticipantGridRow($this->getSubmission(), $this->getStageId(), $this->_canAdminister());
 	}
 
 	/**
 	 * @copydoc CategoryGridHandler::getCategoryRowInstance()
 	 */
-	function getCategoryRowInstance() {
+	protected function getCategoryRowInstance() {
 		$submission = $this->getSubmission();
 		return new StageParticipantGridCategoryRow($submission, $this->getStageId());
 	}
@@ -202,10 +202,33 @@ class PKPStageParticipantGridHandler extends CategoryGridHandler {
 	/**
 	 * @copydoc GridHandler::loadData()
 	 */
-	function loadData($request, $filter) {
+	protected function loadData($request, $filter) {
+		$submission = $this->getSubmission();
+		$stageAssignmentDao = DAORegistry::getDAO('StageAssignmentDAO');
+		$stageAssignments = $stageAssignmentDao->getBySubmissionAndStageId(
+			$this->getSubmission()->getId(),
+			$this->getStageId()
+		);
+
+		// Make a list of the active (non-reviewer) user groups.
+		$userGroupIds = array();
+		while ($stageAssignment = $stageAssignments->next()) {
+			$userGroupIds[] = $stageAssignment->getUserGroupId();
+		}
+
+		// Fetch the desired user groups as objects.
 		$userGroupDao = DAORegistry::getDAO('UserGroupDAO'); /* @var $userGroupDao UserGroupDAO */
 		$context = $request->getContext();
-		return $userGroupDao->getUserGroupsByStage($context->getId(), $this->getStageId(), false, true);
+		$result = array();
+		$userGroups = $userGroupDao->getUserGroupsByStage(
+			$request->getContext()->getId(),
+			$this->getStageId(),
+			false, true // Exclude reviewers
+		);
+		while ($userGroup = $userGroups->next()) {
+			if (in_array($userGroup->getId(), $userGroupIds)) $result[$userGroup->getId()] = $userGroup;
+		}
+		return $result;
 	}
 
 
@@ -224,7 +247,7 @@ class PKPStageParticipantGridHandler extends CategoryGridHandler {
 		$userGroups = $this->getGridDataElements($request);
 
 		import('lib.pkp.controllers.grid.users.stageParticipant.form.AddParticipantForm');
-		$form = new AddParticipantForm($submission, $stageId, $userGroups);
+		$form = new AddParticipantForm($submission, $stageId);
 		$form->initData();
 
 		return new JSONMessage(true, $form->fetch($request));
@@ -243,7 +266,7 @@ class PKPStageParticipantGridHandler extends CategoryGridHandler {
 		$userGroups = $this->getGridDataElements($request);
 
 		import('lib.pkp.controllers.grid.users.stageParticipant.form.AddParticipantForm');
-		$form = new AddParticipantForm($submission, $stageId, $userGroups);
+		$form = new AddParticipantForm($submission, $stageId);
 		$form->readInputData();
 		if ($form->validate()) {
 			list($userGroupId, $userId, $stageAssignmentId) = $form->execute($request);

@@ -3,8 +3,8 @@
 /**
  * @file controllers/grid/users/reviewer/form/ThankReviewerForm.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class ThankReviewerForm
@@ -112,6 +112,15 @@ class ThankReviewerForm extends Form {
 
 		if (!$this->getData('skipEmail')) {
 			HookRegistry::call('ThankReviewerForm::thankReviewer', array(&$submission, &$reviewAssignment, &$email));
+			$dispatcher = $request->getDispatcher();
+			$context = $request->getContext();
+			$user = $request->getUser();
+			$email->assignParams(array(
+				'reviewerName' => $reviewer->getFullName(),
+				'contextUrl' => $dispatcher->url($request, ROUTE_PAGE, $context->getPath()),
+				'editorialContactSignature' => $user->getContactSignature(),
+				'signatureFullName' => $user->getFullname(),
+			));
 			$email->send($request);
 		}
 

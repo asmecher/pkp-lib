@@ -1,8 +1,8 @@
 {**
  * templates/controllers/listbuilderGridRow.tpl
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * a listbuilder grid row
@@ -13,6 +13,13 @@
 	{assign var=rowId value="component-"|concat:$row->getGridId():"-row-tempId-"|uniqid}
 {/if}
 <tr {if $rowId}id="{$rowId|escape}" {/if}class="{if $rowId}element{$row->getId()|escape} {/if}gridRow">
+	{capture assign="listbuilderRowActions"}
+		<div class="row_actions">
+			{foreach from=$row->getActions($smarty.const.GRID_ACTION_POSITION_ROW_LEFT) item=action}
+				{include file="linkAction/linkAction.tpl" action=$action contextId=$rowId}
+			{/foreach}
+		</div>
+	{/capture}
 	{foreach from=$cells item=cell name=listbuilderCells}
 		{if $smarty.foreach.listbuilderCells.first}
 			<td class="first_column">
@@ -25,15 +32,11 @@
 					<input type="hidden" disabled="disabled" class="isModified" value="0" />
 				{/if}
 				<div class="row_container">
-					<div class="row_actions">
-						{if $row->getActions($smarty.const.GRID_ACTION_POSITION_ROW_LEFT)}
-							{foreach from=$row->getActions($smarty.const.GRID_ACTION_POSITION_ROW_LEFT) item=action}
-								{include file="linkAction/linkAction.tpl" action=$action contextId=$rowId}
-							{/foreach}
-						{/if}
-					</div>
 					<div class="gridCell row_file">{$cell}</div>
 				</div>
+				{if $smarty.foreach.listbuilderCells.last}
+					{$listbuilderRowActions}
+				{/if}
 			</td>
 		{else}
 			{if $column->hasFlag('alignment')}
@@ -41,7 +44,12 @@
 			{else}
 				{assign var=alignment value=$smarty.const.COLUMN_ALIGNMENT_CENTER}
 			{/if}
-			<td style="text-align: {$alignment}" class="gridCell">{$cell}</td>
+			<td style="text-align: {$alignment}" class="gridCell">
+				{$cell}
+				{if $smarty.foreach.listbuilderCells.last && $row->getActions($smarty.const.GRID_ACTION_POSITION_ROW_LEFT)}
+					{$listbuilderRowActions}
+				{/if}
+			</td>
 		{/if}
 	{/foreach}
 </tr>

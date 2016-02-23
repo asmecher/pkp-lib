@@ -3,8 +3,8 @@
 /**
  * @file controllers/grid/settings/submissionChecklist/SubmissionChecklistGridHandler.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class SubmissionChecklistGridHandler
@@ -39,8 +39,6 @@ class SubmissionChecklistGridHandler extends SetupGridHandler {
 		// Basic grid configuration
 		$this->setId('submissionChecklist');
 		$this->setTitle('manager.setup.submissionPreparationChecklist');
-		$this->setInstructions('manager.setup.submissionPreparationChecklistDescription');
-
 
 		// Add grid-level actions
 		import('lib.pkp.classes.linkAction.request.AjaxModal');
@@ -65,7 +63,7 @@ class SubmissionChecklistGridHandler extends SetupGridHandler {
 				null,
 				null,
 				null,
-				array('multiline' => true, 'html' => true, 'maxLength' => 220)
+				array('html' => true, 'maxLength' => 220)
 			)
 		);
 	}
@@ -85,14 +83,14 @@ class SubmissionChecklistGridHandler extends SetupGridHandler {
 	/**
 	 * @copydoc GridHandler::getRowInstance()
 	 */
-	function getRowInstance() {
+	protected function getRowInstance() {
 		return new SubmissionChecklistGridRow();
 	}
 
 	/**
 	 * @copydoc GridHandler::loadData()
 	 */
-	function loadData($request, $filter) {
+	protected function loadData($request, $filter) {
 		// Elements to be displayed in the grid
 		$router = $request->getRouter();
 		$context = $router->getContext($request);

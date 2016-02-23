@@ -3,8 +3,8 @@
 /**
  * @file classes/notification/form/NotificationMailingListForm.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class NotificationMailingListForm
@@ -36,14 +36,13 @@ class NotificationMailingListForm extends Form {
 		}
 		$this->addCheck(new FormValidatorPost($this));
 		$this->addCheck(new FormValidatorEmail($this, 'email', 'required', 'notification.mailList.emailInvalid'));
-		$this->addCheck(new FormValidatorCustom($this, 'email', 'required', 'user.register.form.emailsDoNotMatch', create_function('$email,$form', 'return $email == $form->getData(\'confirmEmail\');'), array($this)));
 	}
 
 	/**
 	 * Assign form data to user-submitted data.
 	 */
 	function readInputData() {
-		$userVars = array('email', 'confirmEmail');
+		$userVars = array('email');
 		
 		if ($this->captchaEnabled) {
 			$userVars[] = 'recaptcha_challenge_field';

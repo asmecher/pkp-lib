@@ -1,8 +1,8 @@
 /**
  * @file js/classes/Handler.js
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class Handler
@@ -44,9 +44,9 @@
 		this.dataItems_ = { };
 		this.publishedEvents_ = { };
 
-		if (options.$eventBridge) {
+		if (options.eventBridge) {
 			// Configure the event bridge.
-			this.$eventBridge_ = options.$eventBridge;
+			this.eventBridge_ = options.eventBridge;
 		}
 
 		// The "publishChangeEvents" option can be used to specify
@@ -116,7 +116,7 @@
 	 * @private
 	 * @type {?string}
 	 */
-	$.pkp.classes.Handler.prototype.$eventBridge_ = null;
+	$.pkp.classes.Handler.prototype.eventBridge_ = null;
 
 
 	//
@@ -570,21 +570,27 @@
 
 		if (typeof tinyMCE !== 'undefined') {
 			var $element = this.getHtmlElement(),
-					elementId = $element.attr('id');
+					elementId = $element.attr('id'),
+					settings = tinyMCE.EditorManager.settings;
 
 			$('#' + elementId).find('.richContent').each(function() {
 				var id = /** @type {string} */ ($(this).attr('id')),
 						icon = $('<div></div>'),
 						iconParent = $('<div></div>'),
-						classes, i,
-						editor = tinyMCE.EditorManager.createEditor(
-								id, tinyMCE.EditorManager.settings).render();
+						classes, i, editor,
+						settings = tinyMCE.EditorManager.settings;
+
+				// Set the extended toolbar, if requested
+				if ($(this).hasClass('extendedRichContent')) {
+					settings.toolbar = settings.richToolbar;
+				}
+
+				editor = tinyMCE.EditorManager.createEditor(id, settings).render();
 
 				// For localizable text fields add globe and flag icons
 				if ($(this).hasClass('localizable') || $(this).hasClass('flag')) {
 					icon.addClass('mceLocalizationIcon localizable');
 					icon.attr('id', 'mceLocalizationIcon-' + id);
-					iconParent.addClass('mceLocalizationIconParent');
 					$(this).wrap(iconParent);
 					$(this).parent().append(icon);
 
@@ -632,8 +638,8 @@
 
 		// If we have an event bridge configured then re-trigger
 		// the event on the target object.
-		if (this.$eventBridge_) {
-			$('[id^="' + this.$eventBridge_ + '"]').trigger(eventName, opt_data);
+		if (this.eventBridge_) {
+			$('[id^="' + this.eventBridge_ + '"]').trigger(eventName, opt_data);
 		}
 	};
 

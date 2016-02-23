@@ -3,8 +3,8 @@
 /**
  * @file classes/controllers/listbuilder/MultipleListsListbuilderHandler.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class MultipleListsListbuilderHandler
@@ -78,7 +78,7 @@ class MultipleListsListbuilderHandler extends ListbuilderHandler {
 	 * All the data loading for this component is done
 	 * using ListbuilderList objects.
 	 */
-	function loadData($request, $filter) {
+	protected function loadData($request, $filter) {
 		// Give a chance to subclasses set data
 		// on their lists.
 		$this->setListsData($request, $filter);

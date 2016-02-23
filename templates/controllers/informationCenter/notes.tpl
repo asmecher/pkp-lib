@@ -1,8 +1,8 @@
 {**
  * templates/controllers/informationCenter/notes.tpl
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * Display submission file notes/note form in information center.
@@ -14,8 +14,8 @@
 		$('#informationCenterNotes').pkpHandler(
 			'$.pkp.controllers.informationCenter.NotesHandler',
 			{ldelim}
-				fetchNotesUrl: '{url|escape:"javascript" router=$smarty.const.ROUTE_COMPONENT op="listNotes" params=$linkParams escape=false}',
-				fetchPastNotesUrl: '{url|escape:"javascript" router=$smarty.const.ROUTE_COMPONENT op="listPastNotes" params=$linkParams escape=false}'
+				fetchNotesUrl: {url|json_encode router=$smarty.const.ROUTE_COMPONENT op="listNotes" params=$linkParams escape=false},
+				fetchPastNotesUrl: {url|json_encode router=$smarty.const.ROUTE_COMPONENT op="listPastNotes" params=$linkParams escape=false}
 			{rdelim}
 		);
 	{rdelim});
@@ -23,7 +23,6 @@
 
 <div id="informationCenterNotes">
 	{include file=$newNoteFormTemplate}
-	<hr />
 
 	{if $showEarlierEntries}
 	{**

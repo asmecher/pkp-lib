@@ -3,8 +3,8 @@
 /**
  * @file controllers/listbuilder/users/UserUserGroupListbuilderHandler.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class UserUserGroupListbuilderHandler
@@ -140,7 +140,7 @@ class UserUserGroupListbuilderHandler extends ListbuilderHandler {
 	/**
 	 * Initialize the grid with the currently selected set of user groups.
 	 */
-	function loadData() {
+	protected function loadData() {
 		$context = $this->getContext();
 		$userGroupDao = DAORegistry::getDAO('UserGroupDAO');
 		return $userGroupDao->getByUserId($this->getUserId(), $context->getId());
@@ -154,8 +154,8 @@ class UserUserGroupListbuilderHandler extends ListbuilderHandler {
 	 * @copydoc PKPHandler::authorize()
 	 */
 	function authorize($request, &$args, $roleAssignments) {
-		import('lib.pkp.classes.security.authorization.PkpContextAccessPolicy');
-		$this->addPolicy(new PkpContextAccessPolicy($request, $roleAssignments));
+		import('lib.pkp.classes.security.authorization.ContextAccessPolicy');
+		$this->addPolicy(new ContextAccessPolicy($request, $roleAssignments));
 		return parent::authorize($request, $args, $roleAssignments);
 	}
 
@@ -184,25 +184,34 @@ class UserUserGroupListbuilderHandler extends ListbuilderHandler {
 		$cellProvider = new UserGroupListbuilderGridCellProvider();
 
 		// Name column
-		$nameColumn = new ListbuilderGridColumn($this, 'name', 'common.name');
-		$nameColumn->setCellProvider($cellProvider);
+		$nameColumn = new ListbuilderGridColumn(
+			$this,
+			'name',
+			'common.name',
+			null,
+			null,
+			$cellProvider,
+			array('width' => 75, 'alignment' => COLUMN_ALIGNMENT_LEFT)
+		);
 		$this->addColumn($nameColumn);
 
 		// Designation column
-		$designationColumn = new ListbuilderGridColumn($this,
+		$designationColumn = new ListbuilderGridColumn(
+			$this,
 			'designation',
 			'common.designation',
 			null,
-			'controllers/listbuilder/listbuilderNonEditGridCell.tpl'
+			'controllers/listbuilder/listbuilderNonEditGridCell.tpl',
+			$cellProvider,
+			array('width' => 25, 'alignment' => COLUMN_ALIGNMENT_LEFT)
 		);
-		$designationColumn->setCellProvider($cellProvider);
 		$this->addColumn($designationColumn);
 	}
 
 	/**
 	 * @copydoc GridHandler::getRowDataElement
 	 */
-	function getRowDataElement($request, &$rowId) {
+	protected function getRowDataElement($request, &$rowId) {
 		// fallback on the parent if a rowId is found
 		if ( !empty($rowId) ) {
 			return parent::getRowDataElement($request, $rowId);

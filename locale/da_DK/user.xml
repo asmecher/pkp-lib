@@ -4,11 +4,11 @@
 <!--
   * locale/da_DK/user.xml
   *
-  * Copyright (c) 2014-2015 Simon Fraser University Library
-  * Copyright (c) 2000-2015 John Willinsky
+  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2000-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
   *
-  * Localization strings for the da_DK (Danish) locale.
+  * Localization strings for the da_DK (Dansk) locale.
   *
   -->
 
@@ -23,7 +23,6 @@
 	<message key="user.dateRegistered">Registreringsdato</message>
 	<message key="user.editMyProfile">Rediger min profil</message>
 	<message key="user.email">E-mail</message>
-	<message key="user.fax">Fax</message>
 	<message key="user.feminine">K</message>
 	<message key="user.firstName">Fornavn</message>
 	<message key="user.gender">Køn</message>
@@ -109,7 +108,6 @@
 	<message key="user.authorization.restrictedSiteAccess">Du er blevet nægtet adgang. Der er i øjeblikket begrænset adgang til dette websted.</message>
 	<message key="user.authorization.roleBasedAccessDenied">Den nuværende rolle har ikke adgang til denne handling.</message>
 	<message key="user.authorization.userGroupRequired">Du skal oprette en gyldig brugergruppe for at få adgang til denne handling.</message>
-	<message key="user.confirmEmail">Bekræft e-mail</message>
 	<message key="user.gossip">Private bemærkninger</message>
 	<message key="user.profile.form.profileImageInvalid">Profilbilledets format er ugyldigt, eller også er billedet for stort. De accepterede formater er .gif, .jpg og .png, og billedet må ikke overskrive 150 x 150 pixler.</message>
 	<message key="user.other">Andet</message>

@@ -1,8 +1,8 @@
 {**
  * controllers/grid/plugins/pluginGalleryGridFilter.tpl
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * Filter template for plugin gallery grid.
@@ -15,12 +15,13 @@
 		{rdelim}
 	);
 </script>
-<form class="pkp_form" id="pluginGallerySearchForm" action="{url router=$smarty.const.ROUTE_COMPONENT op="fetchGrid"}" method="post">
+<form class="pkp_form filter" id="pluginGallerySearchForm" action="{url router=$smarty.const.ROUTE_COMPONENT op="fetchGrid"}" method="post">
 	{fbvFormArea id="userSearchFormArea"}
-		{fbvFormSection title="common.search" for="search"}
-			{fbvElement type="text" id="pluginText" value=$filterSelectionData.pluginText size=$fbvStyles.size.LARGE inline=true}
+		{fbvFormSection}
 			{fbvElement type="select" id="category" from=$filterData.categories selected=$filterSelectionData.category translate=false size=$fbvStyles.size.SMALL inline=true}
-			{fbvFormButtons hideCancel=true submitText="common.search"}
+			{fbvElement type="text" id="pluginText" value=$filterSelectionData.pluginText size=$fbvStyles.size.LARGE inline=true}
 		{/fbvFormSection}
+		{* Buttons generate their own section *}
+		{fbvFormButtons hideCancel=true submitText="common.search"}
 	{/fbvFormArea}
 </form>

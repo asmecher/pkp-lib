@@ -4,11 +4,11 @@
 <!--
   * locale/nb_NO/manager.xml
   *
-  * Copyright (c) 2014-2015 Simon Fraser University Library
-  * Copyright (c) 2000-2015 John Willinsky
+  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2000-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
   *
-  * Localization strings for the nb_NO (Norwegian) locale.
+  * Localization strings for the nb_NO (Norsk bokmål) locale.
   *
   -->
 
@@ -147,7 +147,6 @@
 	<message key="manager.setup.layout.unselected">Ikke valgt</message>
 	<message key="manager.setup.loggingAndAuditing">Logging og revisjon</message>
 	<message key="manager.setup.pageHeaderLogoImageInvalid">Ugyldig sidetopptekst logobildeformat. Aksepterte format er .gif, .jpg, eller .png.</message>
-	<message key="manager.setup.pageHeaderTitleImageInvalid">Ugyldig sidetopptekst tittelbildeformat. Aksepterte format er .gif, .jpg, eller .png.</message>
 	<message key="manager.setup.selectOne">Velg en</message>
 	<message key="manager.statistics">Statistikk og rapporter</message>
 	<message key="manager.statistics.statistics.count.value">{$count} ({$percentage}%)</message>
@@ -169,7 +168,6 @@
 	<message key="plugins.categories.themes.description">Theme Plugins can be used to change the system's appearance.</message>
 	<message key="plugins.categories.themes">Programutvidelser for tema</message>
 	<message key="manager.emails.form.emailKeyRequired">En unik e-postnøkkel er påkrevd for e-posten.</message>
-	<message key="manager.reviewerSearch.advancedSearch">Avansert fagfelle-søk</message>
 	<message key="manager.reviewerSearch.searchByName">Søk etter fagfelle etter navn</message>
 	<message key="manager.reviewerSearch.doneAmount">Antall fullførte vurderinger</message>
 	<message key="manager.reviewerSearch.avgAmount">Gjennomsnittlig antall dager per vurdering</message>
@@ -182,8 +180,6 @@
 	<message key="manager.announcements.datePublish">Publisert</message>
 	<message key="manager.emails.addEmail">Legg til e-postmal</message>
 	<message key="manager.emails.details">Maldetaljer</message>
-	<message key="manager.navigation">Navigering</message>
-	<message key="manager.reviewerSearch.advancedSearch.short">Avansert søk</message>
 	<message key="manager.reviewerSearch.searchByName.short">Søk etter navn</message>
 	<message key="manager.masthead.title">Hode/kolofonside</message>
 	<message key="manager.setup.filter.lookup.grid.descriptionConfirm">Du har valgt å legge til databasen {$filterDisplayName}. Klikk 'OK' for å bekrefte.</message>

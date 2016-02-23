@@ -3,8 +3,8 @@
 /**
  * @file plugins/generic/usageStats/PKPUsageStatsReportPlugin.inc.php
  *
- * Copyright (c) 2013-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2013-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class PKPUsageStatsReportPlugin
@@ -52,7 +52,6 @@ abstract class PKPUsageStatsReportPlugin extends ReportPlugin {
 	 * @see ReportPlugin::display()
 	 */
 	function display($args, $request) {
-		parent::display($args);
 		$router = $request->getRouter();
 		$context = $router->getContext($request);
 
@@ -60,7 +59,10 @@ abstract class PKPUsageStatsReportPlugin extends ReportPlugin {
 
 		import('classes.statistics.StatisticsHelper');
 		$statsHelper = new StatisticsHelper();
-		$columns = array_keys($statsHelper->getColumnNames());
+		$columnNames = $statsHelper->getColumnNames();
+		// Make sure we aggregate by month instead of day.
+		unset($columnNames[STATISTICS_DIMENSION_DAY]);
+		$columns = array_keys($columnNames);
 
 		$reportArgs = array(
 			'metricType' => $metricType,
@@ -102,13 +104,9 @@ abstract class PKPUsageStatsReportPlugin extends ReportPlugin {
 	function getDefaultReportTemplates($metricTypes = null) {
 		$reports = array();
 		$pluginMetricTypes = $this->getMetricTypes();
-
 		if (is_null($metricTypes)) $metricTypes = $pluginMetricTypes;
-		if (!is_array($metricTypes)) $metricTypes = array($metricTypes);
 
-		// Check if the plugin supports the passed metric types.
-		$intersection = array_intersect($metricTypes, $pluginMetricTypes);
-		if (empty($intersection)) return $reports;
+		if (!$this->isMetricTypeValid($metricTypes)) return $reports;
 
 		// Context index page views.
 		$columns = array(STATISTICS_DIMENSION_ASSOC_TYPE,
@@ -127,6 +125,18 @@ abstract class PKPUsageStatsReportPlugin extends ReportPlugin {
 	}
 
 
+	/**
+	 * @see ReportPlugin::getOptionalColumns()
+	 */
+	function getOptionalColumns($metricType) {
+		if (!$this->isMetricTypeValid($metricType)) return array();
+		return array(
+			STATISTICS_DIMENSION_CITY,
+			STATISTICS_DIMENSION_REGION
+		);
+	}
+
+
 	//
 	// Protected methods.
 	//
@@ -142,6 +152,21 @@ abstract class PKPUsageStatsReportPlugin extends ReportPlugin {
 			STATISTICS_DIMENSION_CITY,
 			STATISTICS_DIMENSION_MONTH,
 			STATISTICS_DIMENSION_DAY);
+	}
+
+	/**
+	 * Check the passed metric type against the
+	 * metric types this plugin implements.
+	 * @param array|string $metricType
+	 * @return boolean
+	 */
+	protected function isMetricTypeValid($metricType) {
+		$pluginMetricTypes = $this->getMetricTypes();
+		if (!is_array($metricType)) $metricType = array($metricType);
+
+		// Check if the plugin supports the passed metric types.
+		$intersection = array_intersect($metricType, $pluginMetricTypes);
+		return !empty($intersection);
 	}
 }
 

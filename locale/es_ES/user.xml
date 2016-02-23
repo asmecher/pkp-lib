@@ -4,8 +4,8 @@
 <!--
   * locale/es_ES/user.xml
   *
-  * Copyright (c) 2014-2015 Simon Fraser University Library
-  * Copyright (c) 2000-2015 John Willinsky
+  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2000-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
   *
   * Localization strings for the es_ES (Español (España)) locale.
@@ -23,7 +23,6 @@
 	<message key="user.dateRegistered">Fecha de registro</message>
 	<message key="user.editMyProfile">Editar mi perfil</message>
 	<message key="user.email">Correo electrónico</message>
-	<message key="user.fax">Fax</message>
 	<message key="user.feminine">F</message>
 	<message key="user.firstName">Nombre</message>
 	<message key="user.gender">Sexo</message>
@@ -105,7 +104,6 @@
 	<message key="user.affiliation.description">(Tu institución, ej. "Universidad Simon Fraser")</message>
 	<message key="user.gossip">Notas privadas</message>
 	<message key="user.profile.form.affiliationRequired">Se requiere afiliación.</message>
-	<message key="user.confirmEmail">Confirmar correo electrónico</message>
 	<message key="user.repeatPassword">Repita la contraseña</message>
 	<message key="user.register.form.emailsDoNotMatch">Los campos de correo electrónico no coinciden.</message>
 </locale>

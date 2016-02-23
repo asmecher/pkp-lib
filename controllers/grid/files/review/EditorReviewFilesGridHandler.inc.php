@@ -3,8 +3,8 @@
 /**
  * @file controllers/grid/files/review/EditorReviewFilesGridHandler.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class EditorReviewFilesGridHandler
@@ -25,7 +25,7 @@ class EditorReviewFilesGridHandler extends FileListGridHandler {
 		parent::FileListGridHandler(
 			new ReviewGridDataProvider(SUBMISSION_FILE_REVIEW_FILE, true),
 			null,
-			FILE_GRID_MANAGE|FILE_GRID_VIEW_NOTES
+			FILE_GRID_MANAGE|FILE_GRID_VIEW_NOTES|FILE_GRID_DELETE
 		);
 
 		$this->addRoleAssignment(
@@ -33,7 +33,6 @@ class EditorReviewFilesGridHandler extends FileListGridHandler {
 			array('fetchGrid', 'fetchRow', 'selectFiles')
 		);
 
-		$this->setInstructions('editor.submission.review.reviewFilesDescription');
 		$this->setTitle('reviewer.submission.reviewFiles');
 	}
 

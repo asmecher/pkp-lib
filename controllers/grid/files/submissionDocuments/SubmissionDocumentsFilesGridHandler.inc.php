@@ -3,8 +3,8 @@
 /**
  * @file controllers/grid/files/submissionDocuments/SubmissionDocumentsFilesGridHandler.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class LibraryFileGridHandler
@@ -47,8 +47,7 @@ class SubmissionDocumentsFilesGridHandler extends LibraryFileGridHandler {
 
 		AppLocale::requireComponents(LOCALE_COMPONENT_APP_EDITOR, LOCALE_COMPONENT_PKP_EDITOR, LOCALE_COMPONENT_APP_MANAGER);
 
-		// Set instructions
-		$this->setInstructions('editor.submissionLibrary.description');
+		$this->setTitle(null);
 
 		$router = $request->getRouter();
 
@@ -101,7 +100,7 @@ class SubmissionDocumentsFilesGridHandler extends LibraryFileGridHandler {
 	 * Get the row handler - override the default row handler
 	 * @return LibraryFileGridRow
 	 */
-	function getRowInstance() {
+	protected function getRowInstance() {
 		$submission = $this->getAuthorizedContextObject(ASSOC_TYPE_SUBMISSION);
 		return new LibraryFileGridRow($this->canEdit(), $submission);
 	}

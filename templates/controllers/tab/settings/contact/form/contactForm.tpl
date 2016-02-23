@@ -1,8 +1,8 @@
 {**
  * controllers/tab/settings/contact/form/contactForm.tpl
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * Contact management form.
@@ -20,56 +20,39 @@
 	{include file="controllers/notification/inPlaceNotification.tpl" notificationId="contactFormNotification"}
 	{include file="controllers/tab/settings/wizardMode.tpl" wizardMode=$wizardMode}
 
-	{fbvFormArea id="contactFormArea" title="manager.setup.principalContact" class="border"}
+	{fbvFormArea id="contactFormArea" title="manager.setup.principalContact"}
 		{fbvFormSection description="manager.setup.principalContactDescription"}
+			{fbvElement type="text" label="user.name" required=true id="contactName" value=$contactName maxlength="60" inline=true size=$fbvStyles.size.MEDIUM}
+			{fbvElement type="text" label="user.title" multilingual=true name="contactTitle" id="contactTitle" value=$contactTitle maxlength="90" inline=true size=$fbvStyles.size.MEDIUM}
 		{/fbvFormSection}
 		{fbvFormSection}
-			{fbvFormSection for="contactName" inline=true size=$fbvStyles.size.MEDIUM}
-				{fbvElement type="text" label="user.name" required=true id="contactName" value=$contactName maxlength="60"}
-			{/fbvFormSection}
-			{fbvFormSection for="contactTitle" inline=true size=$fbvStyles.size.MEDIUM}
-				{fbvElement type="text" label="user.title" multilingual=true name="contactTitle" id="contactTitle" value=$contactTitle maxlength="90"}
-			{/fbvFormSection}
-		{/fbvFormSection}
-		{fbvFormSection}
-			{fbvFormSection for="contactEmail" size=$fbvStyles.size.MEDIUM inline="true"}
-				{fbvElement type="text" label="user.email" required=true id="contactEmail" value=$contactEmail maxlength="90"}
-			{/fbvFormSection}
-			{fbvFormSection for="contactPhone" inline=true size=$fbvStyles.size.MEDIUM}
-				{fbvElement type="text" label="user.phone" id="contactPhone" value=$contactPhone maxlength="24"}
-			{/fbvFormSection}
-		{/fbvFormSection}
-		{fbvFormSection}
-			{fbvFormSection for="contactFax" inline=true size=$fbvStyles.size.MEDIUM}
-				{fbvElement type="text" label="user.fax" id="contactFax" value=$contactFax maxlength="24"}
-			{/fbvFormSection}
+			{fbvElement type="text" label="user.email" required=true id="contactEmail" value=$contactEmail maxlength="90" inline=true size=$fbvStyles.size.MEDIUM}
+			{fbvElement type="text" label="user.phone" id="contactPhone" value=$contactPhone maxlength="24" inline=true size=$fbvStyles.size.MEDIUM}
 		{/fbvFormSection}
 		{fbvFormSection title="user.affiliation" for="contactAffiliation"}
 			{fbvElement type="text" multilingual=true name="contactAffiliation" id="contactAffiliation" value=$contactAffiliation maxlength="90"}
 		{/fbvFormSection}
-		{fbvFormSection title="common.mailingAddress" for="contactMailingAddress"}
-			{fbvElement type="textarea" multilingual=true name="contactMailingAddress" id="contactMailingAddress" value=$contactMailingAddress rich=true}
-		{/fbvFormSection}
 	{/fbvFormArea}
 
-	<div {if $wizardMode}class="pkp_form_hidden"{/if}>
-		{fbvFormArea id="contactFormArea" title="manager.setup.technicalSupportContact" class="border"}
-			{fbvFormSection description="manager.setup.technicalSupportContactDescription"}
-			{/fbvFormSection}
-			{fbvFormSection title="user.name" for="supportName" required=true inline=true size=$fbvStyles.size.MEDIUM}
-				{fbvElement type="text" id="supportName" value=$supportName maxlength="60"}
-			{/fbvFormSection}
-			{fbvFormSection title="user.email" for="supportEmail" required=true inline=true size=$fbvStyles.size.MEDIUM}
-				{fbvElement type="text" id="supportEmail" value=$supportEmail maxlength="90"}
-			{/fbvFormSection}
-			{fbvFormSection title="user.phone" for="supportPhone" inline=true size=$fbvStyles.size.MEDIUM}
-				{fbvElement type="text" id="supportPhone" value=$supportPhone maxlength="24"}
-			{/fbvFormSection}
-		{/fbvFormArea}
-	</div>
+	{* In wizard mode, these fields should be hidden *}
+	{if $wizardMode}
+		{assign var="wizardClass" value="is_wizard_mode"}
+		{assign var="wizard_required" value=false}
+	{else}
+		{assign var="wizardClass" value=""}
+		{assign var="wizard_required" value=true}
+	{/if}
+	{fbvFormArea id="contactFormArea" title="manager.setup.technicalSupportContact" class=$wizardClass}
+		{fbvFormSection description="manager.setup.technicalSupportContactDescription"}
+			{fbvElement type="text" label="user.name" required=$wizard_required id="supportName" value=$supportName maxlength="60" inline=true size=$fbvStyles.size.MEDIUM}
+			{fbvElement type="text" label="user.email" required=$wizard_required id="supportEmail" value=$supportEmail maxlength="60" inline=true size=$fbvStyles.size.MEDIUM}
+		{/fbvFormSection}
+		{fbvFormSection}
+			{fbvElement type="text" label="user.phone" id="supportPhone" value=$supportPhone maxlength="24" inline=true size=$fbvStyles.size.MEDIUM}
+		{/fbvFormSection}
+	{/fbvFormArea}
 
 	{if !$wizardMode}
 		{fbvFormButtons id="contactFormSubmit" submitText="common.save" hideCancel=true}
 	{/if}
-	<p><span class="formRequired">{translate key="common.requiredField"}</span></p>
 </form>

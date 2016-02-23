@@ -3,8 +3,8 @@
 /**
  * @file tests/data/PKPInstallationTest.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class PKPInstallationTest
@@ -56,7 +56,7 @@ abstract class PKPInstallationTest extends WebTestCase {
 
 		// Execute
 		$this->clickAndWait('css=[id^=submitFormButton-]');
-		$this->waitForElementPresent('link=Login');
+		$this->waitForElementPresent('link=login');
 		$this->waitJQuery();
 	}
 }

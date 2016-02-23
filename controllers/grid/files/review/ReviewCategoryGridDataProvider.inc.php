@@ -2,8 +2,8 @@
 /**
  * @file controllers/grid/files/review/ReviewCategoryGridDataProvider.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class ReviewGridCategoryDataProvider
@@ -54,7 +54,7 @@ class ReviewCategoryGridDataProvider extends SubmissionFilesCategoryGridDataProv
 	/**
 	 * @copydoc SubmissionFilesCategoryGridDataProvider::initGridDataProvider()
 	 */
-	function initGridDataProvider($fileStage, $initParams) {
+	function initGridDataProvider($fileStage, $initParams = null) {
 		// This category grid data provider will use almost all the
 		// same implementation of the ReviewGridDataProvider.
 		import('lib.pkp.controllers.grid.files.review.ReviewGridDataProvider');

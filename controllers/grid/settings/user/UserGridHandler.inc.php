@@ -3,8 +3,8 @@
 /**
  * @file controllers/grid/settings/user/UserGridHandler.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class UserGridHandler
@@ -44,8 +44,8 @@ class UserGridHandler extends GridHandler {
 	 * @copydoc PKPHandler::authorize()
 	 */
 	function authorize($request, &$args, $roleAssignments) {
-		import('lib.pkp.classes.security.authorization.PkpContextAccessPolicy');
-		$this->addPolicy(new PkpContextAccessPolicy($request, $roleAssignments));
+		import('lib.pkp.classes.security.authorization.ContextAccessPolicy');
+		$this->addPolicy(new ContextAccessPolicy($request, $roleAssignments));
 		return parent::authorize($request, $args, $roleAssignments);
 	}
 
@@ -144,7 +144,7 @@ class UserGridHandler extends GridHandler {
 	 * @copydoc GridHandler::getRowInstance()
 	 * @return UserGridRow
 	 */
-	function getRowInstance() {
+	protected function getRowInstance() {
 		return new UserGridRow($this->_oldUserId);
 	}
 
@@ -161,7 +161,7 @@ class UserGridHandler extends GridHandler {
 	 * @param $request PKPRequest
 	 * @return array Grid data.
 	 */
-	function loadData($request, $filter) {
+	protected function loadData($request, $filter) {
 		// Get the context.
 		$context = $request->getContext();
 
@@ -169,7 +169,7 @@ class UserGridHandler extends GridHandler {
 		$userGroupDao = DAORegistry::getDAO('UserGroupDAO');
 		$rangeInfo = $this->getGridRangeInfo($request, $this->getId());
 
-		return $users = $userGroupDao->getUsersById(
+		return $userGroupDao->getUsersById(
 			$filter['userGroup'],
 			$filter['includeNoRole']?null:$context->getId(),
 			$filter['searchField'],
@@ -239,7 +239,7 @@ class UserGridHandler extends GridHandler {
 	 * @copydoc GridHandler::getFilterForm()
 	 * @return string Filter template.
 	 */
-	function getFilterForm() {
+	protected function getFilterForm() {
 		return 'controllers/grid/settings/user/userGridFilter.tpl';
 	}
 

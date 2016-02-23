@@ -4,11 +4,11 @@
 <!--
   * locale/ru_RU/common.xml
   *
-  * Copyright (c) 2014-2015 Simon Fraser University Library
-  * Copyright (c) 2000-2015 John Willinsky
+  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2000-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
   *
-  * Localization strings for the ru_RU (Russian) locale.
+  * Localization strings for the ru_RU (Русский) locale.
   *
   -->
 
@@ -16,7 +16,6 @@
 	<message key="about.aboutSite">О сайте</message>
 	<message key="about.contact">Контакты</message>
 	<message key="about.contact.email">E-mail адрес</message>
-	<message key="about.contact.fax">Факс</message>
 	<message key="about.contact.phone">Телефон</message>
 	<message key="about.contact.principalContact">Главный редактор</message>
 	<message key="about.contact.supportContact">Техподдержка</message>

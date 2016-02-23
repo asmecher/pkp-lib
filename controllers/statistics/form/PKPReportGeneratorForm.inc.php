@@ -3,8 +3,8 @@
 /**
  * @file controllers/statistics/form/PKPReportGeneratorForm.inc.php
  *
- * Copyright (c) 2013-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2013-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class PKPReportGeneratorForm
@@ -16,7 +16,7 @@
 
 import('lib.pkp.classes.form.Form');
 
-define('TIME_FILTER_OPTION_CURRENT_DAY', 0);
+define('TIME_FILTER_OPTION_YESTERDAY', 0);
 define('TIME_FILTER_OPTION_CURRENT_MONTH', 1);
 define('TIME_FILTER_OPTION_RANGE_DAY', 2);
 define('TIME_FILTER_OPTION_RANGE_MONTH', 3);
@@ -24,26 +24,30 @@ define('TIME_FILTER_OPTION_RANGE_MONTH', 3);
 abstract class PKPReportGeneratorForm extends Form {
 
 	/* @var $_columns array */
-	var $_columns;
+	private $_columns;
+
+	/* @var $_columns array */
+	private $_optionalColumns;
 
 	/* @var $_objects array */
-	var $_objects;
+	private $_objects;
 
 	/* @var $_fileTypes array */
-	var $_fileTypes;
+	private $_fileTypes;
 
 	/* @var $_metricType string */
-	var $_metricType;
+	private $_metricType;
 
 	/* @var $_defaultReportTemplates array */
-	var $_defaultReportTemplates;
+	private $_defaultReportTemplates;
 
 	/* @var $_reportTemplateIndex int */
-	var $_reportTemplateIndex;
+	private $_reportTemplateIndex;
 
 	/**
 	 * Constructor.
 	 * @param $columns array Report column names.
+	 * @param $optionalColumns array Report column names that are optional.
 	 * @param $objects array Object types.
 	 * @param $fileTypes array File types.
 	 * @param $metricType string The default report metric type.
@@ -54,10 +58,11 @@ abstract class PKPReportGeneratorForm extends Form {
 	 * @param $reportTemplateIndex int (optional) Current report template index
 	 * from the passed default report templates array.
 	 */
-	function PKPReportGeneratorForm($columns, $objects, $fileTypes, $metricType, $defaultReportTemplates, $reportTemplateIndex = null) {
+	function PKPReportGeneratorForm($columns, $optionalColumns, $objects, $fileTypes, $metricType, $defaultReportTemplates, $reportTemplateIndex = null) {
 		parent::Form('controllers/statistics/form/reportGeneratorForm.tpl');
 
 		$this->_columns = $columns;
+		$this->_optionalColumns = $optionalColumns;
 		$this->_objects = $objects;
 		$this->_fileTypes = $fileTypes;
 		$this->_metricType = $metricType;
@@ -69,7 +74,7 @@ abstract class PKPReportGeneratorForm extends Form {
 	}
 
 	/**
-	 * Initialize the form from the current settings.
+	 * @copydoc Form::fetch()
 	 */
 	function fetch($request) {
 		$router = $request->getRouter();
@@ -128,8 +133,8 @@ abstract class PKPReportGeneratorForm extends Form {
 			$timeFilterSelectedOption = TIME_FILTER_OPTION_CURRENT_MONTH;
 		}
 		switch ($timeFilterSelectedOption) {
-			case TIME_FILTER_OPTION_CURRENT_DAY:
-				$this->setData('today', true);
+			case TIME_FILTER_OPTION_YESTERDAY:
+				$this->setData('yesterday', true);
 				break;
 			case TIME_FILTER_OPTION_CURRENT_MONTH:
 			default:
@@ -195,6 +200,7 @@ abstract class PKPReportGeneratorForm extends Form {
 		// Reports will always include this column.
 		unset($columnsOptions[STATISTICS_METRIC]);
 		$this->setData('columnsOptions', $columnsOptions);
+		$this->setData('optionalColumns', $this->_optionalColumns);
 
 		return parent::fetch($request);
 	}
@@ -257,8 +263,8 @@ abstract class PKPReportGeneratorForm extends Form {
 
 		$timeFilterOption = $this->getData('timeFilterOption');
 		switch($timeFilterOption) {
-			case TIME_FILTER_OPTION_CURRENT_DAY:
-				$filter[STATISTICS_DIMENSION_MONTH] = STATISTICS_CURRENT_DAY;
+			case TIME_FILTER_OPTION_YESTERDAY:
+				$filter[STATISTICS_DIMENSION_DAY] = STATISTICS_YESTERDAY;
 				break;
 			case TIME_FILTER_OPTION_CURRENT_MONTH:
 				$filter[STATISTICS_DIMENSION_MONTH] = STATISTICS_CURRENT_MONTH;
@@ -278,8 +284,8 @@ abstract class PKPReportGeneratorForm extends Form {
 					// only one specific date. Use the start time.
 					$filter[STATISTICS_DIMENSION_MONTH] = $startDate;
 				} else {
-					$filter[STATISTICS_DIMENSION_MONTH]['from'] = $startDate;
-					$filter[STATISTICS_DIMENSION_MONTH]['to'] = $endDate;
+					$filter[STATISTICS_DIMENSION_DAY]['from'] = $startDate;
+					$filter[STATISTICS_DIMENSION_DAY]['to'] = $endDate;
 				}
 				break;
 			default:

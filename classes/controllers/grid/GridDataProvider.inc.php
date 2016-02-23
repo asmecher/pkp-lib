@@ -3,8 +3,8 @@
 /**
  * @file classes/controllers/grid/GridDataProvider.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class GridDataProvider
@@ -92,9 +92,12 @@ class GridDataProvider {
 
 	/**
 	 * Retrieve the data to load into the grid.
+	 * @param $filter array An optional associative array with filter data
+	 *  as returned by GridHandler::getFilterSelectionData(). If no filter
+	 *  has been selected by the user then the array will be empty.
 	 * @return array
 	 */
-	function loadData() {
+	function loadData($filter = array()) {
 		assert(false);
 	}
 }

@@ -3,8 +3,8 @@
 /**
  * @file controllers/grid/settings/reviewForms/ReviewFormElementsGridHandler.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class ReviewFormElementsGridHandler
@@ -106,7 +106,7 @@ class ReviewFormElementsGridHandler extends GridHandler {
 				null,
 				null,
 				$reviewFormElementGridCellProvider,
-				array('multiline' => true, 'html' => true, 'maxLength' => 220)
+				array('html' => true, 'maxLength' => 220)
 			)
 		);
 
@@ -129,7 +129,7 @@ class ReviewFormElementsGridHandler extends GridHandler {
 	 * @see GridHandler::getRowInstance()
 	 * @return UserGridRow
 	 */
-	function getRowInstance() {
+	protected function getRowInstance() {
 		return new ReviewFormElementGridRow();
 	}
 
@@ -138,7 +138,7 @@ class ReviewFormElementsGridHandler extends GridHandler {
 	 * @param $request PKPRequest
 	 * @return array Grid data.
 	 */
-	function loadData($request) {
+	protected function loadData($request) {
 		// Get review form elements.
 		//$rangeInfo = $this->getRangeInfo('reviewFormElements');
 		$reviewFormElementDao = DAORegistry::getDAO('ReviewFormElementDAO');

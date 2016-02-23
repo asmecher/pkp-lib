@@ -3,8 +3,8 @@
 /**
  * @file classes/plugins/HookRegistry.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class HookRegistry
@@ -17,9 +17,22 @@
 class HookRegistry {
 	/**
 	 * Get the current set of hook registrations.
+	 * @param $hookName string Name of hook to optionally return
+	 * @return mixed Array of all hooks or just those attached to $hookName, or
+	 *   null if nothing has been attached to $hookName
 	 */
-	static function &getHooks() {
+	static function &getHooks($hookName = null) {
 		$hooks =& Registry::get('hooks', true, array());
+
+		if ($hookName) {
+			if (isset($hooks[$hookName])) {
+				$hook =& $hooks[$hookName];
+			} else {
+				$hook = null;
+			}
+			return $hook;
+		}
+
 		return $hooks;
 	}
 

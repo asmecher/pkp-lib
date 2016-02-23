@@ -4,11 +4,11 @@
 <!--
   * locale/pt_PT/user.xml
   *
-  * Copyright (c) 2014-2015 Simon Fraser University Library
-  * Copyright (c) 2000-2015 John Willinsky
+  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2000-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
   *
-  * Localization strings for the pt_PT (Português) locale.
+  * Localization strings for the pt_PT (Português (Portugal)) locale.
   *
   -->
 
@@ -23,7 +23,6 @@
 	<message key="user.dateRegistered">Data do Registo</message>
 	<message key="user.editMyProfile">Editar Perfil</message>
 	<message key="user.email">E-mail</message>
-	<message key="user.fax">Fax</message>
 	<message key="user.feminine">F</message>
 	<message key="user.firstName">Nome</message>
 	<message key="user.gender">Género</message>
@@ -105,7 +104,6 @@
 	<message key="user.affiliation.description">(A sua instituição, e.g. "Instituto Superior de Psicologia Aplicada - Instituto Universitário")</message>
 	<message key="user.gossip">Notas Privadas</message>
 	<message key="user.profile.form.affiliationRequired">É requerido uma afiliação.</message>
-	<message key="user.confirmEmail">Confirmar Email</message>
 	<message key="user.repeatPassword">Repetir Senha</message>
 	<message key="user.register.form.emailsDoNotMatch">Os campos e-mail não coincidem.</message>
 </locale>

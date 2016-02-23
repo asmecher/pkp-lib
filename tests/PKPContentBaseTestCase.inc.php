@@ -3,8 +3,8 @@
 /**
  * @file tests/PKPContentBaseTestCase.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class PKPContentBaseTestCase
@@ -14,6 +14,9 @@
  */
 
 import('lib.pkp.tests.WebTestCase');
+
+define('DUMMY_PDF', 0);
+define('DUMMY_ZIP', 1);
 
 abstract class PKPContentBaseTestCase extends WebTestCase {
 	/**
@@ -57,7 +60,7 @@ abstract class PKPContentBaseTestCase extends WebTestCase {
 		$data = array_merge(array(
 			'files' => array(
 				array(
-					'file' => null,
+					'file' => DUMMY_PDF,
 					'fileTitle' => $data['title']
 				)
 			),
@@ -66,12 +69,15 @@ abstract class PKPContentBaseTestCase extends WebTestCase {
 		), $data);
 
 		// Find the "start a submission" button
-		$this->waitForElementPresent('//span[starts-with(., \'Start a New Submission\')]/..');
-		$this->click('//span[starts-with(., \'Start a New Submission\')]/..');
+		$this->waitForElementPresent($selector='//button[starts-with(., \'New Submission\')]');
+		$this->click($selector);
 
 		// Check the default checklist items.
 		$this->waitForElementPresent('id=checklist-0');
-		for ($i=0; $i<$this->_getChecklistLength(); $i++) $this->click('id=checklist-' . $i);
+		for ($i=0; $i<$this->_getChecklistLength(); $i++) {
+			$id = 'checklist-' . $i;
+			if ($this->getXpathCount("//input[@id='$id' and not(@checked)]")==1) $this->click("id=$id");
+		}
 
 		// Permit the subclass to handle any series/section data
 		$this->_handleStep1($data);
@@ -81,17 +87,18 @@ abstract class PKPContentBaseTestCase extends WebTestCase {
 		// Page 2: File wizard
 		$this->waitForElementPresent($selector = 'id=cancelButton');
 		$this->click($selector); // Thanks but no thanks
+		$this->waitForElementNotPresent('css=div.pkp_modal_panel'); // pkp/pkp-lib#655
+
 		foreach ($data['files'] as $file) {
-			if (!isset($file['file'])) $file['file'] = null;
+			if (!isset($file['file'])) $file['file'] = DUMMY_PDF;
 			$this->click('css=[id^=component-grid-files-submission-submissionwizardfilesgrid-addFile-button-]');
-			$this->uploadWizardFile($file['fileTitle'], $file['file']);
+			$metadata = isset($file['metadata'])?$file['metadata']:array();
+			$this->uploadWizardFile($file['fileTitle'], $file['file'], $metadata);
 		}
-		sleep(1); // Occasional race conditions in travis
-		$this->waitForElementPresent('//span[text()=\'Save and continue\']/..');
-		$this->click('//span[text()=\'Save and continue\']/..');
+		$this->waitForElementPresent($selector='//form[@id=\'submitStep2Form\']//button[text()=\'Save and continue\']');
+		$this->click($selector);
 
 		// Page 3
-		sleep(1); // Occasional race conditions in travis
 		$this->waitForElementPresent('css=[id^=title-]');
 		$this->type('css=[id^=title-]', $data['title']);
 		if (isset($data['abstract'])) $this->typeTinyMCE('abstract', $data['abstract']);
@@ -102,42 +109,79 @@ abstract class PKPContentBaseTestCase extends WebTestCase {
 		}
 		// Permit the subclass to handle any extra step 3 actions
 		$this->_handleStep3($data);
+		$this->waitForElementPresent($selector='//form[@id=\'submitStep3Form\']//button[text()=\'Save and continue\']');
+		$this->click($selector);
 
-		// Finish
-		$this->waitForElementPresent('//span[text()=\'Finish Submission\']/..');
-		$this->click('//span[text()=\'Finish Submission\']/..');
-		$this->waitForText('css=div.pkp_controllers_modal_titleBar > h2', 'Confirm');
-		$this->waitForElementPresent("//span[text()='OK']/..");
-		$this->click("//span[text()='OK']/..");
+		// Page 4
+		$this->waitForElementPresent($selector='//form[@id=\'submitStep4Form\']//button[text()=\'Finish Submission\']');
+		$this->click($selector);
+		$this->waitForElementPresent($selector="//a[text()='OK']");
+		$this->click($selector);
 		$this->waitForElementPresent('//h2[contains(text(), \'Submission complete\')]');
-		$this->waitJQuery();
 	}
 
 	/**
 	 * Upload a file via the file wizard.
 	 * @param $fileTitle string
-	 * @param $file string (Null to use dummy file)
+	 * @param $file string|int Path to file to upload, or one of the DUMMY_ constants (default DUMMY_PDF)
+	 * @param $metadata array Optional set of metadata for the upload
 	 */
-	protected function uploadWizardFile($fileTitle, $file = null) {
-		if (!$file) {
-			// Generate a file to use using the DUMMYFILE env var.
-			$dummyfile = getenv('DUMMYFILE');
-			$file = sys_get_temp_dir() . '/' . preg_replace('/[^a-z0-9\.]/', '', strtolower($fileTitle)) . '.pdf';
+	protected function uploadWizardFile($fileTitle, $file = DUMMY_PDF, $metadata = array()) {
+		if (is_numeric($file)) {
+			// Determine which dummy file to use.
+			switch($file) {
+				case DUMMY_ZIP:
+					$dummyfile = getenv('DUMMY_ZIP');
+					$extension = 'zip';
+					break;
+				case DUMMY_PDF:
+				default:
+					$dummyfile = getenv('DUMMY_PDF');
+					$extension = 'pdf';
+			}
+			$file = sys_get_temp_dir() . '/' . preg_replace('/[^a-z0-9\.]/', '', strtolower($fileTitle)) . '.' . $extension;
+
+			// Generate a copy of the file to use with a unique-ish filename.
 			copy($dummyfile, $file);
 		}
+
+		// Provide defaults for metadata
+		$metadata = array_merge(
+			array(
+				'genre' => $this->_getSubmissionElementName(),
+			),
+			$metadata
+		);
+
+		// Unpack pieces for later use outside $metadata
+		$genreName = $metadata['genre'];
+		unset($metadata['genre']);
+
+		// Pick the genre and upload the file
 		$this->waitForElementPresent('id=genreId');
-		$this->select('id=genreId', 'label=' . $this->_getSubmissionElementName());
+		$this->select('id=genreId', "label=$genreName");
 		$this->uploadFile($file);
 		$this->click('id=continueButton');
+
+		// Enter the title into the metadata form
 		$this->waitForElementPresent('css=[id^=name-]');
 		$this->type('css=[id^=name-]', $fileTitle);
+
+		// Enter remaining metadata into the form fields
+		foreach ($metadata as $name => $value) {
+			$this->type('css=[id^=' . $name . '-]', $value);
+		}
+
+		// Validate the form and finish
 		$this->runScript('$(\'#metadataForm\').valid();');
-		$this->click('//span[text()=\'Continue\']/..');
+		$this->click('css=[id=continueButton]');
 		$this->waitJQuery();
-		$this->waitForElementPresent($selector = '//span[text()=\'Complete\']/..');
+		$this->waitForElementPresent($selector = 'css=[id=continueButton]');
 		$this->click($selector);
 		$this->waitJQuery();
+		$this->waitForElementNotPresent('css=div.pkp_modal_panel'); // pkp/pkp-lib#655
 	}
+
 	/**
 	 * Add an author to the submission's author list.
 	 * @param $data array
@@ -161,10 +205,9 @@ abstract class PKPContentBaseTestCase extends WebTestCase {
 		$this->select('id=country', $data['country']);
 		$this->type('css=[id^=email-]', $data['email']);
 		if (isset($data['affiliation'])) $this->type('css=[id^=affiliation-]', $data['affiliation']);
-		$this->click('//label[text()=\'' . $this->escapeJS($data['role']) . '\']');
-		$this->click('//span[text()=\'Save\']/..');
-		$this->waitForElementNotPresent('css=.ui-widget-overlay');
-		$this->waitJQuery();
+		$this->click('//label[contains(.,\'' . $this->escapeJS($data['role']) . '\')]');
+		$this->click('//button[text()=\'Save\']');
+		$this->waitForElementNotPresent('css=div.pkp_modal_panel');
 	}
 
 	/**
@@ -176,9 +219,11 @@ abstract class PKPContentBaseTestCase extends WebTestCase {
 	protected function findSubmissionAsEditor($username, $password = null, $title) {
 		if ($password === null) $password = $username . $username;
 		$this->logIn($username, $password);
-		$this->waitForElementPresent('xpath=(//a[contains(text(),\'Submissions\')])[2]');
-		$this->click('xpath=(//a[contains(text(),\'Submissions\')])[2]');
-		$xpath = '//a[text()=' . $this->quoteXpath($title) . ']';
+		$this->waitForElementPresent('css=#dashboardTabs');
+		$this->click('css=[name=active]');
+		$this->waitForElementPresent('css=[id^=component-grid-submissions-activesubmissions-activesubmissionslistgrid-]');
+		$this->scrollPageDown();
+		$xpath = '//span[contains(text(),' . $this->quoteXpath($title) .')]/../../..//a[contains(@id, "-stage-itemWorkflow-button-")]';
 		$this->waitForElementPresent($xpath);
 		$this->click($xpath);
 	}
@@ -198,11 +243,11 @@ abstract class PKPContentBaseTestCase extends WebTestCase {
 	 * @param $decision string
 	 */
 	protected function recordEditorialDecision($decision) {
-		$this->waitForElementPresent('//span[text()=\'' . $this->escapeJS($decision) . '\']/..');
-		$this->click('//span[text()=\'' . $this->escapeJS($decision) . '\']/..');
-		$this->waitForElementPresent('//span[text()=\'Record Editorial Decision\']/..');
-		$this->click('//span[text()=\'Record Editorial Decision\']/..');
-		$this->waitForElementNotPresent('css=.ui-widget-overlay');
+		$this->waitForElementPresent($selector='//a/span[contains(.,\'' . $this->escapeJS($decision) . '\')]/..');
+		$this->click($selector);
+		$this->waitForElementPresent($selector='//button[contains(.,\'Record Editorial Decision\')]');
+		$this->click($selector);
+		$this->waitForElementNotPresent('css=div.pkp_modal_panel'); // pkp/pkp-lib#655
 	}
 
 	/**
@@ -217,7 +262,7 @@ abstract class PKPContentBaseTestCase extends WebTestCase {
 		$this->select('id=userGroupId', 'label=' . $this->escapeJS($role));
 		$this->waitForElementPresent('//select[@name=\'userId\']//option[text()=\'' . $this->escapeJS($name) . '\']');
 		$this->select('id=userId', 'label=' . $this->escapeJS($name));
-		$this->click('//span[text()=\'OK\']/..');
+		$this->click('//button[text()=\'OK\']');
 		$this->waitForText('css=div.ui-pnotify-text', 'User added as a stage participant.');
 		$this->waitJQuery();
 	}
@@ -230,16 +275,15 @@ abstract class PKPContentBaseTestCase extends WebTestCase {
 	function assignReviewer($username, $name) {
 		$this->waitForElementPresent('css=[id^=component-grid-users-reviewer-reviewergrid-addReviewer-button-]');
 		$this->click('css=[id^=component-grid-users-reviewer-reviewergrid-addReviewer-button-]');
-		$this->waitForElementPresent('css=[id^=reviewerId_input-]');
-		$this->type('css=[id^=reviewerId_input-]', $username);
-		$this->typeKeys('css=[id^=reviewerId_input-]', $username);
+		$this->waitForElementPresent('css=[id^=name-]');
+		$this->type('css=[id^=name-]', $username);
+		$this->click('css=[id=submitFilter]');
+		$this->waitJQuery();
+		$this->click('css=[id^=reviewer_]');
+		$this->click('css=[id^=selectReviewerButton]');
 
-		$this->waitForElementPresent($selector = '//li[text()=\'' . $this->escapeJS($name) . '\']');
-		$this->mouseOver($selector);
-		$this->click($selector);
-
-		$this->click('//span[text()=\'Add Reviewer\']/..');
-		$this->waitForElementNotPresent('css=.ui-widget-overlay');
+		$this->click('//button[text()=\'Add Reviewer\']');
+		$this->waitForElementNotPresent('css=div.pkp_modal_panel'); // pkp/pkp-lib#655
 	}
 
 	/**
@@ -256,19 +300,16 @@ abstract class PKPContentBaseTestCase extends WebTestCase {
 
 		// Use an xpath concat to permit apostrophes to appear in titles
 		// http://kushalm.com/the-perils-of-xpath-expressions-specifically-escaping-quotes
-		$xpath = '//a[contains(text(), concat(\'' . strtr($this->escapeJS($title),
-			array(
-				'\\\'' => '\', "\'", \''
-			)
-		) . '\',\'\'))]';
+		$this->scrollGridDown('assignedSubmissionsListGridContainer');
+		$xpath = '//span[contains(text(),' . $this->quoteXpath($title) .')]/../../..//a[contains(@id, "-stage-itemWorkflow-button-")]';
 		$this->waitForElementPresent($xpath);
 		$this->click($xpath);
 
-		$this->waitForElementPresent('//span[text()=\'Accept Review, Continue to Step #2\']/..');
-		$this->click('//span[text()=\'Accept Review, Continue to Step #2\']/..');
+		$this->waitForElementPresent($selector='//button[text()=\'Accept Review, Continue to Step #2\']');
+		$this->click($selector);
 
-		$this->waitForElementPresent('//span[text()=\'Continue to Step #3\']/..');
-		$this->click('//span[text()=\'Continue to Step #3\']/..');
+		$this->waitForElementPresent($selector='//button[text()=\'Continue to Step #3\']');
+		$this->click($selector);
 		$this->waitForElementPresent('css=[id^=comments-]');
 		$this->type('css=[id^=comments-]', $comments);
 
@@ -276,10 +317,10 @@ abstract class PKPContentBaseTestCase extends WebTestCase {
 			$this->select('id=recommendation', 'label=' . $this->escapeJS($recommendation));
 		}
 
-		$this->waitForElementPresent('//span[text()=\'Submit Review\']/..');
-		$this->click('//span[text()=\'Submit Review\']/..');
-		$this->waitForElementPresent('//span[text()=\'OK\']/..');
-		$this->click('//span[text()=\'OK\']/..');
+		$this->waitForElementPresent($selector='//button[text()=\'Submit Review\']');
+		$this->click($selector);
+		$this->waitForElementPresent($selector='link=OK');
+		$this->click($selector);
 		$this->waitForElementPresent('//h2[contains(text(), \'Review Submitted\')]');
 		$this->waitJQuery();
 		$this->logOut();

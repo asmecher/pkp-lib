@@ -4,8 +4,8 @@
 <!--
   * locale/fr_CA/common.xml
   *
-  * Copyright (c) 2014-2015 Simon Fraser University Library
-  * Copyright (c) 2000-2015 John Willinsky
+  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2000-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
   *
   * Localization strings for the fr_CA (Français (Canada)) locale.
@@ -16,7 +16,6 @@
 	<message key="about.aboutSite">À propos du site</message>
 	<message key="about.contact">Contact</message>
 	<message key="about.contact.email">Courriel</message>
-	<message key="about.contact.fax">Télécopieur</message>
 	<message key="about.contact.phone">Téléphone</message>
 	<message key="about.contact.principalContact">Contact principal</message>
 	<message key="about.contact.supportContact">Contact de soutien</message>
@@ -376,7 +375,6 @@
 	<message key="about.description">Description</message>
 	<message key="about.guidelines">Guides</message>
 	<message key="announcement.postedOn">Publié le {$postDate}</message>
-	<message key="common.navigation">Navigation</message>
 	<message key="common.tasks">Tâches</message>
 	<message key="common.list">Liste</message>
 	<message key="common.grid">Grille</message>
@@ -392,7 +390,6 @@
 	<message key="common.confirm">Confirmer</message>
 	<message key="common.content">Contenu</message>
 	<message key="common.contents">Contenu</message>
-	<message key="common.considered">Considéré</message>
 	<message key="common.dateHijri">Calendrier Hijri</message>
 	<message key="common.declined">Refusé</message>
 	<message key="common.finish">Terminer</message>
@@ -422,7 +419,6 @@
 	<message key="common.unread">Non lu</message>
 	<message key="common.fileUpload.maxFileSizeStatus"><![CDATA[Ce serveur permet de télécharger un fichier dont la taille maximale est {$fileSize}. Si nécessaire, contactez <a href="mailto:{$supportEmail}">{$supportName}</a> pour obtenir de l'aide.]]></message>
 	<message key="common.invalidFileType">Aucun fichier n'a été téléchargé ou type de fichier invalide!</message>
-	<message key="common.pageHeader.altText">Titre de haut de page</message>
 	<message key="common.homepageImage.altText">Image de la page d'accueil</message>
 	<message key="common.plugins">Modules externes</message>
 	<message key="common.metric">Métrique</message>
@@ -439,8 +435,6 @@
 	<message key="form.dataHasChanged">Les données de ce formulaire ont été modifiées. Vous voulez continuer sans sauvegarder?</message>
 	<message key="form.fileRequired">Un chargement de fichier est requis.</message>
 	<message key="form.invalidImage">Une image non valide a été téléchargée. Seuls les formats .png, .gif ou .jpg sont acceptés.</message>
-	<message key="help.toggleInlineHelpOn">Fonction d'Aide allumée</message>
-	<message key="help.toggleInlineHelpOff">Fonction d'Aide éteinte</message>
 	<message key="informationCenter.editorialHistory">Historique de rédaction</message>
 	<message key="navigation.management">Gestion</message>
 	<message key="navigation.access"><![CDATA[Utilisateurs &amp; Rôles]]></message>

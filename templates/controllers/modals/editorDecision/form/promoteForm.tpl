@@ -1,8 +1,8 @@
 {**
  * templates/controllers/modals/editorDecision/form/promoteForm.tpl
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * Form used to send reviews to author
@@ -13,7 +13,9 @@
 	$(function() {ldelim}
 		$('#promote').pkpHandler(
 			'$.pkp.controllers.modals.editorDecision.form.EditorDecisionFormHandler',
-			{ldelim} peerReviewUrl: '{$peerReviewUrl|escape:javascript}' {rdelim}
+			{ldelim}
+				peerReviewUrl: {$peerReviewUrl|json_encode}
+			{rdelim}
 		);
 	{rdelim});
 </script>
@@ -38,7 +40,7 @@
 	{/if}
 
 	{fbvFormSection title="editor.review.personalMessageToAuthor" for="personalMessage" size=$fbvStyles.size.LARGE}
-		{fbvElement type="textarea" name="personalMessage" id="personalMessage" value=$personalMessage rich=true}
+		{fbvElement type="textarea" name="personalMessage" id="personalMessage" value=$personalMessage rich=true variables=$allowedVariables}
 	{/fbvFormSection}
 
 	{fbvFormSection for="skipEmail" size=$fbvStyles.size.MEDIUM list=true}
@@ -61,7 +63,7 @@
 			{** a set $reviewRoundId var implies we are INTERNAL_REVIEW or EXTERNAL_REVIEW **}
 			{url|assign:filesToPromoteGridUrl router=$smarty.const.ROUTE_COMPONENT component="grid.files.review.SelectableReviewRevisionsGridHandler" op="fetchGrid" submissionId=$submissionId stageId=$stageId reviewRoundId=$reviewRoundId escape=false}
 		{elseif $stageId == $smarty.const.WORKFLOW_STAGE_ID_EDITING}
-			{url|assign:filesToPromoteGridUrl router=$smarty.const.ROUTE_COMPONENT component="grid.files.copyedit.SelectableCopyeditingFilesGridHandler" op="fetchGrid" submissionId=$submissionId stageId=$stageId escape=false}
+			{url|assign:filesToPromoteGridUrl router=$smarty.const.ROUTE_COMPONENT component="grid.files.copyedit.SelectableCopyeditFilesGridHandler" op="fetchGrid" submissionId=$submissionId stageId=$stageId escape=false}
 		{/if}
 		{load_url_in_div id="filesToPromoteGrid" url=$filesToPromoteGridUrl}
 	</div>

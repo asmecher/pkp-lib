@@ -3,8 +3,8 @@
 /**
  * @file controllers/grid/submissions/mySubmissions/MySubmissionsListGridHandler.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class MySubmissionsListGridHandler
@@ -17,9 +17,6 @@
 import('lib.pkp.controllers.grid.submissions.SubmissionsListGridHandler');
 import('lib.pkp.controllers.grid.submissions.SubmissionsListGridRow');
 
-// Import 'my submissions' list specific grid classes.
-import('lib.pkp.controllers.grid.submissions.mySubmissions.MySubmissionsListGridCellProvider');
-
 class MySubmissionsListGridHandler extends SubmissionsListGridHandler {
 	/**
 	 * Constructor
@@ -28,7 +25,7 @@ class MySubmissionsListGridHandler extends SubmissionsListGridHandler {
 		parent::SubmissionsListGridHandler();
 		$this->addRoleAssignment(
 			array(ROLE_ID_MANAGER, ROLE_ID_SUB_EDITOR, ROLE_ID_ASSISTANT, ROLE_ID_AUTHOR),
-			array('fetchGrid', 'fetchRow', 'deleteSubmission')
+			array('fetchGrid', 'fetchRows', 'fetchRow', 'deleteSubmission')
 		);
 	}
 
@@ -40,25 +37,42 @@ class MySubmissionsListGridHandler extends SubmissionsListGridHandler {
 	 */
 	function initialize($request) {
 		parent::initialize($request);
-
-		$titleColumn = $this->getColumn('title');
-		$titleColumn->setCellProvider(new MySubmissionsListGridCellProvider());
+		
+		$this->setTitle('submission.mySubmissions');
 	}
 
-
+	
 	//
-	// Implement template methods from SubmissionListGridHandler
+	// Implement methods from GridHandler
 	//
 	/**
-	 * @copydoc SubmissionListGridHandler::getSubmissions()
+	 * @copydoc GridHandler::loadData()
 	 */
-	function getSubmissions($request, $userId) {
-		$this->setTitle('submission.mySubmissions');
+	protected function loadData($request, $filter) {
+		list($search, $column, $stageId) = $this->getFilterValues($filter);
 
 		$submissionDao = Application::getSubmissionDAO();
-		$rangeInfo = $this->getGridRangeInfo($request, $this->getId());
-		$data = $submissionDao->getUnpublishedByUserId($userId, null, $rangeInfo);
-		return $data;
+		return $submissionDao->getUnpublishedByUserId(
+			$request->getUser()->getId(),
+			$request->getContext()->getId(),
+			$search,
+			$stageId,
+			$this->getGridRangeInfo($request, $this->getId())
+		);
+	}
+
+	
+	//
+	// Extend methods from SubmissionListGridHandler
+	//
+	/**
+	 * @copyDoc SubmissionListGridHandler::getFilterColumns()
+	 */
+	function getFilterColumns() {
+		$columns = parent::getFilterColumns();
+		unset($columns['author']);
+
+		return $columns;
 	}
 }
 

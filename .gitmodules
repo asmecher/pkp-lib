@@ -1,9 +1,6 @@
 [submodule "lib/swordappv2"]
 	path = lib/swordappv2
-	url = git://github.com/swordapp/swordappv2-php-library.git
+	url = https://github.com/swordapp/swordappv2-php-library.git
 [submodule "js/lib/pnotify"]
 	path = js/lib/pnotify
 	url = https://github.com/sciactive/pnotify.git
-[submodule "lib/phpunit-selenium"]
-	path = lib/phpunit-selenium
-	url = https://github.com/giorgiosironi/phpunit-selenium.git

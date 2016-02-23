@@ -3,8 +3,8 @@
 /**
  * @file classes/controllers/grid/GridHandler.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class GridHandler
@@ -62,9 +62,6 @@ class GridHandler extends PKPHandler {
 
 	/** @var string empty row locale key */
 	var $_emptyRowText = 'grid.noItems';
-
-	/** @var string Grid instructions locale key */
-	var $_instructions = '';
 
 	/** @var string Grid foot note locale key */
 	var $_footNote = '';
@@ -192,22 +189,6 @@ class GridHandler extends PKPHandler {
 	 */
 	function setEmptyRowText($emptyRowText) {
 		$this->_emptyRowText = $emptyRowText;
-	}
-
-	/**
-	 * Get the grid instructions.
-	 * @return string locale key
-	 */
-	function getInstructions() {
-		return $this->_instructions;
-	}
-
-	/**
-	 * Set the grid instructions.
-	 * @param $instructions string locale key
-	 */
-	function setInstructions($instructions) {
-		$this->_instructions = $instructions;
 	}
 
 	/**
@@ -409,6 +390,7 @@ class GridHandler extends PKPHandler {
 		$router = $request->getRouter();
 		$urls = array(
 			'fetchGridUrl' => $router->url($request, null, null, 'fetchGrid', null, $this->getRequestArgs()),
+			'fetchRowsUrl' => $router->url($request, null, null, 'fetchRows', null, $this->getRequestArgs()),
 			'fetchRowUrl' => $router->url($request, null, null, 'fetchRow', null, $this->getRequestArgs())
 		);
 		$this->_urls = array_merge($urls, $extraUrls);
@@ -605,15 +587,16 @@ class GridHandler extends PKPHandler {
 		// Load grid-specific translations
 		AppLocale::requireComponents(LOCALE_COMPONENT_PKP_GRID, LOCALE_COMPONENT_APP_COMMON);
 
-		if ($this->getFilterForm()) {
+		if ($this->getFilterForm() && $this->isFilterFormCollapsible()) {
 			import('lib.pkp.classes.linkAction.request.NullAction');
 			$this->addAction(
 				new LinkAction(
 					'search',
 					new NullAction(),
-					'',
+					__('common.search'),
 					'search_extras_expand'
-				));
+				)
+			);
 		}
 
 		// Give a chance to grid add features before calling hooks.
@@ -651,6 +634,8 @@ class GridHandler extends PKPHandler {
 		$columns = $this->getColumns();
 		$templateMgr->assign('columns', $columns);
 
+		$this->_fixColumnWidths();
+
 		// Do specific actions to fetch this grid.
 		$this->doSpecificFetchGridActions($args, $request, $templateMgr);
 
@@ -667,12 +652,40 @@ class GridHandler extends PKPHandler {
 	}
 
 	/**
+	 * Fetch all grid rows from loaded data.
+	 * @param $args Array
+	 * @param $request Request
+	 * @return JSONMessage JSON object.
+	 */
+	function fetchRows($args, $request) {
+		// Render the rows.
+		$this->setFirstDataColumn();
+		$elements = $this->getGridDataElements($request);
+		$renderedRows = $this->renderRowsInternally($request, $elements);
+
+		$json = new JSONMessage();
+		$json->setStatus(false);
+
+		if ($renderedRows) {
+			$renderedRowsString = null;
+			foreach ($renderedRows as $rowString) {
+				$renderedRowsString .= $rowString;
+			}
+			$json->setStatus(true);
+			$json->setContent($renderedRowsString);
+		}
+
+		$this->callFeaturesHook('fetchRows', array('request' => &$request, 'grid' => &$this, 'jsonMessage' => &$json));
+
+		return $json;
+	}
+
+	/**
 	 * Render a row and send it to the client. If the row no
 	 * longer exists then inform the client.
 	 * @param $args array
 	 * @param $request Request
-	 * @return string the serialized row JSON message or a flag
-	 *  that indicates that the row has not been found.
+	 * @return JSONMessage JSON object.
 	 */
 	function fetchRow(&$args, $request) {
 		// Instantiate the requested row (includes a
@@ -814,7 +827,7 @@ class GridHandler extends PKPHandler {
 		if (is_a($dataProvider, 'GridDataProvider')) {
 			// Populate the grid with data from the
 			// data provider.
-			$gridData = $dataProvider->loadData();
+			$gridData = $dataProvider->loadData($filter);
 		}
 
 		$this->callFeaturesHook('loadData', array('request' => &$request, 'grid' => &$this, 'gridData' => &$gridData));
@@ -828,6 +841,14 @@ class GridHandler extends PKPHandler {
 	 */
 	protected function getFilterForm() {
 		return null;
+	}
+
+	/**
+	 * Determine whether a filter form should be collapsible.
+	 * @return boolean
+	 */
+	protected function isFilterFormCollapsible() {
+		return true;
 	}
 
 	/**
@@ -849,11 +870,10 @@ class GridHandler extends PKPHandler {
 	 */
 	protected function renderFilter($request, $filterData = array()) {
 		$form = $this->getFilterForm();
-		assert(is_null($form) || is_a($form, 'Form') || is_string($form));
-
-		$renderedForm = '';
 		switch(true) {
-			case is_a($form, 'Form'):
+			case $form === null: // No filter form.
+				return '';
+			case is_a($form, 'Form'): // Form object subclass
 				// Only read form data if the clientSubmit flag has been checked
 				$clientSubmit = (boolean) $request->getUserVar('clientSubmit');
 				if($clientSubmit) {
@@ -862,9 +882,8 @@ class GridHandler extends PKPHandler {
 				}
 
 				$form->initData($filterData, $request);
-				$renderedForm = $form->fetch($request);
-				break;
-			case is_string($form):
+				return $form->fetch($request);
+			case is_string($form): // HTML mark-up
 				$templateMgr = TemplateManager::getManager($request);
 
 				// Assign data to the filter.
@@ -874,11 +893,10 @@ class GridHandler extends PKPHandler {
 				$filterSelectionData = $this->getFilterSelectionData($request);
 				$templateMgr->assign('filterSelectionData', $filterSelectionData);
 
-				$renderedForm = $templateMgr->fetch($form);
+				return $templateMgr->fetch($form);
 				break;
 		}
-
-		return $renderedForm;
+		assert(false);
 	}
 
 	/**
@@ -901,8 +919,6 @@ class GridHandler extends PKPHandler {
 	 * @param $request Request
 	 */
 	protected function doSpecificFetchGridActions($args, $request, $templateMgr) {
-		$this->_fixColumnWidths();
-
 		// Render the body elements.
 		$gridBodyParts = $this->renderGridBodyPartsInternally($request);
 		$templateMgr->assign('gridBodyParts', $gridBodyParts);
@@ -1102,7 +1118,7 @@ class GridHandler extends PKPHandler {
 		}
 
 		// Four cases: we have to add or remove some width, and either we have wiggle room or not.
-		// We will try just correcting the first case, width less than 100 and some unspecified columns to add it to.
+		// First case, width less than 100 and some unspecified columns to add it to.
 		if ($width < 100) {
 			if ($noSpecifiedWidthCount > 0) {
 				// We need to add width to columns that did not specify it.
@@ -1112,6 +1128,37 @@ class GridHandler extends PKPHandler {
 						$modifyColumn->addFlag('width', round((100 - $width)/$noSpecifiedWidthCount));
 						unset($modifyColumn);
 					}
+				}
+			}
+		}
+
+		// Second case, width higher than 100 and all columns width specified.
+		if ($width > 100) {
+			if ($noSpecifiedWidthCount == 0) {
+				// We need to remove width from all columns equally.
+				$columnsToModify = $columns;
+				foreach ($columns as $key => $column) {
+					// We don't want to change the indent column widht, so avoid it.
+					if ($column->getId() == 'indent') {
+						unset($columnsToModify[$key]);
+					}
+				}
+
+				// Calculate the value to remove from all columns.
+				$difference = $width - 100;
+				$columnsCount = count($columnsToModify);
+				$removeValue = round($difference/$columnsCount);
+				foreach ($columnsToModify as $column) {
+					$modifyColumn = $this->getColumn($column->getId());
+					if (end($columnsToModify) === $column) {
+						// Handle rounding problems.
+						$totalWidth = $width - ($removeValue * $columnsCount);
+						if ($totalWidth < 100) {
+							$removeValue -= 100 - $totalWidth;
+						}
+					}
+
+					$modifyColumn->addFlag('width', $modifyColumn->getFlag('width') - $removeValue);
 				}
 			}
 		}

@@ -1,8 +1,8 @@
 {**
  * templates/controllers/grid/users/stageParticipant/form/notify.tpl
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * Display a form to notify other users about this file.
@@ -13,7 +13,7 @@
 		$('#notifyForm').pkpHandler(
 			'$.pkp.controllers.grid.users.stageParticipant.form.StageParticipantNotifyHandler',
 			{ldelim}
-				templateUrl: "{url|escape:'javascript' router=$smarty.const.ROUTE_COMPONENT component='grid.users.stageParticipant.StageParticipantGridHandler' op='fetchTemplateBody' stageId=$stageId submissionId=$submissionId escape=false}"
+				templateUrl: {url|json_encode router=$smarty.const.ROUTE_COMPONENT component='grid.users.stageParticipant.StageParticipantGridHandler' op='fetchTemplateBody' stageId=$stageId submissionId=$submissionId escape=false}
 			{rdelim}
 		);
 	{rdelim});
@@ -24,7 +24,7 @@
 		{fbvFormArea id="notifyFormArea"}
 			{if $lastEventUser}{assign var="userId" value=$lastEventUser->getId()}{/if}
 			{if $includeNotifyUsersListbuilder}
-				{url|assign:notifyUsersUrl router=$smarty.const.ROUTE_COMPONENT component="listbuilder.users.NotifyUsersListbuilderHandler" op="fetch" params=$linkParams submissionId=$submissionId userId=$userId escape=false}
+				{url|assign:notifyUsersUrl router=$smarty.const.ROUTE_COMPONENT component="listbuilder.users.StageUsersListbuilderHandler" op="fetch" params=$linkParams submissionId=$submissionId userIds=$userId|to_array escape=false}
 				{load_url_in_div id="notifyUsersContainer" url=$notifyUsersUrl}
 			{/if}
 

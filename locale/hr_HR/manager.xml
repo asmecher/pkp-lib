@@ -4,8 +4,8 @@
 <!--
   * locale/hr_HR/manager.xml
   *
-  * Copyright (c) 2014-2015 Simon Fraser University Library
-  * Copyright (c) 2000-2015 John Willinsky
+  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2000-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
   *
   * Localization strings for the hr_HR (Hrvatski) locale.
@@ -140,7 +140,6 @@
 	<message key="manager.setup.layout.unselected">Neodabrano</message>
 	<message key="manager.setup.loggingAndAuditing">Bilježenje uređivačkog postupka</message>
 	<message key="manager.setup.pageHeaderLogoImageInvalid">Neispravan format slike logotipa zaglavlja. Prihvaćeni formati su .gif, .jpg, ili .png.</message>
-	<message key="manager.setup.pageHeaderTitleImageInvalid">Neispravan format naslova slike zaglavlja. Prihvaćeni formati su .gif, .jpg, ili .png.</message>
 	<message key="manager.setup.selectOne">Izaberite</message>
 	<message key="manager.statistics">Statistike i izvještaji</message>
 	<message key="manager.statistics.statistics.count.value">{$count} ({$percentage}%)</message>

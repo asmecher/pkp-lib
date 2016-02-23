@@ -1,145 +1,155 @@
 /**
  * @file styles/structure/body.less
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
- * 
+ *
  * @ingroup pkp_structure_page
  *
  * @brief Classes for the page structural elements
  */
 
-html, body {
+html {
 	height: 100%;
 }
 
-a {
-	color: #569bbe;
-}
-
-img {
-	display: block;
-	padding: 2px;
-}
-
-strong {
-	font-weight: bold;
-}
-
-hr {
-	border: 5px solid #e2e2e2;
-	border-width: 0 0 5px 0;
-	margin-top: 20px;
-	margin-bottom: 10px;
-}
-
-ul, ol,dl, blockquote {
-	padding: 10px;
-}
-
-p {
-	padding: 0.5em 0;
-}
-
-h1, h2, h3, h4, h5, h6 {
-	padding-top: 0.5em;
-}
-
-img {
-	padding-bottom: 0px;
-}
-
-pre {
-	margin: 10px;
-}
-
-table h1,table h2,table h3, table h4, table h5, table h6, table p, table ul, table ol, table dl,
-ul h1,ul h2,ul h3, ul h4, ul h5, ul h6, ul p, ul ul, ul ol, ul dl,
-ol h1,ol h2,ol h3, ol h4, ol h5, ol h6, ol p, ol ul, ol ol, ol dl {
-	padding: 0;
-}
-
-@pkp_structure_body_normal_font {
-	font-weight: normal;
-	font-style: normal;
-}
-
-h1, .h1 {
-	font-size: 196%;
-	@pkp_structure_body_normal_font;
-}
-
-h2, .h2 {
-	font-size: 167%;
-	@pkp_structure_body_normal_font;
-}
-
-h3, .h3 {
-	font-size: 120%;
-	@pkp_structure_body_normal_font;
-}
-
-h4, .h4 {
-	font-size: 105%;
-	@pkp_structure_body_normal_font;
-}
-
 body {
-	font-family: Arial, Helvetica, sans-serif;
-	_text-align: center;
-	color: #333;
-}
-
-.pkp_structure_content {
-	margin: 0 auto;
-	width: 960px;
-}
-
-/* Liquid width (full browser width) */
-.liquid .pkp_structure_content {
-	margin: 0;
-	width: auto;
-}
-
-.pkp_structure_page {
-	margin: 0 auto;
-	_text-align: left;
 	position: relative;
-	padding-bottom: 150px;
+	height: auto;
 	min-height: 100%;
+	background: @bg;
+	font-family: @font;
+	font-size: @font-base;
+	line-height: @double;
+	color: @text;
+	color: @text-rgba;
 }
 
-.pkp_structure_page,
-.pkp_structure_page:before,
-.pkp_structure_page:after {
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-}
+a {
+	color: @primary-lift;
 
-.pkp_structure_body:after, .pkp_structure_main:after {
-	clear: both;
-	display: block;
-	visibility: hidden;
-	overflow: hidden;
-	height: 0 !important;
-	line-height: 0;
-	font-size: xx-large;
-	content: " x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x ";
-}
+	&:hover,
+	&:focus {
+		color: @primary;
+	}
 
-.pkp_structure_body {
-	*zoom: 1;
-	margin-bottom: 3px;
-	padding-bottom: 15px;
-
-	.pkp_structure_main {
-		*zoom: 1;
-		padding-top: 10px;
-		padding-bottom: 80px;
-		border-top: 1px dotted #999;
-		float: right;
+	&[disabled] {
+		color: @text-light;
+		color: @text-light-rgba;
+		cursor: not-allowed;
 	}
 }
 
+// Don't let images exceed containers by default
+img {
+	max-width: 100%;
+	width: auto;
+	height: auto;
+}
+
+.pkp_page_title {
+	color: @text-light;
+	color: @text-light-rgba;
+	margin-bottom: @double;
+
+	h1 {
+		margin: 0;
+		font-size: @font-lead;
+	}
+}
+
+.pkp_structure_page {
+	margin-left: 192px;
+	padding: (@double * 2) @double @double;
+}
+
+// Panel wrapper when supporting context sidebar
+.pkp_panel_wrapper {
+	.pkp_helpers_clear;
+}
+
+// Context sidebar
+.pkp_context_sidebar {
+
+	> * {
+		margin-bottom: @double;
+		max-width: 400px;
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+
+	ul {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.pkp_tab_actions {
+
+		li {
+			margin-bottom: @base;
+
+			&:last-child {
+				margin-bottom: 0;
+			}
+		}
+
+		button {
+			width: 100%;
+		}
+	}
+}
+
+// TODO no responsive breakpoints exist site-wide. This is just a temporary
+// placement until we can work out a more responsive backend
+@media(min-width: 767px) {
+
+	.pkp_context_sidebar {
+		float: right;
+		width: 25%;
+	}
+
+	.pkp_content_panel {
+		float: left;
+		width: 75%;
+		padding-right: @double;
+	}
+}
+
+@media(min-width: 1700px) {
+
+	.pkp_context_sidebar {
+		width: 20%;
+	}
+
+	.pkp_content_panel {
+		width: 80%;
+	}
+}
+
+// Page content wrapper for pages without tabs
+.pkp_page_content {
+	padding: @double;
+	background: @lift;
+	border: @bg-border;
+
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		margin: @double 0 @base;
+
+		&:first-child {
+			margin-top: 0;
+		}
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+}

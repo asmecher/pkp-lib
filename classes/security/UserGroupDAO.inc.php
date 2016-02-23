@@ -3,8 +3,8 @@
 /**
  * @file classes/security/UserGroupDAO.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class UserGroupDAO
@@ -784,7 +784,7 @@ class UserGroupDAO extends DAO {
 		if (!empty($search)) {
 
 			if (!isset($searchTypeMap[$searchType])) {
-				$str = $this->concat('u.first_name', 'u.last_name', 'u.email', 'us.setting_value');
+				$str = $this->concat('u.first_name', 'u.last_name', 'u.email', 'COALESCE(us.setting_value,\'\')');
 				$concatFields = ' ( LOWER(' . $str . ') LIKE ? OR LOWER(cves.setting_value) LIKE ? ) ';
 
 				$search = strtolower($search);

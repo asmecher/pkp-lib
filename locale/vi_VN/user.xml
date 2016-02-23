@@ -4,8 +4,8 @@
 <!--
   * locale/vi_VN/user.xml
   *
-  * Copyright (c) 2014-2015 Simon Fraser University Library
-  * Copyright (c) 2000-2015 John Willinsky
+  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2000-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
   *
   * Localization strings for the vi_VN (Tiếng Việt) locale.
@@ -23,7 +23,6 @@
 	<message key="user.dateRegistered">Ngày đăng ký</message>
 	<message key="user.editMyProfile">Sửa Hồ sơ cá nhân</message>
 	<message key="user.email">Email</message>
-	<message key="user.fax">Fax</message>
 	<message key="user.feminine">Nữ</message>
 	<message key="user.firstName">Họ</message>
 	<message key="user.gender">Giới</message>

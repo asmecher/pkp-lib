@@ -4,8 +4,8 @@
 <!--
   * locale/fr_CA/grid.xml
   *
-  * Copyright (c) 2014-2015 Simon Fraser University Library
-  * Copyright (c) 2000-2015 John Willinsky
+  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2000-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
   *
   * Localization strings for the fr_CA locale.
@@ -167,10 +167,6 @@
 	<message key="grid.action.editPreparedEmail">Modifier ce modèle de courriel</message>
 	<message key="grid.action.disableEmail">Désactiver ce modèle de courriel</message>
 	<message key="grid.action.resetEmail">Réinitialiser ce modèle de courriel à la valeur par défaut</message>
-	<message key="grid.action.addSignoff">Ajouter une réponse du vérificateur pour ce fichier</message>
-	<message key="grid.action.deleteSignoff">Supprimer cette approbation par signature</message>
-	<message key="grid.action.fileSignoff">Approuver ce fichier par une signature</message>
-	<message key="grid.action.readSignoff">Lire cette approbation par signature</message>
 	<message key="grid.action.expandAll">Élargir tout</message>
 	<message key="grid.action.expand">Élargir</message>
 	<message key="grid.action.addUserGroup">Ajouter un nouveau groupe d'utilisateurs</message>

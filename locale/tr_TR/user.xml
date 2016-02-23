@@ -4,10 +4,10 @@
 <!--
   * locale/tr_TR/user.xml
   *
-  * Copyright (c) 2014-2015 Simon Fraser University Library
-  * Copyright (c) 2000-2015 John Willinsky
+  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2000-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
-  * Localization strings for the tr_TR (Türkiye Türkçesi) locale.
+  * Localization strings for the tr_TR (Türkçe) locale.
   -->
 
 <locale name="tr_TR" full_name = "Türkiye Türkçesi">
@@ -30,8 +30,6 @@
 	<message key="user.dateRegistered">Kayıt tarihi</message>
 	<message key="user.editMyProfile">Profilimi Düzenle</message>
 	<message key="user.email">E-posta</message>
-	<message key="user.confirmEmail">E-posta Onayı</message>
-	<message key="user.fax">GSM/Faks</message>
 	<message key="user.feminine">F</message>
 	<message key="user.firstName">İlk Adı</message>
 	<message key="user.gender">Cinsiyet</message>

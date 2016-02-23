@@ -3,8 +3,8 @@
 /**
  * @file controllers/grid/admin/languages/PKPAdminLanguageGridHandler.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class AdminLanguageGridHandler
@@ -115,12 +115,6 @@ class PKPAdminLanguageGridHandler extends LanguageGridHandler {
 			$this->addManagementColumns();
 		}
 
-		if ($this->_canManage($request)) {
-			$instructions = 'manager.languages.languageInstructions';
-		} else {
-			$instructions = 'admin.languages.supportedLocalesInstructions';
-		}
-		$this->setInstructions($instructions);
 		$this->setFootNote('admin.locale.maybeIncomplete');
 	}
 
@@ -131,14 +125,14 @@ class PKPAdminLanguageGridHandler extends LanguageGridHandler {
 	/**
 	 * @copydoc GridHandler::getRowInstance()
 	 */
-	function getRowInstance() {
+	protected function getRowInstance() {
 		return new LanguageGridRow();
 	}
 
 	/**
 	 * @copydoc GridHandler::loadData()
 	 */
-	function loadData($request, $filter) {
+	protected function loadData($request, $filter) {
 		$site = $request->getSite();
 		$data = array();
 

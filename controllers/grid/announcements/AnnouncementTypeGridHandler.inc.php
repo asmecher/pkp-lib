@@ -3,8 +3,8 @@
 /**
  * @file controllers/grid/announcements/AnnouncementTypeGridHandler.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class AnnouncementTypeGridHandler
@@ -40,8 +40,8 @@ class AnnouncementTypeGridHandler extends GridHandler {
 	 * @copydoc GridHandler::authorize()
 	 */
 	function authorize($request, &$args, $roleAssignments) {
-		import('lib.pkp.classes.security.authorization.PkpContextAccessPolicy');
-		$this->addPolicy(new PkpContextAccessPolicy($request, $roleAssignments));
+		import('lib.pkp.classes.security.authorization.ContextAccessPolicy');
+		$this->addPolicy(new ContextAccessPolicy($request, $roleAssignments));
 		$context = $request->getContext();
 
 		$announcementTypeId = $request->getUserVar('announcementTypeId');
@@ -108,18 +108,16 @@ class AnnouncementTypeGridHandler extends GridHandler {
 	/**
 	 * @copydoc GridHandler::loadData()
 	 */
-	function loadData($request, $filter) {
+	protected function loadData($request, $filter) {
 		$context = $request->getContext();
 		$announcementTypeDao = DAORegistry::getDAO('AnnouncementTypeDAO');
-		$announcementTypes = $announcementTypeDao->getByAssoc($context->getAssocType(), $context->getId());
-
-		return $announcementTypes;
+		return $announcementTypeDao->getByAssoc($context->getAssocType(), $context->getId());
 	}
 
 	/**
 	 * @copydoc GridHandler::getRowInstance()
 	 */
-	function getRowInstance() {
+	protected function getRowInstance() {
 		import('lib.pkp.controllers.grid.announcements.AnnouncementTypeGridRow');
 		return new AnnouncementTypeGridRow();
 	}

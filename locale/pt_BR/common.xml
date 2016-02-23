@@ -4,8 +4,8 @@
 <!--
   * locale/pt_BR/common.xml
   *
-  * Copyright (c) 2014-2015 Simon Fraser University Library
-  * Copyright (c) 2000-2015 John Willinsky
+  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2000-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
   *
   * Localization strings for the pt_BR (Português (Brasil)) locale.
@@ -16,7 +16,6 @@
 	<message key="about.aboutSite">Sobre o Portal</message>
 	<message key="about.contact">Contato</message>
 	<message key="about.contact.email">E-mail</message>
-	<message key="about.contact.fax">Fax</message>
 	<message key="about.contact.phone">Telefone</message>
 	<message key="about.contact.principalContact">Contato Principal</message>
 	<message key="about.contact.supportContact">Contato para Suporte Técnico</message>
@@ -360,8 +359,6 @@
 	<message key="form.emailRequired">Um endereço de email é obrigatório.</message>
 	<message key="form.dataHasChanged">Os dados deste formulário foram alterados. Continuar assim mesmo?</message>
 	<message key="form.invalidImage">Uma imagem inválida foi enviada. Formatos aceitos são .png, .gif, ou .jpg.</message>
-	<message key="help.toggleInlineHelpOn">Desabilitar ajuda</message>
-	<message key="help.toggleInlineHelpOff">Habilitar ajuda</message>
 	<message key="navigation.access"><![CDATA[Usuários &amp; Papéis]]></message>
 	<message key="navigation.admin">Administração</message>
 	<message key="navigation.browseByAuthor">por Autor</message>
@@ -408,7 +405,6 @@
 	<message key="common.currentStyleSheet">Folha de estilos atual</message>
 	<message key="about.description">Descrição</message>
 	<message key="about.guidelines">Diretrizes</message>
-	<message key="common.navigation">Navegação</message>
 	<message key="common.tasks">Tarefas</message>
 	<message key="common.list">Lista</message>
 	<message key="common.grid">Rede</message>
@@ -420,7 +416,6 @@
 	<message key="common.available">Disponível</message>
 	<message key="common.error">Erro</message>
 	<message key="common.contents">Conteúdo</message>
-	<message key="common.considered">Considerado</message>
 	<message key="common.dateHijri">Calendário Islâmico</message>
 	<message key="common.dimensionsInches"><![CDATA[{$width}"&nbsp;x&nbsp;{$height}" @ {$dpi} DPI/PPI]]></message>
 	<message key="common.dimensionsPixels">{$width} x {$height} pixels</message>
@@ -437,7 +432,6 @@
 	<message key="common.startTyping">Iniciar digitação</message>
 	<message key="common.subjects">Assuntos</message>
 	<message key="common.subtitle">Subtítulo</message>
-	<message key="common.pageHeader.altText">Cabeçalho</message>
 	<message key="common.homepageImage.altText">Imagem da Homepage</message>
 	<message key="common.metric">Métrico</message>
 	<message key="common.count">Contagem</message>

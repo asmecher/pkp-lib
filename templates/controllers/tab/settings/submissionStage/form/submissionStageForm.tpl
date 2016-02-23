@@ -1,8 +1,8 @@
 {**
  * controllers/tab/settings/submissionStage/form/submissionStageForm.tpl
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * Submission stage management form.
@@ -22,10 +22,9 @@
 	{url|assign:submissionChecklistGridUrl router=$smarty.const.ROUTE_COMPONENT component="grid.settings.submissionChecklist.SubmissionChecklistGridHandler" op="fetchGrid" escape=false}
 	{load_url_in_div id="submissionChecklistGridDiv" url=$submissionChecklistGridUrl}
 
-	<h4>{translate key="manager.setup.notifications"}</h4>
 	{fbvFormArea id="notificationSettings"}
-		{fbvFormSection description="manager.setup.notifications.description" list=true}
-			{fbvElement type="checkbox" id="copySubmissionAckPrimaryContact" disabled=$submissionAckDisabled checked=$copySubmissionAckPrimaryContact label="manager.setup.notifications.copyPrimaryContact" inline=true}
+		{fbvFormSection label="manager.setup.notifications" for="copySubmissionAckPrimaryContact" description="manager.setup.notifications.description" list=true}
+			{fbvElement type="checkbox" id="copySubmissionAckPrimaryContact" disabled=$submissionAckDisabled checked=$copySubmissionAckPrimaryContact label="manager.setup.notifications.copyPrimaryContact"}
 		{/fbvFormSection}
 		{fbvFormSection}
 			{fbvElement type="text" disabled=$submissionAckDisabled id="copySubmissionAckAddress" value=$copySubmissionAckAddress size=$fbvStyles.size.MEDIUM label="manager.setup.notifications.copySpecifiedAddress"}

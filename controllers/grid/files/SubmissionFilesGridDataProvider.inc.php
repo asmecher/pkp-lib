@@ -2,8 +2,8 @@
 /**
  * @file controllers/grid/files/SubmissionFilesGridDataProvider.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class PKPSubmissionFilesGridDataProvider
@@ -27,6 +27,7 @@ class SubmissionFilesGridDataProvider extends FilesGridDataProvider {
 	/**
 	 * Constructor
 	 * @param $fileStage integer One of the SUBMISSION_FILE_* constants.
+	 * @param $viewableOnly boolean True iff only viewable files should be included.
 	 */
 	function SubmissionFilesGridDataProvider($fileStage, $viewableOnly = false) {
 		assert(is_numeric($fileStage) && $fileStage > 0);
@@ -42,6 +43,7 @@ class SubmissionFilesGridDataProvider extends FilesGridDataProvider {
 	//
 	/**
 	 * Set the workflow stage.
+	 * @param $stageId int WORKFLOW_STAGE_ID_...
 	 */
 	function setStageId($stageId) {
 		$this->_stageId = $stageId;
@@ -49,7 +51,7 @@ class SubmissionFilesGridDataProvider extends FilesGridDataProvider {
 
 	/**
 	 * Get the workflow stage.
-	 * @return integer
+	 * @return integer WORKFLOW_STAGE_ID_...
 	 */
 	function getStageId() {
 		return $this->_stageId;
@@ -73,7 +75,7 @@ class SubmissionFilesGridDataProvider extends FilesGridDataProvider {
 
 	/**
 	 * Get the file stage.
-	 * @return integer
+	 * @return integer SUBMISSION_FILE_...
 	 */
 	function getFileStage() {
 		return $this->_fileStage;
@@ -82,12 +84,12 @@ class SubmissionFilesGridDataProvider extends FilesGridDataProvider {
 	/**
 	 * @copydoc GridDataProvider::loadData()
 	 */
-	function loadData() {
-		// Retrieve all subission files for the given file stage.
+	function loadData($filter = array()) {
+		// Retrieve all submission files for the given file stage.
 		$submission = $this->getSubmission();
 		$submissionFileDao = DAORegistry::getDAO('SubmissionFileDAO'); /* @var $submissionFileDao SubmissionFileDAO */
 		$submissionFiles = $submissionFileDao->getLatestRevisions($submission->getId(), $this->getFileStage());
-		return $this->prepareSubmissionFileData($submissionFiles, $this->_viewableOnly);
+		return $this->prepareSubmissionFileData($submissionFiles, $this->_viewableOnly, $filter);
 	}
 
 	//
@@ -99,7 +101,7 @@ class SubmissionFilesGridDataProvider extends FilesGridDataProvider {
 	function getAuthorizationPolicy($request, $args, $roleAssignments) {
 		$this->setUploaderRoles($roleAssignments);
 
-		import('classes.security.authorization.WorkflowStageAccessPolicy');
+		import('lib.pkp.classes.security.authorization.WorkflowStageAccessPolicy');
 		return new WorkflowStageAccessPolicy($request, $args, $roleAssignments, 'submissionId', $this->getStageId());
 	}
 
@@ -117,6 +119,54 @@ class SubmissionFilesGridDataProvider extends FilesGridDataProvider {
 			$this->getStageId(), $this->getUploaderRoles(),
 			$this->getUploaderGroupIds(), $this->getFileStage()
 		);
+	}
+
+
+	//
+	// Protected functions
+	//
+	/**
+	 * Apply the filter to the list of revisions, returning only matching elements.
+	 * @param $revisions array List of potential submission files to include.
+	 * @param $filter array Associative array of filter data
+	 * @return array
+	 */
+	protected function applyFilter($revisions, $filter) {
+		if (!empty($filter['search'])) switch ($filter['column']) {
+			case 'name':
+				foreach ($revisions as $key => $submissionFile) {
+					if (!stristr($submissionFile->getName(AppLocale::getLocale()), $filter['search'])) {
+						unset($revisions[$key]);
+					}
+				}
+				break;
+		}
+		return $revisions;
+	}
+
+	/**
+	 * Rearrange file revisions by file id and return the file
+	 * data wrapped into an array so that grid implementations
+	 * can add further data.
+	 * @param $revisions array List of SubmissionFiles
+	 * @param $viewableOnly boolean optional True iff only viewable files should be listed
+	 * @param $filter array optional Associative array of filter conditions
+	 * @return array
+	 */
+	function prepareSubmissionFileData($revisions, $viewableOnly = false, $filter = array()) {
+		$revisions = $this->applyFilter($revisions, $filter);
+
+		// Rearrange the files as required by submission file grids.
+		$submissionFileData = array();
+		foreach ($revisions as $revision) {
+			if ($viewableOnly && !$revision->getViewable()) continue;
+
+			$submissionFileData[$revision->getFileId()] = array(
+				'submissionFile' => $revision
+			);
+			unset($revision);
+		}
+		return $submissionFileData;
 	}
 }
 

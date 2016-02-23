@@ -3,8 +3,8 @@
 /**
  * @file classes/note/NoteDAO.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class NoteDAO
@@ -15,6 +15,9 @@
  */
 
 import('lib.pkp.classes.note.Note');
+
+define('NOTE_ORDER_DATE_CREATED',	0x0001);
+define('NOTE_ORDER_ID',			0x0002);
 
 class NoteDAO extends DAO {
 	/**
@@ -66,14 +69,34 @@ class NoteDAO extends DAO {
 
 	/**
 	 * Retrieve Notes by assoc id/type
-	 * @param $assocId int
-	 * @param $assocType int
-	 * @param $userId int
+	 * @param $assocId int ASSOC_TYPE_...
+	 * @param $assocType int Assoc ID (per $assocType)
+	 * @param $userId int Optional user ID
+	 * @param $orderBy int Optional sorting field constant: NOTE_ORDER_...
+	 * @param $sortDirection int Optional sorting order constant: SORT_DIRECTION_...
 	 * @return object DAOResultFactory containing matching Note objects
 	 */
-	function getByAssoc($assocType, $assocId, $userId = null) {
+	function getByAssoc($assocType, $assocId, $userId = null, $orderBy = NOTE_ORDER_DATE_CREATED, $sortDirection = SORT_DIRECTION_DESC) {
 		$params = array((int) $assocId, (int) $assocType);
 		if ($userId) $params[] = (int) $userId;
+
+		// Sanitize sort ordering
+		switch ($orderBy) {
+			case NOTE_ORDER_ID:
+				$orderSanitized = 'note_id';
+				break;
+			case NOTE_ORDER_DATE_CREATED:
+			default:
+				$orderSanitized = 'date_created';
+		}
+		switch ($sortDirection) {
+			case SORT_DIRECTION_ASC:
+				$directionSanitized = 'ASC';
+				break;
+			case SORT_DIRECTION_DESC:
+			default:
+				$directionSanitized = 'DESC';
+		}
 
 		$result = $this->retrieve(
 			'SELECT	*
@@ -81,7 +104,7 @@ class NoteDAO extends DAO {
 			WHERE	assoc_id = ?
 				AND assoc_type = ?
 				' . ($userId?' AND user_id = ?':'') . '
-			ORDER BY date_created DESC',
+			ORDER BY ' . $orderSanitized . ' ' . $directionSanitized,
 			$params
 		);
 		return new DAOResultFactory($result, $this, '_fromRow');
@@ -168,12 +191,13 @@ class NoteDAO extends DAO {
 	 * @return int Note Id
 	 */
 	function insertObject($note) {
+		if (!$note->getDateCreated()) $note->setDateCreated(Core::getCurrentDate());
 		$this->update(
 			sprintf('INSERT INTO notes
 				(user_id, date_created, date_modified, title, contents, assoc_type, assoc_id)
 				VALUES
 				(?, %s, %s, ?, ?, ?, ?)',
-				$this->datetimeToDB(Core::getCurrentDate()),
+				$this->datetimeToDB($note->getDateCreated()),
 				$this->datetimeToDB(Core::getCurrentDate())
 			),
 			array(
@@ -205,7 +229,7 @@ class NoteDAO extends DAO {
 					assoc_type = ?,
 					assoc_id = ?
 				WHERE	note_id = ?',
-				$this->datetimeToDB(Core::getCurrentDate()),
+				$this->datetimeToDB($note->getDateCreated()),
 				$this->datetimeToDB(Core::getCurrentDate())
 			),
 			array(
@@ -217,6 +241,14 @@ class NoteDAO extends DAO {
 				(int) $note->getId()
 			)
 		);
+	}
+
+	/**
+	 * Delete a note by note object.
+	 * @param $note Note
+	 */
+	function deleteObject($note) {
+		$this->deleteById($note->getId());
 	}
 
 	/**
@@ -236,15 +268,15 @@ class NoteDAO extends DAO {
 	}
 
 	/**
-	 * Delete Note by association
+	 * Delete notes by association
 	 * @param $assocType int ASSOC_TYPE_...
 	 * @param $assocId int Foreign key, depending on $assocType
 	 */
 	function deleteByAssoc($assocType, $assocId) {
-		$this->update(
-			'DELETE FROM notes WHERE assoc_type = ? AND assoc_id = ?',
-			array((int) $assocType, (int) $assocId)
-		);
+		$notes = $this->getByAssoc($assocType, $assocId);
+		while ($note = $notes->next()) {
+			$this->deleteObject($note);
+		}
 	}
 
 	/**

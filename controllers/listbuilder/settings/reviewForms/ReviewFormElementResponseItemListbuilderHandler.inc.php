@@ -2,8 +2,8 @@
 /**
  * @file controllers/listbuilder/settings/reviewForms/ReviewFormElementResponseItemListbuilderHandler.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class ReviewFormElementResponseItemListbuilderHandler
@@ -54,7 +54,7 @@ class ReviewFormElementResponseItemListbuilderHandler extends SetupListbuilderHa
 	/**
 	 * @see GridHandler::loadData()
 	 */
-	function loadData($request) {
+	protected function loadData($request) {
 		$reviewFormElementDao = DAORegistry::getDAO('ReviewFormElementDAO');
 		$reviewFormElement = $reviewFormElementDao->getById($this->_reviewFormElementId);
 		$formattedResponses = array();
@@ -74,7 +74,7 @@ class ReviewFormElementResponseItemListbuilderHandler extends SetupListbuilderHa
 	/**
 	 * @copydoc GridHandler::getRowDataElement
 	 */
-	function getRowDataElement($request, &$rowId) {
+	protected function getRowDataElement($request, &$rowId) {
 		// Fallback on the parent if an existing rowId is found
 		if ( !empty($rowId) ) {
 			return parent::getRowDataElement($request, $rowId); 

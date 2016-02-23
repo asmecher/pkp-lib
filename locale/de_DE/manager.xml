@@ -4,8 +4,8 @@
 <!--
   * locale/de_DE/manager.xml
   *
-  * Copyright (c) 2014-2015 Simon Fraser University Library
-  * Copyright (c) 2000-2015 John Willinsky
+  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2000-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
   * Localization strings for the de_DE (Deutsch (Deutschland)) locale.
   * Please contact Marco Tullney, marco.tullney@fu-berlin.de, with any questions regarding this translation.
@@ -117,7 +117,6 @@
 	<message key="manager.languages.alternateLocaleInstructions">Dieses System bietet die Möglichkeit, wichtige Informationen in verschiedenen zusätzlichen Sprachen einzutragen. Dazu wählen Sie bitte aus der nachstehenden Liste eine andere Regionaleinstellung aus.</message>
 	<message key="manager.languages.supportedLocalesInstructions">Wählen Sie alle Regionaleinstellungen aus, die von der Website unterstützt werden sollen und die über ein Sprachenmenü auf jeder Seite ausgewählt werden können. Dieses Menü erscheint nur dann, wenn mehr als eine Regionaleinstellung ausgewählt wird.</message>
 	<message key="manager.masthead.title">Impressum</message>
-	<message key="manager.navigation">Navigation</message>
 	<message key="manager.payment.timestamp">Zeitpunkt</message>
 	<message key="manager.people.authSource">Authentifizierungsquelle</message>
 	<message key="manager.people.confirmUnenroll">Diese/n Benutzer/in austragen?</message>
@@ -165,8 +164,6 @@
 	<message key="manager.plugins.sitePlugin">Dies ist ein Plug-In für diese Website. Nur die/der Website-Administrator/in kann dieses Plug-In verwalten.</message>
 	<message key="manager.plugins">Plug-Ins</message>
 	<message key="manager.readingTools">Lesewerkzeuge</message>
-	<message key="manager.reviewerSearch.advancedSearch">Erweiterte Gutachter/innensuche</message>
-	<message key="manager.reviewerSearch.advancedSearch.short">Erweiterte Suche</message>
 	<message key="manager.reviewerSearch.searchByName">Nach Gutachter/in per Name suchen</message>
 	<message key="manager.reviewerSearch.searchByName.short">Suche nach Namen</message>
 	<message key="manager.reviewerSearch.doneAmount">Abgeschlossene Gutachten</message>
@@ -283,8 +280,7 @@
 	<message key="manager.setup.layout.unselected">Nicht ausgewählt</message>
 	<message key="manager.setup.loggingAndAuditing">Protokollieren und prüfen</message>
 	<message key="manager.setup.metaCitationsDescription">Aktivieren Sie die folgende Auswahlbox, um Zitationsbearbeitung zu ermöglichen. Dies wird es Autor/innen ermöglichen, unbearbeitete Zitationen mit ihren Beiträgen einzureichen. Redakteur/innen werden ebenfalls Zugriff auf einen Zitationsauszeichnungsassistenten haben, der unbearbeitete Zitationen mit externen Datenbanken wie WorldCat, ISBNdb, PubMed u.a. abgleichen kann. Bestätigte Zitationen können in die endgültigen Fahnendateien exportiert werden.</message>
-	<message key="manager.setup.pageHeaderLogoImageInvalid">Das Format des Logos in der Kopfzeile der Zeitschriftenseiten ist ungültig. Gültige Formate sind .gif, .jpg und .png.</message>
-	<message key="manager.setup.pageHeaderTitleImageInvalid">Das Format des Titelbildes in der Kopfzeile der Zeitschriftenseiten ist ungültig. Gültige Formate sind .gif, .jpg und .png.</message>
+	<message key="manager.setup.pageHeaderLogoImageInvalid">Ungültiges Format des Logos in der Kopfzeile. Gültige Formate sind .gif, .jpg und .png.</message>
 	<message key="manager.setup.selectOne">Auswählen</message>
 	<message key="manager.statistics"><![CDATA[Statistiken &amp; Berichte]]></message>
 	<message key="manager.statistics.statistics.count.value">{$count} ({$percentage}%)</message>
@@ -322,7 +318,7 @@
 	<message key="manager.plugins.copyError">Das Plug-In wurde nicht erfolgreich kopiert</message>
 	<message key="manager.plugins.delete">Plug-In löschen</message>
 	<message key="manager.plugins.deleteConfirm">Sind Sie sicher, dass dieses Plug-In aus dem System entfernt werden soll?</message>
-	<message key="manager.plugins.deleteDescription">Wenn Sie löschen anklicken, wird das Plug-In aus dem Dateisystem des Servers entfernt.</message>
+	<message key="manager.plugins.deleteDescription">Wenn Sie "Löschen" anklicken, wird das Plug-In aus dem Dateisystem des Servers entfernt.</message>
 	<message key="manager.plugins.deleteError">Das Plug-In konnte nicht aus dem Dateisystem gelöscht werden.</message>
 	<message key="manager.plugins.deleteSuccess">Plug-In erfolgreich gelöscht</message>
 	<message key="manager.plugins.description">Diese Seite ermöglicht es der/dem Zeitschriftenverwalter/in, die aktuell installierten Plug-Ins zu überprüfen und ggf. zu konfigurieren. Plug-Ins sind nach ihren Funktionen in Kategorien eingeteilt. Die entsprechenden Ordnungskategorien sind unten aufgeführt, darunter jeweils die derzeitig eingesetzten Plug-Ins.</message>
@@ -337,8 +333,8 @@
 	<message key="manager.plugins.invalidPluginArchive">Das hochgeladene Plug-In-Archiv enthält keinen zum Plug-In-Namen passenden Ordner.</message>
 	<message key="manager.plugins.wrongCategory">Das hochgeladene Plug-In passt nicht zu der Kategorie des aktualisierten Plug-Ins.</message>
 	<message key="manager.plugins.wrongName">Die version.xml in dem hochgeladenen Plug-In enthält einen Plug-In-Namen, der nicht zu dem Namen des aktualisierten Plug-Ins passt.</message>
-	<message key="manager.plugins.pleaseInstall">Plug-In nicht verfügbar. Bitte wählen Sie installieren</message>
-	<message key="manager.plugins.pleaseUpgrade">Das Plug-In existiert bereits, ist aber neuer als die installierte Version. Bitte wählen Sie Upgrade</message>
+	<message key="manager.plugins.pleaseInstall">Plug-In nicht verfügbar. Bitte wählen Sie "Installieren".</message>
+	<message key="manager.plugins.pleaseUpgrade">Das Plug-In existiert bereits, ist aber neuer als die installierte Version. Bitte wählen Sie "Upgrade".</message>
 	<message key="manager.plugins.settings">Einstellungen</message>
 	<message key="manager.plugins.tarCommandNotFound">Der tar-Befehl ist nicht verfügbar. Bitte konfigurieren Sie ihn in Ihrer "config.inc.php".</message>
 	<message key="manager.plugins.upgrade">Upgrade Plug-In</message>
@@ -388,40 +384,6 @@
 	<message key="settings.roles.uniqueAbbrev">Sie müssen eine eindeutige Abkürzung für die Rolle festlegen.</message>
 	<message key="settings.roles.roleIdRequired">Sie müssen eine Berechtigungsstufe für die Rolle festlegen.</message>
 	<message key="settings.roles.stageIdRequired">Sie müssen eine Phase festlegen, der die Rolle zugeordnet werden soll.</message>
-
-	<!-- Content Management - Footer grid keys -->
-	<message key="grid.content.navigation.footer">Footer</message>
-	<message key="grid.content.navigation.footer.noneExist">Es gibt momentan keine Footer.</message>
-	<message key="grid.content.navigation.footer.addCategory">Kategorie hinzufügen</message>
-	<message key="grid.action.deleteFooterCategory">Footerkategorie entfernen</message>
-	<message key="grid.content.navigation.footer.FooterLink">Footer-Links</message>
-	<message key="grid.content.navigation.footer.editCategory">Kategorie bearbeiten</message>
-	<message key="grid.content.navigation.footer.deleteCategory">Kategorie löschen</message>
-	<message key="grid.content.navigation.footer.deleteCategoryConfirm">Sind Sie sicher, dass Sie diese Kategorie löschen wollen? Die Aktion kann nicht rückgängig gemacht werden, und Links in dieser Kategorie werden ebenfalls entfernt werden.</message>
-	<message key="grid.content.navigation.footer.titleRequired">Die Angabe eines Titels ist erforderlich.</message>
-	<message key="grid.content.navigation.footer.descriptionRequired">Die Angabe einer Beschreibung ist erforderlich.</message>
-	<message key="grid.content.navigation.footer.pathRequired">Die Angabe eines eindeutigen Pfads ist erforderlich.</message>
-	<message key="grid.content.navigation.footer.pathInUse">Dieser Pfad wird momentan von einer anderen Kategorie benutzt.</message>
-	<message key="grid.action.addFooterCategoryLink">Eine neue Footer-Kategorie hinzufügen</message>
-	<message key="grid.action.editFooterCategory">Diese Footer-Kategorie bearbeiten</message>
-
-	<!-- Content Management - Social Media keys -->
-	<message key="grid.content.navigation.socialMedia">Social Media</message>
-	<message key="grid.content.navigation.socialMedia.platform">Plattform</message>
-	<message key="grid.content.navigation.socialMedia.code">Block zum Teilen</message>
-	<message key="grid.content.navigation.socialMedia.platformRequired">Sie müssen einen Titel der Plattform angeben (Facebook, Google+ etc).</message>
-	<message key="grid.content.navigation.socialMedia.codeRequired">Sie müssen den Code, den Sie benutzten möchten, um dieses soziale Netzwerk anzuzeigen.</message>
-	<message key="grid.content.navigation.socialMedia.addSocialLink">Social Link hinzufügen</message>
-	<message key="grid.content.navigation.socialMedia.includeInCatalog">Für jedes veröffentlichte Objekt im Katalog benutzen?</message>
-	<message key="grid.content.navigation.socialMedia.inCatalog">Im Katalog benutzt</message>
-	<message key="grid.action.addMedia">Einen neuen Social-Media-Typ hinzufügen</message>
-
-	<message key="notification.addedFooterCategory">Kategorie hinzugefügt.</message>
-	<message key="notification.editedFooterCategory">Kategorie bearbeitet.</message>
-	<message key="notification.removedFooterCategory">Kategorie entfernt.</message>
-	<message key="notification.addedSocialMedia">Soziales Netzwerk hinzugefügt.</message>
-	<message key="notification.editedSocialMedia">Soziales Netzwerk bearbeitet.</message>
-	<message key="notification.removedSocialMedia">Soziales Netzwerk entfernt.</message>
 
 	<!-- Library Files -->
 	<message key="settings.libraryFiles.fileRequired">Die Angabe einer Bibliotheksdatei ist erforderlich. Bitte stellen Sie sicher, dass Sie eine Datei ausgewählt und hochgeladen haben.</message>

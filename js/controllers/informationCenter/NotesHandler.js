@@ -9,8 +9,8 @@ jQuery.pkp.controllers.informationCenter =
 /**
  * @file js/controllers/informationCenter/NotesHandler.js
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class NotesHandler
@@ -110,11 +110,13 @@ jQuery.pkp.controllers.informationCenter =
 		// Initialize an accordion for the "past notes" list, if it's
 		// available (e.g. for a file information center).
 		if (!$('#notesAccordion').hasClass('ui-accordion')) {
-			$('#notesAccordion').accordion({ clearStyle: true });
+			$('#notesAccordion').accordion({ heightStyle: 'content', animate: 200 });
 		} else {
 			// this is a refresh.  Since the accordion exists, we must destroy
 			// and then recreate it or the content looks unstyled.
-			$('#notesAccordion').accordion('destroy').accordion({ clearStyle: true });
+			$('#notesAccordion')
+					.accordion('destroy')
+					.accordion({ heightStyle: 'content', animate: 200 });
 		}
 	};
 

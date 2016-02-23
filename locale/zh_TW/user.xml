@@ -4,8 +4,8 @@
 <!--
   * locale/zh_TW/user.xml
   *
-  * Copyright (c) 2014-2015 Simon Fraser University Library
-  * Copyright (c) 2000-2015 John Willinsky
+  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2000-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
   *
   * Localization strings for the zh_TW (繁體中文) locale.
@@ -23,7 +23,6 @@
 	<message key="user.dateRegistered">註冊日期</message>
 	<message key="user.editMyProfile">編輯我的資料</message>
 	<message key="user.email">電子信箱(email)</message>
-	<message key="user.fax">傳真號碼</message>
 	<message key="user.firstName">中文姓名</message>
 	<message key="user.initialsExample">Joan Alice Smith = JAS</message>
 	<message key="user.initials">姓名簡寫</message>

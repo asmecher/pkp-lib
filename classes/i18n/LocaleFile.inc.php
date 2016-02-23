@@ -3,8 +3,8 @@
 /**
  * @file classes/i18n/LocaleFile.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class LocaleFile
@@ -82,30 +82,32 @@ class LocaleFile {
 	 * @return string
 	 */
 	function translate($key, $params = array(), $locale = null) {
-		$key = trim($key);
-		if (empty($key)) {
-			return '';
-		}
-
-		$cache = $this->_getCache($this->locale);
-		$message = $cache->get($key);
-		if (!isset($message)) {
-			// Try to force loading the plugin locales.
-			$message = $this->_cacheMiss($cache, $key);
-		}
-
-		if (isset($message)) {
-			if (!empty($params)) {
-				// Substitute custom parameters
-				foreach ($params as $key => $value) {
-					$message = str_replace("{\$$key}", $value, $message);
-				}
+		if ($this->isValid()) {
+			$key = trim($key);
+			if (empty($key)) {
+				return '';
 			}
 
-			// if client encoding is set to iso-8859-1, transcode string from utf8 since we store all XML files in utf8
-			if (LOCALE_ENCODING == "iso-8859-1") $message = utf8_decode($message);
+			$cache = $this->_getCache($this->locale);
+			$message = $cache->get($key);
+			if (!isset($message)) {
+				// Try to force loading the plugin locales.
+				$message = $this->_cacheMiss($cache, $key);
+			}
 
-			return $message;
+			if (isset($message)) {
+				if (!empty($params)) {
+					// Substitute custom parameters
+					foreach ($params as $key => $value) {
+						$message = str_replace("{\$$key}", $value, $message);
+					}
+				}
+
+				// if client encoding is set to iso-8859-1, transcode string from utf8 since we store all XML files in utf8
+				if (LOCALE_ENCODING == "iso-8859-1") $message = utf8_decode($message);
+
+				return $message;
+			}
 		}
 		return null;
 	}

@@ -4,8 +4,8 @@
 <!--
   * locale/vi_VN/manager.xml
   *
-  * Copyright (c) 2014-2015 Simon Fraser University Library
-  * Copyright (c) 2000-2015 John Willinsky
+  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2000-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
   *
   * Localization strings for the vi_VN (Tiếng Việt) locale.
@@ -147,7 +147,6 @@
 	<message key="manager.setup.layout.unselected">Chưa chọn</message>
 	<message key="manager.setup.loggingAndAuditing">Lưu nhật ký và Kiểm tra</message>
 	<message key="manager.setup.pageHeaderLogoImageInvalid">Định dạng logo trên các trang trong không phù hợp. Chỉ hỗ trợ các định dạng .gif, .jpg, or .png.</message>
-	<message key="manager.setup.pageHeaderTitleImageInvalid">Định dạng ảnh măng séc trên các trang trong không phù hợp. Chỉ hỗ trợ các định dạng .gif, .jpg, or .png.</message>
 	<message key="manager.setup.selectOne">Chọn một</message>
 	<message key="manager.statistics"><![CDATA[Thống kê &amp; Báo cáo]]></message>
 	<message key="manager.statistics.statistics.count.value">{$count} ({$percentage}%)</message>

@@ -2,8 +2,8 @@
 /**
  * @file classes/security/authorization/internal/SubmissionFileMatchesSubmissionPolicy.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class SubmissionFileMatchesSubmissionPolicy
@@ -40,7 +40,7 @@ class SubmissionFileMatchesSubmissionPolicy extends SubmissionFileBaseAccessPoli
 		if (!is_a($submissionFile, 'SubmissionFile')) return AUTHORIZATION_DENY;
 
 		// Get the submission
-		$submission =& $this->getAuthorizedContextObject(ASSOC_TYPE_SUBMISSION);
+		$submission = $this->getAuthorizedContextObject(ASSOC_TYPE_SUBMISSION);
 		if (!is_a($submission, 'Submission')) return AUTHORIZATION_DENY;
 
 		// Check if the submission file belongs to the submission.

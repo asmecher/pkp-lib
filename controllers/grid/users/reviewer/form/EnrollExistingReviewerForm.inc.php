@@ -3,8 +3,8 @@
 /**
  * @file controllers/grid/users/reviewer/form/EnrollExistingReviewerForm.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class EnrollExistingReviewerForm
@@ -32,9 +32,9 @@ class EnrollExistingReviewerForm extends ReviewerForm {
 	 * @see Form::fetch()
 	 */
 	function fetch($request) {
-		$searchByNameAction = $this->getSearchByNameAction($request);
+		$advancedSearchAction = $this->getAdvancedSearchAction($request);
 
-		$this->setReviewerFormAction($searchByNameAction);
+		$this->setReviewerFormAction($advancedSearchAction);
 		return parent::fetch($request);
 	}
 

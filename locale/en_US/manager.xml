@@ -4,8 +4,8 @@
 <!--
   * locale/en_US/manager.xml
   *
-  * Copyright (c) 2014-2015 Simon Fraser University Library
-  * Copyright (c) 2000-2015 John Willinsky
+  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2000-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
   *
   * Localization strings.
@@ -64,7 +64,6 @@
 	<message key="manager.publication.editorialStage">Editorial</message>
 	<message key="manager.publication.productionStage">Production</message>
 	<message key="manager.publication.emails">Emails</message>
-	<message key="manager.publication.libraryDescription"><![CDATA[These files have been prepared as templates and guides for use as part of the <span class="pkp_help_title">Submission Documents</span>.]]></message> 
 	<message key="manager.emails.confirmDelete">Are you sure you want to delete this email template?</message>
 	<message key="manager.emails.confirmReset">Are you sure you want to reset this email template to its default values?</message>
 	<message key="manager.emails.addEmail">Add Email Template</message>
@@ -117,7 +116,6 @@
 	<message key="manager.languages.alternateLocaleInstructions">This system optionally allows certain critical information to be entered in several additional languages. To use this feature, select alternate locales and choose from the options listed below.</message>
 	<message key="manager.languages.supportedLocalesInstructions">Select all locales to support on the site via a language select menu to appear on each page. The menu will only appear if more than one locale is selected.</message>
 	<message key="manager.masthead.title">Masthead</message>
-	<message key="manager.navigation">Navigation</message>
 	<message key="manager.payment.timestamp">Timestamp</message>
 	<message key="manager.people.authSource">Authentication source</message>
 	<message key="manager.people.confirmUnenroll">Unenroll this user?</message>
@@ -165,17 +163,20 @@
 	<message key="manager.plugins.sitePlugin">This is a site-wide plugin. Only the Site Administrator may manage this plugin.</message>
 	<message key="manager.plugins">System Plugins</message>
 	<message key="manager.readingTools">Reading Tools</message>
-	<message key="manager.reviewerSearch.advancedSearch">Advanced Reviewer Search</message>
-	<message key="manager.reviewerSearch.advancedSearch.short">Advanced Search</message>
+	<message key="manager.reviewerSearch.change">Change</message>
 	<message key="manager.reviewerSearch.searchByName">Search For Reviewer By Name</message>
 	<message key="manager.reviewerSearch.searchByName.short">Search By Name</message>
-	<message key="manager.reviewerSearch.doneAmount">Reviews completed</message>
-	<message key="manager.reviewerSearch.avgAmount">Average days to complete</message>
-	<message key="manager.reviewerSearch.lastAmount">Days since last review</message>
-	<message key="manager.reviewerSearch.activeAmount">Currently active reviews</message>
+	<message key="manager.reviewerSearch.doneAmount">Reviews completed: {$current}</message>
+	<message key="manager.reviewerSearch.doneAmountToggle">Enable/disable the filter for reviews completed.</message>
+	<message key="manager.reviewerSearch.avgAmount">Average days to complete: {$current}</message>
+	<message key="manager.reviewerSearch.avgAmountToggle">Enable/disable the filter for average days to complete a review.</message>
+	<message key="manager.reviewerSearch.lastAmount">Days since last review: {$current}</message>
+	<message key="manager.reviewerSearch.lastAmountToggle">Enable/disable the filter for days since last review.</message>
+	<message key="manager.reviewerSearch.activeAmount">Currently active reviews: {$current}</message>
+	<message key="manager.reviewerSearch.activeAmountToggle">Enable/disable the filter for currently active reviews.</message>
 	<message key="manager.reviewerSearch.interests">Reviewing Interests</message>
 	<message key="manager.reviewerSearch.form.instructions">Use the form below to set the maximum values for the terms you wish to search for.  The form is pre-populated with the calculated averages of those fields.</message>
-	<message key="manager.reviewerSearch.form.interests.instructions">Enter reviewer interests, separated by commas...</message>
+	<message key="manager.reviewerSearch.form.interests.instructions">Reviewer Interests (type to search for matching interests)</message>
 	<message key="manager.roles">Roles</message>
 	<message key="manager.statistics"><![CDATA[Stats &amp; Reports]]></message>
 	<message key="manager.statistics.defaultMetricDescription">
@@ -183,15 +184,16 @@
 		There are cases where a single usage statistic must be used, e.g. to display an ordered list of most-used submissions or to rank
 		search results. Please select one of the configured metrics as a default.
 	</message>
-	<message key="manager.statistics.city">City</message>	
+	<message key="manager.statistics.city">City</message>
 	<message key="manager.statistics.region">Region</message>
 	<message key="manager.statistics.reports">Report Generator</message>
 	<message key="manager.statistics.reports.description">The system generates reports that track the details associated with site usage and submissions over a given period of time. Reports are generated in CSV format which requires a spreadsheet application to view.</message>
 	<message key="manager.statistics.reports.aggregationColumns">Aggregate stats by:</message>
+	<message key="manager.statistics.reports.optinoalColumns.description">Items in italic and marked with * represents data that is optional to the current way of counting statistics in the system (metric type). You might have that data or not, depending on your statistics plugin configuration.</message>
 	<message key="manager.statistics.reports.defaultReportTemplates">Default report templates</message>
 	<message key="manager.statistics.reports.generateReport">Generate custom report</message>
 	<message key="manager.statistics.reports.advancedOptions">Advanced Options</message>
-	<message key="manager.statistics.reports.advancedOptions.label">Customize columns, filter and ordering options. Changing any of these options might change the expected report template result.</message>
+	<message key="manager.statistics.reports.advancedOptions.hide">Hide Advanced Options</message>
 	<message key="manager.statistics.reports.columns">Columns</message>
 	<message key="manager.statistics.reports.columns.description">Define the columns that will be used to build the report. The columns you select here not only define which data will be presented inside the reports, but also defines the aggregation level of the statistics. For example, if you choose ID, Type and Month columns, the report will sum all views from an object from one month and will present that data in one row. If you choose Day instead of Month, each object will have a row for each day.</message>
 	<message key="manager.statistics.reports.filters">Filters</message>
@@ -199,7 +201,7 @@
 	<message key="manager.statistics.reports.objectType">Object Type</message>
 	<message key="manager.statistics.reports.objectId">Object id</message>
 	<message key="manager.statistics.reports.objectId.label">Define one or more object ids, comma separated (e.g. 1,2,3,4,5).</message>
-	<message key="manager.statistics.reports.today">Today</message>
+	<message key="manager.statistics.reports.yesterday">Yesterday</message>
 	<message key="manager.statistics.reports.currentMonth">Current month</message>
 	<message key="manager.statistics.reports.orderBy">Order by</message>
 	<message key="manager.statistics.reports.orderDir">Direction</message>
@@ -222,6 +224,7 @@
 	<message key="manager.setup.competingInterests">Competing Interests</message>
 	<message key="manager.setup.competingInterestsDescription">Reviewers will be asked to comply with the competing interests disclosure policy you specify below.</message> <!-- FIXME #6843 (JM): should this just reference reviewers? -->
 	<message key="manager.setup.groupType">File type grouping</message>
+	<message key="manager.setup.information.descriptionTitle">Descriptions</message>
 	<message key="manager.setup.reviewOptions.numWeeksPerResponse">Time allowed for review responses (weeks)</message>
 	<message key="manager.setup.reviewOptions.numWeeksPerReview">Time allowed for review completion (weeks)</message>
 	<message key="manager.setup.reviewOptions.neverSendReminder">Never Remind</message>
@@ -233,7 +236,7 @@
 	<message key="manager.setup.sponsors">Sponsoring Organizations</message>
 	<message key="manager.setup.sponsors.note">You may add a note describing your sponsor relationship and policy; this will appear with the sponsor list on your About page.</message>
 	<message key="manager.setup.contributors.note">You may add a note describing the relationship and policy between you and your sources of support; this will appear with the Sources of Support list on your About page.</message>
-	<message key="manager.setup.styleSheetDescription">You may upload an additional Cascading Style Sheet (CSS) file to change the appearance.</message>
+	<message key="manager.setup.styleSheetDescription">Experienced web developers can upload a CSS file to further customize the website's appearance.</message>
 	<message key="manager.setup.citations">Citations</message>
 	<message key="manager.setup.citationAssistant">Citation Markup Assistant</message>
 	<message key="manager.setup.citationFilterParser">Citation Extraction</message>
@@ -279,15 +282,13 @@
 	<message key="manager.setup.homepageImageInvalid">Invalid homepage image format or upload failed. Accepted formats are .gif, .jpg, or .png.</message>
 	<message key="manager.setup.homeTitleImageInvalid">Invalid homepage header title image format or upload failed. Accepted formats are .gif, .jpg, or .png.</message>
 	<message key="manager.setup.layout.theme">Theme</message>
-	<message key="manager.setup.layout.themeDescription">Choose a theme from the available set of theme plugins.</message>
+	<message key="manager.setup.layout.themeDescription">Select a theme for your website. New themes may be added in the plugins setup area.</message>
 	<message key="manager.setup.layout.blockManagement">Sidebar management</message>
 	<message key="manager.setup.layout.leftSidebar">Left Sidebar</message>
-	<message key="manager.setup.layout.rightSidebar">Right Sidebar</message>
 	<message key="manager.setup.layout.unselected">Unselected</message>
 	<message key="manager.setup.loggingAndAuditing">Logging and Auditing</message>
 	<message key="manager.setup.metaCitationsDescription">Activate the following checkbox to enable citation and reference editing. This will allow authors to include raw citations with submissions. Editors will also have access to a citation markup assistant which can check raw citations against external databases, such as WorldCat, ISBNdb, PubMed and others, for accuracy. Approved citations can be exported into final galley files.</message>
 	<message key="manager.setup.pageHeaderLogoImageInvalid">Invalid page header logo image format or upload failed. Accepted formats are .gif, .jpg, or .png.</message>
-	<message key="manager.setup.pageHeaderTitleImageInvalid">Invalid page header title image format or upload failed. Accepted formats are .gif, .jpg, or .png.</message>
 	<message key="manager.setup.selectOne">Select one</message>
 	<message key="manager.siteAccessOptions.siteAccessOptions">Site Access Options</message>
 	<message key="manager.statistics.statistics.count.value">{$count} ({$percentage}%)</message>
@@ -416,40 +417,6 @@
 	<message key="settings.roles.uniqueAbbrev">You need to define an unique role abbreviature.</message>
 	<message key="settings.roles.roleIdRequired">You need to define a role permission level.</message>
 	<message key="settings.roles.stageIdRequired">You need to define a stage to assign to.</message>
-
-	<!-- Content Management - Footer grid keys -->
-	<message key="grid.content.navigation.footer">Footer</message>
-	<message key="grid.content.navigation.footer.noneExist">There are no current footers.</message>
-	<message key="grid.content.navigation.footer.addCategory">Add Category</message>
-	<message key="grid.action.deleteFooterCategory">Delete Footer Category</message>
-	<message key="grid.content.navigation.footer.FooterLink">Footer Links</message>
-	<message key="grid.content.navigation.footer.editCategory">Edit Category</message>
-	<message key="grid.content.navigation.footer.deleteCategory">Delete Category</message>
-	<message key="grid.content.navigation.footer.deleteCategoryConfirm">Are you sure you wish to delete this category? The action cannot be undone, and links in this category will also be removed.</message>
-	<message key="grid.content.navigation.footer.titleRequired">A title is required.</message>
-	<message key="grid.content.navigation.footer.descriptionRequired">A description is required.</message>
-	<message key="grid.content.navigation.footer.pathRequired">A path is required and it must be unique.</message>
-	<message key="grid.content.navigation.footer.pathInUse">That path is currently in use by another category.</message>
-	<message key="grid.action.addFooterCategoryLink">Add a new footer category</message>
-	<message key="grid.action.editFooterCategory">Edit this footer category</message>
-
-	<!-- Content Management - Social Media keys -->
-	<message key="grid.content.navigation.socialMedia">Social Media</message>
-	<message key="grid.content.navigation.socialMedia.platform">Platform</message>
-	<message key="grid.content.navigation.socialMedia.code">Social Sharing Code Block</message>
-	<message key="grid.content.navigation.socialMedia.platformRequired">You must enter a platform title (Facebook, Google+, etc).</message>
-	<message key="grid.content.navigation.socialMedia.codeRequired">You must enter the code you wish to use to display this social network.</message>
-	<message key="grid.content.navigation.socialMedia.addSocialLink">Add Social Link</message>
-	<message key="grid.content.navigation.socialMedia.includeInCatalog">Use this for each published item in the catalog?</message>
-	<message key="grid.content.navigation.socialMedia.inCatalog">Used In Catalog</message>
-	<message key="grid.action.addMedia">Add a new Social Media type</message>
-
-	<message key="notification.addedFooterCategory">Category added.</message>
-	<message key="notification.editedFooterCategory">Category edited.</message>
-	<message key="notification.removedFooterCategory">Category removed.</message>
-	<message key="notification.addedSocialMedia">Social Media Network added.</message>
-	<message key="notification.editedSocialMedia">Social Media Network edited.</message>
-	<message key="notification.removedSocialMedia">Social Media Network removed.</message>
 
 	<!-- Library Files -->
 	<message key="settings.libraryFiles.fileRequired">A library file is required. Please ensure that you have chosen and uploaded a file.</message>

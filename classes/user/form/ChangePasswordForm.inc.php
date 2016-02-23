@@ -3,8 +3,8 @@
 /**
  * @file classes/user/form/ChangePasswordForm.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class ChangePasswordForm
@@ -58,15 +58,16 @@ class ChangePasswordForm extends Form {
 	}
 
 	/**
-	 * Display the form.
+	 * Fetch the form.
+	 * @param $request PKPRequest
 	 */
-	function display() {
-		$user = $this->getUser();
+	function fetch($request) {
 		$templateMgr = TemplateManager::getManager();
-		$site = $this->getSite();
-		$templateMgr->assign('minPasswordLength', $site->getMinPasswordLength());
-		$templateMgr->assign('username', $user->getUsername());
-		parent::display();
+		$templateMgr->assign(array(
+			'minPasswordLength' => $this->getSite()->getMinPasswordLength(),
+			'username' =>  $this->getUser()->getUsername(),
+		));
+		return parent::fetch($request);
 	}
 
 	/**

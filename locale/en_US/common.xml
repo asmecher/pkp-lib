@@ -4,8 +4,8 @@
 <!--
   * locale/en_US/common.xml
   *
-  * Copyright (c) 2014-2015 Simon Fraser University Library
-  * Copyright (c) 2000-2015 John Willinsky
+  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2000-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
   *
   * Localization strings.
@@ -19,7 +19,6 @@
 	<message key="about.aboutSite">About the Site</message>
 	<message key="about.contact">Contact</message>
 	<message key="about.contact.email">Email</message>
-	<message key="about.contact.fax">Fax</message>
 	<message key="about.contact.phone">Phone</message>
 	<message key="about.contact.principalContact">Principal Contact</message>
 	<message key="about.contact.supportContact">Support Contact</message>
@@ -33,9 +32,11 @@
 	<message key="announcement.noneExist">No announcements have been published.</message>
 	<message key="announcement.posted">Posted</message>
 	<message key="announcement.postedOn">Posted on {$postDate}</message>
-	<message key="announcement.viewLink">More...</message>
 	<message key="announcement.view">View Announcement</message>
-	<message key="common.navigation">Navigation</message>
+	<message key="common.navigation.sidebar">Sidebar</message>
+	<message key="common.navigation.site">Site Navigation</message>
+	<message key="common.navigation.siteContext">Site Context Navigation</message>
+	<message key="common.navigation.user">User Navigation</message>
 	<message key="common.tasks">Tasks</message>
 	<message key="common.list">List</message>
 	<message key="common.grid">Grid</message>
@@ -91,13 +92,13 @@
 	<message key="common.changesSaved">Your changes have been saved.</message>
 	<message key="common.chooseOne">Choose One</message>
 	<message key="common.close">Close</message>
+	<message key="common.closePanel">Close Panel</message>
 	<message key="common.closeWindow">Close Window</message>
 	<message key="common.complete">Complete</message>
 	<message key="common.completed">Completed</message>
 	<message key="common.confirm">Confirm</message>
 	<message key="common.content">Content</message>
 	<message key="common.contents">Contents</message>
-	<message key="common.considered">Considered</message>
 	<message key="common.continue">Continue</message>
 	<message key="common.copy">Copy</message>
 	<message key="common.country">Country</message>
@@ -143,6 +144,7 @@
 	<message key="common.fileUploaderError">The system file uploader is loading. If it doesn't appear it is likely that none of its runtimes is supported by this browser. Please, contact administration for support.</message>
 	<message key="common.go">Go</message>
 	<message key="common.height">Height</message>
+	<message key="common.homepageNavigationLabel">Home</message>
 	<message key="common.homePageHeaderLogo.altText">Homepage Header Logo</message>
 	<message key="common.hour">Hour</message>
 	<message key="common.id">ID</message>
@@ -182,6 +184,7 @@
 	<message key="common.or">or</message>
 	<message key="common.other">Other</message>
 	<message key="common.overdue">Overdue</message>
+	<message key="common.pageNumber">Page {$pageNumber}</message>
 	<message key="common.pageHeaderLogo.altText">Page Header Logo</message>
 	<message key="common.plugin">Plugin</message>
 	<message key="common.pluginEnabled">The plugin "{$pluginName}" has been enabled.</message>
@@ -192,7 +195,11 @@
 	<message key="common.preview">Preview</message>
 	<message key="common.publisher">Publisher</message>
 	<message key="common.quality">Quality</message>
+	<message key="common.queue.long.active">All Active</message>
+	<message key="common.range">{$min}-{$max}</message>
 	<message key="common.re">Re:</message>
+	<message key="common.readMore">Read More</message>
+	<message key="common.readMoreWithTitle">Read more about {$title}</message>
 	<message key="common.record">Record</message>
 	<message key="common.refresh">Refresh</message>
 	<message key="common.related">Related</message>
@@ -210,6 +217,7 @@
 	<message key="common.saveAndEmail">Save and email</message>
 	<message key="common.save">Save</message>
 	<message key="common.search">Search</message>
+	<message key="common.searchQuery">Search Query</message>
 	<message key="common.second">Second(s)</message>
 	<message key="common.selectAll">Select All</message>
 	<message key="common.selectNone">Select None</message>
@@ -233,22 +241,23 @@
 	<message key="common.unread">Unread</message>
 	<message key="common.untitled">Untitled</message>
 	<message key="common.updated">Updated</message>
+	<message key="common.uploadedDate">Uploaded date</message>
 	<message key="common.uploadedFile">Uploaded file</message>
 	<message key="common.upload">Upload</message>
 	<message key="common.uploadFailed">The file could not be uploaded or revised.</message>
 	<message key="common.fileUpload.maxFileSizeStatus"><![CDATA[This server allows a file size upload maximum of {$fileSize}.  If required, please contact <a href="mailto:{$supportEmail}">{$supportName}</a> for assistance.]]></message>
 	<message key="common.invalidFileType">No file uploaded or invalid file type!</message>
-	<message key="common.pageHeader.altText">Page Header</message>
 	<message key="common.homepageImage.altText">Homepage Image</message>
 	<message key="common.up">Up</message>
 	<message key="common.url">URL</message>
 	<message key="common.user">User</message>
 	<message key="common.view">View</message>
+	<message key="common.viewProfile">View Profile</message>
 	<message key="common.weeks">weeks</message>
 	<message key="common.width">Width</message>
 	<message key="common.year">Year</message>
 	<message key="common.yes">Yes</message>
-	<message key="common.loading">Loading ...</message>
+	<message key="common.loading">Loading</message>
 	<message key="common.plugins">Plugins</message>
 	<message key="common.metric">Metric</message>
 	<message key="common.count">Count</message>
@@ -282,6 +291,8 @@
 	<message key="email.recipient">Recipient</message>
 	<message key="email.recipients">Recipients</message>
 	<message key="email.sender">Sender</message>
+	<message key="email.senderName">Sender Name</message>
+	<message key="email.senderEmail">Sender Email</message>
 	<message key="email.send">Send</message>
 	<message key="email.skip">Skip Email</message>
 	<message key="email.subject">Subject</message>
@@ -309,8 +320,6 @@
 	<message key="form.invalidImage">An invalid image was uploaded. Accepted formats are .png, .gif, or .jpg.</message>
 	<message key="help.contents">Contents</message>
 	<message key="help.help">Help</message>
-	<message key="help.toggleInlineHelpOn">Help On</message>
-	<message key="help.toggleInlineHelpOff">Help Off</message>
 	<message key="help.helpIndex">Help Index</message>
 	<message key="help.matchesFound">{$matches} matches found</message>
 	<message key="help.noMatchingTopics">No matching help topics were found.</message>
@@ -342,8 +351,8 @@
 	<message key="informationCenter.addFileNote">Add to File</message>
 	<message key="informationCenter.addSubmissionNote">Add to Submission</message>
 	<message key="informationCenter.noNotes">There are no notes to display.</message>
-	<message key="informationCenter.currentNotes">Current Notes</message>
-	<message key="informationCenter.pastNotes">Earlier Notes</message>
+	<message key="informationCenter.currentNotes">Current Revision Notes</message>
+	<message key="informationCenter.pastNotes">Earlier Revision Notes</message>
 	<message key="informationCenter.lastUpdated">Last Updated</message>
 	<message key="informationCenter.deleteConfirm">Are you sure you wish to delete this note?</message>
 	<message key="informationCenter.currentHistory">Current Revision</message>
@@ -360,10 +369,11 @@
 
 	<message key="locale.primary">Primary locale</message>
 	<message key="locale.supported">Supported locales</message>
-	<message key="navigation.management">Management</message>
 	<message key="navigation.access"><![CDATA[Users &amp; Roles]]></message>
 	<message key="navigation.about">About</message>
 	<message key="navigation.admin">Administration</message>
+	<message key="navigation.breadcrumbLabel">You are here:</message>
+	<message key="navigation.breadcrumbSeparator">/</message>
 	<message key="navigation.tools">Tools</message>
 	<message key="navigation.tools.importExport">Import/Export</message>
 	<message key="navigation.tools.statistics">Statistics</message>
@@ -375,7 +385,8 @@
 	<message key="navigation.home">Home</message>
 	<message key="navigation.infoForReaders">For Readers</message>
 	<message key="navigation.infoForReaders.long">Information For Readers</message>
-	<message key="navigation.items">{$from} - {$to} of {$total} Items</message>
+	<message key="navigation.items">{$from} - {$to} of {$total} items</message>
+	<message key="navigation.items.shownTotal">{$shown} of {$total} items</message>
 	<message key="navigation.login">Login</message>
 	<message key="navigation.nextPage"><![CDATA[&gt;&gt;]]></message>
 	<message key="navigation.nextStep">Next Step</message>
@@ -389,15 +400,18 @@
 	<message key="navigation.sitemap">Site Map</message>
 	<message key="navigation.stepNumber">Step {$step}</message>
 	<message key="navigation.submissions">Submissions</message>
+	<message key="navigation.switchJournals">Switch Journals</message>
 	<message key="navigation.system">System</message>
 	<message key="navigation.userHome">User Home</message>
 	<message key="navigation.user">User</message>
 	<message key="navigation.userManagement">User Management</message>
+	<message key="navigation.viewFrontend">View Site</message>
 	<message key="notification.addedAuditor">Auditor added.</message>
 	<message key="notification.removedAuditor">Auditor removed.</message>
+	<message key="notification.addedQuery">Added Discussion</message>
 	<message key="notification.reviewAcknowledged">Review marked as acknowledged. Email not sent.</message>
 	<message key="notification.updatedReviewFiles">Review files updated.</message>
-	<message key="notification.allow">Allow these types of notifications to appear in my notification feed.</message>
+	<message key="notification.allow">Enable these types of notifications.</message>
 	<message key="notification.addedAnnouncementType">Announcement type added.</message>
 	<message key="notification.editedAnnouncementType">Announcement type edited.</message>
 	<message key="notification.removedAnnouncementType">Announcement type removed.</message>
@@ -408,7 +422,7 @@
 	<message key="notification.editedAuthor">Author edited.</message>
 	<message key="notification.confirmError">There was an error confirming your subscription.</message>
 	<message key="notification.confirmSuccess">You have been successfully subscribed.</message>
-	<message key="notification.email">Send me an email for these types of notifications.</message>
+	<message key="notification.email">Do not send me an email for these types of notifications.</message>
 	<message key="notification.location">Go To URL</message>
 	<message key="notification.mailList">Notification mailing list</message>
 	<message key="notification.mailList.emailInvalid">Please enter a valid email address.</message>
@@ -427,7 +441,7 @@
 	<message key="notification.notificationsDescription">You have {$unreadCount} unread notifications and {$readCount} read notifications.<![CDATA[  <a href="{$settingsUrl}">Click here</a> to change your notification settings.]]></message>
 	<message key="notification.sentNotification">Notification sent.</message>
 	<message key="notification.settings">Notification Settings</message>
-	<message key="notification.settingsDescription">Select the system events that you wish to be notified about.  Unchecking an item will prevent notifications of the event from showing up in your notification feed.</message>
+	<message key="notification.settingsDescription">Select the system events that you wish to be notified about. Unchecking an item will prevent notifications of the event from showing up in the system and also from being emailed to you. Checked events will appear in the system and you have an extra option to receive or not the same notification by email.</message>
 	<message key="notification.subscribe">Subscribe</message>
 	<message key="notification.subscribeError">Your email address is already subscribed to notifications.</message>
 	<message key="notification.subscribeSuccess">An email has been sent to the address you specified.  Please click on the confirmation link in the email to add yourself to the mailing list.</message>
@@ -439,9 +453,10 @@
 	<message key="notification.savedSubmissionMetadata">Submission metadata saved.</message>
 	<message key="search.abstract">Abstract</message>
 	<message key="search.activeFilters">Advanced filters</message>
-	<message key="search.advancedSearchMore">Additional Search Options (click to show)</message>
-	<message key="search.advancedSearchLess">Additional Search Options (click to hide)</message>
+	<message key="search.advancedSearchMore">More search options</message>
+	<message key="search.advancedSearchLess">Hide more search options</message>
 	<message key="search.allFields">All</message>
+	<message key="search.searchAgain">Search again</message>
 	<message key="search.cli.rebuildIndex.clearingIndex">Clearing index</message>
 	<message key="search.cli.rebuildIndex.done">done</message>
 	<message key="search.cli.rebuildIndex.error">error</message>
@@ -511,10 +526,15 @@
 	<message key="notification.type.allRevisionsIn">A revised file has been uploaded for your editorial consideration in {$stage}.</message>
 	<message key="notification.type.pendingRevisions">Revisions to consider in {$stage}.</message>
 	<message key="notification.type.pendingRevisions.title">Revisions submitted to {$stage}.</message>
+	<message key="notification.type.metadataModified">"{$title}'s" metadata has been modified.</message>
+	<message key="notification.type.reviewerComment">A reviewer has commented on "{$title}".</message>
 	<message key="notification.signedFile">File considered.</message>
 	<message key="user.authorization.submissionFile">The current user is not authorized to access the specified submission file.</message>
 	<message key="user.authorization.invalidSubmission">Invalid submission.</message>
+	<message key="user.authorization.invalidRepresentation">Invalid representation.</message>
 	<message key="navigation.archives">Archives</message>
 	<message key="user.authorization.authorRoleMissing">You do not currently have sufficient privileges to view the submission. Please edit your profile to ensure that you have been granted the appropriate roles under "Register As".</message>
 	<message key="user.authorization.submissionAuthor">The current user is not the author of the requested submission. Please verify that you are logged in with the correct user account.</message>
+	<message key="notification.type.queryActivity">Conversation activity.</message>
+	<message key="notification.type.queryAdded">Conversation added.</message>
 </locale>

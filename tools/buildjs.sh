@@ -2,8 +2,8 @@
 
 # @file tools/buildjs.sh
 #
-# Copyright (c) 2014-2015 Simon Fraser University Library
-# Copyright (c) 2010-2015 John Willinsky
+# Copyright (c) 2014-2016 Simon Fraser University Library
+# Copyright (c) 2010-2016 John Willinsky
 # Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
 #
 # Script to check and minimize JavaScript for distribution.
@@ -67,8 +67,8 @@ shift $((OPTIND-1))
 ### Start Processing ###
 echo >&2
 echo "Starting PKP JavaScript builder." >&2
-echo "Copyright (c) 2014-2015 Simon Fraser University Library" >&2
-echo "Copyright (c) 2010-2015 John Willinsky" >&2
+echo "Copyright (c) 2014-2016 Simon Fraser University Library" >&2
+echo "Copyright (c) 2010-2016 John Willinsky" >&2
 
 
 ### Checking Requirements ###
@@ -161,7 +161,8 @@ for JS_FILE in $LINT_FILES; do
 		# - We allow code without the 'use strict' pragma as we need the callee property
 		#   for our class framework implementation.
 		java -jar "$TOOL_PATH/jslint4java.jar" --white --forin --nomen --plusplus --continue \
-			--eqeq --sloppy --browser --predef jQuery,alert,tinyMCE,confirm,PNotify "$JS_FILE" | sed "s/^/${TAB}/"
+			--eqeq --sloppy --browser --predef jQuery,alert,tinyMCE,confirm,PNotify \
+			--regexp "$JS_FILE" | sed "s/^/${TAB}/"
 		echo "...processed!" >&2
 
 	else
@@ -182,7 +183,7 @@ LINT_FILES=`echo "$LINT_FILES" | sed "s%^%$WORKDIR/%" | tr '\n' ' ' | sed -$EXTE
 echo >> "$WORKDIR/.compile-warnings.out"
 echo "Compile (Check)..." >> "$WORKDIR/.compile-warnings.out"
 echo "Compile (Check)..." >&2
-java -jar "$TOOL_PATH/compiler.jar" --jscomp_warning visibility --warning_level VERBOSE \
+java -jar "$TOOL_PATH/compiler.jar" --language_in=ECMASCRIPT5 --jscomp_warning visibility --warning_level VERBOSE \
 	$CLOSURE_EXTERNS $LINT_FILES --js_output_file /dev/null 2>&1 \
 	| sed "s/^/${TAB}/" >>"$WORKDIR/.compile-warnings.out"
 
@@ -201,31 +202,31 @@ if [ -n "`cat $WORKDIR/.compile-warnings.out | grep '^	'`" ]; then
 	rm -r "$WORKDIR"
 
 	exit -1
-else
-	# Show the list of files we are going to compile:
-	echo >&2
-	echo "Compile (Minify)..." >&2
-	echo "$COMPILE_FILES" | sed 's/^/.../' >&2
-
-	# Transform file list into Closure input parameter list.
-	COMPILE_FILES=`echo "$COMPILE_FILES" | tr '\n' ' ' | sed -$EXTENDED_REGEX_FLAG 's/ $//;s/(^| )/ --js /g'`
-
-	# Run Closure - second pass to minify
-	java -jar "$TOOL_PATH/compiler.jar" --jscomp_off checkTypes --warning_level VERBOSE $COMPILE_FILES \
-		$CLOSURE_EXTERNS --js_output_file "$JS_OUTPUT" 2>&1
-	echo >&2
-
-	echo "Compiling third-party libraries..." >&2
-	echo "Pines Notify..." >&2
-	sh lib/pkp/js/lib/pnotify/build-tools/minify.sh
-	echo >&2
-
-	echo "Please don't forget to set enable_minified=On in your config.inc.php." >&2
-	echo >&2
-	echo "Done!" >&2
-
-	# Remove the temporary directory.
-	rm -r "$WORKDIR"
-
-	exit 0
 fi
+
+# Show the list of files we are going to compile:
+echo >&2
+echo "Compile (Minify)..." >&2
+echo "$COMPILE_FILES" | sed 's/^/.../' >&2
+
+# Transform file list into Closure input parameter list.
+COMPILE_FILES=`echo "$COMPILE_FILES" | tr '\n' ' ' | sed -$EXTENDED_REGEX_FLAG 's/ $//;s/(^| )/ --js /g'`
+
+# Run Closure - second pass to minify
+java -jar "$TOOL_PATH/compiler.jar" --language_in=ECMASCRIPT5 --jscomp_off checkTypes --warning_level VERBOSE $COMPILE_FILES \
+	$CLOSURE_EXTERNS --js_output_file "$JS_OUTPUT" 2>&1
+echo >&2
+
+echo "Compiling third-party libraries..." >&2
+echo "Pines Notify..." >&2
+sh lib/pkp/js/lib/pnotify/build-tools/minify.sh
+echo >&2
+
+echo "Please don't forget to set enable_minified=On in your config.inc.php." >&2
+echo >&2
+echo "Done!" >&2
+
+# Remove the temporary directory.
+rm -r "$WORKDIR"
+
+exit 0

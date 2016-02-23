@@ -1,8 +1,8 @@
 {**
  * templates/controllers/grid/users/author/form/authorForm.tpl
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * Submission Contributor grid form
@@ -24,7 +24,6 @@
 	{include
 		file="common/userDetails.tpl"
 		disableUserNameSection=true
-		disableEmailWithConfirmSection=true
 		disableAuthSourceSection=true
 		disablePasswordSection=true
 		disableSendNotifySection=true
@@ -32,7 +31,6 @@
 		disableSalutationSection=true
 		disableInitialsSection=true
 		disablePhoneSection=true
-		disableFaxSection=true
 		disableLocaleSection=true
 		disableInterestsSection=true
 		disableMailingSection=true
@@ -42,7 +40,7 @@
 	}
 
 	{fbvFormArea id="submissionSpecific"}
-		{fbvFormSection id="userGroupId" label="submission.submit.contributorRole" list=true}
+		{fbvFormSection id="userGroupId" title="submission.submit.contributorRole" list=true required=true}
 			{iterate from=authorUserGroups item=userGroup}
 				{if $userGroupId == $userGroup->getId()}{assign var="checked" value=true}{else}{assign var="checked" value=false}{/if}
 				{fbvElement type="radio" id="userGroup"|concat:$userGroup->getId() name="userGroupId" value=$userGroup->getId() checked=$checked label=$userGroup->getLocalizedName() translate=false}
@@ -65,5 +63,5 @@
 	{/if}
 
 	{fbvFormButtons id="step2Buttons" submitText="common.save"}
+	<p><span class="formRequired">{translate key="common.requiredField"}</span></p>
 </form>
-<p><span class="formRequired">{translate key="common.requiredField"}</span></p>

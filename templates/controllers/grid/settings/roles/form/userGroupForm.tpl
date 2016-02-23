@@ -1,8 +1,8 @@
 {**
  * templates/controllers/grid/settings/roles/form/userGroupForm.tpl
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * Form to edit or create a user group
@@ -13,7 +13,7 @@
 		// Attach the form handler.
 		$('#userGroupForm').pkpHandler(
 			'$.pkp.controllers.grid.settings.roles.form.UserGroupFormHandler', {ldelim}
-			selfRegistrationRoleIds: [{foreach from=$selfRegistrationRoleIds item=selfRegRoleId}{$selfRegRoleId|escape:'javascript'}, {/foreach}],
+			selfRegistrationRoleIds: {$selfRegistrationRoleIds|@json_encode},
 			roleForbiddenStagesJSON: {$roleForbiddenStagesJSON},
 			stagesSelector: '[id^="assignedStages"]'
 		{rdelim});

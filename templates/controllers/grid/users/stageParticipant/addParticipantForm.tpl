@@ -1,8 +1,8 @@
 {**
  * templates/controllers/grid/users/stageParticipant/addParticipantForm.tpl
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * Form that holds the stage participants list
@@ -14,8 +14,8 @@
 		// Attach the form handler.
 		$('#addParticipantForm').pkpHandler('$.pkp.controllers.grid.users.stageParticipant.form.AddParticipantFormHandler',
 			{ldelim}
-				fetchUserListUrl: '{url op="fetchUserList" submissionId=$submissionId stageId=$stageId userGroupId=$selectedUserGroupId escape=false}',
-				templateUrl: "{url|escape:'javascript' router=$smarty.const.ROUTE_COMPONENT component='grid.users.stageParticipant.StageParticipantGridHandler' op='fetchTemplateBody' stageId=$stageId submissionId=$submissionId escape=false}"
+				fetchUserListUrl: {url|json_encode op="fetchUserList" submissionId=$submissionId stageId=$stageId userGroupId=$selectedUserGroupId escape=false},
+				templateUrl: {url|json_encode router=$smarty.const.ROUTE_COMPONENT component='grid.users.stageParticipant.StageParticipantGridHandler' op='fetchTemplateBody' stageId=$stageId submissionId=$submissionId escape=false}
 			{rdelim}
 		);
 	{rdelim});

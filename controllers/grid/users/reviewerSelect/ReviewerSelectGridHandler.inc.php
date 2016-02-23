@@ -3,8 +3,8 @@
 /**
  * @file controllers/grid/users/reviewerSelect/ReviewerSelectGridHandler.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class ReviewerSelectGridHandler
@@ -42,7 +42,7 @@ class ReviewerSelectGridHandler extends GridHandler {
 	function authorize($request, &$args, $roleAssignments) {
 		$stageId = (int)$request->getUserVar('stageId');
 
-		import('classes.security.authorization.WorkflowStageAccessPolicy');
+		import('lib.pkp.classes.security.authorization.WorkflowStageAccessPolicy');
 		$this->addPolicy(new WorkflowStageAccessPolicy($request, $args, $roleAssignments, 'submissionId', $stageId));
 
 		import('lib.pkp.classes.security.authorization.internal.ReviewRoundRequiredPolicy');
@@ -66,6 +66,8 @@ class ReviewerSelectGridHandler extends GridHandler {
 			LOCALE_COMPONENT_APP_EDITOR
 		);
 		$submission = $this->getAuthorizedContextObject(ASSOC_TYPE_SUBMISSION);
+
+		$this->setTitle('editor.submission.findAndSelectReviewer');
 
 		// Columns
 		$cellProvider = new ReviewerSelectGridCellProvider();
@@ -153,27 +155,32 @@ class ReviewerSelectGridHandler extends GridHandler {
 	/**
 	 * @copydoc GridHandler::loadData()
 	 */
-	function loadData($request, $filter) {
+	protected function loadData($request, $filter) {
 		$interests = (array) $filter['interestSearchKeywords'];
 		$reviewerValues = $filter['reviewerValues'];
 
 		// Retrieve the authors associated with this submission to be displayed in the grid
-		$doneMin = $reviewerValues['doneMin'];
-		$doneMax = $reviewerValues['doneMax'];
-		$avgMin = $reviewerValues['avgMin'];
-		$avgMax = $reviewerValues['avgMax'];
-		$lastMin = $reviewerValues['lastMin'];
-		$lastMax = $reviewerValues['lastMax'];
-		$activeMin = $reviewerValues['activeMin'];
-		$activeMax = $reviewerValues['activeMax'];
+		$name = $reviewerValues['name'];
+		$doneEnabled = $reviewerValues['doneEnabled'];
+		$doneMin = $doneEnabled ? $reviewerValues['doneMin'] : null;
+		$doneMax = $doneEnabled ? $reviewerValues['doneMax'] : null;
+		$avgEnabled = $reviewerValues['avgEnabled'];
+		$avgMin = $avgEnabled ? $reviewerValues['avgMin'] : null;
+		$avgMax = $avgEnabled ? $reviewerValues['avgMax'] : null;
+		$lastEnabled = $reviewerValues['lastEnabled'];
+		$lastMin = $lastEnabled ? $reviewerValues['lastMin'] : null;
+		$lastMax = $lastEnabled ? $reviewerValues['lastMax'] : null;
+		$activeEnabled = $reviewerValues['activeEnabled'];
+		$activeMin = $activeEnabled ? $reviewerValues['activeMin'] : null;
+		$activeMax = $activeEnabled ? $reviewerValues['activeMax'] : null;
 
 		$userDao = DAORegistry::getDAO('UserDAO');
 		$submission = $this->getAuthorizedContextObject(ASSOC_TYPE_SUBMISSION);
 		$reviewRound = $this->getAuthorizedContextObject(ASSOC_TYPE_REVIEW_ROUND);
 		return $userDao->getFilteredReviewers(
-			$submission->getContextId(), $reviewRound->getStageId(),
-			$doneMin, $doneMax, $avgMin, $avgMax,
-			$lastMin, $lastMax, $activeMin, $activeMax, $interests,
+			$submission->getContextId(), $reviewRound->getStageId(), $name,
+			$doneMin, $doneMax, $avgMin, $avgMax, $lastMin, $lastMax,
+			$activeMin, $activeMax, $interests,
 			$submission->getId(), $reviewRound->getId()
 		);
 	}
@@ -194,12 +201,17 @@ class ReviewerSelectGridHandler extends GridHandler {
 		} else {
 			return array(
 				'reviewerValues' => array(
+					'name' => null,
+					'doneEnabled' => null,
 					'doneMin' => null,
 					'doneMax' => null,
+					'avgEnabled' => null,
 					'avgMin' => null,
 					'avgMax' => null,
+					'lastEnabled' => null,
 					'lastMin' => null,
 					'lastMax' => null,
+					'activeEnabled' => null,
 					'activeMin' => null,
 					'activeMax' => null,
 				),
@@ -212,12 +224,20 @@ class ReviewerSelectGridHandler extends GridHandler {
 	 * @copydoc GridHandler::getFilterForm()
 	 * @return Form
 	 */
-	function getFilterForm() {
+	protected function getFilterForm() {
 		$submission = $this->getAuthorizedContextObject(ASSOC_TYPE_SUBMISSION);
 		$stageId = $this->getAuthorizedContextObject(ASSOC_TYPE_WORKFLOW_STAGE);
 		$reviewRound = $this->getAuthorizedContextObject(ASSOC_TYPE_REVIEW_ROUND);
 		import('lib.pkp.controllers.grid.users.reviewerSelect.form.AdvancedSearchReviewerFilterForm');
 		return new AdvancedSearchReviewerFilterForm($submission, $stageId, $reviewRound->getId());
+	}
+
+	/**
+	 * Determine whether a filter form should be collapsible.
+	 * @return boolean
+	 */
+	protected function isFilterFormCollapsible() {
+		return false;
 	}
 }
 

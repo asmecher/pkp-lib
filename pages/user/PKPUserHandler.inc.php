@@ -3,8 +3,8 @@
 /**
  * @file pages/user/PKPUserHandler.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class PKPUserHandler
@@ -112,7 +112,7 @@ class PKPUserHandler extends Handler {
 		AppLocale::requireComponents(LOCALE_COMPONENT_PKP_USER);
 		$templateMgr = TemplateManager::getManager($request);
 		$templateMgr->assign('message', $authorizationMessage);
-		return $templateMgr->display('common/message.tpl');
+		return $templateMgr->display('frontend/pages/message.tpl');
 	}
 }
 

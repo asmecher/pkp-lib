@@ -1,8 +1,8 @@
 {**
  * plugins/importexport/users/templates/index.tpl
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * List of operations this plugin can perform
@@ -32,8 +32,8 @@
 					{ldelim}
 						$uploader: $('#plupload'),
 							uploaderOptions: {ldelim}
-								uploadUrl: '{plugin_url path="uploadImportXML"}',
-								baseUrl: '{$baseUrl|escape:javascript}'
+								uploadUrl: {plugin_url|json_encode path="uploadImportXML" escape=false},
+								baseUrl: {$baseUrl|json_encode}
 							{rdelim}
 					{rdelim}
 				);
@@ -65,7 +65,7 @@
 		</script>
 		<form id="exportXmlForm" class="pkp_form" action="{plugin_url path="export"}" method="post">
 			{fbvFormArea id="exportForm"}
-				{url|assign:usersGridUrl router=$smarty.const.ROUTE_COMPONENT component="grid.users.exportableUsers.ExportableUsersGridHandler" op="fetchGrid"}
+				{url|assign:usersGridUrl router=$smarty.const.ROUTE_COMPONENT component="grid.users.exportableUsers.ExportableUsersGridHandler" op="fetchGrid" escape=false}
 				{load_url_in_div id="usersGridContainer" url=$usersGridUrl}
 				{fbvFormButtons hideCancel="true"}
 			{/fbvFormArea}

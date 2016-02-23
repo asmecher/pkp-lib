@@ -1,8 +1,8 @@
 {**
  * templates/form/keywordInput.tpl
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * Generic keyword input control
@@ -13,8 +13,7 @@
 		<script>
 			$(document).ready(function(){ldelim}
 				$("#{$thisFormLocale|escape}-{$FBV_id}{$uniqId}").tagit({ldelim}
-					itemName: "keywords",
-					fieldName: "{$thisFormLocale|escape}-{$FBV_id|escape}",
+					fieldName: "keywords[{$thisFormLocale|escape}-{$FBV_id|escape}][]",
 					allowSpaces: true,
 					{if $FBV_sourceUrl && !$FBV_disabled}
 						tagSource: function(search, showChoices) {ldelim}
@@ -27,7 +26,7 @@
 							{rdelim});
 						{rdelim}
 					{else}
-						availableTags: [{foreach name=availableKeywords from=$FBV_availableKeywords.$thisFormLocale item=availableKeyword}"{$availableKeyword|escape|escape:'javascript'}"{if !$smarty.foreach.availableKeywords.last}, {/if}{/foreach}]
+						availableTags: {$FBV_availableKeywords.$thisFormLocale|@json_encode}
 					{/if}
 				{rdelim});
 
@@ -51,24 +50,20 @@
 				{if $FBV_currentKeywords}{foreach from=$FBV_currentKeywords.$formLocale item=currentKeyword}<li>{$currentKeyword|escape}</li>{/foreach}{/if}
 			</ul>
 			{if $FBV_label_content}<span>{$FBV_label_content}</span>{/if}
-			<br />
-			<span>
-				<div class="localization_popover">
-					{foreach from=$formLocales key=thisFormLocale item=thisFormLocaleName}{if $formLocale != $thisFormLocale}
-						<ul class="multilingual_extra flag flag_{$thisFormLocale|escape}" id="{$thisFormLocale|escape}-{$FBV_id|escape}{$uniqId}">
-							{if $FBV_currentKeywords}{foreach from=$FBV_currentKeywords.$thisFormLocale item=currentKeyword}<li>{$currentKeyword|escape}</li>{/foreach}{/if}
-						</ul>
-					{/if}{/foreach}
-				</div>
-			</span>
+			<div class="localization_popover">
+				{foreach from=$formLocales key=thisFormLocale item=thisFormLocaleName}{if $formLocale != $thisFormLocale}
+					<ul class="multilingual_extra flag flag_{$thisFormLocale|escape}" id="{$thisFormLocale|escape}-{$FBV_id|escape}{$uniqId}">
+						{if $FBV_currentKeywords}{foreach from=$FBV_currentKeywords.$thisFormLocale item=currentKeyword}<li>{$currentKeyword|escape}</li>{/foreach}{/if}
+					</ul>
+				{/if}{/foreach}
+			</div>
 		</span>
 
 {else} {* this is not a multilingual keyword field or there is only one locale available *}
 	<script>
 		$(document).ready(function(){ldelim}
 			$("#{$FBV_id}{$uniqId}").tagit({ldelim}
-				itemName: "keywords",
-				fieldName: "{if $FBV_multilingual}{$formLocale|escape}-{/if}{$FBV_id|escape}",
+				fieldName: "keywords[{if $FBV_multilingual}{$formLocale|escape}-{/if}{$FBV_id|escape}][]",
 				allowSpaces: true,
 				{if $FBV_sourceUrl && !$FBV_disabled}
 					tagSource: function(search, showChoices) {ldelim}
@@ -81,7 +76,7 @@
 						{rdelim});
 					{rdelim}
 				{else}
-					availableTags: [{foreach name=availableKeywords from=$FBV_availableKeywords.$formLocale item=availableKeyword}"{$availableKeyword|escape|escape:'javascript'}"{if !$smarty.foreach.availableKeywords.last}, {/if}{/foreach}]
+					availableTags: {$FBV_availableKeywords.$formLocale|@json_encode}
 				{/if}
 			{rdelim});
 
@@ -96,5 +91,4 @@
 	<!-- The container which will be processed by tag-it.js as the interests widget -->
 	<ul id="{$FBV_id|escape}{$uniqId}">{if $FBV_currentKeywords}{foreach from=$FBV_currentKeywords.$formLocale item=currentKeyword}<li>{$currentKeyword|escape}</li>{/foreach}{/if}</ul>
 	{if $FBV_label_content}<span>{$FBV_label_content}</span>{/if}
-	<br />
 {/if}

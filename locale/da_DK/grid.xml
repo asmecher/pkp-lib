@@ -4,11 +4,11 @@
 <!--
   * locale/da_DK/grid.xml
   *
-  * Copyright (c) 2014-2015 Simon Fraser University Library
-  * Copyright (c) 2000-2015 John Willinsky
+  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2000-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
   *
-  * Localization strings for the da_DK (Danish) locale.
+  * Localization strings for the da_DK (Dansk) locale.
   *
   -->
 
@@ -104,10 +104,6 @@
 	<message key="grid.action.editPreparedEmail">Rediger denne e-mail-skabelon</message>
 	<message key="grid.action.disableEmail">Deaktiver denne e-mail-skabelon</message>
 	<message key="grid.action.resetEmail">Genindstil denne e-mail-skabelon til standardindstilling</message>
-	<message key="grid.action.addSignoff">Add an audit response for this file</message>
-	<message key="grid.action.deleteSignoff">Delete this signoff</message>
-	<message key="grid.action.fileSignoff">Signoff on this file</message>
-	<message key="grid.action.readSignoff">Read this signoff</message>
 	<message key="grid.action.expandAll">Udfold alle</message>
 	<message key="grid.action.requestAccount">Tilføj en deltager</message>
 	<message key="grid.action.expand">Udfold</message>

@@ -4,8 +4,8 @@
 /**
  * @file js/controllers/wizard/WizardHandler.js
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class WizardHandler
@@ -27,13 +27,21 @@
 	 *
 	 * @param {jQueryObject} $wizard A wrapped HTML element that
 	 *  represents the wizard.
-	 * @param {Object} options Wizard options.
+	 * @param {{
+	 *  enforceLinear: boolean,
+	 *  cancelButtonText: string,
+	 *  continueButtonTest: string,
+	 *  finishButtonText: string
+	 *  }} options options to configure the form handler.
 	 */
 	$.pkp.controllers.wizard.WizardHandler = function($wizard, options) {
 		this.parent($wizard, options);
 
 		// Add the wizard buttons
 		this.addWizardButtons_($wizard, options);
+
+		this.enforceLinear_ = options.hasOwnProperty('enforceLinear') ?
+				options.enforceLinear : true;
 
 		// Start the wizard.
 		this.startWizard();
@@ -84,6 +92,14 @@
 	 * @type {?string}
 	 */
 	$.pkp.controllers.wizard.WizardHandler.prototype.finishButtonText_ = null;
+
+
+	/**
+	 * Whether or not to enforce linear progress through the wizard.
+	 * @private
+	 * @type {?boolean}
+	 */
+	$.pkp.controllers.wizard.WizardHandler.prototype.enforceLinear_ = null;
 
 
 	//
@@ -297,8 +313,10 @@
 		// Advance to the target step.
 		$wizard.tabs('option', 'active', targetStep);
 
-		// Disable the previous step.
-		$wizard.tabs('disable', currentStep);
+		if (this.enforceLinear_) {
+			// Disable the previous step.
+			$wizard.tabs('disable', currentStep);
+		}
 
 		// If this is the last step then change the text on the
 		// continue button to finish.
@@ -341,12 +359,14 @@
 					/** @type {string} */ (this.getContinueButtonText()));
 		}
 
-		// Disable all but the first step.
-		disabledSteps = [];
-		for (i = 1; i < this.getNumberOfSteps(); i++) {
-			disabledSteps.push(i);
+		if (this.enforceLinear_) {
+			// Disable all but the first step.
+			disabledSteps = [];
+			for (i = 1; i < this.getNumberOfSteps(); i++) {
+				disabledSteps.push(i);
+			}
+			$wizard.tabs('option', 'disabled', disabledSteps);
 		}
-		$wizard.tabs('option', 'disabled', disabledSteps);
 	};
 
 
@@ -542,7 +562,7 @@
 			$wizardButtons.append($continueButton);
 
 			$progressIndicator = $(
-					'<div class="pkp_helpers_progressIndicator"></div>');
+					'<span class="pkp_spinner"></span>');
 			$wizardButtons.append($progressIndicator);
 
 			$continueButton.

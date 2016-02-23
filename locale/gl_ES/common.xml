@@ -4,11 +4,11 @@
 <!--
   * locale/gl_ES/common.xml
   *
-  * Copyright (c) 2014-2015 Simon Fraser University Library
-  * Copyright (c) 2000-2015 John Willinsky
+  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2000-2016 John Willinsky
   * Distributed under the GNU GPL v2. Para completar a información  cómpre ver o arquivo docs/COPYING.
   *
-  * Localization strings for the gl_ES (Galego (Galiza)) locale.
+  * Localization strings for the gl_ES (Galego) locale.
   *
   -->
 
@@ -16,7 +16,6 @@
 	<message key="about.aboutSite">Sobre o sitio</message>
 	<message key="about.contact">Contacto</message>
 	<message key="about.contact.email">Correo-e</message>
-	<message key="about.contact.fax">Fax</message>
 	<message key="about.contact.phone">Teléfono</message>
 	<message key="about.contact.principalContact">Contacto principal</message>
 	<message key="about.contact.supportContact">Contacto de suporte</message>

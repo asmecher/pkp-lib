@@ -4,8 +4,8 @@
 <!--
   * locale/id_ID/user.xml
   *
-  * Copyright (c) 2014-2015 Simon Fraser University Library
-  * Copyright (c) 2003-2015 John Willinsky
+  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2003-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
   *
   * Localization strings.
@@ -31,8 +31,6 @@
 	<message key="user.dateRegistered">Tanggal Terdaftar</message>
 	<message key="user.editMyProfile">Edit Profil Saya</message>
 	<message key="user.email">Email</message>
-	<message key="user.confirmEmail">Konfirmasi Email</message>
-	<message key="user.fax">Fax</message>
 	<message key="user.feminine">P</message>
 	<message key="user.firstName">Nama Depan</message>
 	<message key="user.gender">Jenis Kelamin</message>

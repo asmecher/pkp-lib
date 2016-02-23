@@ -3,8 +3,8 @@
 /**
  * @file controllers/grid/users/stageParticipant/form/AddParticipantForm.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class AddParticipantForm
@@ -19,20 +19,15 @@ class AddParticipantForm extends StageParticipantNotifyForm {
 	/** @var Submission The submission associated with the submission contributor being edited **/
 	var $_submission;
 
-	/** @var array **/
-	var $_userGroups;
-
 	/**
 	 * Constructor.
 	 * @param $submission Submission
 	 * @param $stageId int STAGE_ID_...
-	 * @param $userGroups array
 	 */
-	function AddParticipantForm($submission, $stageId, &$userGroups) {
+	function AddParticipantForm($submission, $stageId) {
 		parent::StageParticipantNotifyForm($submission->getId(), ASSOC_TYPE_SUBMISSION, $stageId, 'controllers/grid/users/stageParticipant/addParticipantForm.tpl');
 		$this->_submission = $submission;
 		$this->_stageId = $stageId;
-		$this->_userGroups = $userGroups;
 
 		// add checks in addition to anything that the Notification form may apply.
 		$this->addCheck(new FormValidator($this, 'userGroupId', 'required', 'editor.submission.addStageParticipant.form.userGroupRequired'));
@@ -49,15 +44,8 @@ class AddParticipantForm extends StageParticipantNotifyForm {
 	 * Get the Submission
 	 * @return Submission
 	 */
-	function &getSubmission() {
+	function getSubmission() {
 		return $this->_submission;
-	}
-
-	/**
-	 * Get the user groups allowed for this grid
-	 */
-	function getUserGroups() {
-		return $this->_userGroups;
 	}
 
 	/**
@@ -65,21 +53,27 @@ class AddParticipantForm extends StageParticipantNotifyForm {
 	 * @param $request PKPRequest
 	 */
 	function fetch($request) {
-		$templateMgr = TemplateManager::getManager($request);
-		$userGroups = $this->getUserGroups();
+		$userGroupDao = DAORegistry::getDAO('UserGroupDAO');
+		$userGroups = $userGroupDao->getUserGroupsByStage(
+			$request->getContext()->getId(),
+			$this->getStageId(),
+			false, true // Exclude reviewers
+		);
 
 		$userGroupOptions = array();
-		foreach ($userGroups as $userGroupId => $userGroup) {
-			$userGroupOptions[$userGroupId] = $userGroup->getLocalizedName();
+		while ($userGroup = $userGroups->next()) {
+			$userGroupOptions[$userGroup->getId()] = $userGroup->getLocalizedName();
 		}
+
+		$templateMgr = TemplateManager::getManager($request);
+
 		// assign the user groups options
 		$templateMgr->assign('userGroupOptions', $userGroupOptions);
 		// assigned the first element as selected
 		$templateMgr->assign('selectedUserGroupId', array_shift(array_keys($userGroupOptions)));
 
 		// assign the vars required for the request
-		$submission = $this->getSubmission();
-		$templateMgr->assign('submissionId', $submission->getId());
+		$templateMgr->assign('submissionId', $this->getSubmission()->getId());
 
 		return parent::fetch($request);
 	}

@@ -4,11 +4,11 @@
 <!--
   * locale/tr_TR/common.xml
   *
-  * Copyright (c) 2014-2015 Simon Fraser University Library
-  * Copyright (c) 2000-2015 John Willinsky
+  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2000-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
   *
-  * Localization strings for the tr_TR (Türkiye Türkçesi) locale.
+  * Localization strings for the tr_TR (Türkçe) locale.
   *
   -->
 
@@ -16,7 +16,6 @@
 	<message key="about.aboutSite">Hakkında</message>
 	<message key="about.contact">İletişim</message>
 	<message key="about.contact.email">E-posta</message>
-	<message key="about.contact.fax">Faks</message>
 	<message key="about.contact.phone">Telefon</message>
 	<message key="about.contact.principalContact">Temel İletişim</message>
 	<message key="about.contact.supportContact">Destek İletişim</message>
@@ -357,8 +356,6 @@
 	<message key="form.emailRequired">Bir e-posta adresi gerekli</message>
 	<message key="form.dataHasChanged">Formdaki veriler değişti. Devam edilsin mi?</message>
 	<message key="form.invalidImage">Hatalı görsel yüklendi. Geçerli biçimler: .png, .gif, ve .jpg</message>
-	<message key="help.toggleInlineHelpOn">Yardımı Kapat</message>
-	<message key="help.toggleInlineHelpOff">Yardımı Aç</message>
 	<message key="navigation.access"><![CDATA[Üyeler &amp; Roller]]></message>
 	<message key="navigation.admin">Yönetim</message>
 	<message key="navigation.browseByAuthor">Yazara Göre</message>
@@ -371,7 +368,6 @@
 	<message key="navigation.system">sistem</message>
 	<message key="navigation.userManagement">Üye Yönetimi</message>
 	<message key="common.acknowledged">Kabul Edilen</message>
-	<message key="common.considered">Dikkate Alınmış</message>
 	<message key="common.notified">Bildirilmiş</message>
 	<message key="common.reset">Yeniden Ayarlamak</message>
 </locale>

@@ -3,8 +3,8 @@
 /**
  * @file classes/user/PKPUserDAO.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class PKPUserDAO
@@ -230,6 +230,8 @@ class PKPUserDAO extends DAO {
 	/**
 	 * Given the ranges selected by the editor, produce a filtered list of reviewers
 	 * @param $contextId int
+	 * @param $stageId int WORKFLOW_STAGE_ID_...
+	 * @param $name string|null Partial string match with reviewer name
 	 * @param $doneMin int|null # of reviews completed int
 	 * @param $doneMax int|null
 	 * @param $avgMin int|null Average period of time in days to complete a review int
@@ -241,9 +243,9 @@ class PKPUserDAO extends DAO {
 	 * @param $interests array
 	 * @param $submissionId int Filter out reviewers assigned to this submission
 	 * @param $reviewRoundId int Also filter users assigned to this round of the given submission
-	 * @return array Users
+	 * @return DAOResultFactory Iterator for matching users
 	 */
-	function getFilteredReviewers($contextId, $stageId, $doneMin = null, $doneMax = null, $avgMin = null, $avgMax = null, $lastMin = null, $lastMax = null, $activeMin = null, $activeMax = null, $interests = array(), $submissionId = null, $reviewRoundId = null) {
+	function getFilteredReviewers($contextId, $stageId, $name = null, $doneMin = null, $doneMax = null, $avgMin = null, $avgMax = null, $lastMin = null, $lastMax = null, $activeMin = null, $activeMax = null, $interests = array(), $submissionId = null, $reviewRoundId = null) {
 		$result = $this->retrieve(
 			'SELECT	u.*,
 				COALESCE(COUNT(DISTINCT rac.review_id), 0) AS complete_count,
@@ -261,13 +263,14 @@ class PKPUserDAO extends DAO {
 				LEFT JOIN review_assignments rai ON (rai.reviewer_id = u.user_id AND rai.date_notified IS NOT NULL AND rai.date_completed IS NULL AND rai.cancelled = 0 AND rai.declined = 0 AND rai.replaced = 0)
 			WHERE	ras.review_id IS NULL
 				AND ran.review_id IS NULL' .
-				str_repeat(' AND u.user_id IN (SELECT ui.user_id FROM user_interests ui JOIN controlled_vocab_entry_settings cves ON (ui.controlled_vocab_entry_id = cves.controlled_vocab_entry_id) WHERE cves.setting_name = \'interest\' AND LOWER(cves.setting_value) = ?)', count($interests)) . '
+				str_repeat(' AND u.user_id IN (SELECT ui.user_id FROM user_interests ui JOIN controlled_vocab_entry_settings cves ON (ui.controlled_vocab_entry_id = cves.controlled_vocab_entry_id) WHERE cves.setting_name = \'interest\' AND LOWER(cves.setting_value) = ?)', count($interests)) .
+				($name !== null?' AND (u.first_name LIKE ? OR u.middle_name LIKE ? OR u.last_name LIKE ? OR u.username LIKE ? OR u.email LIKE ?)':'') . '
 			GROUP BY u.user_id
 			HAVING 1=1' .
 				($doneMin !== null?' AND COUNT(DISTINCT rac.review_id) >= ?':'') .
 				($doneMax !== null?' AND COUNT(DISTINCT rac.review_id) <= ?':'') .
-				($avgMin !== null?' AND (AVG(rac.date_completed - rac.date_notified) >= ? OR AVG(rac.date_completed - rac.date_notified) IS NULL)':'') .
-				($avgMax !== null?' AND (AVG(rac.date_completed - rac.date_notified) <= ? OR AVG(rac.date_completed - rac.date_notified) IS NULL)':'') .
+				($avgMin !== null?' AND AVG(rac.date_completed - rac.date_notified) >= ?':'') .
+				($avgMax !== null?' AND AVG(rac.date_completed - rac.date_notified) <= ?':'') .
 				($activeMin !== null?' AND COUNT(DISTINCT rai.review_id) >= ?':'') .
 				($activeMax !== null?' AND COUNT(DISTINCT rai.review_id) <= ?':'') .
 				($lastMin !== null?' AND MAX(raf.date_assigned) <= ' . ($this->datetimeToDB(time() - ((int) $lastMin * 86400))):'') .
@@ -281,6 +284,11 @@ class PKPUserDAO extends DAO {
 					(int) $submissionId, // null gets cast to 0 which doesn't exist
 				),
 				array_map(array('String', 'strtolower'), $interests),
+				$name !== null?array('%'.(string) $name.'%'):array(),
+				$name !== null?array('%'.(string) $name.'%'):array(),
+				$name !== null?array('%'.(string) $name.'%'):array(),
+				$name !== null?array('%'.(string) $name.'%'):array(),
+				$name !== null?array('%'.(string) $name.'%'):array(),
 				$doneMin !== null?array((int) $doneMin):array(),
 				$doneMax !== null?array((int) $doneMax):array(),
 				$avgMin !== null?array((int) $avgMin):array(),
@@ -346,7 +354,6 @@ class PKPUserDAO extends DAO {
 		$user->setEmail($row['email']);
 		$user->setUrl($row['url']);
 		$user->setPhone($row['phone']);
-		$user->setFax($row['fax']);
 		$user->setMailingAddress($row['mailing_address']);
 		$user->setBillingAddress($row['billing_address']);
 		$user->setCountry($row['country']);
@@ -380,9 +387,9 @@ class PKPUserDAO extends DAO {
 		}
 		$this->update(
 			sprintf('INSERT INTO users
-				(username, password, salutation, first_name, middle_name, initials, last_name, suffix, gender, email, url, phone, fax, mailing_address, billing_address, country, locales, date_last_email, date_registered, date_validated, date_last_login, must_change_password, disabled, disabled_reason, auth_id, auth_str, inline_help)
+				(username, password, salutation, first_name, middle_name, initials, last_name, suffix, gender, email, url, phone, mailing_address, billing_address, country, locales, date_last_email, date_registered, date_validated, date_last_login, must_change_password, disabled, disabled_reason, auth_id, auth_str, inline_help)
 				VALUES
-				(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, %s, %s, %s, %s, ?, ?, ?, ?, ?, ?)',
+				(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, %s, %s, %s, %s, ?, ?, ?, ?, ?, ?)',
 				$this->datetimeToDB($user->getDateLastEmail()), $this->datetimeToDB($user->getDateRegistered()), $this->datetimeToDB($user->getDateValidated()), $this->datetimeToDB($user->getDateLastLogin())),
 			array(
 				$user->getUsername(),
@@ -397,7 +404,6 @@ class PKPUserDAO extends DAO {
 				$user->getEmail(),
 				$user->getUrl(),
 				$user->getPhone(),
-				$user->getFax(),
 				$user->getMailingAddress(),
 				$user->getBillingAddress(),
 				$user->getCountry(),
@@ -466,7 +472,6 @@ class PKPUserDAO extends DAO {
 					email = ?,
 					url = ?,
 					phone = ?,
-					fax = ?,
 					mailing_address = ?,
 					billing_address = ?,
 					country = ?,
@@ -495,7 +500,6 @@ class PKPUserDAO extends DAO {
 				$user->getEmail(),
 				$user->getUrl(),
 				$user->getPhone(),
-				$user->getFax(),
 				$user->getMailingAddress(),
 				$user->getBillingAddress(),
 				$user->getCountry(),

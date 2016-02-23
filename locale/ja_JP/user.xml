@@ -4,8 +4,8 @@
 <!--
   * locale/ja_JP/user.xml
   *
-  * Copyright (c) 2014-2015 Simon Fraser University Library
-  * Copyright (c) 2000-2015 John Willinsky
+  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2000-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
   *
   * Localization strings for the ja_JP (日本語) locale.
@@ -23,7 +23,6 @@
 	<message key="user.dateRegistered">登録日</message>
 	<message key="user.editMyProfile">ユーザ情報の変更</message>
 	<message key="user.email">メールアドレス</message>
-	<message key="user.fax">Fax</message>
 	<message key="user.feminine">女</message>
 	<message key="user.firstName">名</message>
 	<message key="user.gender">性別</message>
@@ -103,7 +102,6 @@
 	<message key="user.login.changePasswordInstructions"><![CDATA[このサイトにログインする前に新しいパスワードを選んでください。<br /><br />あたらしいユーザ名と現在のパスワードと新しいパスワードを入力してアカウントのパスワードを変更してください。]]></message>
 	<message key="user.other">その他</message>
 	<message key="user.affiliation.description">(所属 例: サイモン・フレーザー大学)</message>
-	<message key="user.confirmEmail">メールアドレス(確認用)</message>
 	<message key="user.gossip">個人情報</message>
 	<message key="user.profile.form.affiliationRequired">所属は必須です。</message>
 	<message key="user.register.form.emailsDoNotMatch">メールアドレスが一致しません。</message>

@@ -3,8 +3,8 @@
 /**
  * @file classes/controlledVocab/ControlledVocabEntryDAO.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class ControlledVocabEntryDAO
@@ -140,10 +140,8 @@ class ControlledVocabEntryDAO extends DAO {
 	 */
 	function insertObject($controlledVocabEntry) {
 		$this->update(
-			sprintf('INSERT INTO controlled_vocab_entries
-				(controlled_vocab_id, seq)
-				VALUES
-				(?, ?)'),
+			'INSERT INTO controlled_vocab_entries (controlled_vocab_id, seq)
+			VALUES (?, ?)',
 			array(
 				(int) $controlledVocabEntry->getControlledVocabId(),
 				(float) $controlledVocabEntry->getSequence()

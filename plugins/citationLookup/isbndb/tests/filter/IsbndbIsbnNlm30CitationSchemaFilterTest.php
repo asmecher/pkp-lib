@@ -6,8 +6,8 @@
 /**
  * @file plugins/citationLookup/isbndb/tests_filter/IsbndbIsbnNlm30CitationSchemaFilterTest.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class IsbndbIsbnNlm30CitationSchemaFilterTest
@@ -56,7 +56,11 @@ class IsbndbIsbnNlm30CitationSchemaFilterTest extends IsbndbNlm30CitationSchemaF
 		$filter = new IsbndbIsbnNlm30CitationSchemaFilter(PersistableFilter::tempGroup(
 				'primitive::string',
 				'metadata::lib.pkp.plugins.metadata.nlm30.schema.Nlm30CitationSchema(CITATION)'));
-		$filter->setData('apiKey', self::ISBNDB_TEST_APIKEY);
+
+		$apiKey = $this->_getIsbndbApiKey();
+		if (!$apiKey) $this->markTestSkipped('ISBNDB API key not available.');
+
+		$filter->setData('apiKey', $apiKey);
 		$this->assertNlm30CitationSchemaFilter($citationFilterTests, $filter);
 	}
 }

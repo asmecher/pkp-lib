@@ -1,8 +1,8 @@
 {**
  * templates/controllers/modals/editorDecision/form/sendReviewsForm.tpl
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * Form used to send reviews to author
@@ -13,7 +13,9 @@
 	$(function() {ldelim}
 		$('#sendReviews').pkpHandler(
 			'$.pkp.controllers.modals.editorDecision.form.EditorDecisionFormHandler',
-			{ldelim} peerReviewUrl: '{$peerReviewUrl|escape:javascript}' {rdelim}
+			{ldelim}
+				peerReviewUrl: {$peerReviewUrl|json_encode}
+			{rdelim}
 		);
 	{rdelim});
 </script>
@@ -39,7 +41,7 @@
 
 	<!-- Message to reviewer textarea -->
 	{fbvFormSection title="editor.review.personalMessageToAuthor" for="personalMessage" size=$fbvStyles.size.LARGE}
-		{fbvElement type="textarea" name="personalMessage" id="personalMessage" value=$personalMessage rich=true}
+		{fbvElement type="textarea" name="personalMessage" id="personalMessage" value=$personalMessage rich=true variables=$allowedVariables}
 	{/fbvFormSection}
 
 	<!-- option to skip sending this email -->

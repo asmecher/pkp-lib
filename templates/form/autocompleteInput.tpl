@@ -1,8 +1,8 @@
 {**
  * templates/form/autocompleteInput.tpl
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * an autocomplete input
@@ -13,8 +13,8 @@
 		$('#{$FBV_id}_container').pkpHandler('$.pkp.controllers.AutocompleteHandler',
 			{ldelim}
 				{if $FBV_disableSync}disableSync: true,{/if}
-				sourceUrl: "{$FBV_autocompleteUrl|escape:javascript}",
-				jLabelText: '{$jLabelText|escape:javascript}'
+				sourceUrl: {$FBV_autocompleteUrl|json_encode},
+				jLabelText: {$jLabelText|json_encode}
 			{rdelim});
 	{rdelim});
 </script>

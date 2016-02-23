@@ -3,8 +3,8 @@
 /**
  * @file classes/core/PKPApplication.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class PKPApplication
@@ -44,6 +44,7 @@ define('ASSOC_TYPE_SIGNOFF',			0x0100006);
 define('ASSOC_TYPE_USER_ROLES',			0x0100007);
 define('ASSOC_TYPE_ACCESSIBLE_WORKFLOW_STAGES',	0x0100008);
 define('ASSOC_TYPE_SUBMISSION',			0x0100009);
+define('ASSOC_TYPE_QUERY',			0x010000a);
 
 // FIXME: these were defined in userGroup. they need to be moved somewhere with classes that do mapping.
 define('WORKFLOW_STAGE_PATH_SUBMISSION', 'submission');
@@ -129,11 +130,7 @@ abstract class PKPApplication implements iPKPApplicationInfoProvider {
 
 		import('lib.pkp.classes.config.Config');
 
-		if (Config::getVar('debug', 'display_errors')) {
-			// Try to switch off normal error display when error display
-			// is being managed by us.
-			ini_set('display_errors', false);
-		}
+		ini_set('display_errors', Config::getVar('debug', 'display_errors', ini_get('display_errors')));
 
 		Registry::set('application', $this);
 
@@ -153,13 +150,6 @@ abstract class PKPApplication implements iPKPApplicationInfoProvider {
 		import('lib.pkp.classes.plugins.HookRegistry');
 
 		import('classes.i18n.AppLocale');
-
-		// Set site time zone
-		// Starting from PHP 5.3.0 PHP will throw an E_WARNING if the default
-		// time zone is not set and date/time functions are used
-		// http://pl.php.net/manual/en/function.date-default-timezone-set.php
-		$timeZone = AppLocale::getTimeZone();
-		date_default_timezone_set($timeZone);
 
 		String::init();
 
@@ -394,6 +384,7 @@ abstract class PKPApplication implements iPKPApplicationInfoProvider {
 			'SubmissionDisciplineEntryDAO' => 'lib.pkp.classes.submission.SubmissionDisciplineEntryDAO',
 			'SubmissionEmailLogDAO' => 'lib.pkp.classes.log.SubmissionEmailLogDAO',
 			'SubmissionFileEventLogDAO' => 'lib.pkp.classes.log.SubmissionFileEventLogDAO',
+			'QueryDAO' => 'lib.pkp.classes.query.QueryDAO',
 			'SubmissionFileSignoffDAO' => 'lib.pkp.classes.submission.SubmissionFileSignoffDAO',
 			'SubmissionLanguageDAO' => 'lib.pkp.classes.submission.SubmissionLanguageDAO',
 			'SubmissionLanguageEntryDAO' => 'lib.pkp.classes.submission.SubmissionLanguageEntryDAO',

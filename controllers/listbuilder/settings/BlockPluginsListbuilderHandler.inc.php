@@ -3,8 +3,8 @@
 /**
  * @file controllers/listbuilder/settings/BlockPluginsListbuilderHandler.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class BlockPluginsListbuilderHandler
@@ -31,8 +31,8 @@ class BlockPluginsListbuilderHandler extends MultipleListsListbuilderHandler {
 	 * @copydoc GridHandler::authorize()
 	 */
 	function authorize($request, &$args, $roleAssignments) {
-		import('lib.pkp.classes.security.authorization.PkpContextAccessPolicy');
-		$this->addPolicy(new PkpContextAccessPolicy($request, $roleAssignments));
+		import('lib.pkp.classes.security.authorization.ContextAccessPolicy');
+		$this->addPolicy(new ContextAccessPolicy($request, $roleAssignments));
 		return parent::authorize($request, $args, $roleAssignments);
 	}
 
@@ -53,7 +53,6 @@ class BlockPluginsListbuilderHandler extends MultipleListsListbuilderHandler {
 		// Add lists.
 		$this->addList(new ListbuilderList('leftContext', 'manager.setup.layout.leftSidebar'));
 		$this->addList(new ListbuilderList('unselected', 'manager.setup.layout.unselected'));
-		$this->addList(new ListbuilderList('rightContext', 'manager.setup.layout.rightSidebar'));
 
 		import('lib.pkp.controllers.listbuilder.settings.BlockPluginsListbuilderGridCellProvider');
 		$nameColumn->setCellProvider(new BlockPluginsListbuilderGridCellProvider());
@@ -68,24 +67,20 @@ class BlockPluginsListbuilderHandler extends MultipleListsListbuilderHandler {
 	 * @copydoc MultipleListsListbuilderHandler::setListsData()
 	 */
 	function setListsData($request, $filter) {
-		$leftBlockPlugins = $disabledBlockPlugins = $rightBlockPlugins = array();
-		$plugins =& PluginRegistry::loadCategory('blocks');
+		$leftBlockPlugins = $disabledBlockPlugins = array();
+		$plugins = PluginRegistry::loadCategory('blocks');
 		foreach ($plugins as $key => $junk) {
 			if (!$plugins[$key]->getEnabled() || $plugins[$key]->getBlockContext() == '') {
-				if (count(array_intersect($plugins[$key]->getSupportedContexts(), array(BLOCK_CONTEXT_LEFT_SIDEBAR, BLOCK_CONTEXT_RIGHT_SIDEBAR))) > 0) $disabledBlockPlugins[$key] =& $plugins[$key];
+				if (count(array_intersect($plugins[$key]->getSupportedContexts(), array(BLOCK_CONTEXT_LEFT_SIDEBAR))) > 0) $disabledBlockPlugins[$key] = $plugins[$key];
 			} else switch ($plugins[$key]->getBlockContext()) {
 				case BLOCK_CONTEXT_LEFT_SIDEBAR:
-					$leftBlockPlugins[$key] =& $plugins[$key];
-					break;
-				case BLOCK_CONTEXT_RIGHT_SIDEBAR:
-					$rightBlockPlugins[$key] =& $plugins[$key];
+					$leftBlockPlugins[$key] = $plugins[$key];
 					break;
 			}
 		}
 
-		$lists =& $this->getLists();
+		$lists = $this->getLists();
 		$lists['leftContext']->setData($leftBlockPlugins);
-		$lists['rightContext']->setData($rightBlockPlugins);
 		$lists['unselected']->setData($disabledBlockPlugins);
 	}
 }

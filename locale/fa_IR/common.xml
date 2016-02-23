@@ -4,11 +4,11 @@
 <!--
   * locale/fa_IR/common.xml
   *
-  * Copyright (c) 2014-2015 Simon Fraser University Library
-  * Copyright (c) 2000-2015 John Willinsky
+  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2000-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
   *
-  * Localization strings for the fa_IR (Persian) locale.
+  * Localization strings for the fa_IR (فارسی) locale.
   *
   -->
 
@@ -16,7 +16,6 @@
 	<message key="about.aboutSite">درباره سایت</message>
 	<message key="about.contact">تماس</message>
 	<message key="about.contact.email">ایمیل</message>
-	<message key="about.contact.fax">فاکس</message>
 	<message key="about.contact.phone">تلفن</message>
 	<message key="about.contact.principalContact">تماس اصلی</message>
 	<message key="about.contact.supportContact">تماس حمایت</message>

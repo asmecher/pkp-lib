@@ -4,11 +4,11 @@
 <!--
   * locale/el_GR/manager.xml
   *
-  * Copyright (c) 2014-2015 Simon Fraser University Library
-  * Copyright (c) 2000-2015 John Willinsky
+  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2000-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
   *
-  * Localization strings for the el_GR (Greek) locale.
+  * Localization strings for the el_GR (ελληνικά) locale.
   *
   -->
 
@@ -147,7 +147,6 @@
 	<message key="manager.setup.layout.unselected">Μη επιλεγμένο</message>
 	<message key="manager.setup.loggingAndAuditing">Σύνδεση και έλεγχος</message>
 	<message key="manager.setup.pageHeaderLogoImageInvalid"> Μη έγκυρη μορφή εικόνας λογοτύπου της κεφαλίδας της σελίδας. Έγκυρες μορφές είναι .gif, .jpg, ή .png.</message>
-	<message key="manager.setup.pageHeaderTitleImageInvalid"> Μη έγκυρη μορφή εικόνας τίτλου της κεφαλίδας της σελίδας. Έγκυρες μορφές είναι .gif, .jpg, ή .png.</message>
 	<message key="manager.setup.selectOne">Επιλέξτε ένα</message>
 	<message key="manager.statistics"><![CDATA[Στατιστικά &amp; Αναφορές]]></message>
 	<message key="manager.statistics.reports.description">Το σύστημα παράγει τις εκθέσεις που παρακολουθούν τις λεπτομέρειες που σχετίζονται με τη χρήση της ιστοσελίδας και οι παρατηρήσεις σε μια δεδομένη χρονική περίοδο. Οι εκθέσεις που δημιουργούνται σε μορφή CSV που απαιτεί μια εφαρμογή λογιστικών φύλλων για να το δείτε.</message>
@@ -171,7 +170,6 @@
 	<message key="plugins.categories.themes.description">Τα Theme Plugins μπορούν να χρησιμοποιηθούν για να αλλάξει η εμφάνιση του συστήματος.</message>
 	<message key="plugins.categories.themes">Θεματικά (Theme) Plugins</message>
 	<message key="manager.emails.form.emailKeyRequired">Απαιτείτα ένα μοναδικό κλειδί email για το email.</message>
-	<message key="manager.reviewerSearch.advancedSearch">Προχωρημένη Αναζήτηση Αξιολογητή</message>
 	<message key="manager.reviewerSearch.searchByName">Αναζήτηση Αξιολογητή κατά Όνομα</message>
 	<message key="manager.reviewerSearch.doneAmount">Αριθμός ολοκληρωμένης αξιολογήσεων</message>
 	<message key="manager.reviewerSearch.avgAmount">Μέσος αριθμός ημερών ανά αξιολόγηση</message>

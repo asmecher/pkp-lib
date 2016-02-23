@@ -7,8 +7,8 @@
 /**
  * @file classes/user/PKPUser.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class PKPUser
@@ -135,22 +135,6 @@ class PKPUser extends Identity {
 	 */
 	function setPhone($phone) {
 		$this->setData('phone', $phone);
-	}
-
-	/**
-	 * Get fax number.
-	 * @return string
-	 */
-	function getFax() {
-		return $this->getData('fax');
-	}
-
-	/**
-	 * Set fax number.
-	 * @param $fax string
-	 */
-	function setFax($fax) {
-		$this->setData('fax', $fax);
 	}
 
 	/**
@@ -397,7 +381,6 @@ class PKPUser extends Identity {
 		AppLocale::requireComponents(LOCALE_COMPONENT_PKP_USER);
 		if ($a = $this->getLocalizedAffiliation()) $signature .= '<br/>' . htmlspecialchars($a);
 		if ($p = $this->getPhone()) $signature .= '<br/>' . __('user.phone') . ' ' . htmlspecialchars($p);
-		if ($f = $this->getFax()) $signature .= '<br/>' . __('user.fax') . ' ' . htmlspecialchars($f);
 		$signature .= '<br/>' . htmlspecialchars($this->getEmail());
 		return $signature;
 	}

@@ -4,8 +4,8 @@
 /**
  * @file js/controllers/listbuilder/ListbuilderHandler.js
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class ListbuilderHandler
@@ -110,7 +110,7 @@
 		// That and a syncronous ajax call triggered by those events
 		// handlers, was leading to an error in IE8 and it was freezing
 		// Firefox 13.0).
-		$listbuilder.find('span[class="options"] > a[id*="addItem"]').mousedown(
+		$listbuilder.find('.actions .pkp_linkaction_addItem').mousedown(
 				this.callbackWrapper(this.addItemHandler_));
 
 		// Attach the content manipulation handlers
@@ -765,7 +765,7 @@
 				.blur(this.callbackWrapper(this.inputBlurHandler_));
 
 		// Attach deletion handler
-		$context.find('.remove_item').click(
+		$context.find('.pkp_linkaction_delete').click(
 				this.callbackWrapper(this.deleteItemHandler_));
 	};
 

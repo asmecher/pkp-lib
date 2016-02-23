@@ -2,8 +2,8 @@
 /**
  * @file controllers/api/file/linkAction/DownloadFileLinkAction.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class DownloadFileLinkAction
@@ -43,7 +43,8 @@ class DownloadFileLinkAction extends FileLinkAction {
 		// Configure the file link action.
 		parent::FileLinkAction(
 			'downloadFile', $redirectRequest, $this->getLabel($submissionFile),
-			$submissionFile->getDocumentType()
+			$submissionFile->getDocumentType(),
+			$submissionFile->getFileId() . '-' . $submissionFile->getRevision()
 		);
 	}
 

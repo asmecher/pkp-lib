@@ -3,8 +3,8 @@
 /**
  * @file controllers/api/file/linkAction/AddFileLinkAction.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class AddFileLinkAction
@@ -113,6 +113,10 @@ class AddFileLinkAction extends BaseAddFileLinkAction {
 			),
 			SUBMISSION_FILE_DEPENDENT => array(
 				'wizardTitle' => 'submission.upload.dependent',
+				'buttonLabel' => 'submission.addFile'
+			),
+			SUBMISSION_FILE_QUERY => array(
+				'wizardTitle' => 'submission.upload.query',
 				'buttonLabel' => 'submission.addFile'
 			),
 		);

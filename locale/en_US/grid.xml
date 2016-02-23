@@ -4,8 +4,8 @@
 <!--
   * locale/en_US/grid.xml
   *
-  * Copyright (c) 2014-2015 Simon Fraser University Library
-  * Copyright (c) 2000-2015 John Willinsky
+  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2000-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
   *
   * Localization strings.
@@ -20,6 +20,11 @@
 	<message key="grid.action.manageAccess">Manage Access</message>
 	<message key="grid.action.sort">Sort</message>
 	<message key="grid.action.addItem">Add Item</message>
+	<message key="grid.action.addNote">Add Note</message>
+	<message key="grid.action.addQuery">Add discussion</message>
+	<message key="grid.action.readQuery">Read discussion</message>
+	<message key="grid.action.deleteQuery">Delete discussion</message>
+	<message key="grid.action.updateQuery">Update discussion</message>
 	<message key="grid.action.addUser">Add User</message>
 	<message key="grid.action.approveCopyedit">Approve this copyedit file for sending it to the next stage</message>
 	<message key="grid.action.reload">Reload</message>
@@ -34,6 +39,8 @@
 	<message key="grid.action.remove">Remove</message>
 	<message key="grid.action.edit">Edit</message>
 	<message key="grid.action.approve">Approve</message>
+	<message key="grid.action.disapprove">Disapprove</message>
+	<message key="grid.action.setApproval">Set Approval</message>
 	<message key="grid.action.moreInformation">More Information</message>
 	<message key="grid.action.restoreDefaults">Restore Defaults</message>
 	<message key="grid.action.restoreDefaults.confirm">Are you sure you wish to restore the defaults?</message>
@@ -74,10 +81,6 @@
 	<message key="grid.action.editPreparedEmail">Edit this email template</message>
 	<message key="grid.action.disableEmail">Disable this email template</message>
 	<message key="grid.action.resetEmail">Reset this email template to the default</message>
-	<message key="grid.action.addSignoff">Add an audit response for this file</message>
-	<message key="grid.action.deleteSignoff">Delete this signoff</message>
-	<message key="grid.action.fileSignoff">Signoff on this file</message>
-	<message key="grid.action.readSignoff">Read this signoff</message>
 	<message key="grid.action.expandAll">Expand All</message>
 	<message key="grid.action.requestAccount">Add a participant</message>
 	<message key="grid.action.expand">Expand</message>
@@ -114,6 +117,7 @@
 	<message key="grid.action.copy">Copy</message>
 	<message key="grid.action.preview">Preview</message>
 	<message key="grid.action.install">Install</message>
+	<message key="grid.action.moreItems">Load more</message>
 
 	<!--  grid task status -->
 	<message key="grid.task.status.completed">This task is completed</message>
@@ -233,9 +237,8 @@
 
 	<!-- Prepared emails -->
 	<message key="grid.preparedEmails.title">Prepared Email Templates</message>
-	<message key="grid.preparedEmails.description">The press facilitates work flow communication through the use of prepared email messages. The default wording of these email templates can be easily modified below.</message>
 	<message key="grid.preparedEmails.currentList">Current List</message>
-	
+
 	<!-- Plugins -->
 	<message key="grid.plugin.allCategories">All Categories</message>
 	<message key="grid.plugin.disable">Are you sure you want to disable this plugin?</message>
@@ -251,7 +254,7 @@
 	<message key="grid.artworkFile.copyrightContact">Contact Info (if not author/publisher)</message>
 	<message key="grid.artworkFile.permissionTerms">Permission Terms</message>
 	<message key="grid.artworkFile.placement">Placement in submission</message>
-	
+
 	<!-- User Group Grid -->
 	<message key="grid.userGroup.assignStage">Assign stage</message>
 	<message key="grid.userGroup.unassignStage">Unassign stage</message>
@@ -263,4 +266,7 @@
 	<message key="grid.userGroup.removed">{$userGroupName} role removed.</message>
 	<message key="grid.userGroup.assignedStage">{$userGroupName} role assigned to {$stageName} stage.</message>
 	<message key="grid.userGroup.unassignedStage">{$userGroupName} role unassigned from {$stageName} stage.</message>
+
+	<!-- Submission list grids -->
+	<message key="grid.submission.itemTitle">Author; Title</message>
 </locale>

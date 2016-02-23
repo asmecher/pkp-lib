@@ -1,8 +1,8 @@
 {**
  * templates/controllers/grid/gridCellContents.tpl
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * a regular grid cell's contents
@@ -23,7 +23,9 @@
 {/if}
 
 {* Handle escaping as needed *}
-{if $column->hasFlag('html')}
+{if $column->hasFlag('anyhtml')}
+	{* Any HTML is allowed; do not escape anything *}
+{elseif $column->hasFlag('html')}
 	{* Limited HTML is allowed *}
 	{assign var=_label value=$_label|strip_unsafe_html}
 {else}
@@ -32,7 +34,7 @@
 {/if}
 
 {if $_label != ''}
-	<span{if count($actions) gt 0} class="pkp_helpers_align_left gridLabelBeforeActions"{/if}>
+	<span class="label{if count($actions) gt 0} before_actions{/if}">
 		{if $column->hasFlag('maxLength')}
 			{assign var="maxLength" value=$column->getFlag('maxLength')}
 			{$_label|truncate:$maxLength}

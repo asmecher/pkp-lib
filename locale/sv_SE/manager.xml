@@ -4,11 +4,11 @@
 <!--
   * locale/sv_SE/manager.xml
   *
-  * Copyright (c) 2014-2015 Simon Fraser University Library
-  * Copyright (c) 2000-2015 John Willinsky
+  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2000-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
   *
-  * Localization strings for the sv_SE (Swedish) locale.
+  * Localization strings for the sv_SE (Svenska) locale.
   *
   -->
 
@@ -147,7 +147,6 @@
 	<message key="manager.setup.layout.unselected">Ej vald</message>
 	<message key="manager.setup.loggingAndAuditing">Att logga och granska</message>
 	<message key="manager.setup.pageHeaderLogoImageInvalid">Ogiltigt bildformat för sidhuvudets logo (Godkända format: .gif, .jpg, eller .png.)</message>
-	<message key="manager.setup.pageHeaderTitleImageInvalid">Ogiltiftr bildformat för sidhuvudets titelbild (Godkända format: .gif, .jpg, eller .png.)</message>
 	<message key="manager.setup.selectOne">Välj en</message>
 	<message key="manager.statistics"><![CDATA[Statistik &amp; Rapporter]]></message>
 	<message key="manager.statistics.statistics.count.value">{$count} ({$percentage}%)</message>

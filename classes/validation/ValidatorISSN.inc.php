@@ -3,8 +3,8 @@
 /**
  * @file classes/validation/ValidatorISSN.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class ValidatorISSN
@@ -44,7 +44,18 @@ class ValidatorISSN extends ValidatorRegExp {
 		for ($i=0; $i<7; $i++) {
 			$check += $issn[$i] * (8-$i);
 		}
-		return ((int) $issn[7] == 11 - ($check % 11));
+		$check = $check % 11;
+		switch ($check) {
+			case 0:
+				$check = '0';
+				break;
+			case 1:
+				$check = 'X';
+				break;
+			default:
+				$check = (string) (11 - $check);
+		}
+		return ($issn[7] === $check);
 	}
 
 	//
@@ -56,7 +67,7 @@ class ValidatorISSN extends ValidatorRegExp {
 	 * @return string
 	 */
 	static function getRegexp() {
-		return '/^(\d{4})-(\d{4})$/';
+		return '/^(\d{4})-(\d{3}[\dX])$/';
 	}
 }
 

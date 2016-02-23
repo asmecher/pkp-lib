@@ -3,8 +3,8 @@
 /**
  * @file classes/plugins/BlockPlugin.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class BlockPlugin
@@ -14,7 +14,6 @@
  */
 
 define('BLOCK_CONTEXT_LEFT_SIDEBAR',		0x00000001);
-define('BLOCK_CONTEXT_RIGHT_SIDEBAR',		0x00000002);
 define('BLOCK_CONTEXT_HOMEPAGE',		0x00000003);
 
 import('lib.pkp.classes.plugins.LazyLoadPlugin');
@@ -101,7 +100,7 @@ abstract class BlockPlugin extends LazyLoadPlugin {
 	function getSupportedContexts() {
 		// Will return left and right process as this is the
 		// most frequent use case.
-		return array(BLOCK_CONTEXT_LEFT_SIDEBAR, BLOCK_CONTEXT_RIGHT_SIDEBAR);
+		return array(BLOCK_CONTEXT_LEFT_SIDEBAR);
 	}
 
 	/**
@@ -112,7 +111,6 @@ abstract class BlockPlugin extends LazyLoadPlugin {
 	function &getContextMap() {
 		static $contextMap = array(
 			BLOCK_CONTEXT_LEFT_SIDEBAR => 'Templates::Common::LeftSidebar',
-			BLOCK_CONTEXT_RIGHT_SIDEBAR => 'Templates::Common::RightSidebar',
 		);
 
 		$homepageHook = $this->_getContextSpecificHomepageHook();
@@ -141,7 +139,7 @@ abstract class BlockPlugin extends LazyLoadPlugin {
 	 * @param $request PKPRequest (Optional for legacy plugins)
 	 * @return string
 	 */
-	function getContents(&$templateMgr, $request = null) {
+	function getContents($templateMgr, $request = null) {
 		$blockTemplateFilename = $this->getBlockTemplateFilename();
 		if ($blockTemplateFilename === null) return '';
 		return $templateMgr->fetch($this->getTemplatePath() . $blockTemplateFilename);

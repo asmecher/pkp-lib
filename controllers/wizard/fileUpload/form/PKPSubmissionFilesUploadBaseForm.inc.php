@@ -3,8 +3,8 @@
 /**
  * @file controllers/wizard/fileUpload/form/PKPSubmissionFilesUploadBaseForm.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class PKPSubmissionFilesUploadBaseForm
@@ -129,15 +129,15 @@ class PKPSubmissionFilesUploadBaseForm extends Form {
 	 * submission and to the file stage.
 	 * @return array a list of SubmissionFile instances.
 	 */
-	function &getSubmissionFiles() {
+	function getSubmissionFiles() {
 		if (is_null($this->_submissionFiles)) {
 			$submissionFileDao = DAORegistry::getDAO('SubmissionFileDAO'); /* @var $submissionFileDao SubmissionFileDAO */
 			if ($this->getStageId() == WORKFLOW_STAGE_ID_INTERNAL_REVIEW || $this->getStageId() == WORKFLOW_STAGE_ID_EXTERNAL_REVIEW) {
 				// If we have a review stage id then we also expect a review round.
 				if (!is_a($this->getReviewRound(), 'ReviewRound')) assert(false);
 
-				// Can only upload submission files, review files, or review attachments.
-				if (!in_array($this->getData('fileStage'), array(SUBMISSION_FILE_SUBMISSION, SUBMISSION_FILE_REVIEW_FILE, SUBMISSION_FILE_REVIEW_ATTACHMENT, SUBMISSION_FILE_REVIEW_REVISION))) fatalError('Invalid file stage!');
+				// Can only upload submission files, review files, review attachments, or query attachments.
+				if (!in_array($this->getData('fileStage'), array(SUBMISSION_FILE_SUBMISSION, SUBMISSION_FILE_REVIEW_FILE, SUBMISSION_FILE_REVIEW_ATTACHMENT, SUBMISSION_FILE_REVIEW_REVISION, SUBMISSION_FILE_QUERY))) fatalError('Invalid file stage!');
 
 				// Hide the revision selector for review
 				// attachments to make it easier for reviewers

@@ -8,8 +8,8 @@
 /**
  * @file classes/mail/Mail.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class Mail
@@ -77,11 +77,17 @@ class Mail extends DataObject {
 
 	/**
 	 * Get the envelope sender (bounce address) for the message, if set.
+	 * Override any set envelope sender if force_default_envelope_sender config option is in effect.
 	 * @return string
 	 */
 	function getEnvelopeSender() {
-		return $this->getData('envelopeSender');
+		if (Config::getVar('email', 'force_default_envelope_sender') && Config::getVar('email', 'default_envelope_sender')) {
+			return Config::getVar('email', 'default_envelope_sender');
+		} else {
+			return $this->getData('envelopeSender');
+		}
 	}
+
 
 	/**
 	 * Get the message content type (MIME)
@@ -361,6 +367,7 @@ class Mail extends DataObject {
 
 	/**
 	 * Return a string containing the from address.
+	 * Override any from address if force_default_envelope_sender config option is in effect.
 	 * @return string
 	 */
 	function getFromString($send = false) {
@@ -368,6 +375,9 @@ class Mail extends DataObject {
 		if ($from == null) {
 			return null;
 		} else {
+			if (Config::getVar('email', 'force_default_envelope_sender') && Config::getVar('email', 'default_envelope_sender')) {
+				return Config::getVar('email', 'default_envelope_sender');
+			}
 			return (Mail::encodeDisplayName($from['name'], $send) . ' <'.$from['email'].'>');
 		}
 	}
@@ -494,10 +504,10 @@ class Mail extends DataObject {
 			);
 		}
 
-		if (!$mailer->Send()) {
-			if (Config::getVar('debug', 'display_errors')) {
-				fatalError($mailer->ErrorInfo);
-			}
+		try {
+			$mailer->Send();
+		} catch (phpmailerException $e) {
+			error_log($mailer->ErrorInfo);
 			return false;
 		}
 		return true;

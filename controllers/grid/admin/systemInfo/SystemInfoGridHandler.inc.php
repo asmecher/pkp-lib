@@ -3,8 +3,8 @@
 /**
  * @file controllers/grid/admin/systemInfo/SystemInfoGridHandler.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class SystemInfoGridHandler
@@ -68,7 +68,6 @@ class SystemInfoGridHandler extends CategoryGridHandler {
 
 		// Basic grid configuration.
 		$this->setTitle('admin.systemConfiguration');
-		$this->setInstructions('admin.systemConfigurationDescription');
 
 		//
 		// Grid columns.
@@ -109,7 +108,7 @@ class SystemInfoGridHandler extends CategoryGridHandler {
 	/**
 	 * @copydoc CategoryGridHandler::getCategoryRowInstance()
 	 */
-	function getCategoryRowInstance() {
+	protected function getCategoryRowInstance() {
 		return new SystemInfoGridCategoryRow();
 	}
 
@@ -123,7 +122,7 @@ class SystemInfoGridHandler extends CategoryGridHandler {
 	/**
 	 * @copydoc GridHandler::loadData()
 	 */
-	function loadData($request, $filter) {
+	protected function loadData($request, $filter) {
 		return array_keys($this->_configData);
 	}
 }

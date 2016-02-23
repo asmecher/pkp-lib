@@ -4,8 +4,8 @@
 <!--
   * locale/de_DE/user.xml
   *
-  * Copyright (c) 2014-2015 Simon Fraser University Library
-  * Copyright (c) 2000-2015 John Willinsky
+  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2000-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
   * Localization strings for the de_DE (Deutsch (Deutschland)) locale.
   * Please contact Marco Tullney, marco.tullney@fu-berlin.de, with any questions regarding this translation.
@@ -33,8 +33,6 @@
 	<message key="user.dateRegistered">Angemeldet am</message>
 	<message key="user.editMyProfile">Mein Profil bearbeiten</message>
 	<message key="user.email">E-Mail</message>
-	<message key="user.confirmEmail">E-Mail bestätigen</message>
-	<message key="user.fax">Fax</message>
 	<message key="user.feminine">F</message>
 	<message key="user.firstName">Vorname</message>
 	<message key="user.gender">Geschlecht</message>

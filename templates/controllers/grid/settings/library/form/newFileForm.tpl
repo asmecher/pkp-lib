@@ -1,8 +1,8 @@
 {**
  * templates/controllers/grid/settings/library/form/newFileForm.tpl
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * Library Files form
@@ -16,8 +16,8 @@
 			{ldelim}
 				$uploader: $('#plupload'),
 				uploaderOptions: {ldelim}
-					uploadUrl: '{url|escape:javascript op="uploadFile" fileType=$fileType escape=false}',
-					baseUrl: '{$baseUrl|escape:javascript}'
+					uploadUrl: {url|json_encode op="uploadFile" fileType=$fileType escape=false},
+					baseUrl: {$baseUrl|json_encode}
 				{rdelim}
 			{rdelim}
 		);

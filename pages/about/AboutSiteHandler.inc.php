@@ -3,8 +3,8 @@
 /**
  * @file pages/about/AboutSiteHandler.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class AboutSiteHandler
@@ -42,7 +42,7 @@ class AboutSiteHandler extends Handler {
 		}
 		$templateMgr->assign('pubProcessFile', $pubProcessFile);
 
-		$templateMgr->display('about/aboutThisPublishingSystem.tpl');
+		$templateMgr->display('frontend/pages/aboutThisPublishingSystem.tpl');
 	}
 }
 

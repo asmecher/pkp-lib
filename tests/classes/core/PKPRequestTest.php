@@ -3,8 +3,8 @@
 /**
  * @file tests/classes/core/PKPRequestTest.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class PKPRequestTest
@@ -132,7 +132,7 @@ class PKPRequestTest extends PKPTestCase {
 			'HOSTNAME' => 'hostname',
 			'SCRIPT_NAME' => '/some/base/path'
 		);
-		self::assertEquals('http://hostname/some/base', $this->request->getBaseUrl());
+		self::assertEquals('http://hostname/some/base/path', $this->request->getBaseUrl());
 	}
 
 	/**
@@ -142,18 +142,18 @@ class PKPRequestTest extends PKPTestCase {
 		$_SERVER = array(
 			'SCRIPT_NAME' => '/some/base/path'
 		);
-		self::assertEquals('/some/base', $this->request->getBasePath());
+		self::assertEquals('/some/base/path', $this->request->getBasePath());
 
 		// The hook should have been triggered once.
 		self::assertEquals(
-			array(array('Request::getBasePath' , array('/some/base'))),
+			array(array('Request::getBasePath' , array('/some/base/path'))),
 			HookRegistry::getCalledHooks()
 		);
 
 		// Calling getBasePath twice should return the same
 		// result without triggering the hook again.
 		HookRegistry::resetCalledHooks();
-		self::assertEquals('/some/base', $this->request->getBasePath());
+		self::assertEquals('/some/base/path', $this->request->getBasePath());
 		self::assertEquals(
 			array(),
 			HookRegistry::getCalledHooks()
@@ -167,7 +167,7 @@ class PKPRequestTest extends PKPTestCase {
 		$_SERVER = array(
 			'SCRIPT_NAME' => '/main'
 		);
-		self::assertEquals('', $this->request->getBasePath());
+		self::assertEquals('/main', $this->request->getBasePath());
 	}
 
 	/**
@@ -206,7 +206,7 @@ class PKPRequestTest extends PKPTestCase {
 		);
 		$this->setTestConfiguration('request2', 'classes/core/config'); // restful URLs
 
-		self::assertEquals('some/script', $this->request->getRequestPath());
+		self::assertEquals('some/script/name', $this->request->getRequestPath());
 	}
 
 
@@ -233,7 +233,7 @@ class PKPRequestTest extends PKPTestCase {
 		);
 		$this->setTestConfiguration('request2', 'classes/core/config'); // path info disabled
 
-		self::assertEquals('some/script', $this->request->getRequestPath());
+		self::assertEquals('some/script/name', $this->request->getRequestPath());
 	}
 
 	/**

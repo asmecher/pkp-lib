@@ -3,8 +3,8 @@
 /**
  * @file controllers/modals/editorDecision/EditorDecisionHandler.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class EditorDecisionHandler
@@ -42,7 +42,7 @@ class PKPEditorDecisionHandler extends Handler {
 		// Approve proof need submission access policy.
 		$router = $request->getRouter();
 		if ($router->getRequestedOp($request) == 'saveApproveProof') {
-			import('classes.security.authorization.SubmissionFileAccessPolicy');
+			import('lib.pkp.classes.security.authorization.SubmissionFileAccessPolicy');
 			$this->addPolicy(new SubmissionFileAccessPolicy($request, $args, $roleAssignments, SUBMISSION_FILE_ACCESS_MODIFY));
 		}
 
@@ -390,6 +390,8 @@ class PKPEditorDecisionHandler extends Handler {
 			while ($assignment = $submitterAssignments->next()) {
 				$authorUserIds[] = $assignment->getUserId();
 			}
+			// De-duplicate assignments
+			$authorUserIds = array_unique($authorUserIds);
 
 			// Update editor decision and pending revisions notifications.
 			$notificationMgr = new NotificationManager();

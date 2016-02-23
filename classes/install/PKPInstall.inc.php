@@ -9,8 +9,8 @@
 /**
  * @file classes/install/PKPInstall.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class Install
@@ -210,7 +210,8 @@ class PKPInstall extends Installer {
 			array(
 				'general' => array(
 					'installed' => 'On',
-					'base_url' => Request::getBaseUrl()
+					'base_url' => Request::getBaseUrl(),
+					'enable_beacon' => $this->getParam('enableBeacon'),
 				),
 				'database' => array(
 					'driver' => $this->getParam('databaseDriver'),
@@ -227,9 +228,6 @@ class PKPInstall extends Installer {
 				),
 				'files' => array(
 					'files_dir' => $this->getParam('filesDir')
-				),
-				'security' => array(
-					'encryption' => $this->getParam('encryption')
 				),
 				'oai' => array(
 					'repository_id' => $this->getParam('oaiRepositoryId')

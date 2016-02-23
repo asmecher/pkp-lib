@@ -3,8 +3,8 @@
 /**
  * @file controllers/grid/settings/pluginGallery/PluginGalleryGridHandler.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class PluginGalleryGridHandler
@@ -39,7 +39,7 @@ class PluginGalleryGridHandler extends GridHandler {
 	 * @see PKPHandler::initialize()
 	 */
 	function initialize($request) {
-		AppLocale::requireComponents(LOCALE_COMPONENT_PKP_MANAGER, LOCALE_COMPONENT_PKP_GRID);
+		AppLocale::requireComponents(LOCALE_COMPONENT_PKP_MANAGER, LOCALE_COMPONENT_PKP_GRID, LOCALE_COMPONENT_APP_DEFAULT);
 
 		// Basic grid configuration.
 		$this->setTitle('manager.plugins.pluginGallery');
@@ -111,7 +111,7 @@ class PluginGalleryGridHandler extends GridHandler {
 	 * @param $filter array Filter parameters
 	 * @return array Grid data.
 	 */
-	function loadData($request, $filter) {
+	protected function loadData($request, $filter) {
 		// Get all plugins.
 		$pluginGalleryDao = DAORegistry::getDAO('PluginGalleryDAO');
 		return $pluginGalleryDao->getNewestCompatible(
@@ -124,7 +124,7 @@ class PluginGalleryGridHandler extends GridHandler {
 	/**
 	 * @see GridHandler::getFilterForm()
 	 */
-	function getFilterForm() {
+	protected function getFilterForm() {
 		return 'controllers/grid/plugins/pluginGalleryGridFilter.tpl';
 	}
 

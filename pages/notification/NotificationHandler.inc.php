@@ -3,8 +3,8 @@
 /**
  * @file pages/notification/NotificationHandler.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class NotificationHandler
@@ -359,7 +359,9 @@ class NotificationHandler extends Handler {
 		// Get the notification options from request.
 		$notificationOptions = $request->getUserVar('requestOptions');
 
-		if (is_array($notificationOptions)) {
+		if (!$user) {
+			$notifications = array();
+		} elseif (is_array($notificationOptions)) {
 			// Retrieve the notifications.
 			$notifications = $this->_getNotificationsByOptions($notificationOptions, $context->getId(), $user->getId());
 		} else {

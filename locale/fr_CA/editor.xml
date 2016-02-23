@@ -4,8 +4,8 @@
 <!--
   * locale/fr_CA/editor.xml
   *
-  * Copyright (c) 2014-2015 Simon Fraser University Library
-  * Copyright (c) 2003-2015 John Willinsky
+  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2003-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
   *
   * Localization strings.
@@ -30,7 +30,7 @@
 	<message key="editor.submission.addReviewer">Ajouter un évaluateur</message>
 	<message key="editor.submission.fileList.includeAllStages">Inclure tous les fichiers de toutes les étapes de production accessibles.</message>
 	<message key="editor.submission.review.currentFiles">{$round}e série de révision des fichiers.</message>
-	<message key="editor.submission.returnToSimpleSearch">Revenir en mode de recherche simple</message>
+	<message key="editor.submission.backToSearch">Revenir en mode de recherche simple</message>
 	<message key="editor.review.createReviewer">Créer un nouvel évaluateur</message>
 	<message key="editor.review.enrollReviewer.short">Enregistrer un évaluateur actuel</message>
 	<message key="editor.submissionReview.reviewType">Type d'évaluation</message>
@@ -72,7 +72,6 @@
 	<message key="editor.submission.selectPromoteRevisions">Choisir les révisions qui seront utilisées à la prochaine étape</message>
 	<message key="editor.review.unassignReviewer">Retirer le privilège de l'examinateur.</message>
 	<message key="editor.submissionReview.restrictFiles">Restreindre les fichiers disponibles.</message>
-	<message key="editor.submissionReview.restrictFiles.gridTitle">Fichiers à réviser disponibles.</message>
 	<message key="editor.submissionReview.restrictFiles.gridDescription">Si cet examinateur ne devrait pas avoir le droit de réviser tous les fichiers apparaissant dans cette liste, assurez-vous de cocher uniquement les fichiers pertinents.</message>
 	<message key="editor.review.uploadRevision">Télécharger la révision</message>
 	<message key="editor.review.NotifyAuthorAccept">Avertir l'auteur de l'acceptation:</message>
@@ -100,4 +99,5 @@
 	<message key="editor.article.reviewForms">Formulaires d'évaluation</message>
 	<message key="editor.article.selectReviewForm">Sélectionner un formulaire d'évaluation</message>
 	<message key="editor.article.clearReviewForm">Réinitialiser le formulaire d'évaluation</message>
+	<message key="editor.submission.selectedReviewer">Evaluateur sélectionné</message>
 </locale>

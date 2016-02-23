@@ -2,8 +2,8 @@
 /**
  * @file pages/dashboard/DashboardHandler.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class DashboardHandler
@@ -22,7 +22,7 @@ class DashboardHandler extends Handler {
 		parent::Handler();
 
 		$this->addRoleAssignment(array(ROLE_ID_SITE_ADMIN, ROLE_ID_MANAGER, ROLE_ID_SUB_EDITOR, ROLE_ID_AUTHOR, ROLE_ID_REVIEWER, ROLE_ID_ASSISTANT),
-				array('index', 'tasks', 'submissions', 'archives'));
+				array('index', 'tasks', 'submissions', 'active', 'archives'));
 	}
 
 	/**
@@ -40,9 +40,12 @@ class DashboardHandler extends Handler {
 	 * @param $args array
 	 */
 	function index($args, $request) {
-		$templateMgr = TemplateManager::getManager($request);
-		$this->setupTemplate($request);
-		$templateMgr->display('dashboard/index.tpl');
+		if ($request->getContext()) {
+			$templateMgr = TemplateManager::getManager($request);
+			$this->setupTemplate($request);
+			return $templateMgr->display('dashboard/index.tpl');
+		}
+		$request->redirect(null, 'user');
 	}
 
 	/**
@@ -88,23 +91,24 @@ class DashboardHandler extends Handler {
 			}
 		}
 
-		// Assign contexts to template.
-		$contextCount = count($accessibleContexts);
-		$templateMgr->assign('contextCount', $contextCount);
-		if ($contextCount == 1) {
-			$templateMgr->assign('context', $accessibleContexts[0]);
-		} elseif ($contextCount > 1) {
-			$contexts = array();
-			foreach ($accessibleContexts as $context) {
-				$url = $request->url($context->getPath(), 'submission');
-				$contexts[$url] = $context->getLocalizedName();
-			}
-			$templateMgr->assign('contexts', $contexts);
-		}
-
 		return $templateMgr->fetchJson('dashboard/submissions.tpl');
 	}
 
+	/**
+	 * View archives tab
+	 * @param $args array
+	 * @param $request PKPRequest
+	 * @return JSONMessage JSON object
+	 */
+	function active($args, $request) {
+		$templateMgr = TemplateManager::getManager($request);
+		$this->setupTemplate($request);
+		$dispatcher = $request->getDispatcher();
+		return $templateMgr->fetchAjax(
+			'activeSubmissionsListGridContainer',
+			$dispatcher->url($request, ROUTE_COMPONENT, null, 'grid.submissions.activeSubmissions.ActiveSubmissionsListGridHandler', 'fetchGrid')
+		);
+	}
 	/**
 	 * View archives tab
 	 * @param $args array

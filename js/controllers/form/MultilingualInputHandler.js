@@ -1,8 +1,8 @@
 /**
  * @file js/controllers/form/MultilingualInputHandler.js
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class MultilingualInputHandler
@@ -44,7 +44,7 @@
 
 		this.publishEvent('tinyMCEInitialized');
 
-		this.bind('tinyMCEInitialized', this.tinyMCEInitHandler_);
+		this.tinyMCEInitHandler_();
 	};
 	$.pkp.classes.Helper.inherits(
 			$.pkp.controllers.form.MultilingualInputHandler,
@@ -143,29 +143,21 @@
 
 
 	/**
-	 * TinyMCE initialized event handler, it will attach focus and blur
-	 * event handlers to the tinyMCE window element, and it will also
-	 * fix some small issues related to the way tinyMCE editor behaves
-	 * across different browsers.
-	 * @param {HTMLElement} input The input element that triggered the
-	 * event.
-	 * @param {Event} event The tinyMCE initialized event.
-	 * @param {tinyMCEObject} tinyMCEObject The tinyMCE object
-	 * inside this multilingual element handler that was initialized.
+	 * Attach focus and blur event handlers to the tinyMCE window element, which
+	 * show and hide the localization popover
 	 * @private
 	 */
 	$.pkp.controllers.form.MultilingualInputHandler.prototype.tinyMCEInitHandler_ =
-			function(input, event, tinyMCEObject) {
+			function() {
 
-		var editorId = tinyMCEObject.id,
-				// This hack is needed so the focus event is triggered correctly in IE8.
-				// We just adjust the body element height inside the tinyMCE editor
-				// instance to a percent of the original text area height, so when users
-				// click inside an empty tinyMCE editor the target will be the body
-				// element and the focus event will be triggered.
-				textAreaHeight = $('#' + editorId).height();
+		if (!this.getHtmlElement().find('.richContent').length) {
+			return;
+		}
 
-		$(tinyMCEObject.getBody()).height((textAreaHeight / 100) * 78);
+		var htmlElement = this.getHtmlElement(),
+				tinyMCEObject = tinyMCE.EditorManager.get(/** @type {string} */(
+				htmlElement.find('textarea').first().attr('id')));
+
 		tinyMCEObject.on('focus', this.callbackWrapper(function() {
 			// We need also to close the multilingual popover when user clicks
 			// outside the popover element. The blur event is not enough because

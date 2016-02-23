@@ -3,8 +3,8 @@
 /**
  * @file classes/webservice/WebService.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class WebService
@@ -18,6 +18,7 @@ define('WEBSERVICE_RETRIES', 2);
 define('WEBSERVICE_MICROSECONDS_BEFORE_RETRY', 100000);
 
 define('WEBSERVICE_RESPONSE_OK', 200);
+define('WEBSERVICE_RESPONSE_CREATED', 201);
 
 import('lib.pkp.classes.webservice.WebServiceRequest');
 
@@ -69,12 +70,15 @@ class WebService {
 	function &call(&$webServiceRequest) {
 		assert(is_a($webServiceRequest, 'WebServiceRequest'));
 
+		$usePut = false;
 		switch($webServiceRequest->getMethod()) {
+			case 'PUT':
+				$usePut = true;
 			case 'POST':
 				if ($webServiceRequest->getAsync()) {
-					$result = $this->_callPostWebServiceAsync($webServiceRequest);
+					$result = $this->_callPostWebServiceAsync($webServiceRequest, $usePut);
 				} else {
-					$result = $this->_callPostWebService($webServiceRequest);
+					$result = $this->_callPostWebService($webServiceRequest, $usePut);
 				}
 				break;
 
@@ -83,7 +87,7 @@ class WebService {
 				break;
 
 			default:
-				// We currently only support GET and POST requests
+				// TODO: implement DELETE
 				assert(false);
 		}
 
@@ -109,11 +113,12 @@ class WebService {
 	// Private helper methods
 	//
 	/**
-	 * Call a POST based web services
+	 * Call a POST (or PUT) based web services
 	 * @param $webServiceRequest WebServiceRequest
+	 * @param $usePut boolean
 	 * @return string the web service result or null on failure
 	 */
-	function _callPostWebService($webServiceRequest) {
+	function _callPostWebService($webServiceRequest, $usePut = false) {
 		$url = $webServiceRequest->getUrl();
 		$postOptions = $webServiceRequest->getParams();
 
@@ -123,9 +128,20 @@ class WebService {
 		foreach($webServiceRequest->getHeaders() as $header => $content) {
 			$headers[] = $header . ': ' . $content;
 		}
+		if ($httpProxyHost = Config::getVar('proxy', 'http_host')) {
+			curl_setopt($ch, CURLOPT_PROXY, $httpProxyHost);
+			curl_setopt($ch, CURLOPT_PROXYPORT, Config::getVar('proxy', 'http_port', '80'));
+			if ($username = Config::getVar('proxy', 'username')) {
+				curl_setopt($ch, CURLOPT_PROXYUSERPWD, $username . ':' . Config::getVar('proxy', 'password'));
+			}
+		}
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($ch, CURLOPT_POST, 1);
+		if ($usePut) {
+			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+		} else {
+			curl_setopt($ch, CURLOPT_POST, 1);
+		}
 
 		// Bug #8518 safety work-around
 		if (is_array($postOptions)) foreach ($postOptions as $paramValue) {
@@ -147,6 +163,9 @@ class WebService {
 
 			// Wait for a short interval before trying again
 			usleep(WEBSERVICE_MICROSECONDS_BEFORE_RETRY);
+		}
+		if (curl_errno($ch)) {
+			trigger_error(curl_error($ch), E_USER_ERROR);
 		}
 
 		$this->_lastResponseStatus = (int)curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -183,6 +202,13 @@ class WebService {
 		$headers = $this->_buildHeaders($webServiceRequest);
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		if ($httpProxyHost = Config::getVar('proxy', 'http_host')) {
+			curl_setopt($ch, CURLOPT_PROXY, $httpProxyHost);
+			curl_setopt($ch, CURLOPT_PROXYPORT, Config::getVar('proxy', 'http_port', '80'));
+			if ($username = Config::getVar('proxy', 'username')) {
+				curl_setopt($ch, CURLOPT_PROXYUSERPWD, $username . ':' . Config::getVar('proxy', 'password'));
+			}
+		}
 
 		// Set up basic authentication if required.
 		$this->_authenticateRequest($ch);
@@ -197,6 +223,9 @@ class WebService {
 
 			// Wait for a short interval before trying again
 			usleep(WEBSERVICE_MICROSECONDS_BEFORE_RETRY);
+		}
+		if (curl_errno($ch)) {
+			trigger_error(curl_error($ch), E_USER_ERROR);
 		}
 
 		$this->_lastResponseStatus = (int)curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -215,9 +244,10 @@ class WebService {
 	 * to the client closing the connection.
 	 *
 	 * @param $webServiceRequest WebServiceRequest
+	 * @param $usePut boolean
 	 * @return string the web service result or null on failure
 	 */
-	function _callPostWebServiceAsync($webServiceRequest) {
+	function _callPostWebServiceAsync($webServiceRequest, $usePut = false) {
 		// Parse the request URL.
 		$url = $webServiceRequest->getUrl();
 		$urlParts = parse_url($url);
@@ -252,7 +282,7 @@ class WebService {
 		} else {
 			$path = $urlParts['path'] . (isset($urlParts['query']) ? '?' . $urlParts['query'] : '');
 			$host = $urlParts['host'] . ':' . (isset($urlParts['port']) ? $urlParts['port'] : '80');
-			$out = "POST " . $path . " HTTP/1.1\r\n";
+			$out = ($usePut ? "PUT " : "POST ") . $path . " HTTP/1.1\r\n";
 			$out.= "Host: " . $host . "\r\n";
 			foreach ($headers as $header) {
 				$out.= "$header\r\n";

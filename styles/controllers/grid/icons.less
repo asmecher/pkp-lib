@@ -1,8 +1,8 @@
 /**
  * @file styles/controllers/grid/grid.less
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @ingroup pkp_controllers_grid
@@ -43,17 +43,17 @@ a.request_review {
 	background-image: url({$baseUrl}/lib/pkp/templates/images/structure/grid_request_review.png);
 }
 
-.pkp_controllers_grid {
-	div.checked {
-		background:url({$baseUrl}/lib/pkp/templates/images/structure/sprites.png);
-		background-repeat:no-repeat;
-		height:24px;
-		width:24px;
-		background-position:-672px 0;
-	}
-	div.notChecked {
-		background-image: url({$baseUrl}/lib/pkp/templates/images/structure/grid_delete.png);
-		height: 15px;
-		width: 15px;
-	}
+// @todo temporary overrides until we can completely replace the
+//     .sprite system or remove the class from the grid action
+.pkp_controllers_grid .search_extras_expand:before,
+.pkp_controllers_grid .search_extras_collapse:before,
+.pkp_controllers_grid .row_controls .sprite:before,
+#issuesTabs .pkp_controllers_grid .header .actions .sprite:before {
+	width: auto;
+	height: auto;
+	background: none;
+}
+.pkp_controllers_grid .row_controls .sprite:before,
+#issuesTabs .pkp_controllers_grid .header .actions .sprite:before  {
+	content: ''; // remove completely
 }

@@ -3,8 +3,8 @@
 /**
  * @file controllers/grid/settings/languages/ManageLanguageGridHandler.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class ManageLanguageGridHandler
@@ -36,15 +36,15 @@ class ManageLanguageGridHandler extends LanguageGridHandler {
 	 * @copydoc GridHandler::authorize()
 	 */
 	function authorize($request, &$args, $roleAssignments) {
-		import('lib.pkp.classes.security.authorization.PkpContextAccessPolicy');
-		$this->addPolicy(new PkpContextAccessPolicy($request, $roleAssignments));
+		import('lib.pkp.classes.security.authorization.ContextAccessPolicy');
+		$this->addPolicy(new ContextAccessPolicy($request, $roleAssignments));
 		return parent::authorize($request, $args, $roleAssignments);
 	}
 
 	/**
 	 * @copydoc GridHandler::loadData()
 	 */
-	function loadData($request, $filter) {
+	protected function loadData($request, $filter) {
 		$site = $request->getSite();
 		$context = $request->getContext();
 
@@ -73,8 +73,6 @@ class ManageLanguageGridHandler extends LanguageGridHandler {
 	function initialize($request) {
 		parent::initialize($request);
 		AppLocale::requireComponents(LOCALE_COMPONENT_APP_MANAGER);
-
-		$this->setInstructions('manager.languages.languageInstructions');
 
 		$this->addNameColumn();
 		$this->addPrimaryColumn('contextPrimary');

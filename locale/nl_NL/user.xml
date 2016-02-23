@@ -4,8 +4,8 @@
 <!--
   * locale/nl_NL/user.xml
   *
-  * Copyright (c) 2014-2015 Simon Fraser University Library
-  * Copyright (c) 2000-2015 John Willinsky
+  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2000-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
   *
   * Localization strings for the nl_NL (Nederlands) locale.
@@ -23,7 +23,6 @@
 	<message key="user.dateRegistered">Datum registratie</message>
 	<message key="user.editMyProfile">Profiel bewerken</message>
 	<message key="user.email">E-mail</message>
-	<message key="user.fax">Fax</message>
 	<message key="user.feminine">V</message>
 	<message key="user.firstName">Voornaam</message>
 	<message key="user.gender">Geslacht</message>
@@ -104,7 +103,6 @@
 	<message key="user.profile.form.profileImageInvalid">Ongeldig formaat voor de profielafbeelding of te grote afbeelding. Geaccepteerde formaten zijn .gif, .jpg en .png. De afbeelding mag niet groter zijn dan 150x150 pixels.</message>
 	<message key="user.register.form.emailsDoNotMatch">De e-mailadresvelden komen niet overeen</message>
 	<message key="user.affiliation.description">(Uw instituut, bv. "Simon Fraser University")</message>
-	<message key="user.confirmEmail">Bevestig e-mail</message>
 	<message key="user.gossip">Prive notities</message>
 	<message key="user.profile.form.affiliationRequired">Een affiliatie is verplciht</message>
 	<message key="user.repeatPassword">Herhaal wachtwoord</message>

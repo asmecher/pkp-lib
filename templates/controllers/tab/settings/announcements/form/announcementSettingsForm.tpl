@@ -1,8 +1,8 @@
 {**
  * controllers/tab/settings/announcements/form/announcementSettingsForm.tpl
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * Announcement settings form.
@@ -23,14 +23,12 @@
 <form id="announcementSettingsForm" class="pkp_form" method="post" action="{url router=$smarty.const.ROUTE_COMPONENT component="tab.settings.WebsiteSettingsTabHandler" op="saveFormData" tab="announcements"}">
 	{include file="controllers/notification/inPlaceNotification.tpl" notificationId="announcementSettingsFormNotification"}
 
-	{fbvFormArea id="announcements" class="border" title="manager.setup.announcements"}
+	{fbvFormArea id="announcements" title="manager.setup.announcements"}
 		{fbvFormSection list=true description="manager.setup.announcementsDescription"}
 			{fbvElement type="checkbox" id="enableAnnouncements" label="manager.setup.enableAnnouncements" value="1" checked=$enableAnnouncements}
-		{/fbvFormSection}
-		{fbvFormSection list=true}
 			{fbvElement type="checkbox" id="enableAnnouncementsHomepage" label="manager.setup.enableAnnouncementsHomepage1" value="1" checked=$enableAnnouncementsHomepage inline=true}
 			{fbvElement type="select" id="numAnnouncementsHomepage" from=$numAnnouncementsHomepageOptions selected=$numAnnouncementsHomepage defaultValue="1" translate=false disabled=$disableAnnouncementsHomepage inline=true}
-			<p>{translate key="manager.setup.enableAnnouncementsHomepage2"}</p>
+			<span>{translate key="manager.setup.enableAnnouncementsHomepage2"}</span>
 		{/fbvFormSection}
 		{fbvFormSection description="manager.setup.announcementsIntroductionDescription"}
 			{fbvElement type="textarea" multilingual="true" id="announcementsIntroduction" value=$announcementsIntroduction rich=true}

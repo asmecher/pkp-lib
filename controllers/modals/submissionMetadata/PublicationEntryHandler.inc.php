@@ -3,8 +3,8 @@
 /**
  * @file controllers/modals/submissionMetadata/PublicationEntryHandler.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class PublicationEntryHandler
@@ -47,8 +47,8 @@ class PublicationEntryHandler extends Handler {
 	function initialize($request, $args = null) {
 		parent::initialize($request, $args);
 
-		$this->_submission =& $this->getAuthorizedContextObject(ASSOC_TYPE_SUBMISSION);
-		$this->_stageId =& $this->getAuthorizedContextObject(ASSOC_TYPE_WORKFLOW_STAGE);
+		$this->_submission = $this->getAuthorizedContextObject(ASSOC_TYPE_SUBMISSION);
+		$this->_stageId = $this->getAuthorizedContextObject(ASSOC_TYPE_WORKFLOW_STAGE);
 		$this->_tabPosition = (int) $request->getUserVar('tabPos');
 
 		// Load grid-specific translations
@@ -61,7 +61,7 @@ class PublicationEntryHandler extends Handler {
 	 */
 	function authorize($request, &$args, $roleAssignments) {
 		$stageId = (int) $request->getUserVar('stageId');
-		import('classes.security.authorization.WorkflowStageAccessPolicy');
+		import('lib.pkp.classes.security.authorization.WorkflowStageAccessPolicy');
 		$this->addPolicy(new WorkflowStageAccessPolicy($request, $args, $roleAssignments, 'submissionId', $stageId));
 		return parent::authorize($request, $args, $roleAssignments);
 	}
@@ -74,7 +74,7 @@ class PublicationEntryHandler extends Handler {
 	 * Get the Submission
 	 * @return Submission
 	 */
-	function &getSubmission() {
+	function getSubmission() {
 		return $this->_submission;
 	}
 

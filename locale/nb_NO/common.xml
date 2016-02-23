@@ -4,11 +4,11 @@
 <!--
   * locale/nb_NO/common.xml
   *
-  * Copyright (c) 2014-2015 Simon Fraser University Library
-  * Copyright (c) 2000-2015 John Willinsky
+  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2000-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
   *
-  * Localization strings for the nb_NO (Norwegian) locale.
+  * Localization strings for the nb_NO (Norsk bokmål) locale.
   *
   -->
 
@@ -16,7 +16,6 @@
 	<message key="about.aboutSite">Om nettstedet</message>
 	<message key="about.contact">Kontakt</message>
 	<message key="about.contact.email">E-post</message>
-	<message key="about.contact.fax">Telefaks</message>
 	<message key="about.contact.phone">Telefon</message>
 	<message key="about.contact.principalContact">Hovedkontakt</message>
 	<message key="about.contact.supportContact">Teknisk kontaktperson</message>
@@ -356,8 +355,6 @@
 	<message key="form.emailRequired">Du må oppgi en e-postadresse.</message>
 	<message key="form.dataHasChanged">Data i skjemaet har blitt endret. Vil du fortsette likevel?</message>
 	<message key="form.invalidImage">Bildet som ble lastet opp, var av feil type. Mulige formater er .png, .gif, oeller.jpg.</message>
-	<message key="help.toggleInlineHelpOn">Slå på hjelp</message>
-	<message key="help.toggleInlineHelpOff">Slå av hjelp</message>
 	<message key="navigation.browseByAuthor">Etter forfatter</message>
 	<message key="navigation.data">Data</message>
 	<message key="navigation.submissions">Innsendinger</message>

@@ -3,8 +3,8 @@
 /**
  * @file classes/controllers/grid/feature/GridFeature.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class GridFeature
@@ -107,7 +107,7 @@ class GridFeature {
 
 	/**
 	 * Return the java script feature class.
-	 * @return string
+	 * @return string|null
 	 */
 	function getJSClass() {
 		return null;
@@ -214,6 +214,17 @@ class GridFeature {
 		$request =& $args['request'];
 
 		$this->setOptions($request, $grid);
+	}
+
+	/**
+	 * Hook called after a group of rows is fetched.
+	 * @param $args array
+	 * 'request' => PKPRequest
+	 * 'grid' => GridHandler
+	 * 'jsonMessage' => JSONMessage
+	 */
+	function fetchRows($args) {
+		return null;
 	}
 
 	/**

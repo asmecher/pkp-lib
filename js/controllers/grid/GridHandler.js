@@ -4,8 +4,8 @@
 /**
  * @file js/controllers/grid/GridHandler.js
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class GridHandler
@@ -43,6 +43,17 @@
 
 
 	//
+	// Constants.
+	//
+	/**
+	 * Flag to be used to fetch all curent page grid rows.
+	 * @public
+	 * @type {Object}
+	 */
+	$.pkp.controllers.grid.GridHandler.FETCH_ALL_ROWS_ID = {};
+
+
+	//
 	// Protected properties
 	//
 	/**
@@ -59,6 +70,14 @@
 	 * @type {?string}
 	 */
 	$.pkp.controllers.grid.GridHandler.prototype.fetchRowUrl = null;
+
+
+	/**
+	 * The URL to fetch all loaded grid rows.
+	 * @protected
+	 * @type {?string}
+	 */
+	$.pkp.controllers.grid.GridHandler.prototype.fetchRowsUrl = null;
 
 
 	//
@@ -96,14 +115,6 @@
 	$.pkp.controllers.grid.GridHandler.prototype.fetchExtraParams_ = null;
 
 
-	/**
-	 * Search grid link element.
-	 * @private
-	 * @type {jQueryObject}
-	 */
-	$.pkp.controllers.grid.GridHandler.prototype.$searchLink_ = null;
-
-
 	//
 	// Public methods
 	//
@@ -139,13 +150,24 @@
 
 
 	/**
+	 * Get the fetch rows URL.
+	 * @return {?string} URL to the "fetch rows" operation handler.
+	 */
+	$.pkp.controllers.grid.GridHandler.prototype.getFetchRowsUrl =
+			function() {
+
+		return this.fetchRowsUrl;
+	};
+
+
+	/**
 	 * Get all grid rows.
 	 *
 	 * @return {jQueryObject} The rows as a JQuery object.
 	 */
 	$.pkp.controllers.grid.GridHandler.prototype.getRows =
 			function() {
-		return $('.gridRow', this.getHtmlElement());
+		return $('.gridRow', this.getHtmlElement()).not('.gridRowDeleted');
 	};
 
 
@@ -170,27 +192,27 @@
 
 
 	/**
+	 * Get the grid row by the passed data element id.
+	 * @param {number} rowDataId
+	 * @param {number=} opt_parentElementId
+	 * @return {jQueryObject}
+	 */
+	$.pkp.controllers.grid.GridHandler.prototype.getRowByDataId =
+			function(rowDataId, opt_parentElementId) {
+		return $('#' + this.getRowIdPrefix() + rowDataId, this.getHtmlElement());
+	};
+
+
+	/**
 	 * Get the data element id of the passed grid row.
 	 * @param {jQueryObject} $gridRow The grid row JQuery object.
-	 * @return {string|undefined} The data element id of the passed grid row.
+	 * @return {string} The data element id of the passed grid row.
 	 */
 	$.pkp.controllers.grid.GridHandler.prototype.getRowDataId =
 			function($gridRow) {
-
-		var gridRowHtmlClasses, rowDataIdPrefix, index, rowDataId,
-				startExtractPosition;
-
-		gridRowHtmlClasses = $gridRow.attr('class').split(' ');
-		rowDataIdPrefix = 'element';
-		for (index in gridRowHtmlClasses) {
-			startExtractPosition = gridRowHtmlClasses[index]
-					.indexOf(rowDataIdPrefix);
-			if (startExtractPosition != -1) {
-				rowDataId = gridRowHtmlClasses[index].slice(rowDataIdPrefix.length);
-				break;
-			}
-		}
-
+		var rowDataId;
+		rowDataId = /** @type {string} */ $gridRow.attr('id').
+				slice(this.getRowIdPrefix().length);
 		return rowDataId;
 	};
 
@@ -245,9 +267,14 @@
 	 *
 	 * @param {HTMLElement} sourceElement The element that
 	 *  issued the event.
+	 * @param {Event} event The triggering event.
 	 */
 	$.pkp.controllers.grid.GridHandler.prototype.toggleRowActions =
-			function(sourceElement) {
+			function(sourceElement, event) {
+
+		// Don't follow the link
+		event.preventDefault();
+
 		// Toggle the extras link class.
 		$(sourceElement).toggleClass('show_extras');
 		$(sourceElement).toggleClass('hide_extras');
@@ -281,8 +308,6 @@
 		// hiding the row actions div.
 		for (index = 0, limit = $rowActionDivs.length; index < limit; index++) {
 			$div = $($rowActionDivs[index]);
-			$div.parents('.row_container:first').
-					attr('style', 'padding-left:0px !important');
 		}
 	};
 
@@ -296,14 +321,6 @@
 
 		$rowActionDivs = $('.gridRow div.row_actions', this.getHtmlElement());
 		$rowActionDivs.show();
-
-		// FIXME: This is a hack. It removes the inline style that grid handler
-		// inserts in the row container when it hides the row actions div.
-		// See $.pkp.controllers.grid.GridHandler.prototype.hideRowActionsDiv
-		for (index = 0, limit = $rowActionDivs.length; index < limit; index++) {
-			$div = $($rowActionDivs[index]);
-			$div.parents('.row_container:first').removeAttr('style');
-		}
 	};
 
 
@@ -338,11 +355,14 @@
 	$.pkp.controllers.grid.GridHandler.prototype.resequenceRows =
 			function(sequenceMap) {
 		var id, index, $row;
+		if (!sequenceMap) {
+			return;
+		}
 		for (index in sequenceMap) {
 			id = sequenceMap[index];
 			$row = $('#' + id);
 			if ($row.length == 0) {
-				$row = $('tr.element' + id, this.getHtmlElement());
+				$row = this.getRowByDataId(id);
 			}
 			if ($row.length == 0) {
 				throw new Error('Row with id ' + id + ' not found!');
@@ -376,7 +396,7 @@
 
 	/**
 	 * Inserts or replaces a grid element.
-	 * @param {string} elementContent The new mark-up of the element.
+	 * @param {string|jQueryObject} elementContent The new mark-up of the element.
 	 * @param {boolean=} opt_prepend Prepend the new row instead of append it?
 	 */
 	$.pkp.controllers.grid.GridHandler.prototype.insertOrReplaceElement =
@@ -432,6 +452,10 @@
 					' rather than 1 element to delete!');
 		}
 
+		// Flag this element as deleted, so getRows()
+		// will return only existing rows from now on.
+		$element.addClass('gridRowDeleted');
+
 		// Check whether this is the last row.
 		lastElement = false;
 		if (this.getElementsByType($element).length == 1) {
@@ -471,6 +495,8 @@
 	 */
 	$.pkp.controllers.grid.GridHandler.prototype.initialize =
 			function(options) {
+		var $searchLink;
+
 		// Bind the handler for the "elements changed" event.
 		this.bind('dataChanged', this.refreshGridHandler);
 
@@ -486,31 +512,39 @@
 		// Save the URL to fetch a row.
 		this.fetchRowUrl = options.fetchRowUrl;
 
+		// Save the URL to fetch all rows.
+		this.fetchRowsUrl = options.fetchRowsUrl;
+
 		// Save the URL to fetch the entire grid
 		this.fetchGridUrl_ = options.fetchGridUrl;
 
 		// Save the selector for the grid body.
-		this.bodySelector = options.bodySelector;
+		if ($('div.scrollable', this.getHtmlElement()).length > 0) {
+			this.bodySelector = 'div.scrollable table';
+		} else {
+			this.bodySelector = options.bodySelector;
+		}
 
 		// Show/hide row action feature.
 		this.activateRowActions_();
 
 		this.setFetchExtraParams({});
 
-		// Control grid row hover background change.
-		this.getHtmlElement().find('tr.gridRow').not('.category').hover(
-				function() {$(this).toggleClass('mouse_over'); });
-
 		// Search control.
 		this.getHtmlElement().find('.pkp_form').hide();
-		this.$searchLink_ = this.getHtmlElement().
-				find('a[class^="sprite search_extras_"]');
-		this.$searchLink_.click(
-				this.callbackWrapper(function() {
-					this.getHtmlElement().find('.pkp_form').toggle();
-					this.$searchLink_.toggleClass('search_extras_expand').
-							toggleClass('search_extras_collapse');
-				}));
+		$searchLink = this.getHtmlElement().
+				find('.pkp_linkaction_search');
+		if ($searchLink.length !== 0) {
+			$searchLink.click(
+					this.callbackWrapper(function() {
+						this.getHtmlElement().find('.pkp_form').toggle();
+						$searchLink.toggleClass('is_open');
+					}));
+		} else {
+			// This grid doesn't have an expand/collapse control. If there is
+			// a form, expand it.
+			this.getHtmlElement().find('.pkp_form').toggle();
+		}
 
 		this.trigger('gridInitialized');
 	};
@@ -522,17 +556,18 @@
 	 * @protected
 	 *
 	 * @param {string} hookName The name of the hook.
-	 * @param {Array|jQueryObject} args The arguments array.
+	 * @param {Array|jQueryObject|Object|number|boolean=} opt_args
+	 * The arguments array.
 	 */
 	$.pkp.controllers.grid.GridHandler.prototype.callFeaturesHook =
-			function(hookName, args) {
+			function(hookName, opt_args) {
 		var featureName;
-		if (!$.isArray(args)) {
-			args = [args];
+		if (!$.isArray(opt_args)) {
+			opt_args = [opt_args];
 		}
 		for (featureName in this.features_) {
 			this.features_[featureName][hookName].
-					apply(this.features_[featureName], args);
+					apply(this.features_[featureName], opt_args);
 		}
 	};
 
@@ -555,17 +590,24 @@
 			function(sourceElement, event, opt_elementId, opt_fetchedAlready) {
 		var params;
 
-		this.callFeaturesHook('refreshGrid', null);
+		this.callFeaturesHook('refreshGrid', opt_elementId);
 
 		params = this.getFetchExtraParams();
+
 
 		// Check if subclasses already handled the fetch of new elements.
 		if (!opt_fetchedAlready) {
 			if (opt_elementId) {
-				params.rowId = opt_elementId;
-				// Retrieve a single row from the server.
-				$.get(this.fetchRowUrl, params,
-						this.callbackWrapper(this.replaceElementResponseHandler), 'json');
+				if (opt_elementId ==
+						$.pkp.controllers.grid.GridHandler.FETCH_ALL_ROWS_ID) {
+					$.get(this.fetchRowsUrl, params,
+							this.callbackWrapper(this.replaceElementResponseHandler), 'json');
+				} else {
+					params.rowId = opt_elementId;
+					// Retrieve a single row from the server.
+					$.get(this.fetchRowUrl, params,
+							this.callbackWrapper(this.replaceElementResponseHandler), 'json');
+				}
 			} else {
 				// Retrieve the whole grid from the server.
 				$.get(this.fetchGridUrl_, params,
@@ -672,7 +714,9 @@
 	 */
 	$.pkp.controllers.grid.GridHandler.prototype.replaceElementResponseHandler =
 			function(ajaxContext, jsonData) {
-		var elementId, $element, handledJsonData, castJsonData;
+		var elementId, $element, handledJsonData, castJsonData, $responseElement,
+				$responseRow, $responseControlRow, $responseRows, $responseRowsControls,
+				index, limit;
 
 		handledJsonData = this.handleJson(jsonData);
 		if (handledJsonData !== false) {
@@ -681,8 +725,7 @@
 				// longer exists in the database so let's
 				// delete it.
 				elementId = handledJsonData.elementNotFound;
-				$element = this.getHtmlElement().
-						find('.element' + elementId);
+				$element = this.getRowByDataId(elementId);
 
 				// Sometimes we get a delete event before the
 				// element has actually been inserted (e.g. when deleting
@@ -693,13 +736,26 @@
 			} else {
 				// The server returned mark-up to replace
 				// or insert the row.
-				this.insertOrReplaceElement(handledJsonData.content);
+				$responseElement = $(handledJsonData.content);
+				if ($responseElement.filter("tr:not('.row_controls')").length > 1) {
+					$responseRows = $responseElement.filter('tr.gridRow');
+					$responseRowsControls = $responseElement.filter('tr.row_controls');
+					for (index = 0, limit = $responseRows.length; index < limit; index++) {
+						$responseRow = $($responseRows[index]);
+						$responseControlRow = this.getControlRowByGridRow($responseRow,
+								$responseRowsControls);
+						this.insertOrReplaceElement($responseRow.add($responseControlRow));
+					}
+				} else {
+					this.insertOrReplaceElement(handledJsonData.content);
+				}
+
 				castJsonData = /** @type {{sequenceMap: Array}} */ handledJsonData;
 				this.resequenceRows(castJsonData.sequenceMap);
 			}
 		}
 
-		this.callFeaturesHook('replaceElementResponseHandler', [handledJsonData]);
+		this.callFeaturesHook('replaceElementResponseHandler', handledJsonData);
 	};
 
 
@@ -756,18 +812,31 @@
 	 */
 	$.pkp.controllers.grid.GridHandler.prototype.replaceGridResponseHandler_ =
 			function(ajaxContext, jsonData) {
-		var handledJsonData, $grid;
+		var handledJsonData, $grid, $gridParent, $newGrid,
+				isFilterVisible;
 
 		handledJsonData = this.handleJson(jsonData);
 		if (handledJsonData !== false) {
 			// Get the grid that we're updating
 			$grid = this.getHtmlElement();
+			$gridParent = $grid.parent();
+
+			isFilterVisible = $grid.find('.filter').is(':visible');
 
 			// Replace the grid content
 			$grid.replaceWith(handledJsonData.content);
 
+			// Update the html element of this handler.
+			$newGrid = $('div[id^="' + this.getGridIdPrefix() + '"]', $gridParent);
+			this.setHtmlElement($newGrid);
+
 			// Refresh row action event binding.
 			this.activateRowActions_();
+
+			if (isFilterVisible) {
+				// Open search control again.
+				$newGrid.find('.pkp_linkaction_search').click();
+			}
 		}
 	};
 
@@ -795,27 +864,37 @@
 	 * Get the control row for the passed the grid row.
 	 *
 	 * @param {jQueryObject} $gridRow The grid row JQuery object.
+	 * @param {jQueryObject=} opt_$context Optional context to get
+	 * the control row from.
 	 * @return {jQueryObject} The control row JQuery object.
 	 */
 	$.pkp.controllers.grid.GridHandler.prototype.getControlRowByGridRow =
-			function($gridRow) {
-		var rowId, controlRowId;
+			function($gridRow, opt_$context) {
+		var rowId, controlRowId, $context;
+
+		if (opt_$context === undefined || opt_$context === null) {
+			$context = this.getHtmlElement().find('tr');
+		} else {
+			$context = opt_$context;
+		}
 
 		rowId = $gridRow.attr('id');
 		controlRowId = rowId + '-control-row';
-		return $('#' + controlRowId);
+		return $context.filter('#' + controlRowId);
 	};
 
 
 	/**
-	 * Helper that attaches click events to row actions.
+	 * Helper that attaches any action handlers related to rows.
 	 *
 	 * @private
 	 */
 	$.pkp.controllers.grid.GridHandler.prototype.activateRowActions_ =
 			function() {
 
-		var $grid = this.getHtmlElement();
+		var $grid = this.getHtmlElement(),
+						$gridRows = this.getHtmlElement().find('tr.gridRow').not('.category');
+
 		$grid.find('a.show_extras').unbind('click').bind('click',
 				this.callbackWrapper(this.toggleRowActions));
 	};
@@ -830,23 +909,11 @@
 	 */
 	$.pkp.controllers.grid.GridHandler.prototype.applyToggleRowActionEffect_ =
 			function($controlRow) {
-		var delay, $row, timeoutId;
-
-		// FIXME #7582: IE8 and Safari don't work well with delay to show
-		// or hide the control grid rows.
-		delay = 0;
+		var $row;
 
 		$row = $controlRow.prev().find('td:not(.indent_row)');
 		$row = $row.add($controlRow.prev());
-		if ($controlRow.is(':visible')) {
-			timeoutId = setTimeout(function() {
-				$row.removeClass('no_border');
-			}, delay);
-			$controlRow.hide(delay);
-		} else {
-			$row.addClass('no_border');
-			$controlRow.show(delay);
-		}
+		$controlRow.toggle();
 	};
 
 
@@ -883,7 +950,7 @@
 		for (id in features) {
 			// Only initiate features that have a js handler.
 			jsClass = features[id].JSClass;
-			if (jsClass == '') {
+			if (jsClass === null) {
 				continue;
 			}
 

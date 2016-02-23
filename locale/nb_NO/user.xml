@@ -4,11 +4,11 @@
 <!--
   * locale/nb_NO/user.xml
   *
-  * Copyright (c) 2014-2015 Simon Fraser University Library
-  * Copyright (c) 2000-2015 John Willinsky
+  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2000-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
   *
-  * Localization strings for the nb_NO (Norwegian) locale.
+  * Localization strings for the nb_NO (Norsk bokmål) locale.
   *
   -->
 
@@ -23,7 +23,6 @@
 	<message key="user.dateRegistered">Registrert dato</message>
 	<message key="user.editMyProfile">Rediger min profil</message>
 	<message key="user.email">E-post</message>
-	<message key="user.fax">Telefaks</message>
 	<message key="user.feminine">K</message>
 	<message key="user.firstName">Fornavn</message>
 	<message key="user.gender">Kjønn</message>
@@ -103,7 +102,6 @@
 	<message key="user.profile.form.profileImageInvalid">Ugyldig profilbildeformat eller et for stort bilde. Mulige formater er .gif, .jpg, eller .png, og bildet kan ikke være større enn 150x150 pixler.</message>
 	<message key="user.other">Annet</message>
 	<message key="user.affiliation.description">(Din institusjon, f.eks. «Det Kongelige Frederiks Universitet»</message>
-	<message key="user.confirmEmail">Bekreft e-post</message>
 	<message key="user.profile.form.affiliationRequired">Institusjonstilhørighet må angis.</message>
 	<message key="user.accountInformation">Kontoinformasjon</message>
 	<message key="user.authorization.loginRequired">Pålogging kreves.</message>

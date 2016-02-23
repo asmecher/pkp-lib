@@ -1,8 +1,8 @@
 {**
  * templates/submission/form/step1.tpl
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * Step 1 of author submission process.
@@ -65,10 +65,8 @@
 		{if $currentContext->getLocalizedSetting('submissionChecklist')}
 			{fbvFormSection list="true" label="submission.submit.submissionChecklist" description="submission.submit.submissionChecklistDescription" id="pkp_submissionChecklist"}
 				{foreach name=checklist from=$currentContext->getLocalizedSetting('submissionChecklist') key=checklistId item=checklistItem}
-					{if $checklistItem.content}
-						{if $canExpedite}{assign var="checked" value=true}{else}{assign var="checked" value=$submissionId}{/if}
-						{fbvElement type="checkbox" id="checklist-$checklistId" required=true value=1 label=$checklistItem.content translate=false checked=$checked}
-					{/if}
+					{if $canExpedite}{assign var="checked" value=true}{else}{assign var="checked" value=false}{/if}
+					{fbvElement type="checkbox" id="checklist-$checklistId" required=true value=1 label=$checklistItem.content translate=false checked=$checked}
 				{/foreach}
 			{/fbvFormSection}
 		{/if}
@@ -95,7 +93,7 @@
 	<!-- Buttons -->
 	{fbvFormButtons id="step1Buttons" submitText="common.saveAndContinue" confirmCancel=$confirmCancelMessage}
 
+	<p><span class="formRequired">{translate key="common.requiredField"}</span></p>
 {/fbvFormArea}
 
 </form>
-<p><span class="formRequired">{translate key="common.requiredField"}</span></p>

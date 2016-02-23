@@ -4,8 +4,8 @@
 /**
  * @file js/classes/features/Feature.js
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class Feature
@@ -136,10 +136,11 @@
 	/**
 	 * Hook into the refresh grid functionality. Called just before
 	 * the fetch (grid or row) call is done.
+	 * @param {number|Object=} opt_elementId
 	 * @return {boolean} Always returns false.
 	 */
 	$.pkp.classes.features.Feature.prototype.refreshGrid =
-			function() {
+			function(opt_elementId) {
 		return false;
 	};
 

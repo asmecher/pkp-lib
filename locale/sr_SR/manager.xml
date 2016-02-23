@@ -4,11 +4,11 @@
 <!--
   * locale/sr_SR/manager.xml
   *
-  * Copyright (c) 2014-2015 Simon Fraser University Library
-  * Copyright (c) 2000-2015 John Willinsky
+  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2000-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
   *
-  * Localization strings for the sr_SR (Serbian) locale.
+  * Localization strings for the sr_SR (Cрпски) locale.
   *
   -->
 
@@ -139,7 +139,6 @@
 	<message key="manager.plugins.sitePlugin">Ovaj dodatak utiče na funkcionisanje celog sajta. Samo administrator sajta može upravljati ovim dodatkom.</message>
 	<message key="manager.plugins">Sistemski dodatci</message>
 	<message key="manager.readingTools">Alati za čitanje</message>
-	<message key="manager.reviewerSearch.advancedSearch">Napredna pretraga recenzenata</message>
 	<message key="manager.reviewerSearch.searchByName">Pronađi recenzenta preko imena</message>
 	<message key="manager.reviewerSearch.doneAmount">Broj završenih recenzija</message>
 	<message key="manager.reviewerSearch.avgAmount">Prosečan broj dana po recenziji</message>
@@ -196,7 +195,6 @@
 	<message key="manager.setup.loggingAndAuditing">Evidentiranje i revizija</message>
 	<message key="manager.setup.metaCitationsDescription">Aktivirajte sledeće polje za potvrdu da biste omogućili uređivanje citata i referenci. Ovo će omogućiti da autori uključuju sirove citate prilikom predaje radova. Urednici će takođe imati pristup pomoćniku citata koji može da proveri sirove citate preko spoljnih baza podataka kao što su WorldCat, ISBNdb, PubMed i druge, za tačnost. Odobreni citati se mogu izvoziti u finalizovane fajlove za prikaz.</message>
 	<message key="manager.setup.pageHeaderLogoImageInvalid">Neispravan format logoa hedera strane ili slanje nije uspelo. Prihvatljivi formati su .gif, .jpg, ili .png.</message>
-	<message key="manager.setup.pageHeaderTitleImageInvalid">Neispravan format slike hedera naslova ili slanje nije uspelo. Prihvatljivi formati su .gif, .jpg, ili .png.</message>
 	<message key="manager.setup.selectOne">Odaberi jedan</message>
 	<message key="manager.statistics"><![CDATA[Statistike &amp; Izveštaji]]></message>
 	<message key="manager.statistics.statistics.count.value">{$count} ({$percentage}%)</message>
@@ -226,8 +224,6 @@
 	<message key="manager.emails.resetAll.message">Ukoliko resetujete sve šablone, sve modifikacije koje ste uradili biće izgubljene, da li ste sigurni da želite da nastavite?</message>
 	<message key="manager.emails.reset.message">Ukoliko resetujete ovaj šablon, svi podaci biće vraćeni na osnovne vrednosti, a sve promene će biti izgubljene, da li želite da nastavite?</message>
 	<message key="manager.masthead.title">Uprava</message>
-	<message key="manager.navigation">Navigacija</message>
-	<message key="manager.reviewerSearch.advancedSearch.short">Napredna pretraga</message>
 	<message key="manager.reviewerSearch.searchByName.short">Pretraži po imenu</message>
 	<message key="manager.reviewerSearch.form.interests.instructions">Unesite interese recenzenta odvojene zarezom.</message>
 	<message key="manager.setup.layout.blockManagement">Menadžer bočnog menija</message>

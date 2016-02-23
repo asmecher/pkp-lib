@@ -4,8 +4,8 @@
 <!--
   * locale/it_IT/user.xml
   *
-  * Copyright (c) 2014-2015 Simon Fraser University Library
-  * Copyright (c) 2000-2015 John Willinsky
+  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2000-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
   *
   * Localization strings for the it_IT (Italiano) locale.
@@ -23,7 +23,6 @@
 	<message key="user.dateRegistered">Data di iscrizione</message>
 	<message key="user.editMyProfile">Modifica il mio profilo</message>
 	<message key="user.email">Email</message>
-	<message key="user.fax">Fax</message>
 	<message key="user.feminine">F</message>
 	<message key="user.firstName">Nome</message>
 	<message key="user.gender">Sesso</message>
@@ -105,7 +104,6 @@
 	<message key="user.profile.form.affiliationRequired">Inserisci un'affiliazione</message>
 	<message key="user.register.form.emailsDoNotMatch">Le email inserite non corrispondono.</message>
 	<message key="user.affiliation.description"><![CDATA[(La tua istituzione, es. "Universit&#224; La Sapienza di Roma")]]></message>
-	<message key="user.confirmEmail">Ripeti l'email</message>
 	<message key="user.gossip">Note private</message>
 	<message key="user.repeatPassword">Ripeti la password</message>
 	<message key="user.authorization.processAuthenticationTokenRequired">Il token di autenticazione non è valido</message>

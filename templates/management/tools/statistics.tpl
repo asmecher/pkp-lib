@@ -1,8 +1,8 @@
 {**
  * templates/management/tools/statistics.tpl
  *
- * Copyright (c) 2013-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2013-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * Display the statistics & reporting page.
@@ -21,9 +21,9 @@
 	<h3>{translate key="manager.statistics.reports"}</h3>
 	<p>{translate key="manager.statistics.reports.description"}</p>
 	
-	<ul class="plain">
+	<ul>
 	{foreach from=$reportPlugins key=key item=plugin}
-		<li>&#187; <a href="{url op="tools" path="report" pluginName=$plugin->getName()|escape}">{$plugin->getDisplayName()|escape}</a></li>
+		<li><a href="{url op="tools" path="report" pluginName=$plugin->getName()|escape}">{$plugin->getDisplayName()|escape}</a></li>
 	{/foreach}
 	</ul>
 	

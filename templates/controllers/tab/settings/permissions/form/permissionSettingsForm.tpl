@@ -1,8 +1,8 @@
 {**
  * controllers/tab/settings/permissionSettings/form/permissionSettingsForm.tpl
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * Indexing management form.
@@ -14,8 +14,8 @@
 		$('#permissionSettingsForm').pkpHandler(
 			'$.pkp.controllers.tab.settings.permissions.form.PermissionSettingsFormHandler',
 			{ldelim}
-				resetPermissionsUrl: '{url|escape:"javascript" op="resetPermissions" escape=false}',
-				resetPermissionsConfirmText: '{translate|escape:"javascript" key="manager.setup.resetPermissions.confirm"}',
+				resetPermissionsUrl: {url|json_encode op="resetPermissions" escape=false},
+				resetPermissionsConfirmText: {translate|json_encode key="manager.setup.resetPermissions.confirm"},
 			{rdelim}
 		);
 	{rdelim});
@@ -39,8 +39,8 @@
 		{$additionalFormContent}
 	{/fbvFormArea}
 
-	{fbvFormArea id="copyrightHolderSettings" title="submission.copyrightHolder" class="border"}
-		{fbvFormSection list=true size=$fbvStyles.size.MEDIUM inline=true}
+	{fbvFormArea id="copyrightHolderSettings" title="submission.copyrightHolder"}
+		{fbvFormSection list=true}
 			{fbvElement type="radio" id="copyrightHolderType-author" name="copyrightHolderType" value="author" checked=$copyrightHolderType|compare:"author" label="user.role.author"}
 			{fbvElement type="radio" id="copyrightHolderType-context" name="copyrightHolderType" value="context" checked=$copyrightHolderType|compare:"context" label="context.context"}
 			{fbvElement type="radio" id="copyrightHolderType-author" name="copyrightHolderType" value="other" checked=$copyrightHolderType|compare:"other" label="common.other"}

@@ -2,8 +2,8 @@
 /**
  * @file controllers/grid/files/review/ManageReviewFilesGridHandler.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class ManageReviewFilesGridHandler
@@ -61,7 +61,10 @@ class ManageReviewFilesGridHandler extends SelectableSubmissionFileListCategoryG
 
 		if ($manageReviewFilesForm->validate()) {
 			$dataProvider = $this->getDataProvider();
-			$manageReviewFilesForm->execute($args, $request, $dataProvider->loadCategoryData($request, $this->getStageId()));
+			$manageReviewFilesForm->execute(
+				$args, $request,
+				$this->getGridCategoryDataElements($request, $this->getStageId())
+			);
 
 			$this->setupTemplate($request);
 			$user = $request->getUser();

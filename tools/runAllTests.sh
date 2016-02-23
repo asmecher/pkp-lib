@@ -15,7 +15,8 @@
 #
 # Some tests will certain require environment variables in order to cnfigure
 # the environment. In particular...
-#  DUMMYFILE=dummy.pdf: Path to dummy file to use for document uploads
+#  DUMMY_PDF=dummy.pdf: Path to dummy PDF file to use for document uploads
+#  DUMMY_ZIP=dummy.zip: Path to dummy ZIP file to use for document uploads
 #  BASEURL="http://localhost/omp": Full URL to base URL, excluding index.php
 #  DBHOST=localhost: Hostname of database server
 #  DBNAME=yyy: Database name
@@ -85,17 +86,13 @@ set -e # Fail on first error
 #
 #	- To get code coverage reports for selenium tests working you need to
 #	  install the dependencies for phpunit-selenium:
-#		- cd lib/pkp/lib/phpunit-selenium/
-#		- curl -sS https://getcomposer.org/installer | php
-#		- php composer.phar install
-#
-#		and configure php auto_prepend/append
+#		configure php auto_prepend/append
 #
 #	  	- sudo vi /etc/php5/mods-available/selenium-coverage.ini
 #	  	- insert:
-#			auto_append_file=[path_to_ojs]/lib/pkp/lib/phpunit-selenium/PHPUnit/Extensions/SeleniumCommon/append.php
+#			auto_append_file=[path_to_ojs]/lib/pkp/lib/vendor/phpunit/phpunit-selenium/PHPUnit/Extensions/SeleniumCommon/append.php
 #			auto_prepend_file=[path_to_ojs]/lib/pkp/tests/prependCoverageReport.php
-#			selenium_coverage_prepend_file=[path_to_ojs]/lib/pkp/lib/phpunit-selenium/PHPUnit/Extensions/SeleniumCommon/prepend.php
+#			selenium_coverage_prepend_file=[path_to_ojs]/lib/pkp/lib/vendor/phpunit/phpunit-selenium/PHPUnit/Extensions/SeleniumCommon/prepend.php
 #			phpunit_coverage_data_directory=[path_to_ojs]/lib/pkp/tests/results/coverage-tmp
 #		- cd /etc/php5/apache2/conf.d/
 #		- sudo ln -s ../../mods-available/selenium-coverage.ini 99-selenium-coverage.ini
@@ -161,47 +158,47 @@ while getopts "bCPcpfdH" opt; do
 			;;
 	esac
 done
-
+phpunit='php lib/pkp/lib/vendor/phpunit/phpunit/phpunit'
 REPORT_SWITCH=''
 REPORT_TMP="$TESTS_DIR/results/coverage-tmp"
 if [ \( "$DO_ALL" -eq 1 \) -o \( "$DO_APP_DATA" -eq 1 \) ]; then
 	if [ \( "$DO_COVERAGE" -eq 1 \) ]; then
 		REPORT_SWITCH="--coverage-php $REPORT_TMP/coverage-APP_DATA.php"
 	fi
-	phpunit $DEBUG $TEST_CONF1 --debug -v --stop-on-failure --stop-on-skipped $REPORT_SWITCH tests/data
+	$phpunit $DEBUG $TEST_CONF1 --debug -v --stop-on-failure --stop-on-skipped $REPORT_SWITCH tests/data
 fi
 
 if [ \( "$DO_ALL" -eq 1 \) -o \( "$DO_PKP_CLASSES" -eq 1 \) ]; then
 	if [ \( "$DO_COVERAGE" -eq 1 \) ]; then
 		REPORT_SWITCH="--coverage-php $REPORT_TMP/coverage-PKP_CLASSES.php"
 	fi
-	phpunit $DEBUG $TEST_CONF1 $REPORT_SWITCH lib/pkp/tests/classes
+	$phpunit $DEBUG $TEST_CONF1 $REPORT_SWITCH lib/pkp/tests/classes
 fi
 
 if [ \( "$DO_ALL" -eq 1 \) -o \( "$DO_PKP_PLUGINS" -eq 1 \) ]; then
 	if [ \( "$DO_COVERAGE" -eq 1 \) ]; then
 		REPORT_SWITCH="--coverage-php $REPORT_TMP/coverage-PKP_PLUGINS.php"
 	fi
-	phpunit $DEBUG $TEST_CONF2 $REPORT_SWITCH lib/pkp/plugins
+	$phpunit $DEBUG $TEST_CONF2 $REPORT_SWITCH lib/pkp/plugins
 fi
 
 if [ \( "$DO_ALL" -eq 1 \) -o \( "$DO_APP_CLASSES" -eq 1 \) ]; then
 	if [ \( "$DO_COVERAGE" -eq 1 \) ]; then
 		REPORT_SWITCH="--coverage-php $REPORT_TMP/coverage-APP_CLASSES.php"
 	fi
-	phpunit $DEBUG $TEST_CONF1 $REPORT_SWITCH tests/classes
+	$phpunit $DEBUG $TEST_CONF1 $REPORT_SWITCH tests/classes
 fi
 
 if [ \( "$DO_ALL" -eq 1 \) -o \( "$DO_APP_PLUGINS" -eq 1 \) ]; then
 	if [ \( "$DO_COVERAGE" -eq 1 \) ]; then
 		REPORT_SWITCH="--coverage-php $REPORT_TMP/coverage-APP_PLUGINS.php"
 	fi
-	phpunit $DEBUG $TEST_CONF2 $REPORT_SWITCH plugins
+	$phpunit $DEBUG $TEST_CONF2 $REPORT_SWITCH plugins
 fi
 
 if [ \( "$DO_ALL" -eq 1 \) -o \( "$DO_APP_FUNCTIONAL" -eq 1 \) ]; then
 	if [ \( "$DO_COVERAGE" -eq 1 \) ]; then
 		REPORT_SWITCH="--coverage-php $REPORT_TMP/coverage-APP_FUNCTIONAL.php"
 	fi
-	phpunit $DEBUG $TEST_CONF1 $REPORT_SWITCH tests/functional
+	$phpunit $DEBUG $TEST_CONF1 $REPORT_SWITCH tests/functional
 fi

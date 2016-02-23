@@ -1,8 +1,8 @@
 /**
  * @file js/controllers/UploaderHandler.js
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class UploaderHandler
@@ -125,7 +125,7 @@
 	 */
 	$.pkp.controllers.UploaderHandler.DEFAULT_PROPERTIES_ = {
 		// General settings
-		runtimes: 'html5, flash, silverlight',
+		runtimes: 'html5,flash,silverlight,html4',
 		max_file_size: $.pkp.cons.UPLOAD_MAX_FILESIZE,
 		multi_selection: false,
 		file_data_name: 'uploadedFile',

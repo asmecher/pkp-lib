@@ -3,8 +3,8 @@
 /**
  * @file classes/form/validation/FormValidatorListbuilder.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class FormValidatorListbuilder
@@ -42,7 +42,7 @@ class FormValidatorListbuilder extends FormValidator {
 	 */
 	function isValid() {
 		$value = json_decode($this->getFieldValue());
-		return ($value->numberOfRows>0);
+		return (is_object($value) && isset($value->numberOfRows) && $value->numberOfRows > 0);
 	}
 }
 

@@ -3,8 +3,8 @@
 /**
  * @file controllers/grid/settings/reviewForms/ReviewFormGridHandler.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class ReviewFormGridHandler
@@ -150,7 +150,7 @@ class ReviewFormGridHandler extends GridHandler {
 	 * @see GridHandler::getRowInstance()
 	 * @return UserGridRow
 	 */
-	function getRowInstance() {
+	protected function getRowInstance() {
 		return new ReviewFormGridRow();
 	}
 
@@ -159,7 +159,7 @@ class ReviewFormGridHandler extends GridHandler {
 	 * @param $request PKPRequest
 	 * @return array Grid data.
 	 */
-	function loadData($request) {
+	protected function loadData($request) {
 		// Get all review forms.
 		$reviewFormDao = DAORegistry::getDAO('ReviewFormDAO');
 		$context = $request->getContext();
@@ -276,13 +276,16 @@ class ReviewFormGridHandler extends GridHandler {
 	 * @return JSONMessage JSON object
 	 */
 	function reviewFormElements($args, $request) {
-		// Identify the review form ID
-		$reviewFormId = (int) $request->getUserVar('reviewFormId');
-
 		$templateMgr = TemplateManager::getManager($request);
-		$templateMgr->assign('reviewFormId', $reviewFormId);
-
-		return new JSONMessage(true, $templateMgr->fetch('controllers/grid/settings/reviewForms/reviewFormElements.tpl'));
+		$dispatcher = $request->getDispatcher();
+		return $templateMgr->fetchAjax(
+			'reviewFormElementsGridContainer',
+			$dispatcher->url(
+				$request, ROUTE_COMPONENT, null,
+				'grid.settings.reviewForms.ReviewFormElementsGridHandler', 'fetchGrid', null,
+				array('reviewFormId' => (int) $request->getUserVar('reviewFormId'))
+			)
+		);
 	}
 
 	/**

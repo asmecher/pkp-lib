@@ -3,8 +3,8 @@
 /**
  * @file controllers/grid/files/dependent/DependentFilesGridDataProvider.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class DependentFilesGridDataProvider
@@ -26,7 +26,7 @@ class DependentFilesGridDataProvider extends SubmissionFilesGridDataProvider {
 
 	/**
 	 * Constructor
-	 * @param $fileStage integer One of the SUBMISSION_FILE_* constants.
+	 * @param $assocId int Association ID
 	 */
 	function DependentFilesGridDataProvider($assocId) {
 		assert(is_numeric($assocId));
@@ -38,12 +38,12 @@ class DependentFilesGridDataProvider extends SubmissionFilesGridDataProvider {
 	/**
 	 * @copydoc GridDataProvider::loadData()
 	 */
-	function loadData() {
+	function loadData($filter = array()) {
 		// Retrieve all dependent files for the given file stage and original submission file id (i.e. the main galley/production file)
 		$submission = $this->getSubmission();
 		$submissionFileDao = DAORegistry::getDAO('SubmissionFileDAO'); /* @var $submissionFileDao SubmissionFileDAO */
 		$submissionFiles = $submissionFileDao->getLatestRevisionsByAssocId(ASSOC_TYPE_SUBMISSION_FILE, $this->getAssocId(), $submission->getId(), $this->getFileStage());
-		return $this->prepareSubmissionFileData($submissionFiles, $this->_viewableOnly);
+		return $this->prepareSubmissionFileData($submissionFiles, $this->_viewableOnly, $filter);
 	}
 
 	/**

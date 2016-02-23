@@ -1,8 +1,8 @@
 {**
  * filterForm.tpl
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * Filter grid form
@@ -10,18 +10,18 @@
 
 {assign var="uid" value="-"|uniqid}
 <script>
-        $(function() {ldelim}
-                // Attach the form handler.
-                $('#editFilterForm{$uid|escape:"javascript"}').pkpHandler(
-                        '$.pkp.controllers.grid.filter.form.FilterFormHandler',
+		$(function() {ldelim}
+				// Attach the form handler.
+				$('#editFilterForm{$uid|escape:"javascript"}').pkpHandler(
+						'$.pkp.controllers.grid.filter.form.FilterFormHandler',
 			{ldelim}
 				noMoreTemplates: {if $noMoreTemplates}true{else}false{/if},
 				filterTemplates: {if $filterTemplates}true{else}false{/if},
-				editFilterUrlTemplate: '{url|escape:"javascript" op="editFilter" filterTemplateId="DUMMY_FILTER_TEMPLATE_ID"}',
+				editFilterUrlTemplate: {url|json_encode op="editFilter" filterTemplateId="DUMMY_FILTER_TEMPLATE_ID" escape=false},
 				pulldownSelector: '#filterTemplateSelect{$uid|escape:"javascript"}',
 			{rdelim}
 		);
-        {rdelim});
+		{rdelim});
 </script>
 
 <form class="pkp_form" id="editFilterForm{$uid|escape}" method="post" action="{url op="updateFilter"}" >

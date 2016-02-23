@@ -4,8 +4,8 @@
 /**
  * @file js/controllers/grid/users/reviewer/form/EditReviewFormHandler.js
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class EditReviewFormHandler
@@ -26,7 +26,7 @@
 	/**
 	 * @constructor
 	 *
-	 * @extends $.pkp.controllers.form.AjaxFormHandler
+	 * @extends $.pkp.controllers.form.UserFormHandler
 	 *
 	 * @param {jQueryObject} $form the wrapped HTML form element.
 	 * @param {Object} options form options.
@@ -46,7 +46,7 @@
 	$.pkp.classes.Helper.inherits(
 			$.pkp.controllers.grid.users.reviewer.form.
 					EditReviewFormHandler,
-			$.pkp.controllers.form.AjaxFormHandler);
+			$.pkp.controllers.form.UserFormHandler);
 
 
 	//

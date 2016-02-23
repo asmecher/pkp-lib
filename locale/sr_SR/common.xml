@@ -4,11 +4,11 @@
 <!--
   * locale/sr_SR/common.xml
   *
-  * Copyright (c) 2014-2015 Simon Fraser University Library
-  * Copyright (c) 2000-2015 John Willinsky
+  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2000-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
   *
-  * Localization strings for the sr_SR (Serbian) locale.
+  * Localization strings for the sr_SR (Cрпски) locale.
   *
   -->
 
@@ -16,7 +16,6 @@
 	<message key="about.aboutSite">O nama</message>
 	<message key="about.contact">Kontakt</message>
 	<message key="about.contact.email">Imejl</message>
-	<message key="about.contact.fax">Fax</message>
 	<message key="about.contact.phone">Telefon</message>
 	<message key="about.contact.principalContact">Glavni kontakt</message>
 	<message key="about.contact.supportContact">Pomoćni kontakt</message>
@@ -331,7 +330,6 @@
 	<message key="common.warning">Upozorenje</message>
 	<message key="common.confirm">Potvrdi</message>
 	<message key="common.content">Sadržaj</message>
-	<message key="common.considered">Smatran</message>
 	<message key="common.declined">Odbijen</message>
 	<message key="common.finish">Završi</message>
 	<message key="common.go">Idi</message>
@@ -358,8 +356,6 @@
 	<message key="form.emailRequired">Imejl adresa je neophodna</message>
 	<message key="form.dataHasChanged">Podaci u formi su promenjeni, da li ipak želite da nastavite?</message>
 	<message key="form.invalidImage">Nesipravna sllika je dostavljena, podržani formati su .png, .gif ili .jpg.</message>
-	<message key="help.toggleInlineHelpOn">Pomoć uključena</message>
-	<message key="help.toggleInlineHelpOff">Pomoć isključena</message>
 	<message key="navigation.access"><![CDATA[Korisnici &amp; uloge]]></message>
 	<message key="navigation.admin">Administracija</message>
 	<message key="navigation.browseByAuthor">Po autoru</message>

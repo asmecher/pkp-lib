@@ -3,8 +3,8 @@
 /**
  * @file classes/controllers/grid/feature/OrderGridItemsFeature.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class OrderGridItemsFeature
@@ -55,6 +55,7 @@ class OrderGridItemsFeature extends OrderItemsFeature{
 		$data = json_decode($request->getUserVar('data'));
 
 		$gridElements = $grid->getGridDataElements($request);
+		if (empty($gridElements)) return;
 		$firstSeqValue = $grid->getDataElementSequence(reset($gridElements));
 		foreach ($gridElements as $rowId => $element) {
 			$rowPosition = array_search($rowId, $data);

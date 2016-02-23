@@ -1,16 +1,16 @@
 {**
  * controllers/grid/feature/featuresOptions.tpl
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * Grid features js options.
  *}
 {ldelim}
 	{foreach name=features from=$features item=feature}
-		{$feature->getId()}: {ldelim}
-			JSClass: '{$feature->getJSClass()}',
+		{$feature->getId()|json_encode}: {ldelim}
+			JSClass: {$feature->getJSClass()|json_encode},
 			options: {ldelim}
 				{foreach name=featureOptions from=$feature->getOptions() key=optionName item=optionValue}
 					{$optionName}: {if $optionValue}'{$optionValue|escape:javascript}'{else}false{/if}{if !$smarty.foreach.featureOptions.last},{/if}

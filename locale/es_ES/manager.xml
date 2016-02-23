@@ -4,8 +4,8 @@
 <!--
   * locale/es_ES/manager.xml
   *
-  * Copyright (c) 2014-2015 Simon Fraser University Library
-  * Copyright (c) 2000-2015 John Willinsky
+  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2000-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
   *
   * Localization strings for the es_ES (Español (España)) locale.
@@ -147,7 +147,6 @@
 	<message key="manager.setup.layout.unselected">Sin seleccionar</message>
 	<message key="manager.setup.loggingAndAuditing">Registro y Auditoría</message>
 	<message key="manager.setup.pageHeaderLogoImageInvalid">Formato de imagen no válido. Los formatos aceptados son .gif, .jpg, o .png.</message>
-	<message key="manager.setup.pageHeaderTitleImageInvalid">Formato de imagen no válido. Los formatos aceptados son .gif, .jpg, o .png.</message>
 	<message key="manager.setup.selectOne">Seleccione una</message>
 	<message key="manager.statistics">Estadísticas e informes</message>
 	<message key="manager.statistics.reports">Generador de informes</message>
@@ -172,7 +171,6 @@
 	<message key="plugins.categories.themes">Complementos de Aspecto</message>
 	<message key="manager.emails.form.emailKeyRequired">El fichero no pudo ser subido. Por favor intente nuevamente o contacte al administrador si el problema persiste</message>
 	<message key="manager.setup.errorDeletingItem">Ha sucedido un error al borrar este ítem</message>
-	<message key="manager.reviewerSearch.advancedSearch">Búsqueda avanzada de Revisor</message>
 	<message key="manager.reviewerSearch.searchByName">Buscar Revisor por Nombre</message>
 	<message key="manager.reviewerSearch.doneAmount">Número de revisiones completadas</message>
 	<message key="manager.reviewerSearch.avgAmount">Número estimado de días por revisión</message>

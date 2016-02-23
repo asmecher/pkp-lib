@@ -3,8 +3,8 @@
 /**
  * @file classes/context/ContextDAO.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class ContextDAO
@@ -213,10 +213,10 @@ abstract class ContextDAO extends DAO {
 		if ($contextId) $params[] = $contextId;
 
 		$result = $this->retrieve(
-			'SELECT * FROM ' . $this->_getTableName() . 'AS c
-			LEFT JOIN ' . $this->_getSettingsTableName() . 'AS cs
+			'SELECT * FROM ' . $this->_getTableName() . ' AS c
+			LEFT JOIN ' . $this->_getSettingsTableName() . ' AS cs
 			ON c.' . $this->_getPrimaryKeyColumn() . ' = cs.' . $this->_getPrimaryKeyColumn() .
-			'WHERE cs.setting_name = ? AND cs.setting_value = ?' .
+			' WHERE cs.setting_name = ? AND cs.setting_value = ?' .
 			($contextId?' AND c.' . $this->_getPrimaryKeyColumn() . ' = ?':''),
 			$params
 		);

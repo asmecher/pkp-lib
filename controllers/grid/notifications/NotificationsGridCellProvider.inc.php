@@ -3,8 +3,8 @@
 /**
  * @file controllers/grid/notifications/NotificationsGridCellProvider.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class NotificationsGridCellProvider
@@ -109,6 +109,22 @@ class NotificationsGridCellProvider extends GridCellProvider {
 				$reviewRound = $reviewRoundDao->getById($notification->getAssocId());
 				assert(is_a($reviewRound, 'ReviewRound'));
 				$submissionId = $reviewRound->getSubmissionId();
+				break;
+			case ASSOC_TYPE_QUERY:
+				$queryDao = DAORegistry::getDAO('QueryDAO');
+				$query = $queryDao->getById($notification->getAssocId());
+				assert(is_a($query, 'Query'));
+				switch ($query->getAssocType()) {
+					case ASSOC_TYPE_SUBMISSION:
+						$submissionId = $query->getAssocId();
+						break;
+					case ASSOC_TYPE_REPRESENTATION:
+						$representationDao = Application::getRepresentationDAO();
+						$representation = $representationDao->getById($query->getAssocId());
+						$submissionId = $representation->getSubmissionId();
+						break;
+					default: assert(false);
+				}
 				break;
 			default:
 				// Don't know of other ASSOC_TYPEs for TASK notifications

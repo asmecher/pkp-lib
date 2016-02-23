@@ -3,8 +3,8 @@
 /**
  * @file lib/pkp/tests/WebTestCase.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class WebTestCase
@@ -25,7 +25,7 @@ class WebTestCase extends PHPUnit_Extensions_SeleniumTestCase {
 	protected $captureScreenshotOnFailure = true;
 	protected $screenshotPath, $screenshotUrl;
 
-	protected $coverageScriptPath = 'lib/pkp/lib/phpunit-selenium/PHPUnit/Extensions/SeleniumCommon/phpunit_coverage.php';
+	protected $coverageScriptPath = 'lib/pkp/lib/vendor/phpunit/phpunit-selenium/PHPUnit/Extensions/SeleniumCommon/phpunit_coverage.php';
 	protected $coverageScriptUrl = '';
 
 	/**
@@ -124,14 +124,14 @@ class WebTestCase extends PHPUnit_Extensions_SeleniumTestCase {
 		if ($password === null) $password = $username . $username;
 
 		$this->open(self::$baseUrl);
-		$this->waitForElementPresent('link=Login');
-		$this->clickAndWait('link=Login');
-		$this->waitForElementPresent('css=[id^=username]');
-		$this->type('css=[id^=username-]', $username);
-		$this->type('css=[id^=password-]', $password);
-		$this->waitForElementPresent('//span[text()=\'Login\']/..');
-		$this->click('//span[text()=\'Login\']/..');
-		$this->waitForTextPresent('Hello,');
+		$this->waitForElementPresent($selector='link=Login');
+		$this->clickAndWait($selector);
+		$this->waitForElementPresent($selector='css=[id=username]');
+		$this->type($selector, $username);
+		$this->type('css=[id=password]', $password);
+		$this->waitForElementPresent($selector='css=#login button.submit');
+		$this->click($selector);
+		$this->waitForElementPresent('link=Logout');
 	}
 
 	/**
@@ -156,33 +156,33 @@ class WebTestCase extends PHPUnit_Extensions_SeleniumTestCase {
 
 		// Find registration page
 		$this->open(self::$baseUrl);
-		$this->waitForElementPresent('link=Register');
-		$this->click('link=Register');
+		$this->waitForElementPresent($selector='link=Register');
+		$this->click($selector);
 
 		// Fill in user data
-		$this->waitForElementPresent('css=[id^=firstName-]');
-		$this->type('css=[id^=firstName-]', $data['firstName']);
-		$this->type('css=[id^=lastName-]', $data['lastName']);
-		$this->type('css=[id^=username-]', $username);
-		$this->type('css=[id^=email-]', $data['email']);
-		$this->type('css=[id^=confirmEmail-]', $data['email']);
-		$this->type('css=[id^=password-]', $data['password']);
-		$this->type('css=[id^=password2-]', $data['password2']);
-		if (isset($data['affiliation'])) $this->type('css=[id^=affiliation-]', $data['affiliation']);
+		$this->waitForElementPresent('css=[id=firstName]');
+		$this->type('css=[id=firstName]', $data['firstName']);
+		$this->type('css=[id=lastName]', $data['lastName']);
+		$this->type('css=[id=username]', $username);
+		$this->type('css=[id=email]', $data['email']);
+		$this->type('css=[id=password]', $data['password']);
+		$this->type('css=[id=password2]', $data['password2']);
+		if (isset($data['affiliation'])) $this->type('css=[id=affiliation]', $data['affiliation']);
 		if (isset($data['country'])) $this->select('id=country', $data['country']);
 
 		// Select the specified roles
 		foreach ($data['roles'] as $role) {
-			$this->click('//label[text()=\'' . htmlspecialchars($role) . '\']');
+			$this->click('//label[contains(., \'' . htmlspecialchars($role) . '\')]');
 		}
 
 		// Save the new user
-		$this->click('//span[text()=\'Register\']/..');
+		$this->waitForElementPresent($formButtonSelector = '//button[contains(.,\'Register\')]');
+		$this->click($formButtonSelector);
 		$this->waitForElementPresent('link=Logout');
 		$this->waitJQuery();
 
 		if (in_array('Author', $data['roles'])) {
-			$this->waitForText('css=h3', 'My Authored Submissions');
+			$this->waitForElementPresent('//h4[contains(.,\'My Authored\')]');
 		}
 	}
 
@@ -272,7 +272,7 @@ class WebTestCase extends PHPUnit_Extensions_SeleniumTestCase {
 		$this->assertElementPresent($formId, 'The passed form locator do not point to any form element at the current page.');
 		$this->click('css=#' . $formId . ' #submitFormButton');
 
-		$progressIndicatorSelector = '#' . $formId . ' .formButtons .pkp_helpers_progressIndicator';
+		$progressIndicatorSelector = '#' . $formId . ' .formButtons .pkp_spinner';
 
 		// First make sure that the progress indicator is visible.
 		$this->waitForCondition("selenium.browserbot.getUserWindow().jQuery('$progressIndicatorSelector:visible').length == 1", 2000);
@@ -294,7 +294,7 @@ class WebTestCase extends PHPUnit_Extensions_SeleniumTestCase {
 		$this->waitForElementPresent('//input[@type="file"]');
 		$this->type('css=input[type="file"]', $testFile);
 		$this->waitForText('css=span.plupload_file_name_wrapper', $fileName);
-		$this->click('css=a[id=plupload_start]');
+		$this->click('//span[text()=\'Start Upload\']');
 		$this->waitJQuery();
 		$this->waitForTextPresent('100%');
 	}
@@ -347,7 +347,7 @@ class WebTestCase extends PHPUnit_Extensions_SeleniumTestCase {
 	 * @param $waitFirst boolean True (default) to wait for the element first.
 	 */
 	protected function clickLinkActionNamed($name, $waitFirst = true) {
-		$selector = '//span[text()=\'' . $this->escapeJS($name) . '\']/..';
+		$selector = '//button[text()=\'' . $this->escapeJS($name) . '\']';
 		$this->waitForElementPresent($selector);
 		$this->click($selector);
 	}
@@ -367,6 +367,34 @@ class WebTestCase extends PHPUnit_Extensions_SeleniumTestCase {
 	 */
 	protected function escapeJS($value) {
 		return str_replace('\'', '\\\'', $value);
+	}
+
+	/**
+	 * Scroll a grid down until it loads all elements.
+	 * @param $gridContainerId string The grid container id.
+	 */
+	protected function scrollGridDown($gridContainerId) {
+		$this->waitForElementPresent('css=#' . $gridContainerId . ' .scrollable');
+		$loadedItems = 0;
+		$totalItems = 1; // Just to start.
+		while($loadedItems < $totalItems) {
+			$this->runScript('$(\'.scrollable\', \'#' . $gridContainerId . '\').find(\'tr:visible\').last()[0].scrollIntoView()');
+			$this->waitJQuery();
+			$pagingInfo = $this->getText('css=#' . $gridContainerId . ' .gridPagingScrolling');
+			if (!$pagingInfo) break;
+
+			$pagingInfo = explode(' ', $pagingInfo);
+			$loadedItems = $pagingInfo[1];
+			$totalItems = $pagingInfo[3];
+		}
+	}
+
+	/**
+	 * Scroll page down until the end.
+	 */
+	protected function scrollPageDown() {
+		$this->waitJQuery();
+		$this->runScript('scroll(0, document.body.scrollHeight()');	
 	}
 }
 ?>

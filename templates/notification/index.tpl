@@ -1,8 +1,8 @@
 {**
  * templates/notification/index.tpl
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * Display list of notifications.
@@ -10,7 +10,7 @@
  *}
 {strip}
 {assign var="pageTitle" value="notification.notifications"}
-{include file="common/header.tpl"}
+{include file="frontend/components/header.tpl"}
 {/strip}
 
 <table>
@@ -55,5 +55,5 @@
 
 </div>
 
-{include file="common/footer.tpl"}
+{include file="common/frontend/footer.tpl"}
 

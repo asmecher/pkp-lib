@@ -1,8 +1,8 @@
 {**
  * controllers/tab/settings/paymentMethod/form/paymentMethodForm.tpl
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * Payment method management form.
@@ -15,15 +15,15 @@
 		$('#paymentMethodContainerDiv').pkpHandler(
 			'$.pkp.controllers.tab.settings.paymentMethod.PaymentMethodHandler',
 			{ldelim}
-				paymentMethodFormUrlTemplate: '{url|escape:"javascript" router=$smarty.const.ROUTE_COMPONENT op="getPaymentFormContents" paymentPluginName=PAYMENT_PLUGIN_NAME escape=false}'
+				paymentMethodFormUrlTemplate: {url|json_encode router=$smarty.const.ROUTE_COMPONENT op="getPaymentFormContents" paymentPluginName=PAYMENT_PLUGIN_NAME escape=false}
 			{rdelim}
 		);
 		// Attach the container handler. (Triggers e.g. selectMonograph event.)
 		$('#paymentMethodSelector').pkpHandler(
 			'$.pkp.controllers.form.DropdownHandler',
 			{ldelim}
-				getOptionsUrl: '{url|escape:"javascript" router=$smarty.const.ROUTE_COMPONENT op="getPaymentMethods" escape=false}',
-				defaultKey: '{$paymentPluginName|escape:"javascript"}',
+				getOptionsUrl: {url|json_encode router=$smarty.const.ROUTE_COMPONENT op="getPaymentMethods" escape=false},
+				defaultKey: {$paymentPluginName|json_encode},
 				eventName: 'selectPaymentMethod'
 			{rdelim}
 		);
@@ -39,19 +39,19 @@
 	{include file="controllers/tab/settings/wizardMode.tpl" wizardMode=$wizardMode}
 
 		{fbvFormArea id="paymentMethod"}
+			{fbvFormSection label="manager.paymentMethod.currency" description="manager.paymentMethod.currency.description"}
+				{fbvElement required="true" type="select" id="currency" from=$currencies selected=$currency translate=false}
+			{/fbvFormSection}
 			<div id="paymentMethodSelector">
-				{fbvFormSection label="manager.paymentMethod.method" description="manager.paymentMethod.description" inline=true size=$fbvStyles.size.MEDIUM}
+				{fbvFormSection label="manager.paymentMethod.method" description="manager.paymentMethod.description"}
 					{fbvElement type="select" id="pluginSelect" from=$pluginNames translate=false}
 				{/fbvFormSection}
 			</div>
-			{fbvFormSection label="manager.paymentMethod.currency" description="manager.paymentMethod.currency.description" inline=true size=$fbvStyles.size.MEDIUM}
-				{fbvElement required="true" type="select" id="currency" from=$currencies selected=$currency translate=false}
-			{/fbvFormSection}
 		{/fbvFormArea}
 
-	<div id="paymentMethodFormContainer">
+	{fbvFormArea id="paymentMethodFormContainer"}
 		{* The form will be loaded into this container *}
-	</div>
+	{/fbvFormArea}
 
 	<div class="separator"></div>
 

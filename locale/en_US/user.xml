@@ -4,8 +4,8 @@
 <!--
   * locale/en_US/user.xml
   *
-  * Copyright (c) 2014-2015 Simon Fraser University Library
-  * Copyright (c) 2000-2015 John Willinsky
+  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2000-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
   *
   * Localization strings.
@@ -25,16 +25,16 @@
 	<message key="user.authorization.roleBasedAccessDenied">The current role does not have access to this operation.</message>
 	<message key="user.authorization.userGroupRequired">You have to set a valid user group to access this operation.</message>
 	<message key="user.authorization.managerRequired">A user with a Manager role (i.e. Production Editor) must be assigned to the stage before you can proceed.</message>
-	<message key="user.biography">Bio Statement</message>
-	<message key="user.biography.description">(E.g., department and rank)</message>
+	<message key="user.authorization.accessibleWorkflowStage">You don't currently have access to that stage of the workflow.</message>
+	<message key="user.authorization.workflowStageRequired">A workflow stage was not specified.</message>
+	<message key="user.authorization.pluginRequired">A plugin was not specified and is required.</message>
+	<message key="user.biography">Bio Statement (e.g., department and rank)</message>
 	<message key="user.changeMyPassword">Change My Password</message>
 	<message key="user.changePassword">Change Password</message>
 	<message key="user.dateLastLogin">Last login</message>
 	<message key="user.dateRegistered">Date registered</message>
 	<message key="user.editMyProfile">Edit My Profile</message>
 	<message key="user.email">Email</message>
-	<message key="user.confirmEmail">Confirm Email</message>
-	<message key="user.fax">Fax</message>
 	<message key="user.feminine">F</message>
 	<message key="user.firstName">First Name</message>
 	<message key="user.gender">Gender</message>
@@ -100,7 +100,7 @@
 	<message key="user.profile.publicProfile">User Profile</message>
 	<message key="user.profile.repeatNewPassword">Repeat new password</message>
 	<!-- Login -->
-	<message key="user.login.registerNewAccount">Not a user? Register with this site</message>
+	<message key="user.login.registerNewAccount">Register</message>
 	<message key="user.login.resetPasswordInstructions"><![CDATA[For security reasons, this system emails a reset password to registered users, rather than recalling the
 current password.<br /><br />Enter your email address below to reset your password. A confirmation will be sent to this email address.]]></message>
 
@@ -114,6 +114,7 @@ current password.<br /><br />Enter your email address below to reset your passwo
 	<message key="user.register.registerAs">Register in {$contextName} as...</message>
 	<message key="user.register">Register</message>
 	<message key="user.register.usernameRestriction">The username must contain only lowercase letters, numbers, and hyphens/underscores.</message>
+	<message key="user.register.registrationCompleted"><![CDATA[You have successfully registered. <a href="{$profileUrl}">Click here</a> to complete your user profile.]]></message>
 	<message key="user.role.author">Author</message>
 	<message key="user.role.author_s">Author(s)</message>
 	<message key="user.role.authors">Authors</message>
@@ -145,4 +146,7 @@ current password.<br /><br />Enter your email address below to reset your passwo
 	<message key="user.register.completeForm">Fill in this form to register with this site.</message>
 	<message key="user.orcid">ORCID iD</message>
 	<message key="user.orcid.orcidInvalid">The ORCID iD you specified is invalid. Please include the full URI (e.g. "http://orcid.org/0000-0002-1825-0097").</message>
+	<message key="user.profile.identity">Identity</message>
+	<message key="user.profile.contact">Contact</message>
+	<message key="user.profile.public">Public</message>
 </locale>

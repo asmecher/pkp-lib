@@ -3,8 +3,8 @@
 /**
  * @file tests/data/PKPCreateUsersTest.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class PKPCreateUsersTest
@@ -31,10 +31,12 @@ class PKPCreateUsersTest extends WebTestCase {
 		), $data);
 
 		$this->open(self::$baseUrl);
-		$this->waitForElementPresent('link=Users & Roles');
-		$this->click('link=Users & Roles');
-		$this->waitForElementPresent('css=[id^=component-grid-settings-user-usergrid-addUser-button-]');
-		$this->click('css=[id^=component-grid-settings-user-usergrid-addUser-button-]');
+		$this->waitForElementPresent($selector='link=Dashboard');
+		$this->clickAndWait($selector);
+		$this->waitForElementPresent($selector='link=Users & Roles');
+		$this->click($selector);
+		$this->waitForElementPresent($selector='css=[id^=component-grid-settings-user-usergrid-addUser-button-]');
+		$this->click($selector);
 		$this->waitForElementPresent('css=[id^=firstName-]');
 
 		// Fill in user data
@@ -46,7 +48,8 @@ class PKPCreateUsersTest extends WebTestCase {
 		$this->type('css=[id^=password2-]', $data['password2']);
 		if (isset($data['country'])) $this->select('id=country', $data['country']);
 		if (isset($data['affiliation'])) $this->type('css=[id^=affiliation-]', $data['affiliation']);
-		$this->click('//span[text()=\'OK\']/..');
+		$this->click('css=[id=mustChangePassword]'); // Uncheck the reset password requirement
+		$this->click('//button[text()=\'OK\']');
 		$this->waitJQuery();
 
 		// Roles
@@ -58,7 +61,7 @@ class PKPCreateUsersTest extends WebTestCase {
 			$this->waitJQuery();
 		}
 
-		$this->click('//span[text()=\'Save\']/..');
-		$this->waitJQuery();
+		$this->click('//button[text()=\'Save\']');
+		$this->waitForElementNotPresent('css=div.pkp_modal_panel');
 	}
 }

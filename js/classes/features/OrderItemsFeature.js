@@ -1,8 +1,8 @@
 /**
  * @file js/classes/features/OrderItemsFeature.js
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class OrderItemsFeature
@@ -25,8 +25,8 @@
 			function(gridHandler, options) {
 		this.parent(gridHandler, options);
 
-		this.$orderButton_ = $('a.order_items:first',
-				this.getGridHtmlElement()).not('table a');
+		this.$orderButton_ = $('.pkp_linkaction_orderItems',
+				this.getGridHtmlElement());
 		this.$finishControl_ = $('.order_finish_controls', this.getGridHtmlElement());
 
 		if (this.$orderButton_.length === 0) {
@@ -146,7 +146,7 @@
 	 */
 	$.pkp.classes.features.OrderItemsFeature.prototype.
 			getMoveItemRowActionSelector = function() {
-		return '.orderable a.order_items';
+		return '.orderable .pkp_linkaction_moveItem';
 	};
 
 
@@ -230,6 +230,8 @@
 			$gridElement.find('table').last().after($orderFinishControls);
 			$orderFinishControls.hide();
 		}
+
+		this.updateOrderLinkVisibility_();
 	};
 
 
@@ -488,9 +490,35 @@
 	};
 
 
+	/**
+	 * @inheritDoc
+	 */
+	$.pkp.classes.features.OrderItemsFeature.prototype.
+			replaceElementResponseHandler = function(handledJsonData) {
+		this.updateOrderLinkVisibility_();
+		return false;
+	};
+
+
 	//
 	// Private helper methods.
 	//
+	/**
+	 * Make sure that the order action visibility state is correct,
+	 * based on the grid rows number.
+	 * @private
+	 */
+	$.pkp.classes.features.OrderItemsFeature.prototype.
+			updateOrderLinkVisibility_ = function() {
+		var $orderLink = $('.pkp_linkaction_orderItems', this.getGridHtmlElement());
+		if (this.gridHandler.getRows().length <= 1) {
+			$orderLink.hide();
+		} else {
+			$orderLink.show();
+		}
+	};
+
+
 	/**
 	 * Set the state of the grid link actions, based on current ordering state.
 	 * @private
@@ -518,12 +546,12 @@
 			function() {
 		if (this.isOrdering) {
 			this.$orderButton_.unbind('click');
-			this.$orderButton_.addClass('ui-state-disabled');
+			this.$orderButton_.attr('disabled', 'disabled');
 		} else {
 			var clickHandler = this.gridHandler.callbackWrapper(
 					this.clickOrderHandler, this);
 			this.$orderButton_.click(clickHandler);
-			this.$orderButton_.removeClass('ui-state-disabled');
+			this.$orderButton_.removeAttr('disabled');
 		}
 	};
 

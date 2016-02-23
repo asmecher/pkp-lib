@@ -1,8 +1,8 @@
 /**
  * closure-externs.js
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2010-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2010-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * Import symbols into the closure compiler that are not defined
@@ -53,8 +53,6 @@ jQueryObject.prototype.jLabel = function(options) {};
  * @param {Object=} options
  */
 jQueryObject.prototype.selectBox = function(options) {};
-
-jQueryObject.prototype.superfish = function() {};
 
 /**
  * @param {Object|string=} param1
@@ -116,17 +114,6 @@ jQueryObject.prototype.pkpAjaxHtml = function(url, callback) {};
 jQueryObject.prototype.dialog = function(param1, param2, param3) {};
 
 /**
- * @param {string|Object=} param1
- * @param {string|Object|number=} param2
- */
-jQueryObject.prototype.slick = function(param1, param2) {};
-
-/**
- * @param {number} param1
- */
-jQueryObject.prototype.slickGoTo = function(param1) {};
-
-/**
  * @constructor
  * @param {Object=} options
  * @param {jQueryObject=} form
@@ -138,12 +125,6 @@ jQuery.validator.prototype.checkForm = function() {};
 jQuery.validator.prototype.defaultShowErrors = function() {};
 
 jQuery.validator.prototype.settings = {};
-
-/**
- * @param {Object=} userDefinedSettings
- * @return {jQueryObject}
- */
-jQueryObject.prototype.imgPreview = function(userDefinedSettings) {};
 
 /**
  * @param {string} param1
@@ -181,7 +162,7 @@ tinyMCEObject.prototype.EditorManager.createEditor = function(param1, param2) {}
  */
 tinyMCEObject.prototype.EditorManager.get = function(param1) {};
 
-tinyMCEObject.prototype.target = {dom: {}};
+tinyMCEObject.prototype.target = {dom: {}, editorContainer: {}};
 
 /**
  * @param {string} param1

@@ -8,8 +8,8 @@
 /**
  * @file classes/currency/Currency.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class Currency
@@ -78,6 +78,20 @@ class Currency extends DataObject {
 	 */
 	function setCodeNumeric($codeNumeric) {
 		$this->setData('codeNumeric', $codeNumeric);
+	}
+
+	/**
+	 * Format a number per a currency.
+	 * @param $amount numeric|null Numeric amount, or null
+	 * @return string|null Formatted amount, or null if null was supplied as amount
+	 */
+	function format($amount) {
+		if ($amount === null) return $amount;
+
+		// Some systems (e.g. Windows) do not provide money_format. Convert directly to string in that case.
+		if (!function_exists('money_format')) return (string) $amount;
+		setlocale(LC_MONETARY, 'en_US.UTF-8');
+		return money_format('%n', $amount);
 	}
 }
 

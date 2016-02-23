@@ -4,8 +4,8 @@
 <!--
   * locale/it_IT/common.xml
   *
-  * Copyright (c) 2014-2015 Simon Fraser University Library
-  * Copyright (c) 2000-2015 John Willinsky
+  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2000-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
   *
   * Localization strings for the it_IT (Italiano) locale.
@@ -16,7 +16,6 @@
 	<message key="about.aboutSite">Informazioni sul sito</message>
 	<message key="about.contact">Contatti</message>
 	<message key="about.contact.email">Email</message>
-	<message key="about.contact.fax">Fax</message>
 	<message key="about.contact.phone">Telefono</message>
 	<message key="about.contact.principalContact">Contatto principale</message>
 	<message key="about.contact.supportContact">Contatto tecnico</message>
@@ -353,8 +352,6 @@
 	<message key="form.confirmSubmit.title">Conferma</message>
 	<message key="form.emailRequired">Inserisci un indirizzo email</message>
 	<message key="form.invalidImage">Formato dell'immagine non valido. I formati consentiti sono .png, .gif, or .jpg.</message>
-	<message key="help.toggleInlineHelpOn">Chiudi la guida</message>
-	<message key="help.toggleInlineHelpOff">Apri la guida</message>
 	<message key="navigation.access"><![CDATA[Utenti &amp; Ruoli]]></message>
 	<message key="navigation.admin">Amministrazione</message>
 	<message key="navigation.browseByAuthor">Per autore</message>
@@ -369,7 +366,6 @@
 	<message key="form.dataHasChanged">I dati nel formulario sono cambiati. Continui ugualmente?</message>
 	<message key="navigation.sitemap">Mappa del sito</message>
 	<message key="common.acknowledged">Riconosciuto</message>
-	<message key="common.considered">Considerato</message>
 	<message key="common.notified">Notificato</message>
 	<message key="common.reset">Reset</message>
 </locale>

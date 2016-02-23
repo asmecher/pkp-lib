@@ -3,8 +3,8 @@
 /**
  * @file controllers/tab/settings/AdminSettingsTabHandler.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class AdminSettingsTabHandler
@@ -36,11 +36,11 @@ class AdminSettingsTabHandler extends SettingsTabHandler {
 		);
 
 		parent::SettingsTabHandler($role);
-		$this->setPageTabs($additionalTabs + array(
+		$this->setPageTabs(array_merge($additionalTabs, array(
 			'siteSetup' => 'lib.pkp.controllers.tab.settings.siteSetup.form.SiteSetupForm',
 			'languages' => 'controllers/tab/admin/languages/languages.tpl',
 			'plugins' => 'controllers/tab/admin/plugins/sitePlugins.tpl',
-		));
+		)));
 	}
 
 

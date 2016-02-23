@@ -4,8 +4,8 @@
 <!--
   * locale/de_DE/common.xml
   *
-  * Copyright (c) 2013-2015 Simon Fraser University Library
-  * Copyright (c) 2000-2015 John Willinsky
+  * Copyright (c) 2013-2016 Simon Fraser University Library
+  * Copyright (c) 2000-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
   * Localization strings for the de_DE (Deutsch (Deutschland)) locale.
   * Please contact Marco Tullney, marco.tullney@fu-berlin.de, with any questions regarding this translation.
@@ -19,7 +19,6 @@
 	<message key="about.aboutSite">Über uns</message>
 	<message key="about.contact">Kontakt</message>
 	<message key="about.contact.email">E-Mail</message>
-	<message key="about.contact.fax">Fax</message>
 	<message key="about.contact.phone">Telefon</message>
 	<message key="about.contact.principalContact">Hauptkontakt </message>
 	<message key="about.contact.supportContact">Kontakt bei technischen Fragen</message>
@@ -35,7 +34,6 @@
 	<message key="announcement.postedOn">Veröffentlicht am {$postDate}</message>
 	<message key="announcement.viewLink">Weiter…</message>
 	<message key="announcement.view">Mitteilungen ansehen</message>
-	<message key="common.navigation">Navigation</message>
 	<message key="common.tasks">Aufgaben</message>
 	<message key="common.list">Liste</message>
 	<message key="common.grid">Grid</message>
@@ -97,7 +95,6 @@
 	<message key="common.confirm">Bestätigen</message>
 	<message key="common.content">Inhalt</message>
 	<message key="common.contents">Inhalte</message>
-	<message key="common.considered">Zugestimmt</message>
 	<message key="common.continue">Fortfahren</message>
 	<message key="common.copy">Kopieren</message>
 	<message key="common.country">Land</message>
@@ -220,8 +217,8 @@
 	<message key="common.source">Quelle</message>
 	<message key="common.status">Status</message>
 	<message key="common.startTyping">Eingabe beginnen</message>
-	<message key="common.subject">Gegenstand</message>
-	<message key="common.subjects">Gegenstände</message>
+	<message key="common.subject">Thema</message>
+	<message key="common.subjects">Themen</message>
 	<message key="common.subtitle">Untertitel</message>
 	<message key="common.suggest">Vorschlagen</message>
 	<message key="common.title">Titel</message>
@@ -238,7 +235,6 @@
 	<message key="common.uploadFailed">Die Datei konnte nicht hochgeladen werden. Bitte probieren Sie es erneut oder benachrichtigen Sie den/die Administrator/in, wenn das Problem weiter besteht.</message>
 	<message key="common.fileUpload.maxFileSizeStatus"><![CDATA[Dieser Server erlaubt beim Hochladen von Dateien eine maximale Dateigröße von {$fileSize}.  Wenn Sie Unterstützung benötigen, wenden Sie sich bitte an <a href="mailto:{$supportEmail}">{$supportName}</a>.]]></message>
 	<message key="common.invalidFileType">Keine Datei hochgeladen oder ungültiger Dateityp!</message>
-	<message key="common.pageHeader.altText">Kopfzeile</message>
 	<message key="common.homepageImage.altText">Bild auf der Startseite</message>
 	<message key="common.up">Aufwärts</message>
 	<message key="common.url">URL</message>
@@ -308,8 +304,6 @@
 	<message key="form.invalidImage">Es wurde ein ungültiges Bild hochgeladen. Akzeptierte Formate sind .png, .gif und .jpg.</message>
 	<message key="help.contents">Inhalt</message>
 	<message key="help.help">Hilfe</message>
-	<message key="help.toggleInlineHelpOn">Hilfe ein</message>
-	<message key="help.toggleInlineHelpOff">Hilfe aus</message>
 	<message key="help.helpIndex">Hilfe-Verzeichnis</message>
 	<message key="help.matchesFound">{$matches} Resultate</message>
 	<message key="help.noMatchingTopics">Es wurden keine entsprechende Hilfethemen gefunden.</message>
@@ -455,7 +449,7 @@
 	<message key="search.deleteFilter">Löschen</message>
 	<message key="search.discipline">Fachgebiet(e)</message>
 	<message key="search.fullText">Volltext</message>
-	<message key="search.indexTerms">Schlagworte</message>
+	<message key="search.indexTerms">Indexfelder</message>
 	<message key="search.indexTermsLong">Alle Indexfelder</message>
 	<message key="search.matchAll">In allen Kategorien übereinstimmen</message>
 	<message key="search.noKeywordError">Geben Sie mindestens einen Suchbegriff ein.</message>
@@ -466,7 +460,7 @@
 	<message key="search.searchAllCategories">Suchen nach</message>
 	<message key="search.searchCategories">Suchkategorien</message>
 	<message key="search.searchResults">Ergebnis der Suche</message>
-	<message key="search.subject">Thema</message>
+	<message key="search.subject">Schlagworte</message>
 	<message key="search.titleIndex">Titelverzeichnis durchsuchen</message>
 	<message key="search.title">Titel</message>
 	<message key="search.typeMethodApproach">Forschungsansatz, -methode und -verfahren</message>

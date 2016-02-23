@@ -4,8 +4,8 @@
 /**
  * @file js/controllers/form/FormHandler.js
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class FormHandler
@@ -32,22 +32,18 @@
 	 *  cancelRedirectUrl: string,
 	 *  disableControlsOnSubmit: boolean,
 	 *  trackFormChanges: boolean,
-	 *  enableDisablePairs: Object,
-	 *  usernameSuggestionTextAlert: string
+	 *  enableDisablePairs: Object
 	 *  }} options options to configure the form handler.
 	 */
 	$.pkp.controllers.form.FormHandler = function($form, options) {
+		var key, validator;
+
 		this.parent($form, options);
 
 		// Check whether we really got a form.
 		if (!$form.is('form')) {
 			throw new Error(['A form handler controller can only be bound',
 				' to an HTML form element!'].join(''));
-		}
-
-		// Transform all form buttons with jQueryUI.
-		if (options.transformButtons !== false) {
-			$('.button', $form).button();
 		}
 
 		// Activate and configure the validation plug-in.
@@ -78,15 +74,12 @@
 			this.enableDisablePairs_ = options.enableDisablePairs;
 			this.setupEnableDisablePairs();
 		}
-
-		// Set data for suggesting usernames.  Both keys should be present.
-		if (options.fetchUsernameSuggestionUrl &&
-				options.usernameSuggestionTextAlert) {
-			this.fetchUsernameSuggestionUrl_ = options.fetchUsernameSuggestionUrl;
-			this.usernameSuggestionTextAlert_ = options.usernameSuggestionTextAlert;
+		// Update enable disable pairs state.
+		for (key in this.enableDisablePairs_) {
+			$form.find("[id^='" + key + "']").trigger('updatePair');
 		}
 
-		var validator = $form.validate({
+		validator = $form.validate({
 			onfocusout: this.callbackWrapper(this.onFocusOutValidation_),
 			errorClass: 'error',
 			highlight: function(element, errorClass) {
@@ -103,14 +96,7 @@
 		$('[id^=\'cancelFormButton-\']', $form)
 				.click(this.callbackWrapper(this.cancelForm));
 
-		// Activate the reset button (if present).
-		$('#resetFormButton', $form).click(this.callbackWrapper(this.resetForm));
 		$form.find('.showMore, .showLess').bind('click', this.switchViz);
-
-		// Attach handler to suggest username button (if present)
-		$('[id^="suggestUsernameButton"]', $form).click(
-				this.callbackWrapper(this.generateUsername));
-
 
 		// Initial form validation.
 		if (validator.checkForm()) {
@@ -136,6 +122,7 @@
 
 		this.publishEvent('tinyMCEInitialized');
 		this.bind('tinyMCEInitialized', this.tinyMCEInitHandler_);
+		this.bind('containerClose', this.containerCloseHandler);
 	};
 	$.pkp.classes.Helper.inherits(
 			$.pkp.controllers.form.FormHandler,
@@ -198,25 +185,6 @@
 	$.pkp.controllers.form.FormHandler.prototype.enableDisablePairs_ = null;
 
 
-	/**
-	 * The URL to be called to fetch a username suggestion.
-	 * @private
-	 * @type {string}
-	 */
-	$.pkp.controllers.form.FormHandler.
-			prototype.fetchUsernameSuggestionUrl_ = '';
-
-
-	/**
-	 * The message that will be displayed if users click on suggest
-	 * username button with no data in lastname.
-	 * @private
-	 * @type {string}
-	 */
-	$.pkp.controllers.form.FormHandler.
-			prototype.usernameSuggestionTextAlert_ = '';
-
-
 	//
 	// Public methods
 	//
@@ -231,7 +199,6 @@
 	 */
 	$.pkp.controllers.form.FormHandler.prototype.showErrors =
 			function(validator, errorMap, errorList) {
-
 		// ensure that rich content elements have their
 		// values stored before validation.
 		if (typeof tinyMCE !== 'undefined') {
@@ -352,30 +319,6 @@
 
 
 	/**
-	 * Internal callback called to reset the form.
-	 *
-	 * @param {HTMLElement} resetButton The reset button.
-	 * @param {Event} event The event that triggered the
-	 *  reset button.
-	 * @return {boolean} false.
-	 */
-	$.pkp.controllers.form.FormHandler.prototype.resetForm =
-			function(resetButton, event) {
-
-		//unregister the form.
-		this.formChangesTracked = false;
-		this.trigger('unregisterChangedForm');
-
-		var $form = this.getHtmlElement();
-		$form.each(function() {
-			this.reset();
-		});
-
-		return false;
-	};
-
-
-	/**
 	 * Configures the enable/disable pair bindings between a checkbox
 	 * and some other form element.
 	 *
@@ -387,7 +330,7 @@
 		var formElement = this.getHtmlElement(), key;
 		for (key in this.enableDisablePairs_) {
 			$(formElement).find("[id^='" + key + "']").bind(
-					'click', this.callbackWrapper(this.toggleDependentElement_));
+					'click updatePair', this.callbackWrapper(this.toggleDependentElement_));
 		}
 		return true;
 	};
@@ -415,49 +358,14 @@
 
 
 	/**
-	 * Event handler that is called when the suggest username button is clicked.
+	 * Add a class to the spinner to indicate it should be hidden
+	 *
+	 * @protected
 	 */
-	$.pkp.controllers.form.FormHandler.prototype.
-			generateUsername = function() {
-
-		var $form = this.getHtmlElement(),
-				firstName, lastName, fetchUrl;
-
-		if ($('[id^="lastName"]', $form).val() === '') {
-			// No last name entered; cannot suggest. Complain.
-			alert(this.usernameSuggestionTextAlert_);
-			return;
-		}
-
-		// Fetch entered names
-		firstName = /** @type {string} */ $('[id^="firstName"]', $form).val();
-		lastName = /** @type {string} */ $('[id^="lastName"]', $form).val();
-
-		// Replace dummy values in the URL with entered values
-		fetchUrl = this.fetchUsernameSuggestionUrl_.
-				replace('FIRST_NAME_DUMMY', firstName).
-				replace('LAST_NAME_DUMMY', lastName);
-
-		$.get(fetchUrl, this.callbackWrapper(this.setUsername), 'json');
-	};
-
-
-	/**
-	 * Check JSON message and set it to username, back on form.
-	 * @param {HTMLElement} formElement The Form HTML element.
-	 * @param {JSONType} jsonData The jsonData response.
-	 */
-	$.pkp.controllers.form.FormHandler.prototype.
-			setUsername = function(formElement, jsonData) {
-
-		var processedJsonData = this.handleJson(jsonData),
-				$form = this.getHtmlElement();
-
-		if (processedJsonData === false) {
-			throw new Error('JSON response must be set to true!');
-		}
-
-		$('[id^="username"]', $form).val(processedJsonData.content);
+	$.pkp.controllers.form.FormHandler.prototype.hideSpinner =
+			function() {
+		this.getHtmlElement()
+				.find('.formButtons .pkp_spinner').removeClass('is_visible');
 	};
 
 
@@ -494,7 +402,7 @@
 			return;
 		}
 
-		$(formElement).find('.pkp_helpers_progressIndicator').show();
+		this.showSpinner_();
 
 		this.trigger('unregisterChangedForm');
 
@@ -550,9 +458,9 @@
 				"[id^='" + this.enableDisablePairs_[elementId] + "']");
 
 		if ($(sourceElement).is(':checked')) {
-			$(targetElement).attr('disabled', '');
+			$(targetElement).prop('disabled', false);
 		} else {
-			$(targetElement).attr('disabled', 'disabled');
+			$(targetElement).prop('disabled', true);
 		}
 
 		return true;
@@ -587,6 +495,31 @@
 
 			validator.element(formElement);
 		}));
+	};
+
+
+	/**
+	 * Bind a handler for container (e.g. modal) close events to permit forms
+	 * to clean up.blur handler on tinyMCE instances inside this form
+	 * @param {HTMLElement} input The input element that triggered the
+	 * event.
+	 * @param {Event} event The initialized event.
+	 * @return {boolean} Event handling success.
+	 */
+	$.pkp.controllers.form.FormHandler.prototype.containerCloseHandler =
+			function(input, event) {
+		var $form = $(this.getHtmlElement());
+		// prevent orphaned date pickers that may be still open.
+		$form.find('.hasDatepicker').datepicker('hide');
+		if (this.formChangesTracked) {
+			if (!confirm($.pkp.locale.form_dataHasChanged)) {
+				return false;
+			} else {
+				this.trigger('unregisterAllForms');
+			}
+		}
+
+		return true;
 	};
 
 
@@ -628,7 +561,7 @@
 		var originalEvent, ele, form;
 
 		originalEvent = event.originalEvent;
-		ele = originalEvent.relatedTarget;
+		ele = originalEvent.target;
 
 		form = this.getHtmlElement();
 		if (!$(ele).hasClass('hasDatepicker') &&
@@ -639,6 +572,18 @@
 				!$(ele).parent().parents('.ui-datepicker').length) {
 			$(form).find('.hasDatepicker').datepicker('hide');
 		}
+	};
+
+
+	/**
+	 * Add a class to the spinner to indicate it should be visible
+	 *
+	 * @private
+	 */
+	$.pkp.controllers.form.FormHandler.prototype.showSpinner_ =
+			function() {
+		this.getHtmlElement()
+				.find('.formButtons .pkp_spinner').addClass('is_visible');
 	};
 
 /** @param {jQuery} $ jQuery closure. */

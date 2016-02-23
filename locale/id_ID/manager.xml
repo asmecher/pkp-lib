@@ -4,8 +4,8 @@
 <!--
   * locale/id_ID/manager.xml
   *
-  * Copyright (c) 2014-2015 Simon Fraser University Library
-  * Copyright (c) 2003-2015 John Willinsky
+  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2003-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
   *
   * Localization strings.
@@ -138,7 +138,6 @@
 	<message key="manager.plugins.sitePlugin">Ini adalah site-wide plugin. Hanya Administrator bisa mengatur plugin ini.</message>
 	<message key="manager.plugins">Sistem Plugins</message>
 	<message key="manager.readingTools">Alat Membaca</message>
-	<message key="manager.reviewerSearch.advancedSearch">Pencarian Reviewer Tingkat Tinggi</message>
 	<message key="manager.reviewerSearch.searchByName">Cari Reviewer dengan Nama</message>
 	<message key="manager.reviewerSearch.doneAmount">Jumlah review yang selesai</message>
 	<message key="manager.reviewerSearch.avgAmount">Jumlah hari rata-rata per review</message>
@@ -195,7 +194,6 @@
 	<message key="manager.setup.loggingAndAuditing">Proses Login dan Audit</message>
 	<message key="manager.setup.metaCitationsDescription">Aktifkan checkbox berikut untuk memudahkan pengeditan referensi dan sitiran. Ini akan memudahkan penulis untuk memasukkan sitiran kasar dengan naskah. Editor juga akan mempunyai akses ke bantuan Koreksi sitiran yang dapat mengecek sitiran kasar terhadap database eksternal, seperti WorldCat, ISBNdb, PubMed dan lainnya, untuk keakuratan. Sitiran yang disetujui dapat diekspor ke file galley akhir.</message>
 	<message key="manager.setup.pageHeaderLogoImageInvalid">Format gambar logo header halaman invalid atau unggahan gagal. Format yang diterima adalah .gif, .jpg, or .png.</message>
-	<message key="manager.setup.pageHeaderTitleImageInvalid">Format gambar judul header halaman invalid atau unggahan gagal. Format yang diterima adalah .gif, .jpg, or .png.</message>
 	<message key="manager.setup.selectOne">Pilih satu</message>
 	<message key="manager.statistics"><![CDATA[Statistik &amp; Laporan]]></message>
 	<message key="manager.statistics.statistics.count.value">{$count} ({$percentage}%)</message>

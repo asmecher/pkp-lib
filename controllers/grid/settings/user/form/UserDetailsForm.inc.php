@@ -3,8 +3,8 @@
 /**
  * @file controllers/grid/settings/user/form/UserDetailsForm.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class UserDetailsForm
@@ -27,7 +27,7 @@ class UserDetailsForm extends UserForm {
 	 * @param $author Author optional
 	 */
 	function UserDetailsForm($request, $userId = null, $author = null) {
-		parent::UserForm('controllers/grid/settings/user/form/userForm.tpl', $userId);
+		parent::UserForm('controllers/grid/settings/user/form/userDetailsForm.tpl', $userId);
 
 		if (isset($author)) {
 			$this->author =& $author;
@@ -92,16 +92,15 @@ class UserDetailsForm extends UserForm {
 				'email' => $user->getEmail(),
 				'userUrl' => $user->getUrl(),
 				'phone' => $user->getPhone(),
-				'fax' => $user->getFax(),
 				'orcid' => $user->getOrcid(),
 				'mailingAddress' => $user->getMailingAddress(),
 				'country' => $user->getCountry(),
 				'biography' => $user->getBiography(null), // Localized
 				'interests' => $interestManager->getInterestsForUser($user),
-				'userLocales' => $user->getLocales()
+				'userLocales' => $user->getLocales(),
 			);
 		} else if (isset($this->author)) {
-			$author =& $this->author;
+			$author = $this->author;
 			$data = array(
 				'salutation' => $author->getSalutation(),
 				'firstName' => $author->getFirstName(),
@@ -113,6 +112,10 @@ class UserDetailsForm extends UserForm {
 				'orcid' => $author->getOrcid(),
 				'country' => $author->getCountry(),
 				'biography' => $author->getBiography(null), // Localized
+			);
+		} else {
+			$data = array(
+				'mustChangePassword' => true,
 			);
 		}
 		foreach($data as $key => $value) {
@@ -183,7 +186,6 @@ class UserDetailsForm extends UserForm {
 			'email',
 			'userUrl',
 			'phone',
-			'fax',
 			'orcid',
 			'mailingAddress',
 			'country',
@@ -249,7 +251,6 @@ class UserDetailsForm extends UserForm {
 		$user->setEmail($this->getData('email'));
 		$user->setUrl($this->getData('userUrl'));
 		$user->setPhone($this->getData('phone'));
-		$user->setFax($this->getData('fax'));
 		$user->setOrcid($this->getData('orcid'));
 		$user->setMailingAddress($this->getData('mailingAddress'));
 		$user->setCountry($this->getData('country'));

@@ -4,8 +4,8 @@
 <!--
   * locale/pt_BR/user.xml
   *
-  * Copyright (c) 2014-2015 Simon Fraser University Library
-  * Copyright (c) 2000-2015 John Willinsky
+  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2000-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
   *
   * Localization strings for the pt_BR (Português (Brasil)) locale.
@@ -23,7 +23,6 @@
 	<message key="user.dateRegistered">Data de cadastro</message>
 	<message key="user.editMyProfile">Editar meu perfil</message>
 	<message key="user.email">E-mail</message>
-	<message key="user.fax">Fax</message>
 	<message key="user.feminine">F</message>
 	<message key="user.firstName">Prenome</message>
 	<message key="user.gender">Sexo</message>
@@ -104,7 +103,6 @@
 	<message key="user.affiliation.description">(Sua instituição, por exemplo "Simon Fraser University")</message>
 	<message key="user.gossip">Notas privadas</message>
 	<message key="user.profile.form.affiliationRequired">A instituição/afiliação é obrigatória.</message>
-	<message key="user.confirmEmail">Confirmar e-mail</message>
 	<message key="user.register.form.emailsDoNotMatch">O e-mail informado nos campos não correspondem.</message>
 	<message key="user.repeatPassword">Repetir senha</message>
 	<message key="user.authorization.accessDenied">Acesso negado.</message>

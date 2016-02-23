@@ -3,8 +3,8 @@
 /**
  * @file plugins/importexport/users/filter/UserXmlPKPUserFilter.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class UserXmlPKPUserFilter
@@ -91,7 +91,6 @@ class UserXmlPKPUserFilter extends NativeImportFilter {
 			case 'email': $user->setEmail($n->textContent); break;
 			case 'url': $user->setUrl($n->textContent); break;
 			case 'phone': $user->setPhone($n->textContent); break;
-			case 'fax': $user->setFax($n->textContent); break;
 			case 'billing_address': $user->setBillingAddress($n->textContent); break;
 			case 'mailing_address': $user->setMailingAddress($n->textContent); break;
 			case 'biography': $user->setBiography($n->textContent, $n->getAttribute('locale')); break;

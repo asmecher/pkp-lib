@@ -1,8 +1,8 @@
 {**
  * templates/authorDashboard/top.tpl
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * The top of the author dashboard.
@@ -15,6 +15,9 @@
 					{include file="linkAction/linkAction.tpl" action=$uploadFileAction contextId="authorDashboard"}
 				</li>
 			{/if}
+			<li id="{$submissionLibraryAction->getId()}">
+				{include file="linkAction/linkAction.tpl" action=$submissionLibraryAction contextId="authorDashboard"}
+			</li>
 			<li id="{$viewMetadataAction->getId()}">
 				{include file="linkAction/linkAction.tpl" action=$viewMetadataAction contextId="authorDashboard"}
 			</li>

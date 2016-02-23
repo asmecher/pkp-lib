@@ -4,11 +4,11 @@
 <!--
   * locale/ru_RU/manager.xml
   *
-  * Copyright (c) 2014-2015 Simon Fraser University Library
-  * Copyright (c) 2000-2015 John Willinsky
+  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2000-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
   *
-  * Localization strings for the ru_RU (Russian) locale.
+  * Localization strings for the ru_RU (Русский) locale.
   *
   -->
 
@@ -147,7 +147,6 @@
 	<message key="manager.setup.layout.unselected">Не выбрано</message>
 	<message key="manager.setup.loggingAndAuditing">Дневник событий</message>
 	<message key="manager.setup.pageHeaderLogoImageInvalid">Неверный формат логотипа в заголовке страницы. Поддерживаются форматы .gif, .jpg, или .png.</message>
-	<message key="manager.setup.pageHeaderTitleImageInvalid">Неверный формат изображения в заголовке страницы. Поддерживаются форматы .gif, .jpg, или .png.</message>
 	<message key="manager.setup.selectOne">Выбрать</message>
 	<message key="manager.statistics"><![CDATA[Статистика &amp; Отчеты]]></message>
 	<message key="manager.statistics.statistics.count.value">{$count} ({$percentage}%)</message>
@@ -169,9 +168,7 @@
 	<message key="plugins.categories.themes.description">Модули Тем позволяют изменить внешний вид системы.</message>
 	<message key="plugins.categories.themes">Модули Тем</message>
 	<message key="manager.emails.addEmail">Добавить шаблон письма</message>
-	<message key="manager.navigation">Навигация</message>
 	<message key="manager.reviewerSearch.advancedSearch">Расширенный поиск рецензентов</message>
-	<message key="manager.reviewerSearch.advancedSearch.short">Расширенный поиск</message>
 	<message key="manager.reviewerSearch.searchByName">Поиск рецензента по имени</message>
 	<message key="manager.reviewerSearch.searchByName.short">Поиск по имени</message>
 	<message key="manager.setup.citationAssistant">Помощник разметки цитат</message>

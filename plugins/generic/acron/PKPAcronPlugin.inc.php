@@ -3,8 +3,8 @@
 /**
  * @file plugins/generic/acron/PKPAcronPlugin.inc.php
  *
- * Copyright (c) 2013-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2013-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class PKPAcronPlugin
@@ -112,9 +112,9 @@ class PKPAcronPlugin extends GenericPlugin {
 				$router->url($request, null, null, 'plugin', null, array('verb' => 'reload', 'plugin' => $this->getName(), 'category' => 'generic'))
 			);
 			return new LinkAction($verbName, $actionRequest, $verbLocalized, null);
-                }
+		}
 
-                return null;
+		return null;
 	}
 
 	/**

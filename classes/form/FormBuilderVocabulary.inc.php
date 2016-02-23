@@ -8,8 +8,8 @@
 /**
  * @file classes/form/FormBuilderVocabulary.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class Fbv
@@ -214,7 +214,6 @@ class FormBuilderVocabulary {
 		$smarty->assign('FBV_confirmCancel', isset($params['confirmCancel']) ? $params['confirmCancel'] : null);
 		$smarty->assign('FBV_cancelAction', isset($params['cancelAction']) ? $params['cancelAction'] : null);
 		$smarty->assign('FBV_cancelUrl', isset($params['cancelUrl']) ? $params['cancelUrl'] : null);
-		$smarty->assign('FBV_formReset', isset($params['formReset']) ? (boolean)$params['formReset'] : false);
 
 		$smarty->assign('FBV_translate', isset($params['translate']) ? $params['translate'] : true);
 
@@ -277,9 +276,6 @@ class FormBuilderVocabulary {
 			case 'interests':
 				$content = $this->_smartyFBVInterestsInput($params, $smarty);
 				break;
-			case 'link':
-				$content = $this->_smartyFBVLink($params, $smarty);
-				break;
 			case 'radio':
 				$content = $this->_smartyFBVRadioButton($params, $smarty);
 				unset($params['label']);
@@ -336,6 +332,7 @@ class FormBuilderVocabulary {
 		foreach ($params as $key => $value) {
 			switch ($key) {
 				case 'inline':
+				case 'translate':
 					break;
 				case 'label':
 				case 'type':
@@ -349,31 +346,6 @@ class FormBuilderVocabulary {
 		$smarty->assign('FBV_buttonParams', $buttonParams);
 
 		return $smarty->fetch('form/button.tpl');
-	}
-
-	/**
-	 * Text link.
-	 * parameters: label (or value), disabled (optional)
-	 * @param $params array
-	 * @param $smarty object
-	 */
-	function _smartyFBVLink($params, &$smarty) {
-		assert(isset($params['id']));
-
-		// Set the URL if there is one (defaults to '#' e.g. when the link should activate javascript)
-		$smarty->assign('FBV_href', isset($params['href']) ? $params['href'] : '#');
-
-		$smarty->clear_assign(array('FBV_label', 'FBV_disabled'));
-		foreach ($params as $key => $value) {
-			switch ($key) {
-				case 'label':
-				case 'disabled':
-					$smarty->assign('FBV_' . $key, $value);
-					break;
-			}
-		}
-
-		return $smarty->fetch('form/link.tpl');
 	}
 
 	/**
@@ -421,7 +393,12 @@ class FormBuilderVocabulary {
 		$smarty->assign('FBV_min', $params['min']);
 		$smarty->assign('FBV_max', $params['max']);
 
-		$smarty->assign('FBV_label_content', isset($params['label']) ? $this->_smartyFBVSubLabel($params, $smarty) : null);
+		$smarty->assign('FBV_value_min', isset($params['valueMin']) ? $params['valueMin'] : $params['min']);
+		$smarty->assign('FBV_value_max', isset($params['valueMax']) ? $params['valueMax'] : $params['max']);
+
+		$smarty->assign('FBV_toggleable', isset($params['toggleable']) ? $params['toggleable'] : false);
+		$smarty->assign('FBV_toggleable_label', isset($params['toggleable_label']) ? $params['toggleable_label'] : '');
+		$smarty->assign('FBV_enabled', isset($params['enabled']) ? $params['enabled'] : false);
 
 		return $smarty->fetch('form/rangeSlider.tpl');
 	}
@@ -468,7 +445,12 @@ class FormBuilderVocabulary {
 
 	/**
 	 * Form text area.
-	 * parameters: value, id, name (optional - assigned value of 'id' by default), disabled (optional), multilingual (optional)
+	 * parameters:
+	 *  - value: string for single language inputs, array (xx_YY => language_value) for multilingual
+	 *  - name: string (optional - assigned value based on ID by default)
+	 *  - disabled: boolean (default false)
+	 *  - multilingual: boolean (default false)
+	 *  - rich: false (default), true, or 'extended'
 	 * @param $params array
 	 * @param $smarty object
 	 */
@@ -759,6 +741,7 @@ class FormBuilderVocabulary {
 	 */
 	function _smartyFBVInterestsInput($params, &$smarty) {
 		$smarty->clear_assign(array('FBV_id', 'FBV_label', 'FBV_label_content', 'FBV_interests'));
+		$params['subLabelTranslate'] = isset($params['subLabelTranslate']) ? (boolean) $params['subLabelTranslate'] : true;
 		foreach ($params as $key => $value) {
 			switch ($key) {
 				case 'type': break;

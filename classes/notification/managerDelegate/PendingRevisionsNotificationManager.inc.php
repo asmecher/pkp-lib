@@ -3,8 +3,8 @@
 /**
  * @file classes/notification/managerDelegate/PendingRevisionsNotificationManager.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class PendingRevisionsNotificationManager
@@ -33,19 +33,11 @@ class PendingRevisionsNotificationManager extends RevisionsNotificationManager {
 		$submissionDao = Application::getSubmissionDAO();
 		$submission = $submissionDao->getById($notification->getAssocId());
 
+		$stageData = $this->_getStageDataByType();
+		$operation = $stageData['path'];
+
 		import('lib.pkp.controllers.grid.submissions.SubmissionsListGridCellProvider');
-		list($page, $operation) = SubmissionsListGridCellProvider::getPageAndOperationByUserRoles($request, $submission, $notification->getUserId());
-
-		if ($page == 'workflow') {
-			$stageData = $this->_getStageDataByType();
-			$operation = $stageData['path'];
-		}
-
-		$router = $request->getRouter();
-		$dispatcher = $router->getDispatcher();
-		$contextDao = Application::getContextDAO();
-		$context = $contextDao->getById($submission->getContextId());
-		return $dispatcher->url($request, ROUTE_PAGE, $context->getPath(), $page, $operation, $submission->getId());
+		return SubmissionsListGridCellProvider::getUrlByUserRoles($request, $submission, $notification->getUserId(), $stageData['path']);
 	}
 
 	/**

@@ -3,8 +3,8 @@
 /**
  * @file controllers/grid/files/SubmissionFilesGridRow.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class SubmissionFilesGridRow
@@ -25,11 +25,10 @@ class SubmissionFilesGridRow extends GridRow {
 
 	/**
 	 * Constructor
-	 * $canDelete boolean
-	 * $canViewNotes boolean
-	 * $stageId int (optional)
+	 * @param $capabilities FilesGridCapabilities
+	 * @param $stageId int Stage ID (optional)
 	 */
-	function SubmissionFilesGridRow($capabilities, $stageId = null) {
+	function SubmissionFilesGridRow($capabilities = null, $stageId = null) {
 		$this->_capabilities = $capabilities;
 		$this->_stageId = $stageId;
 		parent::GridRow();
@@ -65,7 +64,7 @@ class SubmissionFilesGridRow extends GridRow {
 
 	/**
 	 * Get the stage id, if any.
-	 * @return int
+	 * @return int Stage ID
 	 */
 	function getStageId() {
 		return $this->_stageId;
@@ -87,22 +86,22 @@ class SubmissionFilesGridRow extends GridRow {
 		assert(is_a($submissionFile, 'SubmissionFile'));
 
 		// File grid row actions:
-		// 1) Delete file action.
-		if ($this->canDelete()) {
-			import('lib.pkp.controllers.api.file.linkAction.DeleteFileLinkAction');
-			$this->addAction(new DeleteFileLinkAction($request, $submissionFile, $this->getStageId()));
-		}
-
-		// 2) Information center action.
+		// 1) Information center action.
 		if ($this->canViewNotes()) {
 			import('lib.pkp.controllers.informationCenter.linkAction.FileInfoCenterLinkAction');
 			$this->addAction(new FileInfoCenterLinkAction($request, $submissionFile, $this->getStageId()));
 		}
 
-		// 3) Edit metadata action.
+		// 2) Edit metadata action.
 		if ($this->canEdit()) {
 			import('lib.pkp.controllers.api.file.linkAction.EditFileLinkAction');
 			$this->addAction(new EditFileLinkAction($request, $submissionFile, $this->getStageId()));
+		}
+
+		// 3) Delete file action.
+		if ($this->canDelete()) {
+			import('lib.pkp.controllers.api.file.linkAction.DeleteFileLinkAction');
+			$this->addAction(new DeleteFileLinkAction($request, $submissionFile, $this->getStageId()));
 		}
 	}
 }

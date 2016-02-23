@@ -3,8 +3,8 @@
 /**
  * @file controllers/grid/eventLog/SubmissionFileEventLogGridHandler.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class SubmissionFileEventLogGridHandler
@@ -55,7 +55,7 @@ class SubmissionFileEventLogGridHandler extends SubmissionEventLogGridHandler {
 	 * @param $roleAssignments array
 	 */
 	function authorize($request, &$args, $roleAssignments) {
-		import('classes.security.authorization.SubmissionFileAccessPolicy');
+		import('lib.pkp.classes.security.authorization.SubmissionFileAccessPolicy');
 		$this->addPolicy(new SubmissionFileAccessPolicy($request, $args, $roleAssignments, SUBMISSION_FILE_ACCESS_READ));
 		return parent::authorize($request, $args, $roleAssignments);
 	}
@@ -95,7 +95,7 @@ class SubmissionFileEventLogGridHandler extends SubmissionEventLogGridHandler {
 	/**
 	 * @copydoc GridHandler::loadData
 	 */
-	function loadData($request, $filter = null) {
+	protected function loadData($request, $filter = null) {
 		$submissionFile = $this->getSubmissionFile();
 		$submissionFileEventLogDao = DAORegistry::getDAO('SubmissionFileEventLogDAO');
 		$eventLogEntries = $submissionFileEventLogDao->getByFileId(
@@ -122,7 +122,7 @@ class SubmissionFileEventLogGridHandler extends SubmissionEventLogGridHandler {
 	 * @copydoc GridHandler::getFilterForm()
 	 * @return string Filter template.
 	 */
-	function getFilterForm() {
+	protected function getFilterForm() {
 		// If the user only has an author role, do not permit access
 		// to earlier stages.
 		$userRoles = $this->getAuthorizedContextObject(ASSOC_TYPE_USER_ROLES);

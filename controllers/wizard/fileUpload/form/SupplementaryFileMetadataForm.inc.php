@@ -6,8 +6,8 @@
 /**
  * @file controllers/wizard/fileUpload/form/SupplementaryFileMetadataForm.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class SupplementaryFileMetadataForm
@@ -51,6 +51,7 @@ class SupplementaryFileMetadataForm extends SubmissionFilesMetadataForm {
 		// Update the submission file from form data.
 		$submissionFile = $this->getSubmissionFile();
 		$submissionFile->setSubject($this->getData('subject'), null); // Localized
+		$submissionFile->setCreator($this->getData('creator'), null); // Localized
 		$submissionFile->setDescription($this->getData('description'), null); // Localized
 		$submissionFile->setPublisher($this->getData('publisher'), null); // Localized
 		$submissionFile->setSponsor($this->getData('sponsor'), null); // Localized

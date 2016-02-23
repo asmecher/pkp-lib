@@ -10,8 +10,8 @@
 /**
  * @file classes/submission/Submission.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class Submission
@@ -45,16 +45,11 @@ abstract class Submission extends DataObject {
 
 	/**
 	 * Get the localized copyright holder for this submission.
+	 * @param $preferredLocale string Preferred locale code
 	 * @return string Localized copyright holder.
 	 */
-	function getLocalizedCopyrightHolder() {
-		$copyrightHolders = (array) $this->getCopyrightHolder(null);
-		foreach (AppLocale::getLocalePrecedence() as $locale) {
-			if (isset($copyrightHolders[$locale])) return $copyrightHolders[$locale];
-		}
-
-		// Fallback: return anything available
-		return array_shift($copyrightHolders);
+	function getLocalizedCopyrightHolder($preferredLocale = null) {
+		return $this->getLocalizedData('copyrightHolder', $preferredLocale);
 	}
 
 	/**
@@ -349,6 +344,24 @@ abstract class Submission extends DataObject {
 		}
 
 		return $str;
+	}
+
+	/**
+	 * Return short author names string.
+	 */
+	function getShortAuthorString() {
+		$primaryAuthor = $this->getPrimaryAuthor();
+		$authors = $this->getAuthors();
+		if (!isset($primaryAuthor)) {
+			if (sizeof($authors) > 0) {
+				$primaryAuthor = $authors[0];
+			}
+		}
+
+		$authorString = $primaryAuthor->getLastName();
+		AppLocale::requireComponents(LOCALE_COMPONENT_PKP_SUBMISSION);
+		if (count($authors) > 1) $authorString = __('submission.shortAuthor', array('author' => $authorString));
+		return $authorString;
 	}
 
 	/**
@@ -1169,22 +1182,6 @@ abstract class Submission extends DataObject {
 	 */
 	function setPages($pages) {
 		$this->setData('pages',$pages);
-	}
-
-	/**
-	 * Return submission RT comments status.
-	 * @return int
-	 */
-	function getCommentsStatus() {
-		return $this->getData('commentsStatus');
-	}
-
-	/**
-	 * Set submission RT comments status.
-	 * @param $commentsStatus boolean
-	 */
-	function setCommentsStatus($commentsStatus) {
-		$this->setData('commentsStatus', $commentsStatus);
 	}
 
 	/**

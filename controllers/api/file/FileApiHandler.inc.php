@@ -6,8 +6,8 @@
 /**
  * @file controllers/api/file/FileApiHandler.inc.php
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2000-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2000-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @class FileApiHandler
@@ -20,7 +20,7 @@
 import('classes.handler.Handler');
 import('lib.pkp.classes.core.JSONMessage');
 import('lib.pkp.classes.file.SubmissionFileManager');
-import('classes.security.authorization.SubmissionFileAccessPolicy');
+import('lib.pkp.classes.security.authorization.SubmissionFileAccessPolicy');
 
 class FileApiHandler extends Handler {
 
@@ -63,8 +63,8 @@ class FileApiHandler extends Handler {
 			}
 			$this->addPolicy($multipleSubmissionFileAccessPolicy);
 		} else if (is_numeric($libraryFileId)) {
-			import('lib.pkp.classes.security.authorization.PkpContextAccessPolicy');
-			$this->addPolicy(new PkpContextAccessPolicy($request, $roleAssignments));
+			import('lib.pkp.classes.security.authorization.ContextAccessPolicy');
+			$this->addPolicy(new ContextAccessPolicy($request, $roleAssignments));
 		} else {
 			// IDs will be specified using the default parameters.
 			$this->addPolicy($this->_getAccessPolicy($request, $args, $roleAssignments));
@@ -231,7 +231,7 @@ class FileApiHandler extends Handler {
 	 * @param $args
 	 * @param $roleAssignments array
 	 * @param $fileIdAndRevision array optional
-	 * @return SubmissionAccessPolicy
+	 * @return SubmissionFileAccessPolicy
 	 */
 	function _getAccessPolicy($request, $args, $roleAssignments, $fileIdAndRevision = null) {
 		return new SubmissionFileAccessPolicy($request, $args, $roleAssignments, SUBMISSION_FILE_ACCESS_READ, $fileIdAndRevision);

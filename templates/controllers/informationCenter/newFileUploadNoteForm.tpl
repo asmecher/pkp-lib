@@ -1,8 +1,8 @@
 {**
  * templates/controllers/informationCenter/newFileUploadNoteForm.tpl
  *
- * Copyright (c) 2014-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
+ * Copyright (c) 2014-2016 Simon Fraser University Library
+ * Copyright (c) 2003-2016 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * Display notes/note form with the possibily to upload a file associated with the note
@@ -18,8 +18,8 @@
 				$uploader: $('#plupload'),
 				resetUploader: true,
 				uploaderOptions: {ldelim}
-					uploadUrl: '{url|escape:javascript op="uploadFile" signoffId=$signoffId submissionId=$submissionId stageId=$stageId escape=false}',
-					baseUrl: '{$baseUrl|escape:javascript}'
+					uploadUrl: {url|json_encode op="uploadFile" signoffId=$signoffId submissionId=$submissionId stageId=$stageId escape=false},
+					baseUrl: {$baseUrl|json_encode}
 				{rdelim}
 			{rdelim});
 	{rdelim});
