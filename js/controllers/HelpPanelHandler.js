@@ -158,14 +158,17 @@
 	/**
 	 * Load help content in the panel.
 	 * @param {string?} topic The help context.
+	 * @param {string?} locale The language locale to load the help topic.
 	 * @private
 	 */
 	$.pkp.controllers.HelpPanelHandler.prototype.loadHelpContent_ =
 			function(topic, locale) {
-		var locale = locale || this.helpLocale_;
+		locale = locale || this.helpLocale_;
 		this.currentTopic_ = topic || '';
-		$.get(this.helpUrl_ + '/index/'  + locale + '/' + encodeURIComponent(this.currentTopic_),
-				null, this.callbackWrapper(this.updateContentHandler_), 'json');
+		var url = this.helpUrl_ + '/index/'  + locale + '/';
+		url += encodeURIComponent(this.currentTopic_);
+		$.get(url,null, this.callbackWrapper(this.updateContentHandler_),
+				'json');
 	};
 
 
