@@ -169,7 +169,7 @@ class QueryForm extends Form {
 				'userIds' => $queryDao->getParticipantIds($query->getId()),
 			);
 		} else {
-			// set intial defaults for queries.
+			// set initial defaults for queries.
 		}
 		// in order to be able to use the hook
 		return parent::initData();

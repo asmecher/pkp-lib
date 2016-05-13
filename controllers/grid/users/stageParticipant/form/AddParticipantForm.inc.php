@@ -22,10 +22,10 @@ class AddParticipantForm extends StageParticipantNotifyForm {
 	/**
 	 * Constructor.
 	 * @param $submission Submission
-	 * @param $stageId int STAGE_ID_...
+	 * @param $stageId int WORKFLOW_STAGE_ID_...
 	 */
 	function AddParticipantForm($submission, $stageId) {
-		parent::StageParticipantNotifyForm($submission->getId(), ASSOC_TYPE_SUBMISSION, $stageId, 'controllers/grid/users/stageParticipant/addParticipantForm.tpl');
+		parent::StageParticipantNotifyForm($submission->getId(), $stageId, 'controllers/grid/users/stageParticipant/addParticipantForm.tpl');
 		$this->_submission = $submission;
 		$this->_stageId = $stageId;
 

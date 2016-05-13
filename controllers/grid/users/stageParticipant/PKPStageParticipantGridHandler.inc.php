@@ -428,7 +428,7 @@ class PKPStageParticipantGridHandler extends CategoryGridHandler {
 		$this->setupTemplate($request);
 
 		import('controllers.grid.users.stageParticipant.form.StageParticipantNotifyForm'); // exists in each app.
-		$notifyForm = new StageParticipantNotifyForm($this->getSubmission()->getId(), ASSOC_TYPE_SUBMISSION, $this->getAuthorizedContextObject(ASSOC_TYPE_WORKFLOW_STAGE));
+		$notifyForm = new StageParticipantNotifyForm($this->getSubmission()->getId(), $this->getAuthorizedContextObject(ASSOC_TYPE_WORKFLOW_STAGE));
 		$notifyForm->initData();
 
 		return new JSONMessage(true, $notifyForm->fetch($request));
@@ -444,7 +444,7 @@ class PKPStageParticipantGridHandler extends CategoryGridHandler {
 		$this->setupTemplate($request);
 
 		import('controllers.grid.users.stageParticipant.form.StageParticipantNotifyForm'); // exists in each app.
-		$notifyForm = new StageParticipantNotifyForm($this->getSubmission()->getId(), ASSOC_TYPE_SUBMISSION, $this->getAuthorizedContextObject(ASSOC_TYPE_WORKFLOW_STAGE));
+		$notifyForm = new StageParticipantNotifyForm($this->getSubmission()->getId(), $this->getAuthorizedContextObject(ASSOC_TYPE_WORKFLOW_STAGE));
 		$notifyForm->readInputData($request);
 
 		if ($notifyForm->validate()) {
@@ -492,7 +492,7 @@ class PKPStageParticipantGridHandler extends CategoryGridHandler {
 			$template->replaceParams();
 
 			import('controllers.grid.users.stageParticipant.form.StageParticipantNotifyForm'); // exists in each app.
-			$notifyForm = new StageParticipantNotifyForm($this->getSubmission()->getId(), ASSOC_TYPE_SUBMISSION, $this->getAuthorizedContextObject(ASSOC_TYPE_WORKFLOW_STAGE));
+			$notifyForm = new StageParticipantNotifyForm($this->getSubmission()->getId(), $this->getAuthorizedContextObject(ASSOC_TYPE_WORKFLOW_STAGE));
 			return new JSONMessage(
 				true,
 				array(
