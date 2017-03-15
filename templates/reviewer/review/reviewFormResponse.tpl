@@ -51,5 +51,8 @@
 			{assign var=possibleResponses value=$reviewFormElement->getLocalizedPossibleResponses()}
 			{fbvElement type="select" subLabelTranslate=false translate=false name="reviewFormResponses[$elementId]" id="reviewFormResponses-$elementId" required=$reviewFormElement->getRequired() disabled=$disabled defaultLabel="" defaultValue="" from=$possibleResponses selected=$reviewFormResponses.$elementId size=$fbvStyles.size.MEDIUM}
 		{/if}
+		{if $reviewFormElement->getRequired()}
+			<span class="req">* {translate key="common.required"}</span>
+		{/if}
 	{/fbvFormSection}
 {/iterate}
