@@ -161,8 +161,6 @@
 	<message key="plugins.categories.generic">Γενικά Plugins</message>
 	<message key="plugins.categories.importexport.description">Η εισαγωγή/εξαγωγή των Plugins μπορεί να χρησιμοποιηθεί για τη μεταφορά περιεχομένου από και προς άλλα συστήματα.</message>
 	<message key="plugins.categories.importexport">Εισαγωγή/Εξαγωγή Plugins</message>
-	<message key="plugins.categories.paymethod.description">Τα Plugins Πληρωμών μπορούν να υποστηρίξουν διάφορες μεθόδους Online Πληρωμών.</message>
-	<message key="plugins.categories.paymethod">Plugins Πληρωμών</message>
 	<message key="plugins.categories.reports.description">Τα Plugins Αναφορών χρησιμοποιούνται για την δημιουργία διαφόρων τύπων αναφορών και εξαγωγής δεδομένων.</message>
 	<message key="plugins.categories.reports">Plugins Αναφορών</message>
 	<message key="plugins.categories.themes.description">Τα Theme Plugins μπορούν να χρησιμοποιηθούν για να αλλάξει η εμφάνιση του συστήματος.</message>

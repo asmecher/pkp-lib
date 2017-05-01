@@ -158,8 +158,6 @@
 	<message key="plugins.categories.generic">Generici</message>
 	<message key="plugins.categories.importexport.description">I plugin di Importazione/Esportazione possono essere usati per trasferire contenuti da e verso un altro sistema.</message>
 	<message key="plugins.categories.importexport">Import/Export</message>
-	<message key="plugins.categories.paymethod.description">I plugin per i pagamenti permettono al gestore della rivista di ricevere pagamenti secondo diverse modalità.</message>
-	<message key="plugins.categories.paymethod">Modalità di pagamento</message>
 	<message key="plugins.categories.reports.description">I plugin per i report sono utilizzati per creare vari tipi di rapporti per l'amministratore della rivista</message>
 	<message key="plugins.categories.reports">Gestione dei report</message>
 	<message key="plugins.categories.themes.description">Il plugin del tema può essere usato per cambiare l'aspetto del sistema.</message>

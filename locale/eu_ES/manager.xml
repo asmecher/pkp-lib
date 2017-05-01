@@ -158,8 +158,6 @@
 	<message key="plugins.categories.generic">Plugin generikoak</message>
 	<message key="plugins.categories.importexport.description">Inportatu eta Esportatzeko pluginak edukia beste sistema batzuetatik eta batzuetara transferitzeko erabiltzen dira.</message>
 	<message key="plugins.categories.importexport">Inportatu eta Esportatzeko pluginak</message>
-	<message key="plugins.categories.paymethod.description">Ordaintzeko moduen pluginekin, lineako ordainketak hainbat modutan prozesatu ahal izango dira.</message>
-	<message key="plugins.categories.paymethod">Ordainketen pluginak</message>
 	<message key="plugins.categories.reports.description">Txostenen pluginak Konferentzia-kudeatzaileentzako txostenak eta datu-aterakinak prestatzeko erabiltzen dira.</message>
 	<message key="plugins.categories.reports">Txostenen pluginak</message>
 	<message key="plugins.categories.themes.description">Sistemaren itxura aldatzeko erabiltzen dira Temen pluginak.</message>

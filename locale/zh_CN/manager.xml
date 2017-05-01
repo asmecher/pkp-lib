@@ -160,8 +160,6 @@
 	<message key="plugins.categories.generic">通用插件</message>
 	<message key="plugins.categories.importexport.description">导入/导出插件可以用来与其他系统传输内容.</message>
 	<message key="plugins.categories.importexport">导入／导出 插件</message>
-	<message key="plugins.categories.paymethod.description">支付插件落实处理各种在线支付流程.</message>
-	<message key="plugins.categories.paymethod">支付插件</message>
 	<message key="plugins.categories.reports.description">报告插件是用来实现各种形式的报告和数据提取.</message>
 	<message key="plugins.categories.reports">报告插件</message>
 	<message key="plugins.categories.themes.description">主题插件用户更改系统显示样式.</message>

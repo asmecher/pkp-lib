@@ -158,8 +158,6 @@
 	<message key="plugins.categories.generic">Generiske programutvidelser</message>
 	<message key="plugins.categories.importexport.description">Programutvidelser for import/eksport kan brukes for å overføre innhold til og fra andre systemer.</message>
 	<message key="plugins.categories.importexport">Programutvidelser for import/eksport</message>
-	<message key="plugins.categories.paymethod.description">Programutvidelser for betalingsmetoder implementerer støtter for forskjellige metoder for å behandle online-betalinger.</message>
-	<message key="plugins.categories.paymethod">Programutvidelser for betaling</message>
 	<message key="plugins.categories.reports.description">Programutvidelser for rapportering brukes for å implementere ulike typer rapporter og datauttrekk for konferanseadministratorer.</message>
 	<message key="plugins.categories.reports">Programutvidelser for rapportering</message>
 	<message key="plugins.categories.themes.description">Theme Plugins can be used to change the system's appearance.</message>

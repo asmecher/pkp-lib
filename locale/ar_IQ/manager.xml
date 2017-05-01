@@ -335,8 +335,6 @@
 	<message key="plugins.categories.generic">إضافات عامة</message>
 	<message key="plugins.categories.importexport.description">إضافات الاستيراد/التصدير يمكن استعمالها لنقل المحتوى من وإلى الأنظمة الأخرى.</message>
 	<message key="plugins.categories.importexport">إضافات الاستيراد/التصدير</message>
-	<message key="plugins.categories.paymethod.description">إضافات الدفع تقدم الدعم للطرق المتعددة المستعملة في معالجة المدفوعات على الإنترنت.</message>
-	<message key="plugins.categories.paymethod">إضافات الدفع</message>
 	<message key="plugins.categories.reports.description">إضافات التقارير تستعمل لتفعيل أنواع متعددة من التقارير واستقطاعات البيانات.</message>
 	<message key="plugins.categories.reports">إضافات التقارير</message>
 	<message key="plugins.categories.themes.description">إضافات النمط يمكن استعمالها لتغيير مظهر النظام.</message>

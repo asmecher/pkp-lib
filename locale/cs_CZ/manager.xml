@@ -163,8 +163,6 @@
 	<message key="plugins.categories.generic">Obecné doplňky</message>
 	<message key="plugins.categories.importexport.description">Doplňky pro import/export mohou být použity k přenesení obsahu z nebo do jiných systému.</message>
 	<message key="plugins.categories.importexport">Doplňky pro import/export</message>
-	<message key="plugins.categories.paymethod.description">Doplňky platebních metod zavádějí podporu různých způsobů zpracování online plateb.</message>
-	<message key="plugins.categories.paymethod">Platební doplňky</message>
 	<message key="plugins.categories.reports.description">Doplňky pro generování výkazů lze využít pro tvorbu různých typů výkazů a výňatků dat pro správce a manažery.</message>
 	<message key="plugins.categories.reports">Doplňky pro generování výkazů</message>
 	<message key="plugins.categories.themes.description">Doplňky témat vzhledu mohou být využity ke změně vzhledu systému.</message>

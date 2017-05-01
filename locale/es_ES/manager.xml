@@ -297,8 +297,6 @@
 	<message key="plugins.categories.generic">Plugins genéricos</message>
 	<message key="plugins.categories.importexport.description">Los plugins de importación/exportación se pueden usar para transferir contenido entre sistemas.</message>
 	<message key="plugins.categories.importexport">Plugins de importación/exportación</message>
-	<message key="plugins.categories.paymethod.description">Los Complementos de Pago implementan varias formas de procesar los pagos on-line.</message>
-	<message key="plugins.categories.paymethod">Complementos de Pago</message>
 	<message key="plugins.categories.reports.description">Los "Plugins" de Reportes son usados para implementar varios tipos de reportes y extractos de datos para los Administradores de Conferencias</message>
 	<message key="plugins.categories.reports">"Plugins" de Reportes</message>
 	<message key="plugins.categories.themes.description">Los Complementos de Aspecto se pueden usar para cambiar la apariencia del sistema.</message>

@@ -159,8 +159,6 @@
 	<message key="plugins.categories.generic">Generiske plug-ins</message>
 	<message key="plugins.categories.importexport.description">Plug-ins til import/eksport kan bruges til at overføre indhold til og fra andre systemer.</message>
 	<message key="plugins.categories.importexport">Plug-ins til import/eksport</message>
-	<message key="plugins.categories.paymethod.description">Plug-ins til betalingsmåder implementerer understøttelse af forskellige måder til håndtering af onlinebetalinger.</message>
-	<message key="plugins.categories.paymethod">Plug-ins til betalinger</message>
 	<message key="plugins.categories.reports.description">Rapport plugins bruges til at implementere forskellige typer af rapporter og dataudtræk til konferencemanagers.</message>
 	<message key="plugins.categories.reports">Rapport plugins</message>
 	<message key="plugins.categories.themes.description">Plug-ins til temaer kan bruges til at ændre systemets udseende.</message>

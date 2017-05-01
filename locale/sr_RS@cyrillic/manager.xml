@@ -207,8 +207,6 @@
 	<message key="plugins.categories.generic">Генерички додаци</message>
 	<message key="plugins.categories.importexport.description">Увоз/Извоз додаци могу се користити за извоз или увоз података.</message>
 	<message key="plugins.categories.importexport">Увоз/Извоз додаци</message>
-	<message key="plugins.categories.paymethod.description">Додаци метода плаћања имплементирају подршку за разне начине процесуирања онлине плаћања.</message>
-	<message key="plugins.categories.paymethod">Додаци за плаћање</message>
 	<message key="plugins.categories.reports.description">Додаци извештаја користе се за имплементацију различитих типова извештаја и екстраката података.</message>
 	<message key="plugins.categories.reports">Додаци извештаја</message>
 	<message key="plugins.categories.themes.description">Додатак шаблона може се користити за промену изгледа целокупног система.</message>

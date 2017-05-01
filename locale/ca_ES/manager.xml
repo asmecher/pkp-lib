@@ -306,8 +306,6 @@
 	<message key="plugins.categories.generic">Connectors genèrics</message>
 	<message key="plugins.categories.importexport.description">Podeu utilitzar els connectors d’importació i exportació per a transferir continguts a altres sistemes i des d’altres sistemes.</message>
 	<message key="plugins.categories.importexport">Connectors d’importació i exportació</message>
-	<message key="plugins.categories.paymethod.description">Els connectors de mètode de pagament us proporcionen diversos sistemes per a processar els pagaments en línia.</message>
-	<message key="plugins.categories.paymethod">Connectors de pagament</message>
 	<message key="plugins.categories.reports.description">Els connectors per a informes implementen diversos tipus d’informes i extractes de dades per a administradors/es de conferències.</message>
 	<message key="plugins.categories.reports">Connectors per a informes</message>
 	<message key="plugins.categories.themes.description">Podeu utilitzar els connectors de tema per a canviar l’aparença del sistema.</message>

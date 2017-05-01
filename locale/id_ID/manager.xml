@@ -205,8 +205,6 @@
 	<message key="plugins.categories.generic">Plugin Generic</message>
 	<message key="plugins.categories.importexport.description">Impor/Ekspor Plugin dapat digunakan untuk mentransfer konten ke dan dari sistem lain.</message>
 	<message key="plugins.categories.importexport">Plugin Impor/Ekspor</message>
-	<message key="plugins.categories.paymethod.description">Plugin Metode Pembayaran mengimplementasikan dukungan untuk berbagai cara proses pembayaran online.</message>
-	<message key="plugins.categories.paymethod">Plugin Pembayaran</message>
 	<message key="plugins.categories.reports.description">Laporkan Plugin digunakan untuk mengimplementasikan berbagai tipe laporan dan ekstrak data.</message>
 	<message key="plugins.categories.reports">Plugin Laporan</message>
 	<message key="plugins.categories.themes.description">Tema Plugins  dapat digunakan untuk mengubah penampilan sistem.</message>

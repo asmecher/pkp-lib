@@ -336,8 +336,6 @@
 	<message key="plugins.categories.generic">Модули общего назначения</message>
 	<message key="plugins.categories.importexport.description">Модули импорта/экспорта могут использоваться для обмена контентом с другими системами.</message>
 	<message key="plugins.categories.importexport">Модули импорта/экспорта</message>
-	<message key="plugins.categories.paymethod.description">Модули методов платежей реализуют поддержку различных методов обработки онлайн-платежей.</message>
-	<message key="plugins.categories.paymethod">Модули платежей</message>
 	<message key="plugins.categories.reports.description">Модули отчетов используются для реализации различных видов отчетов и извлечения данных.</message>
 	<message key="plugins.categories.reports">Модули отчетов</message>
 	<message key="plugins.categories.themes.description">Модули тем оформления могут использоваться для изменения внешнего вида системы.</message>

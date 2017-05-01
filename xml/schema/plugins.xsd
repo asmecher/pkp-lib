@@ -27,7 +27,6 @@
 					<enumeration value="generic" />
 					<enumeration value="importexport" />
 					<enumeration value="oaiMetadataFormats" />
-					<enumeration value="paymethod" />
 					<enumeration value="pubIds" />
 					<enumeration value="reports" />
 					<enumeration value="themes" />

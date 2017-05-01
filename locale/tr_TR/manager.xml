@@ -210,8 +210,6 @@
 	<message key="plugins.categories.generic">Genel Eklentiler</message>
 	<message key="plugins.categories.importexport.description">Veri Alma/Verme Eklentileri içeriğin başka sistemlere taşınması için kullanılırlar.</message>
 	<message key="plugins.categories.importexport">Veri Alma/Verme Eklentileri</message>
-	<message key="plugins.categories.paymethod.description">Ödeme Yöntemi eklentisi çevrimiçi ödeme sürecini çeşitli yollarla desteklemyi sağlar.</message>
-	<message key="plugins.categories.paymethod">Ödeme Eklentileri</message>
 	<message key="plugins.categories.reports.description">Rapor eklentileri çeşitli türde veri özetleri ve rapor sağlamak için kullanılır.</message>
 	<message key="plugins.categories.reports">Rapor Eklentileri</message>
 	<message key="plugins.categories.themes.description">Tema eklentileri sistemin görünüşünü değiştirmek için kullanılabilir.</message>

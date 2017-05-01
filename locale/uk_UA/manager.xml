@@ -209,8 +209,6 @@
 	<message key="plugins.categories.generic">Загальні модулі</message>
 	<message key="plugins.categories.importexport.description">Модулі імпорту/експорту можуть використовуватись для міграції змісту з інших систем та у інші системи.</message>
 	<message key="plugins.categories.importexport">Модулі імпорту/експорту</message>
-	<message key="plugins.categories.paymethod.description">Модулі платіжних компонентів забезпечують підтримку різноманітних способів здійснення онлайнових платежів.</message>
-	<message key="plugins.categories.paymethod">Модулі платіжних компонентів</message>
 	<message key="plugins.categories.reports.description">Модулі звітів використовуються для формування різних типів звітів та масивів статистичних даних.</message>
 	<message key="plugins.categories.reports">Модулі звітів</message>
 	<message key="plugins.categories.themes.description">Модулі тем можуть використовуватись для зміни зовнішнього вигляду системи.</message>

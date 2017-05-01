@@ -294,8 +294,6 @@
 	<message key="plugins.categories.generic">Generische Plugins</message>
 	<message key="plugins.categories.importexport.description">Mit Import-/Export-Plugins lassen sich Inhalte zu bzw. von anderen Systemen transferieren.</message>
 	<message key="plugins.categories.importexport">Import-/Export-Plugins</message>
-	<message key="plugins.categories.paymethod.description">Plugins für Zahlungsweisen bieten Unterstützung für unterschiedliche Formen des Online-Zahlungsverkehrs.</message>
-	<message key="plugins.categories.paymethod">Plugins für Zahlungsweisen</message>
 	<message key="plugins.categories.reports.description">Bericht-Plugins stellen verschiedene Arten von Berichten und Datenauszügen bereit.</message>
 	<message key="plugins.categories.reports">Bericht-Plugins</message>
 	<message key="plugins.categories.themes.description">Designvorlagen-Plugins können verwendet werden, um das Aussehen des Systems zu verändern.</message>

@@ -159,8 +159,6 @@
 	<message key="plugins.categories.generic">Generiska Plugins</message>
 	<message key="plugins.categories.importexport.description">Import-/Export-Plugins används för att överföra innehåll från och till andra system.</message>
 	<message key="plugins.categories.importexport">Import-/Export-Plugins</message>
-	<message key="plugins.categories.paymethod.description">Betalning-Plugins fungerar som stöd för olika online-betalningsmöjligheter.</message>
-	<message key="plugins.categories.paymethod">Betalning-Plugins</message>
 	<message key="plugins.categories.reports">Rapport-Plugins</message>
 	<message key="plugins.categories.themes.description">Tema-Plugins används för att ändra tjänstens utseende.</message>
 	<message key="plugins.categories.themes">Tema-Plugins</message>

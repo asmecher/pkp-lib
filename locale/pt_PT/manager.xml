@@ -161,8 +161,6 @@
 	<message key="plugins.categories.generic">Plugins Genéricos</message>
 	<message key="plugins.categories.importexport.description">Plugins de Importação/Exportação podem ser utilizados para transferir conteúdo de um sistema a outro e vice-versa.</message>
 	<message key="plugins.categories.importexport">Plugins de Importação/Exportação</message>
-	<message key="plugins.categories.paymethod.description">Plugins de Métodos de Pagamento implementam suporte a várias formas de processamento de pagamento online.</message>
-	<message key="plugins.categories.paymethod">Plugins de Métodos de Pagamento</message>
 	<message key="plugins.categories.reports.description">Plugins de Relatório são utilizados para implementar vários tipos de relatórios e extração de dados por parte dos Editores-Gestores.</message>
 	<message key="plugins.categories.reports">Plugins de Relatório</message>
 	<message key="plugins.categories.themes.description">Plugins de Visual podem ser utilizados para alterar o visual do sistema.</message>

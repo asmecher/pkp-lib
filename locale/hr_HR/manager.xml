@@ -150,8 +150,6 @@
 	<message key="plugins.categories.gateways">Poveznički dodaci</message>
 	<message key="plugins.categories.importexport.description">Dodaci za Unošenje/Iznošenje koriste se za prijenos sadržaja prema drugom sustavu ili iz drugog sustava.</message>
 	<message key="plugins.categories.importexport">Dodaci za Unošenje/Iznošenje</message>
-	<message key="plugins.categories.paymethod.description">Dodaci za modele plaćanja implementiraju podršku za različite oblike on-line plaćanja.</message>
-	<message key="plugins.categories.paymethod">Dodaci za plaćanje</message>
 	<message key="plugins.categories.reports.description">Dodaci za izvješća se koriste za generiranje raznih izvješća i izvadaka iz baze časopisa za potrebe uredništva.</message>
 	<message key="plugins.categories.reports">Dodaci za izvješća</message>
 	<message key="plugins.categories.themes.description">Dodatci za stilske teme mijenjaju izgled sistema.</message>

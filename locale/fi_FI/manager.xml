@@ -325,8 +325,6 @@
 	<message key="plugins.categories.generic">Yleiset lisäosat</message>
 	<message key="plugins.categories.importexport.description">Tuonti-/vientilisäosien avulla voidaan siirtää sisältöä muista järjestelmistä ja muihin järjestelmiin.</message>
 	<message key="plugins.categories.importexport">Tuonti-/vientilisäosat</message>
-	<message key="plugins.categories.paymethod.description">Maksutapalisäosilla otetaan käyttöön tuki erilaisille maksujen käsittelytavoille verkossa.</message>
-	<message key="plugins.categories.paymethod">Maksulisäosat</message>
 	<message key="plugins.categories.reports.description">Raporttilisäosia käytetään erilaisten raporttien ja tietopoimintojen toteuttamiseen.</message>
 	<message key="plugins.categories.reports">Raporttilisäosat</message>
 	<message key="plugins.categories.themes.description">Teemalisäosien avulla voidaan muuttaa järjestelmän ulkoasua.</message>

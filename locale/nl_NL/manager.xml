@@ -159,8 +159,6 @@
 	<message key="plugins.categories.generic">Generieke plugins</message>
 	<message key="plugins.categories.importexport.description">Import/Export plugins kunnen gebruikt worden om gegevens van en naar andere systemen te verplaatsen.</message>
 	<message key="plugins.categories.importexport">Import/Export plugins</message>
-	<message key="plugins.categories.paymethod.description">Betalingsmethode plugins implementeren de ondersteuning voor verschillende manieren om online te betalen.</message>
-	<message key="plugins.categories.paymethod">Betalingsmethode plugins</message>
 	<message key="plugins.categories.reports.description">Rapportage plugins worden gebruikt voor het implementeren van verschillende soorten rapporten en data-extracties voor conferentiebeheerders</message>
 	<message key="plugins.categories.reports">Rapportage plugins</message>
 	<message key="plugins.categories.themes.description">Thema plugins kunnen gebruikt worden om het uiterlijk van het systeem te veranderen.</message>

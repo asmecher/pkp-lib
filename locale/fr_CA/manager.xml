@@ -165,8 +165,6 @@
 	<message key="plugins.categories.generic">Plugiciels génériques</message>
 	<message key="plugins.categories.importexport.description">Les plugiciels d'importation/exportation peuvent être utilisés pour transférer le contenu soit vers un système, soit à partir d'un système.</message>
 	<message key="plugins.categories.importexport">Plugiciels d'importation/exportation</message>
-	<message key="plugins.categories.paymethod.description">Les plugiciels de mode de paiement mettent en place un soutien pour les nombreuses possibilités de traitement des paiements en ligne.</message>
-	<message key="plugins.categories.paymethod">Plugiciels de paiement</message>
 	<message key="plugins.categories.reports.description">Les plugiciels de rapport sont utilisés pour mettre en place divers types de rapports et d'extraits de données.</message>
 	<message key="plugins.categories.reports">Plugiciels de rapport</message>
 	<message key="plugins.categories.themes.description">Les plugiciels de thème sont utilisés pour modifier l'apparence du système.</message>
