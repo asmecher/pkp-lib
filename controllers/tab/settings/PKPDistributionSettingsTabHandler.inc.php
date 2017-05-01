@@ -35,19 +35,18 @@ class PKPDistributionSettingsTabHandler extends ManagerSettingsTabHandler {
 	}
 
 	/**
-	 * Expose payment methods via AHAX for selection on the payment tab.
+	 * List payment method options.
 	 * @param $args array
 	 * @param $request PKPRequest
 	 * @return JSONMessage JSON response.
 	 */
 	function getPaymentMethods($args, $request) {
-		// Expose names of payment plugins to template.
-		$pluginNames = array(__('manager.paymentMethod.none'));
-		$pluginNames += array_map(
-			create_function('$a', 'return $a->getDisplayName();'),
-			PluginRegistry::loadCategory('paymethod')
-		);
-		return new JSONMessage(true, $pluginNames);
+		return new JSONMessage(true, array_merge(
+			array(__('manager.paymentMethod.none')),
+			array_map(function($name) {
+				return Omnipay\Omnipay::create($name)->getName();
+			}, Omnipay\Omnipay::find())
+		));
 	}
 
 	/**
