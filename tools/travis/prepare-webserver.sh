@@ -35,5 +35,7 @@ sudo sed -i -e "s,/usr/lib/cgi-bin,$(pwd)/cgi-bin,g" /etc/apache2/sites-availabl
 sudo sed -i -e "s,\${APACHE_LOG_DIR},$(pwd),g" /etc/apache2/sites-available/default
 sudo sed -i -e "s,/var/www,$(pwd)/,g" /etc/apache2/suexec/www-data
 
+phpenv config-rm xdebug.ini
+
 # Restart Apache2
 sudo /etc/init.d/apache2 restart
