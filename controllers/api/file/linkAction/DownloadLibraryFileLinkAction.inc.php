@@ -47,7 +47,7 @@ class DownloadLibraryFileLinkAction extends LinkAction {
 	 * @param $libraryFile LibraryFile
 	 * @return array
 	 */
-	function getActionArgs(&$libraryFile) {
+	function getActionArgs($libraryFile) {
 		assert(is_a($libraryFile, 'LibraryFile'));
 
 		// Create the action arguments array.

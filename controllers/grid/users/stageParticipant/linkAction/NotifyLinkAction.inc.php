@@ -24,7 +24,7 @@ class NotifyLinkAction extends LinkAction {
 	 * @param $userId optional
 	 *  to show information about.
 	 */
-	function __construct($request, &$submission, $stageId, $userId = null) {
+	function __construct($request, $submission, $stageId, $userId = null) {
 		AppLocale::requireComponents(LOCALE_COMPONENT_APP_SUBMISSION);
 		// Prepare request arguments
 		$requestArgs['submissionId'] = $submission->getId();

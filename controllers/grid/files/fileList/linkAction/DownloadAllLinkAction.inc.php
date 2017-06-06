@@ -51,7 +51,7 @@ class DownloadAllLinkAction extends LinkAction {
 	function _getFilesIdsAndRevisions($files) {
 		$filesIdsAndRevisions = null;
 		foreach ($files as $fileData) {
-			$file =& $fileData['submissionFile'];
+			$file = $fileData['submissionFile'];
 			$fileId = $file->getFileId();
 			$revision = $file->getRevision();
 			$filesIdsAndRevisions .= $fileId . '-' . $revision . ';';
