@@ -119,11 +119,7 @@ abstract class PKPSubmissionHandler extends Handler {
 			import("classes.submission.form.$formClass");
 
 			$submitForm = new $formClass($context, $submission);
-			if ($submitForm->isLocaleResubmit()) {
-				$submitForm->readInputData();
-			} else {
-				$submitForm->initData();
-			}
+			$submitForm->initData();
 			return new JSONMessage(true, $submitForm->fetch($request));
 		} elseif($step == $this->getStepCount()) {
 			$templateMgr = TemplateManager::getManager($request);

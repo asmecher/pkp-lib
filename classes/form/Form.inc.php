@@ -331,16 +331,6 @@ class Form {
 	}
 
 	/**
-	 * Determine whether or not the current request results from a resubmit
-	 * of locale data resulting from a form language change.
-	 * @return boolean
-	 */
-	function isLocaleResubmit() {
-		$formLocale = Request::getUserVar('formLocale');
-		return (!empty($formLocale));
-	}
-
-	/**
 	 * Get the default form locale.
 	 * @return string
 	 */
@@ -363,7 +353,7 @@ class Form {
 	 * @return string
 	 */
 	function getFormLocale() {
-		$formLocale = Request::getUserVar('formLocale');
+		$formLocale = Application::getRequest()->getUserVar('formLocale');
 		if (!$formLocale || !isset($this->supportedLocales[$formLocale])) {
 			$formLocale = $this->getDefaultFormLocale();
 		}
@@ -382,7 +372,7 @@ class Form {
 		// case.
 		HookRegistry::call(strtolower_codesafe(get_class($this) . '::readUserVars'), array($this, &$vars));
 		foreach ($vars as $k) {
-			$this->setData($k, Request::getUserVar($k));
+			$this->setData($k, Application::getRequest()->getUserVar($k));
 		}
 	}
 
@@ -398,7 +388,7 @@ class Form {
 		// case.
 		HookRegistry::call(strtolower_codesafe(get_class($this) . '::readUserDateVars'), array($this, &$vars));
 		foreach ($vars as $k) {
-			$this->setData($k, Request::getUserDateVar($k));
+			$this->setData($k, Application::getRequest()->getUserDateVar($k));
 		}
 	}
 
