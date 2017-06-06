@@ -228,7 +228,7 @@ class ScheduledTaskHelper {
 	 * @param $cutoffTimestamp int value will be considered valid if older than this
 	 * @return boolean
 	 */
-	private function _isInRange($rangeStr, $currentValue, $lastTimestamp, $timeCompareStr, $cutoffTimestamp) {
+	private static function _isInRange($rangeStr, $currentValue, $lastTimestamp, $timeCompareStr, $cutoffTimestamp) {
 		$isValid = false;
 		$rangeArray = explode(',', $rangeStr);
 
