@@ -80,7 +80,7 @@ class ScheduledTaskHelper {
 	 * @param $frequency XMLNode
 	 * @return string
 	 */
-	function checkFrequency($className, $frequency) {
+	static function checkFrequency($className, $frequency) {
 		$isValid = true;
 		$taskDao = DAORegistry::getDAO('ScheduledTaskDAO'); /* @var $taskDao ScheduledTaskDAO */
 		$lastRunTime = $taskDao->getLastRunTime($className);
