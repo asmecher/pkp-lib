@@ -399,7 +399,7 @@ abstract class ThemePlugin extends LazyLoadPlugin {
 		// Retrieve option values if they haven't been loaded yet
 		if (is_null($this->_optionValues)) {
 			$pluginSettingsDAO = DAORegistry::getDAO('PluginSettingsDAO');
-			$context = Request::getContext();
+			$context = Application::getRequest()->getContext();
 			$contextId = $context ? $context->getId() : 0;
 			$this->_optionValues = $pluginSettingsDAO->getPluginSettings($contextId, $this->getName());
 		}
