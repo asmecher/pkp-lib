@@ -297,3 +297,7 @@ $.pkp.cons = {
 	ORDER_CATEGORY_GRID_CATEGORIES_ROWS_ONLY: 0,
 	UPLOAD_MAX_FILESIZE: 0
 }
+
+var _ = function() {};
+
+var pkp = function() {};

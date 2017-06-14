@@ -49,8 +49,7 @@
 		// Register this handler with a parent handler if one is found. This
 		// allows global events to be de-registered when a parent handler is
 		// refreshed.
-		var $parents = this.$htmlElement_.parents();
-		var self = this;
+		var $parents = this.$htmlElement_.parents(), self = this, i;
 		$parents.each(function(i) {
 			if ($.pkp.classes.Handler.hasHandler($($parents[i]))) {
 				$.pkp.classes.Handler.getHandler($($parents[i]))
@@ -69,7 +68,6 @@
 		// content change.
 		if (options.publishChangeEvents) {
 			this.publishChangeEvents_ = options.publishChangeEvents;
-			var i;
 			for (i = 0; i < this.publishChangeEvents_.length; i++) {
 				this.publishEvent(this.publishChangeEvents_[i]);
 			}
@@ -168,6 +166,7 @@
 
 		return handler;
 	};
+
 
 	/**
 	 * Check if a jQuery element has a handler bound to it
@@ -516,9 +515,10 @@
 	$.pkp.classes.Handler.prototype.unbindGlobal = function(eventName, callback) {
 		var wrapper = this.callbackWrapper(callback);
 		if (typeof this.globalEventListeners_[eventName] !== 'undefined') {
-			this.globalEventListeners = _.reject(this.globalEventListeners, function(cb) {
-				return cb === wrapper;
-			});
+			this.globalEventListeners = _.reject(this.globalEventListeners,
+					function(cb) {
+						return cb === wrapper;
+					});
 		}
 		pkp.eventBus.$off(eventName, wrapper);
 	};
@@ -755,6 +755,7 @@
 		}
 	};
 
+
 	/**
 	 * Wrapper for the jQuery .replaceWith() function.
 	 *
@@ -771,6 +772,7 @@
 		this.unbindGlobalAll();
 		this.getHtmlElement().replaceWith(html);
 	};
+
 
 	/**
 	 * Wrapper for the jQuery .replaceWith() function.
@@ -805,6 +807,7 @@
 		$partial.replaceWith(html);
 	};
 
+
 	/**
 	 * Wrapper for the jQuery .html() function.
 	 *
@@ -819,6 +822,7 @@
 		this.unbindGlobalChildren();
 		this.getHtmlElement().html(html);
 	};
+
 
 	/**
 	 * This function loops over any handlers found within the $partial dom

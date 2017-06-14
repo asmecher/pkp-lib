@@ -226,7 +226,7 @@
 			// close because no blur event will be triggered.
 			this.trigger('callWhenClickOutside', {
 				container: this.getHtmlElement(),
-				callback: this.callbackWrapper(this.hidePopover_),
+				callback: this.callbackWrapper(this.hidePopover_)
 			});
 
 			this.showPopover_();

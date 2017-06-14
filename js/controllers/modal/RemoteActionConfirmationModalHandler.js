@@ -67,7 +67,7 @@
 	/**
 	 * Data params to send with the post request
 	 * @private
-	 * @type {?object}
+	 * @type {?Object}
 	 */
 	$.pkp.controllers.modal.RemoteActionConfirmationModalHandler.prototype.
 			postData_ = null;
@@ -109,7 +109,6 @@
 			modalConfirm = function(dialogElement, event) {
 		event.preventDefault();
 
-		console.log(this.postData_);
 		$.post(this.remoteAction_,
 				this.postData_,
 				this.callbackWrapper(this.remoteResponse), 'json');
