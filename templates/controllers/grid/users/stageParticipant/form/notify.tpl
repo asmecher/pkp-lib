@@ -27,7 +27,7 @@
 			<input type="hidden" name="userId" value="{$userId|escape}"/>
 
 			{if $includeNotifyUsersListbuilder}
-				{url|assign:notifyUsersUrl router=$smarty.const.ROUTE_COMPONENT component="listbuilder.users.StageUsersListbuilderHandler" op="fetch" params=$linkParams submissionId=$submissionId userIds=$userId|to_array escape=false}
+				{capture assign=notifyUsersUrl}{url router=$smarty.const.ROUTE_COMPONENT component="listbuilder.users.StageUsersListbuilderHandler" op="fetch" params=$linkParams submissionId=$submissionId userIds=$userId|to_array escape=false}{/capture}
 				{load_url_in_div id="notifyUsersContainer" url=$notifyUsersUrl}
 			{/if}
 

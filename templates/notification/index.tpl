@@ -25,7 +25,7 @@
 
 {if $isUserLoggedIn}
 	<div id="normalNotifications">
-		{url|assign:notificationsGridUrl router=$smarty.const.ROUTE_COMPONENT component="grid.notifications.NormalNotificationsGridHandler" op="fetchGrid" escape=false}
+		{capture assign=notificationsGridUrl}{url router=$smarty.const.ROUTE_COMPONENT component="grid.notifications.NormalNotificationsGridHandler" op="fetchGrid" escape=false}{/capture}
 		{load_url_in_div id="normalNotificationsGridContainer" url=$notificationsGridUrl}
 	</div>
 {/if}

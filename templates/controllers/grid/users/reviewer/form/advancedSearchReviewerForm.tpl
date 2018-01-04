@@ -19,7 +19,7 @@
 
 	<div id="searchGridAndButton">
 		{** The grid that will display reviewers.  We have a JS handler for handling selections of this grid which will update a hidden element in the form below **}
-		{url|assign:reviewerSelectGridUrl router=$smarty.const.ROUTE_COMPONENT component="grid.users.reviewerSelect.ReviewerSelectGridHandler" op="fetchGrid" submissionId=$submissionId stageId=$stageId reviewRoundId=$reviewRoundId escape=false}
+		{capture assign=reviewerSelectGridUrl}{url router=$smarty.const.ROUTE_COMPONENT component="grid.users.reviewerSelect.ReviewerSelectGridHandler" op="fetchGrid" submissionId=$submissionId stageId=$stageId reviewRoundId=$reviewRoundId escape=false}{/capture}
 		{load_url_in_div id='reviewerSelectGridContainer' url=$reviewerSelectGridUrl}
 
 		{** This button will get the reviewer selected in the grid and insert their ID into the form below **}

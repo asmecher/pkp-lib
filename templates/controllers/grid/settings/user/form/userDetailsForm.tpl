@@ -49,7 +49,7 @@
 		{if $userId}
 			<div id="userRoles" class="full left">
 				<div id="userRolesContainer" class="full left">
-					{url|assign:userRolesUrl router=$smarty.const.ROUTE_COMPONENT component="listbuilder.users.UserUserGroupListbuilderHandler" op="fetch" userId=$userId title="grid.user.userRoles" escape=false}
+					{capture assign=userRolesUrl}{url router=$smarty.const.ROUTE_COMPONENT component="listbuilder.users.UserUserGroupListbuilderHandler" op="fetch" userId=$userId title="grid.user.userRoles" escape=false}{/capture}
 					{load_url_in_div id="userRolesContainer" url=$userRolesUrl}
 				</div>
 			</div>
