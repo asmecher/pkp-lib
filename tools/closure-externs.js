@@ -55,13 +55,6 @@ jQueryObject.prototype.jLabel = function(options) {};
  */
 jQueryObject.prototype.selectBox = function(options) {};
 
-jQueryObject.prototype.equalizeElementHeights = function() {};
-
-/**
- * @param {Object=} options
- */
-jQueryObject.prototype.slider = function(options) {};
-
 /**
  * @param {string|Object=} param1
  * @param {string|number|Object=} param2
