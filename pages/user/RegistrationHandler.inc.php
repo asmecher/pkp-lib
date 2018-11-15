@@ -79,7 +79,6 @@ class RegistrationHandler extends UserHandler {
 
 		$regForm = new RegistrationForm($site, $existingUser);
 		$regForm->readInputData();
-
 		if ($regForm->validate()) {
 			$regForm->execute($request);
 			if (Config::getVar('email', 'require_validation')) {

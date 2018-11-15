@@ -23,6 +23,7 @@
 		);
 	{rdelim});
 </script>
+<script type="text/javascript" src="//www.google.com/recaptcha/api.js?hl={$currentLocale|substr:0:2|escape}"></script>
 
 <form class="pkp_form" id="register" method="post" action="{url op="registerUser"}">
 
@@ -103,13 +104,15 @@
 		{/fbvFormSection}
 	{/if}
 
-	{if !$implicitAuth && !$existingUser && $captchaEnabled}
-		<li>
-		{fieldLabel name="captcha" required=true key="common.captchaField" class="desc"}
-		<span>
-			{$reCaptchaHtml}
-		</span>
-		</li>
+	{* recaptcha spam blocker *}
+	{if $reCaptchaHtml}
+		<fieldset class="recaptcha_wrapper">
+			<div class="fields">
+				<div class="recaptcha">
+					{$reCaptchaHtml}
+				</div>
+			</div>
+		</fieldset>
 	{/if}
 {/fbvFormArea}
 {url|assign:"url" page="index" escape=false}

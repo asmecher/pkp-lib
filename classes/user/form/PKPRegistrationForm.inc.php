@@ -68,7 +68,7 @@ class PKPRegistrationForm extends Form {
 				$this->addCheck(new FormValidatorCustom($this, 'email', 'required', 'user.register.form.emailExists', array(DAORegistry::getDAO('UserDAO'), 'userExistsByEmail'), array(), true));
 				$this->addCheck(new FormValidator($this, 'country', 'required', 'user.profile.form.countryRequired'));
 				if ($this->captchaEnabled) {
-					$this->addCheck(new FormValidatorReCaptcha($this, 'recaptcha_challenge_field', 'recaptcha_response_field', Request::getRemoteAddr(), 'common.captchaField.badCaptcha'));
+					$this->addCheck(new FormValidatorReCaptcha($this, Request::getRemoteAddr(), 'common.captcha.error.invalid-input-response'));
 				}
 
 				$authDao = DAORegistry::getDAO('AuthSourceDAO');
@@ -92,12 +92,12 @@ class PKPRegistrationForm extends Form {
 		$context = $request->getContext();
 
 		if ($this->captchaEnabled) {
-			import('lib.pkp.lib.recaptcha.recaptchalib');
 			$publicKey = Config::getVar('captcha', 'recaptcha_public_key');
-			$useSSL = Config::getVar('security', 'force_ssl')?true:false;
-			$reCaptchaHtml = recaptcha_get_html($publicKey, null, $useSSL);
-			$templateMgr->assign('reCaptchaHtml', $reCaptchaHtml);
-			$templateMgr->assign('captchaEnabled', true);
+			$reCaptchaHtml = '<div class="g-recaptcha" data-sitekey="' . $publicKey . '"></div>';
+			$templateMgr->assign(array(
+				'reCaptchaHtml' => $reCaptchaHtml,
+				'captchaEnabled' => true,
+			));
 		}
 
 		$countryDao = DAORegistry::getDAO('CountryDAO');
@@ -178,8 +178,9 @@ class PKPRegistrationForm extends Form {
 			'sendPassword'
 		);
 		if ($this->captchaEnabled) {
-			$userVars[] = 'recaptcha_challenge_field';
-			$userVars[] = 'recaptcha_response_field';
+			$this->readUserVars(array(
+				'g-recaptcha-response',
+			));
 		}
 
 		$this->readUserVars($userVars);
