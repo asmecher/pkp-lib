@@ -33,6 +33,26 @@ class PKPCatalogHandler extends Handler {
 	}
 
 	/**
+	 * Browse a list of top-level categories.
+	 * @param $args array
+	 * @param $request PKPRequest
+	 * @return string
+	 */
+	function categories($args, $request) {
+		$templateMgr = TemplateManager::getManager($request);
+		$context = $request->getContext();
+
+		// Get the category
+		$rangeInfo = $this->getRangeInfo($request, 'categories');
+		$categoryDao = DAORegistry::getDAO('CategoryDAO');
+
+		$templateMgr->assign(array(
+			'categories' => $categoryDao->getByParentId(null, $context->getId(), $rangeInfo),
+		));
+		return $templateMgr->display('frontend/pages/catalogCategories.tpl');
+	}
+
+	/**
 	 * View the content of a category.
 	 * @param $args array [
 	 *		@option string Category path

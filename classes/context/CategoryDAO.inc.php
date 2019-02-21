@@ -372,7 +372,8 @@ class CategoryDAO extends DAO {
 			WHERE	parent_id = ?
 			' . ($contextId?' AND context_id = ?':'') . '
 			ORDER BY seq',
-			$params
+			$params,
+			$rangeInfo
 		);
 		return new DAOResultFactory($result, $this, '_fromRow');
 	}
