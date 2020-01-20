@@ -12,8 +12,8 @@ describe('Dublin Core OAI tests', function() {
 		cy.request('index.php/index/oai?verb=ListRecords&metadataPrefix=oai_dc').then(response => {
 			var identifier = null;
 
-			cy.log('Response: ');
-			cy.log(response);
+			cy.consoleLog('Response: ');
+			cy.consoleLog(response);
 
 			// Ensure we got a valid XML response
 			expect(response.status).to.eq(200);
