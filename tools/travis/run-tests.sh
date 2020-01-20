@@ -20,7 +20,7 @@ $(npm bin)/cypress run --headless --browser chrome --config integrationFolder=cy
 
 # Run the pkp-lib integration tests.
 $(npm bin)/cypress run --headless --browser chrome --config integrationFolder=lib/pkp/cypress/tests/integration
-if [ -d "cypress/tests/integration" ] then
+if [ -d "cypress/tests/integration" ]; then
 	# If application integration tests are provided, run them.
 	$(npm bin)/cypress run --headless --browser chrome --config integrationFolder=cypress/tests/integration
 fi
