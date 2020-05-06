@@ -120,7 +120,7 @@ class PublicProfileForm extends BaseProfileForm {
 
 		$publicFileManager = new PublicFileManager();
 		$templateMgr->assign(array(
-			'profileImage' => $request->getUser()->getSetting('profileImage'),
+			'profileImage' => $this->getUser()->getData('profileImage'),
 			'profileImageMaxWidth' => PROFILE_IMAGE_MAX_WIDTH,
 			'profileImageMaxHeight' => PROFILE_IMAGE_MAX_HEIGHT,
 			'publicSiteFilesPath' => $publicFileManager->getSiteFilesPath(),
@@ -134,7 +134,7 @@ class PublicProfileForm extends BaseProfileForm {
 	 */
 	function execute(...$functionArgs) {
 		$request = Application::get()->getRequest();
-		$user = $request->getUser();
+		$user = $this->getUser();
 
 		$user->setOrcid($this->getData('orcid'));
 		$user->setUrl($this->getData('userUrl'));

@@ -32,7 +32,7 @@ class APIProfileForm extends BaseProfileForm {
 	 */
 	public function initData() {
 		$user = $this->getUser();
-		$this->setData('apiKeyEnabled', $user->getSetting('apiKeyEnabled'));
+		$this->setData('apiKeyEnabled', $user->getData('apiKeyEnabled'));
 	}
 
 	/**
@@ -40,10 +40,7 @@ class APIProfileForm extends BaseProfileForm {
 	 */
 	public function readInputData() {
 		parent::readInputData();
-	
-		$this->readUserVars(array(
-				'apiKeyEnabled', 'generateApiKey',
-		));
+		$this->readUserVars(['apiKeyEnabled', 'generateApiKey']);
 	}
 
 	/**
@@ -52,8 +49,8 @@ class APIProfileForm extends BaseProfileForm {
 	 * @see BaseProfileForm::fetch
 	 */
 	public function fetch($request, $template = null, $display = false) {
-		$user = $request->getUser();
-		$apiKey = $user->getSetting('apiKey');
+		$user = $this->getUser();
+		$apiKey = $user->getData('apiKey');
 		$secret = Config::getVar('security', 'api_key_secret', '');
 		$jwt = '';
 		if ($secret !== '') {
@@ -67,7 +64,7 @@ class APIProfileForm extends BaseProfileForm {
 		}
 		$templateMgr = TemplateManager::getManager($request);
 		$templateMgr->assign(array(
-			'apiKeyEnabled' => $user->getSetting('apiKeyEnabled'),
+			'apiKeyEnabled' => (boolean) $user->getData('apiKeyEnabled'),
 			'apiKey' => $jwt,
 		));
 		return parent::fetch($request, $template, $display);
@@ -77,21 +74,20 @@ class APIProfileForm extends BaseProfileForm {
 	 * @copydoc Form::execute()
 	 */
 	function execute(...$functionArgs) {
-		$request = Application::get()->getRequest();
-		$user = $request->getUser();
+		$user = $this->getUser();
 
 		$apiKeyEnabled = (bool) $this->getData('apiKeyEnabled');
-		$user->updateSetting('apiKeyEnabled', $apiKeyEnabled);
+		$user->setData('apiKeyEnabled', $apiKeyEnabled);
 
 		// remove api key if exists
 		if (!$apiKeyEnabled) {
-			$user->updateSetting('apiKey', NULL);
+			$user->setData('apiKey', null);
 		}
 
 		// generate api key
-		if ($apiKeyEnabled && !is_null($this->getData('generateApiKey'))) {
+		if ($apiKeyEnabled && $this->getData('generateApiKey')) {
 			$apiKey = sha1(time());
-			$user->updateSetting('apiKey', $apiKey);
+			$user->setData('apiKey', $apiKey);
 		}
 
 		parent::execute(...$functionArgs);

@@ -88,7 +88,7 @@ class IdentityForm extends BaseProfileForm {
 	 */
 	function execute(...$functionArgs) {
 		$request = Application::get()->getRequest();
-		$user = $request->getUser();
+		$user = $this->getUser();
 
 		$user->setGivenName($this->getData('givenName'), null);
 		$user->setFamilyName($this->getData('familyName'), null);

@@ -48,8 +48,7 @@ abstract class BaseProfileForm extends Form {
 	function execute(...$functionArgs) {
 		parent::execute(...$functionArgs);
 
-		$request = Application::get()->getRequest();
-		$user = $request->getUser();
+		$user = $this->getUser();
 		$userDao = DAORegistry::getDAO('UserDAO'); /* @var $userDao UserDAO */
 		$userDao->updateObject($user);
 

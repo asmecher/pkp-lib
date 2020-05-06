@@ -36,7 +36,7 @@ class RolesForm extends BaseProfileForm {
 
 		$userGroupDao = DAORegistry::getDAO('UserGroupDAO'); /* @var $userGroupDao UserGroupDAO */
 		$userGroupAssignmentDao = DAORegistry::getDAO('UserGroupAssignmentDAO'); /* @var $userGroupAssignmentDao UserGroupAssignmentDAO */
-		$userGroupAssignments = $userGroupAssignmentDao->getByUserId($request->getUser()->getId());
+		$userGroupAssignments = $userGroupAssignmentDao->getByUserId($this->getUser()->getId());
 		$userGroupIds = array();
 		while ($assignment = $userGroupAssignments->next()) {
 			$userGroupIds[] = $assignment->getUserGroupId();
@@ -84,8 +84,7 @@ class RolesForm extends BaseProfileForm {
 	 * @copydoc Form::execute()
 	 */
 	function execute(...$functionArgs) {
-		$request = Application::get()->getRequest();
-		$user = $request->getUser();
+		$user = $this->getUser();
 
 		// Save the roles
 		import('lib.pkp.classes.user.form.UserFormHelper');
