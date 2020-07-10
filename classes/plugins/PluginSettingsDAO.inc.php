@@ -23,7 +23,7 @@ class PluginSettingsDAO extends DAO {
 	 */
 	protected function _getPoolItem($contextId, $pluginName) {
 		$pool = new Stash\Pool(Core::getStashDriver());
-		return [$pool, $pool->getItem('pluginSettings-' . $contextId . '-' . $pluginName)];
+		return [$pool, $pool->getItem("pluginSettings/$pluginName/$contextId")];
 	}
 
 	/**

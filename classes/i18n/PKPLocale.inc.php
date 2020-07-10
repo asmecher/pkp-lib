@@ -679,7 +679,7 @@ class PKPLocale {
 	 */
 	static function _getAllLocalesCacheContent() {
 		$pool = new Stash\Pool(Core::getStashDriver());
-		$item = $pool->getItem('allLocales');
+		$item = $pool->getItem('locale/allLocales');
 		if ($item->isMiss() || filemtime(LOCALE_REGISTRY_FILE) >= $item->getCreation()->getTimestamp()) {
 			$allLocales = AppLocale::loadLocaleList(LOCALE_REGISTRY_FILE);
 			asort($allLocales);

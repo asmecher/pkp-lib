@@ -117,7 +117,7 @@ class Core {
 	 */
 	static function isUserAgentBot($userAgent, $botRegexpsFile = COUNTER_USER_AGENTS_FILE) {
 		$pool = new Stash\Pool(Core::getStashDriver());
-		$item = $pool->getItem('bots-' . md5($botRegexpsFile));
+		$item = $pool->getItem('bots/' . md5($botRegexpsFile));
 		if ($item->isMiss() || filemtime($botRegexpsFile) >= $item->getCreation()->getTimestamp()) {
 			$filteredBotRegexps = array_filter(file($botRegexpsFile),
 				function ($regexp) {
