@@ -118,6 +118,7 @@ class Core {
 	static function isUserAgentBot($userAgent, $botRegexpsFile = COUNTER_USER_AGENTS_FILE) {
 		$pool = new Stash\Pool(Core::getStashDriver());
 		$item = $pool->getItem('bots/' . md5($botRegexpsFile));
+		$botRegexps = $item->get();
 		if ($item->isMiss() || filemtime($botRegexpsFile) >= $item->getCreation()->getTimestamp()) {
 			$filteredBotRegexps = array_filter(file($botRegexpsFile),
 				function ($regexp) {
@@ -140,7 +141,7 @@ class Core {
 			$pool->save($item);
 		}
 
-		foreach ($item->get() as $regexp) {
+		foreach ($botRegexps as $regexp) {
 			// make the search case insensitive
 			$regexp .= 'i';
 			if (PKPString::regexp_match($regexp, $userAgent)) {

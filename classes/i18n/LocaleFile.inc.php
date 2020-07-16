@@ -53,11 +53,11 @@ class LocaleFile {
 
 		$pool = new Stash\Pool(Core::getStashDriver());
 		$item = $pool->getItem('locale/' . md5($this->getFilename()));
+		$messages = $item->get();
 		if ($item->isMiss() || filemtime($this->filename) >= $item->getCreation()->getTimestamp()) {
-			$item->set(LocaleFile::load($this->filename));
+			$item->set($messages = LocaleFile::load($this->filename));
 			$pool->save($item);
 		}
-		$messages = $item->get();
 
 		if (!isset($messages[$key])) return null;
 		$message = $messages[$key];

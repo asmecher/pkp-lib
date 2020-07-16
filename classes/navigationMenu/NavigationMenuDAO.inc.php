@@ -314,8 +314,8 @@ class NavigationMenuDAO extends DAO {
 	 * @param int $id
 	 */
 	function unCache($id){
-		$item = $this->_getCache($id);
-		$item->clear();
+		$pool = new Stash\Pool(Core::getStashDriver());
+		$pool->deleteItem("navigationMenu/$id");
 	}
 
 	/**
@@ -326,6 +326,7 @@ class NavigationMenuDAO extends DAO {
 	protected function _getCache($id) {
 		$pool = new Stash\Pool(Core::getStashDriver());
 		$item = $pool->getItem("navigationMenu/$id");
+		$navigationMenu = $item->get();
 		if ($item->isMiss()) {
 			$navigationMenuDao = DAORegistry::getDAO('NavigationMenuDAO');
 			$navigationMenu = $navigationMenuDao->getById($id);
@@ -334,6 +335,6 @@ class NavigationMenuDAO extends DAO {
 			$item->set($navigationMenu);
 			$pool->save($item);
 		}
-		return $item;
+		return $navigationMenu;
 	}
 }

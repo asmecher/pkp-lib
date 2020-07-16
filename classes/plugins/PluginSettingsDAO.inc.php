@@ -16,6 +16,15 @@
 
 class PluginSettingsDAO extends DAO {
 	/**
+	 * Get the cache item path.
+	 * @param $contextId int
+	 * @param $pluginName string
+	 */
+	protected function _getCacheId($contextId, $pluginName) {
+		return "pluginSettings/$pluginName/$contextId";
+	}
+
+	/**
 	 * Get the cache pool item for the specified context ID and plugin name.
 	 * @param $contextId int
 	 * @param $pluginName string
@@ -23,7 +32,7 @@ class PluginSettingsDAO extends DAO {
 	 */
 	protected function _getPoolItem($contextId, $pluginName) {
 		$pool = new Stash\Pool(Core::getStashDriver());
-		return [$pool, $pool->getItem("pluginSettings/$pluginName/$contextId")];
+		return [$pool, $pool->getItem($this->_getCacheId($contextId, $pluginName))];
 	}
 
 	/**
@@ -39,12 +48,11 @@ class PluginSettingsDAO extends DAO {
 
 		// Retrieve the setting.
 		list($pool, $item) = $this->_getPoolItem($contextId, $pluginName);
+		$settings = $item->get();
 		if ($item->isMiss()) {
 			$settings = $this->getPluginSettings($contextId, $pluginName);
-			$item->set($settings);
-			$pool->save($item);
+			$pool->save($item->set($settings));
 		}
-		$settings = $item->get();
 		return $settings[$name] ?? null;
 	}
 
@@ -117,8 +125,8 @@ class PluginSettingsDAO extends DAO {
 		);
 
 		// Clear the cache.
-		list($pool, $item) = $this->_getPoolItem($contextId, $pluginName);
-		$item->clear();
+		$pool = new Stash\Pool(Core::getStashDriver());
+		$pool->deleteItem($this->_getCacheId($contextId, $pluginName));
 
 		return $returner;
 	}
@@ -139,8 +147,8 @@ class PluginSettingsDAO extends DAO {
 		);
 
 		// Clear the cache.
-		list($pool, $item) = $this->_getPoolItem($contextId, $pluginName);
-		$item->clear();
+		$pool = new Stash\Pool(Core::getStashDriver());
+		$pool->deleteItem($this->_getCacheId($contextId, $pluginName));
 	}
 
 	/**
@@ -158,8 +166,8 @@ class PluginSettingsDAO extends DAO {
 		);
 
 		// Clear the cache.
-		list($pool, $item) = $this->_getPoolItem($contextId, $pluginName);
-		$item->clear();
+		$pool = new Stash\Pool(Core::getStashDriver());
+		$pool->deleteItem($this->_getCacheId($contextId, $pluginName));
 	}
 
 	/**
