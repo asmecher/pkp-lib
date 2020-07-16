@@ -464,15 +464,12 @@ abstract class Plugin {
 	function getSetting($contextId, $name) {
 		if (!defined('RUNNING_UPGRADE') && !Config::getVar('general', 'installed')) return null;
 
-		// Construct the argument list and call the plug-in settings DAO
-		$arguments = array(
+		$pluginSettingsDao = DAORegistry::getDAO('PluginSettingsDAO'); /* @var $pluginSettingsDao PluginSettingsDAO */
+		return $pluginSettingsDao->getSetting(
 			$contextId,
 			$this->getName(),
-			$name,
+			$name
 		);
-
-		$pluginSettingsDao = DAORegistry::getDAO('PluginSettingsDAO'); /* @var $pluginSettingsDao PluginSettingsDAO */
-		return call_user_func_array(array(&$pluginSettingsDao, 'getSetting'), $arguments);
 	}
 
 	/**
@@ -484,18 +481,14 @@ abstract class Plugin {
 	 * @param $type string optional
 	 */
 	function updateSetting($contextId, $name, $value, $type = null) {
-
-		// Construct the argument list and call the plug-in settings DAO
-		$arguments = array(
+		$pluginSettingsDao = DAORegistry::getDAO('PluginSettingsDAO'); /* @var $pluginSettingsDao PluginSettingsDAO */
+		$pluginSettingsDao->updateSetting(
 			$contextId,
 			$this->getName(),
 			$name,
 			$value,
-			$type,
+			$type
 		);
-
-		$pluginSettingsDao = DAORegistry::getDAO('PluginSettingsDAO'); /* @var $pluginSettingsDao PluginSettingsDAO */
-		call_user_func_array(array(&$pluginSettingsDao, 'updateSetting'), $arguments);
 	}
 
 	/**
@@ -577,18 +570,12 @@ abstract class Plugin {
 	 * @return boolean
 	 */
 	function installSiteSettings($hookName, $args) {
-		// All contexts are set to zero for site-wide plug-in settings
-		$application = Application::get();
-		$contextDepth = $application->getContextDepth();
-		if ($contextDepth >0) {
-			$arguments = array_fill(0, $contextDepth, 0);
-		} else {
-			$arguments = array();
-		}
-		$arguments[] = $this->getName();
-		$arguments[] = $this->getInstallSitePluginSettingsFile();
 		$pluginSettingsDao = DAORegistry::getDAO('PluginSettingsDAO'); /* @var $pluginSettingsDao PluginSettingsDAO */
-		call_user_func_array(array(&$pluginSettingsDao, 'installSettings'), $arguments);
+		$pluginSettingsDao->installSettings(
+			CONTEXT_SITE,
+			$this->getName(),
+			$this->getInstallSitePluginSettingsFile()
+		);
 
 		return false;
 	}
