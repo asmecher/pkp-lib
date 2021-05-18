@@ -25,6 +25,8 @@
 
 namespace PKP\submission;
 
+// MY NEW FEATURE
+
 use APP\core\Application;
 use APP\i18n\AppLocale;
 
