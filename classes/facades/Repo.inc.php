@@ -42,4 +42,9 @@ class Repo
     {
         return App::make(\PKP\emailTemplate\Repository::class);
     }
+
+    public static function submissionFiles(): \PKP\submissionFile\Repository
+    {
+        return App::make(\PKP\submissionFile\Repository::class);
+    }
 }
