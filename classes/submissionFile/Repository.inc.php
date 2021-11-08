@@ -610,9 +610,9 @@ class Repository
                 $allowedFileStages[] = SubmissionFile::SUBMISSION_FILE_PROOF;
             }
 
-            if ($action === SubmissionFileAccessPolicy::SUBMISSION_FILE_ACCESS_MODIFY && !$hasEditorialAssignment) {
-                $allowedFileStages[] = SubmissionFile::SUBMISSION_FILE_PROOF;
-            }
+            /*            if ($action === SubmissionFileAccessPolicy::SUBMISSION_FILE_ACCESS_MODIFY && !$hasEditorialAssignment) {
+                            $allowedFileStages[] = SubmissionFile::SUBMISSION_FILE_PROOF;
+                        }*/
 
             if ($hasEditorialAssignment) {
                 $allowedFileStages[] = SubmissionFile::SUBMISSION_FILE_PRODUCTION_READY;
