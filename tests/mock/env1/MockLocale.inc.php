@@ -13,8 +13,8 @@
  * @brief Mock implementation of the Locale class
  */
 
-use PKP\i18n\Locale;
 use PKP\facades\Locale as LocaleFacade;
+use PKP\i18n\Locale;
 
 import('lib.pkp.tests.mock.env1.MockLocaleMetadata');
 
@@ -22,33 +22,6 @@ class MockLocale extends Locale
 {
     protected ?string $primaryLocale = 'en_US';
     protected ?array $supportedLocales = ['en_US' => 'English/America'];
-    protected array $translations = [];
-
-    /**
-     * Mocked method
-     *
-     * @param $key string
-     * @param $params array named substitution parameters
-     * @param $locale string the locale to use
-     * @return string
-     */
-    public function get($key, array $params = [], $locale = null): string
-    {
-        if (isset($this->translations[$key])) {
-            return $this->translations[$key];
-        }
-        return "##${key}##";
-    }
-
-    /**
-     * Set translation keys to be faked.
-     *
-     * @param $translations array
-     */
-    public function setTranslations(array $translations): void
-    {
-        $this->translations = $translations;
-    }
 
     /**
      * Method required during setup of the PKP application framework
