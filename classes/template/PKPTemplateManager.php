@@ -614,9 +614,8 @@ class PKPTemplateManager extends Smarty
     /**
      * Get a piece of the state data
      *
-     * @param string $key
      */
-    public function getState($key)
+    public function getState(string $key)
     {
         return array_key_exists($key, $this->_state)
             ? $this->_state[$key]
@@ -830,6 +829,7 @@ class PKPTemplateManager extends Smarty
             'common.noItemsFound',
             'common.none',
             'common.ok',
+            'common.order',
             'common.orderUp',
             'common.orderDown',
             'common.pageNumber',
@@ -875,6 +875,7 @@ class PKPTemplateManager extends Smarty
             FileManager::DOCUMENT_TYPE_WORD => 'file-word-o',
             FileManager::DOCUMENT_TYPE_VIDEO => 'file-video-o',
             FileManager::DOCUMENT_TYPE_ZIP => 'file-archive-o',
+            FileManager::DOCUMENT_TYPE_URL => 'external-link',
         ];
         $this->addJavaScript(
             'documentTypeIcons',
@@ -1011,7 +1012,7 @@ class PKPTemplateManager extends Smarty
                     } elseif (count($userRoles) === 1 && in_array(Role::ROLE_ID_READER, $userRoles)) {
                         $menu['submit'] = [
                             'name' => __('author.submit'),
-                            'url' => $router->url($request, null, 'submission', 'wizard'),
+                            'url' => $router->url($request, null, 'submission'),
                             'isCurrent' => $router->getRequestedPage($request) === 'submission',
                         ];
                     }
@@ -2022,6 +2023,7 @@ class PKPTemplateManager extends Smarty
             'inElUrl' => $params['url'],
             'inElElId' => $params['id'],
             'inElClass' => $params['class'] ?? null,
+            'inVueEl' => $params['inVueEl'] ?? null,
             'refreshOn' => $params['refreshOn'] ?? null,
         ]);
 

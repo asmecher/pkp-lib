@@ -15,7 +15,7 @@
 namespace PKP\components\forms\context;
 
 use PKP\components\forms\FieldHTML;
-use PKP\components\forms\FieldRadioInput;
+use PKP\components\forms\FieldOptions;
 use PKP\components\forms\FieldText;
 use PKP\components\forms\FormComponent;
 
@@ -62,9 +62,10 @@ class PKPSubmissionsNotificationsForm extends FormComponent
         $contactEmail = $context->getData('contactEmail');
 
         if (!empty($contactEmail)) {
-            $this->addField(new FieldRadioInput('copySubmissionAckPrimaryContact', [
+            $this->addField(new FieldOptions('copySubmissionAckPrimaryContact', [
                 'label' => __('manager.setup.notifications.copySubmissionAckPrimaryContact'),
                 'description' => __('manager.setup.notifications.copySubmissionAckPrimaryContact.description'),
+                'type' => 'radio',
                 'options' => [
                     ['value' => true, 'label' => __('manager.setup.notifications.copySubmissionAckPrimaryContact.enabled', ['email' => $contactEmail])],
                     ['value' => false, 'label' => __('manager.setup.notifications.copySubmissionAckPrimaryContact.disabled')],

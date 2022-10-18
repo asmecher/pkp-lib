@@ -709,14 +709,8 @@ msgstr "Búið til nýja innsendingu"
 msgid "submission.submit.whatNext.forNow"
 msgstr "Núna getur þú:"
 
-msgid "submission.submit.whatNext"
-msgstr "Hvað gerist næst?"
-
 msgid "submission.submit.removeConfirm"
 msgstr "Ertu viss um að þú viljir fjarlægja þessa skrá?"
-
-msgid "submission.submit.genre.error"
-msgstr "Vinsamleg veldu skráartegund fyrir hvert upphal."
 
 msgid "submission.submit.genre.description"
 msgstr "Veldu valkost sem lýsir skránni best."
@@ -724,18 +718,10 @@ msgstr "Veldu valkost sem lýsir skránni best."
 msgid "submission.submit.genre.label"
 msgstr "Hvernig skrá er þetta?"
 
-msgid "submission.submit.copyrightNoticeAgree"
-msgstr "Já, ég samþykki að efna skilmála um höfundarétt."
-
-msgid "submission.submit.copyrightNoticeAgreementLabel"
-msgstr "Staðfesta höfundarétt"
-
-msgid "submission.submit.submissionCompleteThanks"
-msgstr "Takk fyrir þann áhuga sem þú sýnir á birtingu í  {$contextName}."
-
 msgid "submission.submit.submissionComplete"
 msgstr "Innsendingu lokið"
 
+#, fuzzy
 msgid "submission.submit.submissionChecklistDescription"
 msgstr ""
 "Þú verður að staðfesta að þú uppfyllir atriðin á minnislistanum áður en þú "
@@ -744,29 +730,11 @@ msgstr ""
 msgid "submission.submit.submissionChecklist"
 msgstr "Minnislisti höfunda"
 
-msgid "submission.submit.userGroupDescriptionManagers"
-msgstr ""
-"Veldu eitt af eftirfarandi hlutverkum, ef þú vilt sjálf(ur/t) geta breytt og "
-"gefið út þessa innsendingu: {$managerGroups}"
-
-msgid "submission.submit.contactConsentDescription"
-msgstr "Já, ég vil að haft verði samband við mig vegna innsendingarinnar."
-
-msgid "submission.submit.contactConsent"
-msgstr "Tengiliður samskipta"
-
 msgid "submission.submit.availableUserGroupsDescription"
 msgstr "Veldu hlutverk sem lýsir best framlagi þínu til innsendingarinnar."
 
 msgid "submission.submit.availableUserGroups"
 msgstr "Senda inn sem"
-
-msgid "submission.confirm.message"
-msgstr ""
-"Handriti þínu hefur verið hlaðið inn og er tilbúið til innsendingar. Þú "
-"getur farið til baka til að skoða og laga þær upplýsingar sem þú hefur gefið "
-"upp áður en þú heldur áfram.  Þegar þú ert tilbúin(n/-ð), smelltu á \"Klára "
-"innsendingu\"."
 
 msgid "author.submission.roundStatus.reviewOverdue"
 msgstr ""
@@ -1261,41 +1229,11 @@ msgstr "Skipta út skrá?"
 msgid "submission.form.name"
 msgstr "Gefðu skránni heiti (t.d. Handrit; Tafla 1)"
 
-msgid "submission.submit.form.citationsRequired"
-msgstr "Settu inn heimildir."
-
-msgid "submission.submit.form.rightsRequired"
-msgstr "Settu inn réttindi."
-
-msgid "submission.submit.form.sourceRequired"
-msgstr "Settu inn uppruna."
-
-msgid "submission.submit.form.typeRequired"
-msgstr "Settu inn tegund."
-
-msgid "submission.submit.form.coverageRequired"
-msgstr "Settu inn upplýsingar um umfang."
-
-msgid "submission.submit.form.keywordsRequired"
-msgstr "Settu inn lykilorð."
-
-msgid "submission.submit.form.disciplinesRequired"
-msgstr "Settu inn fræðasvið."
-
-msgid "submission.submit.form.subjectsRequired"
-msgstr "Settu inn efni."
-
-msgid "submission.submit.form.languagesRequired"
-msgstr "Settu inn tungumál."
-
 msgid "submission.submit.addAuthor"
 msgstr "Bæta við framlagsaðila"
 
 msgid "submission.submit.contributorRole"
 msgstr "Hlutverk framlagsaðila"
-
-msgid "submission.submit.selectPrincipalContact"
-msgstr "Aðaltengiliður fyrir samskipti við ritstjórn."
 
 msgid "submission.date.yyyymmdd"
 msgstr "AAAA-MM-DD"
@@ -1332,15 +1270,6 @@ msgstr "Hlaða upp skrá á"
 
 msgid "submission.underway"
 msgstr "Á leiðinni"
-
-msgid "submission.type.tip"
-msgstr ""
-"Tegund innsendingar er venjulega eitt af eftirfarandi: 'mynd', 'texti', eða "
-"aðrar margmiðlunartegundir, þ.m.t. 'hugbúnaður' eða 'gagnvirkt'.  Vinsamlega "
-"veldu það sem best á við fyrir þína innsendingu.  Dæmi má finna á   <a "
-"target=\"_blank\" href=\"http://dublincore.org/documents/2001/04/12/"
-"usageguide/generic.shtml#type\">http://dublincore.org/documents/2001/04/12/"
-"usageguide/generic.shtml#type</a>"
 
 msgid "submission.titleAndAbstract"
 msgstr "Titill og útdráttur"
@@ -1388,11 +1317,6 @@ msgstr ""
 msgid "submission.submit.submissionLocale"
 msgstr "Tungumál innsendingar"
 
-msgid "submission.submit.metadataForm.tip"
-msgstr ""
-"Bæta við upplýsingum um innsendinguna þína.  Ýttu á \"enter\" eftir hvert "
-"hugtak."
-
 msgid "submission.submit.metadataForm"
 msgstr "Viðbótarhreinsanir"
 
@@ -1416,9 +1340,6 @@ msgstr "Vista lýsigögn"
 
 msgid "submission.submit.selectFile"
 msgstr "Velja skrá"
-
-msgid "submission.submit.finishSubmission"
-msgstr "Ljúka innsendingu"
 
 msgid "submission.submitter"
 msgstr "Sendandi"
@@ -1446,11 +1367,6 @@ msgstr "Innsent"
 
 msgid "submissions.submit"
 msgstr "Senda inn"
-
-msgid "submission.source.tip"
-msgstr ""
-"Á þessi innsending rætur að rekja til annars uppruna?  Ef svo er, þá getur "
-"þú skráð vefslóð eða lýsingu á því hvaðan hún er fengin."
 
 msgid "submission.source"
 msgstr "Uppruni"
@@ -1484,11 +1400,6 @@ msgstr "Vistað"
 
 msgid "submissions.active"
 msgstr "Virkt"
-
-msgid "submission.rights.tip"
-msgstr ""
-"Hér getur þú valið að slá inn stutta yfirlýsingu um aðgengisréttindi "
-"varðandi þessa innsendingu."
 
 msgid "submission.rights"
 msgstr "Réttindi"
@@ -2129,3 +2040,10 @@ msgstr "Hætt við ritrýni"
 
 msgid "submission.list.reviewComplete"
 msgstr "Ritrýni skilað"
+
+#, fuzzy
+msgid "author.submit.noFiles"
+msgstr "Engar skrár hafa verið tengdar við innsendinguna."
+
+msgid "author.submit.confirmation"
+msgstr "Staðfesting"

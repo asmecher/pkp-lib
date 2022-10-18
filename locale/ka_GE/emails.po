@@ -16,6 +16,7 @@ msgid "emails.submissionAck.subject"
 msgstr "გაგზავნის დადასტურება"
 
 #, fuzzy
+#, fuzzy
 msgid "emails.submissionAck.body"
 msgstr ""
 "{$recipientName}:<br />\n"
@@ -166,3 +167,9 @@ msgstr ""
 #, fuzzy
 msgid "emails.editorDecisionInitialDecline.subject"
 msgstr "რედაქციის გადაწყვეტილება"
+
+msgid "emails.submissionAckNotUser.description"
+msgstr ""
+"ეს წერილი (თუ ეს შესაძლებლობა ჩართულია) ავტომატურად გაეგზავნება სხვა "
+"ავტორებს, რომლებიც არ არიან OJS-ის მომხმარებლები, მაგრამ მითითებული არიან "
+"მასალების გაგზავნის პროცეში."
