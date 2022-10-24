@@ -112,7 +112,7 @@ class QueryDAO extends \PKP\db\DAO
     }
 
     /**
-     * Retrieve a count of all queries totalled by stage
+     * Retrieve a count of all open queries totalled by stage
      *
      * @param int[] $participantIds Only include queries with these participants
      *
