@@ -2237,3 +2237,9 @@ msgstr "{$item}/{$afterSlash}"
 msgid "common.categorySeparator"
 msgstr "{$parent} > {$child}"
 
+msgid "notification.addedAuthor"
+msgstr "Հեղինակը ավելացված է."
+
+msgid "notification.editedAuthor"
+msgstr "Հեղինակի հաշիվը խմբագրված է։"
+

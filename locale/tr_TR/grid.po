@@ -693,3 +693,19 @@ msgstr "Kurum Ekle"
 
 msgid "grid.action.view"
 msgstr "Görüntüle"
+
+msgid "author.users.contributor.name"
+msgstr "Ad"
+
+msgid "author.users.contributor.email"
+msgstr "E-posta"
+
+msgid "author.users.contributor.role"
+msgstr "Görev"
+
+msgid "author.users.contributor.includeInBrowse"
+msgstr "Gözatma Listelerinde"
+
+msgid "grid.action.editContributor"
+msgstr "Katkıda Bulunan Kişi Düzelt"
+

@@ -684,3 +684,18 @@ msgstr ""
 
 msgid "grid.action.saveOrdering"
 msgstr "Сохранить порядок"
+
+msgid "author.users.contributor.name"
+msgstr "Имя"
+
+msgid "author.users.contributor.email"
+msgstr "Адрес электронной почты"
+
+msgid "author.users.contributor.role"
+msgstr "Роль"
+
+msgid "author.users.contributor.includeInBrowse"
+msgstr "В списки просмотра"
+
+msgid "grid.action.editContributor"
+msgstr "Редактировать поддерживающего"

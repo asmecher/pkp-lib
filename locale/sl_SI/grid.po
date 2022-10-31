@@ -710,3 +710,19 @@ msgstr "Dodaj institucijo"
 
 msgid "grid.action.view"
 msgstr "Pogled"
+
+msgid "author.users.contributor.name"
+msgstr "Ime"
+
+msgid "author.users.contributor.email"
+msgstr "Email"
+
+msgid "author.users.contributor.role"
+msgstr "Vloga"
+
+msgid "author.users.contributor.includeInBrowse"
+msgstr "Objavljen v seznamu"
+
+msgid "grid.action.editContributor"
+msgstr "Uredi sodelavca"
+
