@@ -28,27 +28,43 @@ class SubmissionsMigration extends \PKP\migration\Migration
     {
         // Submissions
         Schema::create('submissions', function (Blueprint $table) {
+            $table->comment('Records data about submissions (articles in OJS, monographs in OMP, or preprints in OPS). Each submission may have multiple publications representing revisions of the submission. See current_publication_id for the "current" publication.');
+
             $table->bigInteger('submission_id')->autoIncrement();
 
-            $table->bigInteger('context_id');
+            $table->bigInteger('context_id')
+                ->comment('The journal_id (see journals) in OJS, press_id (see presses) in OMP, or server_id (see servers) in OPS');
+
             $contextDao = \APP\core\Application::getContextDAO();
             $table->foreign('context_id', 'submissions_context_id')->references($contextDao->primaryKeyColumn)->on($contextDao->tableName)->onDelete('cascade');
             $table->index(['context_id'], 'submissions_context_id');
 
             // NOTE: The foreign key relationship on publications is declared where that table is created.
-            $table->bigInteger('current_publication_id')->nullable();
+            $table->bigInteger('current_publication_id')->nullable()
+                ->comment('The current "published" publication ID; the default publication that will be displayed to readers in the front end. Newer publications may exist but they will not yet be published.');
+            ;
 
-            $table->datetime('date_last_activity')->nullable();
-            $table->datetime('date_submitted')->nullable();
+            $table->datetime('date_last_activity')->nullable()
+                ->comment('The time a substantive (e.g. editorial) activity was performed on the submission.');
+
+            $table->datetime('date_submitted')->nullable()
+                ->comment('The date the submission was submitted to the journal. If null, the submission has not yet been submitted (e.g. it is incomplete).');
+
             $table->datetime('last_modified')->nullable();
-            $table->bigInteger('stage_id')->default(WORKFLOW_STAGE_ID_SUBMISSION);
+
+            $table->bigInteger('stage_id')->default(WORKFLOW_STAGE_ID_SUBMISSION)
+                ->comment('The current workflow stage ID of the submission; must be a value corresponding to a WORKFLOW_STAGE_ID_... constant, defined in PHP. See https://github.com/pkp/pkp-lib/blob/main/classes/core/PKPApplication.php for values.');
+
             $table->string('locale', 14)->nullable();
 
-            $table->smallInteger('status')->default(PKPSubmission::STATUS_QUEUED);
+            $table->smallInteger('status')->default(PKPSubmission::STATUS_QUEUED)
+                ->comment('The current workflow status of the submission; must be a value corresponding to a STATUS_... constant, defined in PHP. See https://github.com/pkp/pkp-lib/blob/main/classes/submission/PKPSubmission.php for values.');
 
-            $table->smallInteger('submission_progress')->default(1);
-            //  Used in OMP only; should not be null there
-            $table->smallInteger('work_type')->default(0)->nullable();
+            $table->smallInteger('submission_progress')->default(1)
+                ->comment('The current numeric step of the author\'s submission process, for incomplete submissions; 0 for complete submissions.');
+
+            $table->smallInteger('work_type')->default(0)->nullable()
+                ->comment('Used in OMP only; should not be null there');
         });
         Schema::table('stage_assignments', function (Blueprint $table) {
             $table->foreign('submission_id')->references('submission_id')->on('submissions')->onDelete('cascade');
