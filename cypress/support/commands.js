@@ -872,5 +872,5 @@ Cypress.Commands.add('changeLanguage', (language, contextPath) => {
 
 	cy.get('.app__userNav > button').click();
 	cy.get('.app__userNav a:contains("Français")').click();
-	cy.wait(2000);
+	cy.wait(5000);
 });
