@@ -770,6 +770,11 @@ abstract class PKPApplication implements iPKPApplicationInfoProvider
     {
         throw new \Exception('Payments not implemented.');
     }
+
+    public function getNamespace(): string
+    {
+        return 'APP\\';
+    }
 }
 
 define('REALLY_BIG_NUMBER', 10000);
