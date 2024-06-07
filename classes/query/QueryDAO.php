@@ -396,6 +396,7 @@ class QueryDAO extends DAO
             'contents' =>  $content,
             'title' =>  $title,
             'userId' =>  $fromUser->getId(),
+            'messageId' => Note::generateMessageId(),
         ]);
 
         // Add task for assigned participants

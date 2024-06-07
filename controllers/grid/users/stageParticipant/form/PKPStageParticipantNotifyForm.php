@@ -214,6 +214,7 @@ class PKPStageParticipantNotifyForm extends Form
                 $this->getData('message'),
                 array_intersect_key($mailable->getData(), $additionalVariables)
             ),
+            'messageId' => Note::generateMessageId(),
         ]);
 
         // Send the email
@@ -230,6 +231,7 @@ class PKPStageParticipantNotifyForm extends Form
 
         $mailable->allowUnsubscribe($notification);
         $logRepository = null;
+        $mailable->allowCapturableReply($headNote->messageId);
         try {
             Mail::send($mailable);
             $logRepository = Repo::emailLogEntry();

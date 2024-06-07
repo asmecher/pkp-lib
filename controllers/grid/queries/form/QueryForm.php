@@ -87,6 +87,7 @@ class QueryForm extends Form
                 'userId' =>  $request->getUser()->getId(),
                 'assocType' => Application::ASSOC_TYPE_QUERY,
                 'assocId' => $query->getId(),
+                'messageId' => Note::generateMessageId(),
             ]);
         } else {
             $query = $queryDao->getById($queryId, $assocType, $assocId);
