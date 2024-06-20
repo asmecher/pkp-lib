@@ -19,10 +19,10 @@ namespace PKP\log\event;
 class SubmissionFileEventLogEntry extends EventLogEntry
 {
     // File upload/delete event types.
-    public const SUBMISSION_LOG_FILE_UPLOAD = 0x50000001;
-    public const SUBMISSION_LOG_FILE_DELETE = 0x50000002;
-    public const SUBMISSION_LOG_FILE_REVISION_UPLOAD = 0x50000008;
-    public const SUBMISSION_LOG_FILE_EDIT = 0x50000010;
+    public const SUBMISSION_LOG_FILE_UPLOAD = 1342177281; // 0x50000001
+    public const SUBMISSION_LOG_FILE_DELETE = 1342177282; // 0x50000002
+    public const SUBMISSION_LOG_FILE_REVISION_UPLOAD = 1342177288; // 0x50000008
+    public const SUBMISSION_LOG_FILE_EDIT = 1342177296; // 0x50000010
 
     // Audit events
     public const SUBMISSION_LOG_FILE_AUDITOR_ASSIGN = 0x50000004;

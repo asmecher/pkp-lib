@@ -25,8 +25,8 @@ use PKP\submissionFile\SubmissionFile;
 class EventLogEntry extends \PKP\core\DataObject
 {
     // Information Center events
-    public const SUBMISSION_LOG_NOTE_POSTED = 0x01000000;
-    public const SUBMISSION_LOG_MESSAGE_SENT = 0x01000001;
+    public const SUBMISSION_LOG_NOTE_POSTED = 16777216; // 0x01000000
+    public const SUBMISSION_LOG_MESSAGE_SENT = 16777217; // 0x01000001
 
     //
     // Get/set methods
@@ -34,120 +34,96 @@ class EventLogEntry extends \PKP\core\DataObject
 
     /**
      * Get user ID of user that initiated the event.
-     *
-     * @return int
      */
-    public function getUserId()
+    public function getUserId(): int
     {
         return $this->getData('userId');
     }
 
     /**
      * Set user ID of user that initiated the event.
-     *
-     * @param int $userId
      */
-    public function setUserId($userId)
+    public function setUserId(int $userId)
     {
         $this->setData('userId', $userId);
     }
 
     /**
      * Get date entry was logged.
-     *
-     * @return string
      */
-    public function getDateLogged()
+    public function getDateLogged(): string
     {
         return $this->getData('dateLogged');
     }
 
     /**
      * Set date entry was logged.
-     *
-     * @param string $dateLogged
      */
-    public function setDateLogged($dateLogged)
+    public function setDateLogged(string $dateLogged)
     {
         $this->setData('dateLogged', $dateLogged);
     }
 
     /**
      * Get event type.
-     *
-     * @return int
      */
-    public function getEventType()
+    public function getEventType(): int
     {
         return $this->getData('eventType');
     }
 
     /**
      * Set event type.
-     *
-     * @param int $eventType
      */
-    public function setEventType($eventType)
+    public function setEventType(int $eventType)
     {
         $this->setData('eventType', $eventType);
     }
 
     /**
      * Get associated type.
-     *
-     * @return int
      */
-    public function getAssocType()
+    public function getAssocType(): int
     {
         return $this->getData('assocType');
     }
 
     /**
      * Set associated type.
-     *
-     * @param int $assocType
      */
-    public function setAssocType($assocType)
+    public function setAssocType(int $assocType)
     {
         $this->setData('assocType', $assocType);
     }
 
     /**
      * Get associated ID.
-     *
-     * @return int
      */
-    public function getAssocId()
+    public function getAssocId(): int
     {
         return $this->getData('assocId');
     }
 
     /**
      * Set associated ID.
-     *
-     * @param int $assocId
      */
-    public function setAssocId($assocId)
+    public function setAssocId(int $assocId)
     {
         $this->setData('assocId', $assocId);
     }
 
     /**
      * Get custom log message (either locale key or literal string).
-     *
-     * @return string
      */
-    public function getMessage()
+    public function getMessage(): string
     {
         return $this->getData('message');
     }
 
     /**
      * Set custom log message (either locale key or literal string).
-     *
-     * @param string $message
      */
-    public function setMessage($message)
+    public function setMessage(string $message)
     {
         $this->setData('message', $message);
     }
@@ -155,19 +131,16 @@ class EventLogEntry extends \PKP\core\DataObject
     /**
      * Get flag indicating whether or not message is translated.
      *
-     * @return bool
      */
-    public function getIsTranslated()
+    public function getIsTranslated(): bool
     {
         return $this->getData('isTranslated');
     }
 
     /**
      * Set flag indicating whether or not message is translated.
-     *
-     * @param int $isTranslated
      */
-    public function setIsTranslated($isTranslated)
+    public function setIsTranslated(bool $isTranslated)
     {
         $this->setData('isTranslated', $isTranslated);
     }
@@ -175,11 +148,10 @@ class EventLogEntry extends \PKP\core\DataObject
     /**
      * Get translated message, translating it if necessary.
      *
-     * @param string $locale optional
      * @param bool $hideReviewerName optional Don't reveal reviewer names in
      *  log descriptions.
      */
-    public function getTranslatedMessage($locale = null, $hideReviewerName = false)
+    public function getTranslatedMessage(?string $locale = null, bool $hideReviewerName = false): string
     {
         $message = $this->getMessage();
         // If it's already translated, just return the message.
@@ -246,10 +218,8 @@ class EventLogEntry extends \PKP\core\DataObject
 
     /**
      * Return the full name of the user.
-     *
-     * @return string
      */
-    public function getUserFullName()
+    public function getUserFullName(): string
     {
         $userFullName = & $this->getData('userFullName');
         if (!isset($userFullName) && $this->getUserId()) {
@@ -261,10 +231,8 @@ class EventLogEntry extends \PKP\core\DataObject
 
     /**
      * Return the email address of the user.
-     *
-     * @return string
      */
-    public function getUserEmail()
+    public function getUserEmail(): string
     {
         $userEmail = $this->getData('userEmail');
 
