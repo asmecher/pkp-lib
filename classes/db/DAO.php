@@ -35,6 +35,10 @@ class DAO
     public const SORT_DIRECTION_ASC = 1;
     public const SORT_DIRECTION_DESC = 2;
 
+    public function getSomething(): boolean
+    {
+        return true;
+    }
     /**
      * Constructor.
      * Initialize the database connection.
