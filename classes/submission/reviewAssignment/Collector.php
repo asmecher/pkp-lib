@@ -29,6 +29,7 @@ class Collector implements CollectorInterface, ViewsCount
 {
     public DAO $dao;
     public ?array $contextIds = null;
+    public ?string $messageId = null;
     public ?array $submissionIds = null;
     public bool $isIncomplete = false;
     public bool $isArchived = false;
@@ -79,6 +80,15 @@ class Collector implements CollectorInterface, ViewsCount
     public function filterByContextIds(?array $contextIds): static
     {
         $this->contextIds = $contextIds;
+        return $this;
+    }
+
+    /**
+     * Filter review assignments by message ID
+     */
+    public function filterByMessageId(?string $messageId): static
+    {
+        $this->messageId = $messageId;
         return $this;
     }
 
@@ -212,6 +222,11 @@ class Collector implements CollectorInterface, ViewsCount
                     ->from('submissions as s')
                     ->whereIn('s.context_id', $this->contextIds)
             )
+        );
+
+        $q->when(
+            $this->messageId !== null,
+            fn (Builder $q) => $q->where('ra.message_id', $this->messageId)
         );
 
         $q->when(
