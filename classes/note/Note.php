@@ -19,8 +19,8 @@ use Eloquence\Behaviours\HasCamelCasing;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
-use PKP\db\DAO;
 use PKP\config\Config;
+use PKP\db\DAO;
 
 class Note extends Model
 {
@@ -29,8 +29,8 @@ class Note extends Model
     public const NOTE_ORDER_DATE_CREATED = 1;
     public const NOTE_ORDER_ID = 2;
 
-    const CREATED_AT = 'date_created';
-    const UPDATED_AT = 'date_modified';
+    public const CREATED_AT = 'date_created';
+    public const UPDATED_AT = 'date_modified';
 
     protected $table = 'notes';
     protected $primaryKey = 'note_id';
@@ -59,8 +59,8 @@ class Note extends Model
     protected function id(): Attribute
     {
         return Attribute::make(
-            get: fn($value, $attributes) => $attributes[$this->primaryKey] ?? null,
-            set: fn($value) => [$this->primaryKey => $value],
+            get: fn ($value, $attributes) => $attributes[$this->primaryKey] ?? null,
+            set: fn ($value) => [$this->primaryKey => $value],
         );
     }
 
@@ -99,7 +99,7 @@ class Note extends Model
     /**
      * Generate a new unique message ID.
      */
-    static public function generateMessageId(): string
+    public static function generateMessageId(): string
     {
         return 'note-' . (new \Random\Randomizer())->getInt(0, PHP_INT_MAX) . Config::getVar('email', 'message_id_suffix');
     }
@@ -120,7 +120,7 @@ class Note extends Model
     public function scopeWithAssoc(Builder $query, int $assocType, int $assocId): Builder
     {
         return $query->where('assoc_type', $assocType)
-                     ->where('assoc_id', $assocId);
+            ->where('assoc_id', $assocId);
     }
 
     /**
@@ -129,6 +129,14 @@ class Note extends Model
     public function scopeWithType(Builder $query, int $type): Builder
     {
         return $query->where('type', $type);
+    }
+
+    /**
+     * Scope a query to only include notes with a specific message ID.
+     */
+    public function scopeWithMessageId(Builder $query, string $messageId): Builder
+    {
+        return $query->where('message_id', $messageId);
     }
 
     /**
