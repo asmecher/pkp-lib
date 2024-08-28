@@ -37,10 +37,9 @@ class SubmissionRequiredPolicy extends DataObjectRequiredPolicy
     {
         parent::__construct($request, $args, $submissionParameterName, 'user.authorization.invalidSubmission', $operations);
 
-        $callOnDeny = [$request->getDispatcher(), 'handle404', []];
         $this->setAdvice(
             AuthorizationPolicy::AUTHORIZATION_ADVICE_CALL_ON_DENY,
-            $callOnDeny
+            fn () => throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException()
         );
     }
 

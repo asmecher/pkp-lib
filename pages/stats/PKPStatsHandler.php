@@ -74,7 +74,7 @@ class PKPStatsHandler extends Handler
         $context = $request->getContext();
 
         if (!$context) {
-            $dispatcher->handle404();
+            throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
         }
 
         $templateMgr = TemplateManager::getManager($request);
@@ -232,7 +232,7 @@ class PKPStatsHandler extends Handler
         $context = $request->getContext();
 
         if (!$context) {
-            $dispatcher->handle404();
+            throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
         }
 
         $templateMgr = TemplateManager::getManager($request);
@@ -362,7 +362,7 @@ class PKPStatsHandler extends Handler
         $context = $request->getContext();
 
         if (!$context) {
-            $dispatcher->handle404();
+            throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
         }
 
         $templateMgr = TemplateManager::getManager($request);
@@ -440,7 +440,7 @@ class PKPStatsHandler extends Handler
         $context = $request->getContext();
 
         if (!$context) {
-            $dispatcher->handle404();
+            throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
         }
 
         // The POST handler is here merely to serve a redirection URL to the Vue component
@@ -508,7 +508,7 @@ class PKPStatsHandler extends Handler
         $context = $request->getContext();
 
         if (!$context) {
-            $dispatcher->handle404();
+            throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
         }
 
         $templateMgr = TemplateManager::getManager($request);

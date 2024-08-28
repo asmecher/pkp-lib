@@ -109,7 +109,7 @@ class FileApiHandler extends Handler
             throw new Exception('File ' . $fileId . ' is not a revision of submission file ' . $submissionFile->getId());
         }
         if (!app()->get('file')->fs->has($file->path)) {
-            $request->getDispatcher()->handle404();
+            throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
         }
 
         $filename = $request->getUserVar('filename') ?? $submissionFile->getLocalizedData('name');

@@ -33,7 +33,7 @@ class ChangeProfileEmailInviteRedirectController extends InvitationActionRedirec
     public function acceptHandle(Request $request): void
     {
         if ($this->invitation->getStatus() !== InvitationStatus::ACCEPTED) {
-            $request->getDispatcher()->handle404();
+            throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
         }
 
         $user = Repo::user()->get($this->invitation->invitationModel->userId);
@@ -58,7 +58,7 @@ class ChangeProfileEmailInviteRedirectController extends InvitationActionRedirec
     public function declineHandle(Request $request): void
     {
         if ($this->invitation->getStatus() !== InvitationStatus::DECLINED) {
-            $request->getDispatcher()->handle404();
+            throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
         }
 
         $user = Repo::user()->get($this->invitation->invitationModel->userId);

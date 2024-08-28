@@ -88,8 +88,7 @@ class PKPNotificationsUnsubscribeForm extends Form
         $contextId = $this->_notification->contextId;
 
         if ($contextId != $request->getContext()->getId()) {
-            $dispatcher = $request->getDispatcher();
-            $dispatcher->handle404();
+            throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
         }
 
         $emailSettings = $this->getNotificationSettingsMap();

@@ -283,7 +283,7 @@ abstract class PKPSubmissionHandler extends Handler
     {
         $submission = $this->getAuthorizedContextObject(Application::ASSOC_TYPE_SUBMISSION);
         if (!$submission) {
-            $request->getDispatcher()->handle404();
+            throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
         }
 
         $this->setupTemplate($request);
@@ -769,7 +769,7 @@ abstract class PKPSubmissionHandler extends Handler
     protected function getWorkflowUrl(Submission $submission, User $user): string
     {
         $request = Application::get()->getRequest();
-        
+
         // Replaces StageAssignmentDAO::getBySubmissionAndRoleIds
         $hasStageAssignments = StageAssignment::withSubmissionIds([$submission->getId()])
             ->withRoleIds([Role::ROLE_ID_AUTHOR])

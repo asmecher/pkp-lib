@@ -129,8 +129,7 @@ class ManagementHandler extends Handler
                 $this->institutions($args, $request);
                 break;
             default:
-                assert(false);
-                $request->getDispatcher()->handle404();
+                throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
         }
     }
 

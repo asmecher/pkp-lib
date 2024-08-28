@@ -61,7 +61,7 @@ class InvitationHandler extends Handler
             ->getByIdAndKey($id, $key);
 
         if (is_null($invitation)) {
-            $request->getDispatcher()->handle404();
+            throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
         }
 
         return $invitation;

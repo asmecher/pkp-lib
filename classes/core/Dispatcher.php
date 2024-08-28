@@ -300,16 +300,6 @@ class Dispatcher
         }
         return $contents;
     }
-
-    /**
-     * Handle a 404 error (page not found).
-     */
-    public static function handle404()
-    {
-        header('HTTP/1.0 404 Not Found');
-        echo "<h1>404 Not Found</h1>\n";
-        exit;
-    }
 }
 
 if (!PKP_STRICT_MODE) {
