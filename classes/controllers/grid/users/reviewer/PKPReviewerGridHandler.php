@@ -482,10 +482,12 @@ class PKPReviewerGridHandler extends GridHandler
 
         $reviewerUserGroupIds = UserGroup::withContextIds([$context->getId()])
             ->withRoleIds([Role::ROLE_ID_REVIEWER])
-            ->getIds();
+            ->get()
+            ->pluck('id')
+            ->toArray();
 
         $users = Repo::user()->getCollector()
-            ->filterExcludeUserGroupIds(iterator_to_array($reviewerUserGroupIds))
+            ->filterExcludeUserGroupIds($reviewerUserGroupIds)
             ->searchPhrase($term)
             ->getMany();
 
@@ -1251,7 +1253,7 @@ class PKPReviewerGridHandler extends GridHandler
                 throw new Exception('Given reviewer suggestion ID is invalid');
             }
 
-            if ($reviewerSuggestion->hasApproved()) {
+            if ($reviewerSuggestion->isApproved()) {
                 throw new Exception('Not allowed to add reviewer suggestion as reviewer that has already been approved');
             }
 
