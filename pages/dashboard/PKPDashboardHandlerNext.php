@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file pages/dashboard/DashboardHandlerNext.php
  *
@@ -21,23 +22,23 @@ use APP\facades\Repo;
 use APP\handler\Handler;
 use APP\template\TemplateManager;
 use PKP\components\forms\decision\LogReviewerResponseForm;
+use PKP\components\forms\publication\ContributorForm;
 use PKP\controllers\grid\users\reviewer\PKPReviewerGridHandler;
 use PKP\core\JSONMessage;
 use PKP\core\PKPApplication;
 use PKP\core\PKPRequest;
 use PKP\decision\Decision;
+use PKP\log\SubmissionEmailLogEventType;
+use PKP\notification\Notification;
 use PKP\plugins\Hook;
+use PKP\plugins\PluginRegistry;
 use PKP\security\authorization\PKPSiteAccessPolicy;
 use PKP\security\Role;
 use PKP\submission\DashboardView;
 use PKP\submission\reviewAssignment\ReviewAssignment;
+use PKP\submission\reviewer\recommendation\ReviewerRecommendation;
 use PKP\submission\reviewRound\ReviewRound;
 use PKP\submissionFile\SubmissionFile;
-use PKP\components\forms\publication\ContributorForm;
-use PKP\plugins\PluginRegistry;
-use PKP\notification\Notification;
-use PKP\log\SubmissionEmailLogEventType;
-use PKP\submission\reviewer\recommendation\ReviewerRecommendation;
 
 define('SUBMISSIONS_LIST_ACTIVE', 'active');
 define('SUBMISSIONS_LIST_ARCHIVE', 'archive');
@@ -74,9 +75,9 @@ abstract class PKPDashboardHandlerNext extends Handler
         parent::__construct();
         $this->dashboardPage = $dashboardPage;
 
-        if($this->dashboardPage === DashboardPage::EditorialDashboard) {
+        if ($this->dashboardPage === DashboardPage::EditorialDashboard) {
             $this->selectedRoleIds = [Role::ROLE_ID_SITE_ADMIN, Role::ROLE_ID_MANAGER, Role::ROLE_ID_SUB_EDITOR, Role::ROLE_ID_ASSISTANT];
-        } elseif($this->dashboardPage === DashboardPage::MyReviewAssignments) {
+        } elseif ($this->dashboardPage === DashboardPage::MyReviewAssignments) {
             $this->selectedRoleIds = [Role::ROLE_ID_REVIEWER];
         } else {
             $this->selectedRoleIds = [Role::ROLE_ID_AUTHOR];
@@ -103,7 +104,7 @@ abstract class PKPDashboardHandlerNext extends Handler
      */
     public function authorize($request, &$args, $roleAssignments)
     {
-        if(!$this->dashboardPage) {
+        if (!$this->dashboardPage) {
             $pkpPageRouter = $request->getRouter();  /** @var \PKP\core\PKPPageRouter $pkpPageRouter */
             $pkpPageRouter->redirectHome($request);
         }
@@ -138,8 +139,7 @@ abstract class PKPDashboardHandlerNext extends Handler
             'emit',
             [],
             null,
-              $context
-
+            $context
         );
 
         $selectRevisionDecisionForm = new \PKP\components\forms\decision\SelectRevisionDecisionForm();
@@ -168,6 +168,7 @@ abstract class PKPDashboardHandlerNext extends Handler
                 'publicationSettings' => [
                     'supportsCitations' => !!$context->getData('citations'),
                     'identifiersEnabled' => $identifiersEnabled,
+                    'isReviewerSuggestionEnabled' => (bool)$context->getData('reviewerSuggestionEnabled'),
                 ],
                 'componentForms' => [
                     'contributorForm' => $contributorForm->getConfig(),
@@ -252,7 +253,10 @@ abstract class PKPDashboardHandlerNext extends Handler
             'SUBMISSION_FILE_JATS' => SubmissionFile::SUBMISSION_FILE_JATS,
             'FORM_PUBLISH' => PublishForm::FORM_PUBLISH,
 
+            // Reviewer selection types
             'REVIEWER_SELECT_ADVANCED_SEARCH' => PKPReviewerGridHandler::REVIEWER_SELECT_ADVANCED_SEARCH,
+            'REVIEWER_SELECT_CREATE' => PKPReviewerGridHandler::REVIEWER_SELECT_CREATE,
+            'REVIEWER_SELECT_ENROLL_EXISTING' => PKPReviewerGridHandler::REVIEWER_SELECT_ENROLL_EXISTING,
 
             'ROLE_ID_AUTHOR' => Role::ROLE_ID_AUTHOR,
 
@@ -268,7 +272,7 @@ abstract class PKPDashboardHandlerNext extends Handler
             'NOTIFICATION_TYPE_FORMAT_NEEDS_APPROVED_SUBMISSION' => Notification::NOTIFICATION_TYPE_FORMAT_NEEDS_APPROVED_SUBMISSION,
             'NOTIFICATION_TYPE_ASSIGN_PRODUCTIONUSER' => Notification::NOTIFICATION_TYPE_ASSIGN_PRODUCTIONUSER,
             'NOTIFICATION_TYPE_AWAITING_REPRESENTATIONS' => Notification::NOTIFICATION_TYPE_AWAITING_REPRESENTATIONS,
-        
+
             'NOTIFICATION_TYPE_ASSIGN_COPYEDITOR' => Notification::NOTIFICATION_TYPE_ASSIGN_COPYEDITOR,
             'NOTIFICATION_TYPE_AWAITING_COPYEDITS' => Notification::NOTIFICATION_TYPE_AWAITING_COPYEDITS,
 
@@ -277,7 +281,7 @@ abstract class PKPDashboardHandlerNext extends Handler
             'EMAIL_LOG_EVENT_TYPE_EDITOR_NOTIFY_AUTHOR' => SubmissionEmailLogEventType::EDITOR_NOTIFY_AUTHOR
         ]);
 
-       $this->setupIndex($request);
+        $this->setupIndex($request);
 
 
         $templateMgr->display('dashboard/editors.tpl');
@@ -361,14 +365,14 @@ abstract class PKPDashboardHandlerNext extends Handler
     {
         $columns = [];
 
-        if($this->dashboardPage === DashboardPage::MyReviewAssignments) {
+        if ($this->dashboardPage === DashboardPage::MyReviewAssignments) {
             $columns = [
                 $this->createColumn('id', __('common.id'), 'CellReviewAssignmentId', true),
                 $this->createColumn('title', __('navigation.submissions'), 'CellReviewAssignmentTitle'),
                 $this->createColumn('activity', __('stats.editorialActivity'), 'CellReviewAssignmentActivity'),
                 $this->createColumn('actions', __('admin.jobs.list.actions'), 'CellReviewAssignmentActions')
             ];
-        } elseif($this->dashboardPage === DashboardPage::MySubmissions) {
+        } elseif ($this->dashboardPage === DashboardPage::MySubmissions) {
 
             $columns = [
                 $this->createColumn('id', __('common.id'), 'CellSubmissionId', true),

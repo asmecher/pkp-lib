@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file classes/components/form/context/PKPReviewSetupForm.php
  *
@@ -17,11 +18,11 @@
 namespace PKP\components\forms\context;
 
 use PKP\components\forms\FieldHTML;
-use PKP\context\Context;
 use PKP\components\forms\FieldOptions;
 use PKP\components\forms\FieldSlider;
 use PKP\components\forms\FieldText;
 use PKP\components\forms\FormComponent;
+use PKP\context\Context;
 use PKP\submission\reviewAssignment\ReviewAssignment;
 
 class PKPReviewSetupForm extends FormComponent
@@ -50,7 +51,8 @@ class PKPReviewSetupForm extends FormComponent
 
         $this
             ->addDefaultFields($context)
-            ->addReminderFields($context);
+            ->addReminderFields($context)
+            ->addReviewSuggestionControl($context);
     }
 
     /**
@@ -171,7 +173,35 @@ class PKPReviewSetupForm extends FormComponent
                 'valueLabelMin' => __('manager.setup.reviewOptions.reminders.disbale.label'),
                 'groupId' => self::REVIEW_REMINDER_GROUP,
             ]));
-        
+
+        return $this;
+    }
+
+    /**
+     * Add review suggestion control field
+     */
+    protected function addReviewSuggestionControl(Context $context): static
+    {
+        $schema = app()->get('schema'); /** @var \PKP\services\PKPSchemaService $schema */
+
+        if (!collect($schema->get('context')->properties)->has('reviewerSuggestionEnabled')) {
+            return $this;
+        }
+
+        $this->addField(
+            new FieldOptions('reviewerSuggestionEnabled', [
+                'label' => __('manager.setup.reviewOptions.reviewerSuggestionEnabled'),
+                'description' => __('manager.setup.reviewOptions.reviewerSuggestionEnabled.description'),
+                'type' => 'checkbox',
+                'value' => $context->getData('reviewerSuggestionEnabled'),
+                'options' => [
+                    ['value' => true, 'label' => __('manager.setup.reviewOptions.reviewerSuggestionEnabled.label')],
+                ],
+                'groupId' => self::REVIEW_SETTINGS_GROUP,
+            ]),
+            [FIELD_POSITION_AFTER, 'reviewerAccessKeysEnabled']
+        );
+
         return $this;
     }
 }
