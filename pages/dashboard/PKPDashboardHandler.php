@@ -259,6 +259,7 @@ abstract class PKPDashboardHandler extends Handler
             'SUBMISSION_FILE_PRODUCTION_READY' => SubmissionFile::SUBMISSION_FILE_PRODUCTION_READY,
             'SUBMISSION_FILE_PROOF' => SubmissionFile::SUBMISSION_FILE_PROOF,
             'SUBMISSION_FILE_JATS' => SubmissionFile::SUBMISSION_FILE_JATS,
+            'SUBMISSION_FILE_BODY_TEXT' => SubmissionFile::SUBMISSION_FILE_BODY_TEXT,
             'FORM_PUBLISH' => PublishForm::FORM_PUBLISH,
 
             // Reviewer selection types

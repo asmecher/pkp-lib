@@ -35,6 +35,7 @@ use PKP\components\forms\publication\TitleAbstractForm;
 use PKP\components\forms\submission\ChangeSubmissionLanguageMetadataForm;
 use PKP\components\listPanels\ContributorsListPanel;
 use PKP\components\PublicationSectionJats;
+use PKP\components\PublicationSectionEditor;
 use PKP\config\Config;
 use PKP\context\Context;
 use PKP\core\JSONMessage;
@@ -283,7 +284,7 @@ abstract class PKPWorkflowHandler extends Handler
     }
 
     /**
-     * Get the contributor list panel
+     * Get the JATS panel
      */
     protected function getJatsPanel(Submission $submission, Context $context, bool $canEditPublication, Publication $publication): PublicationSectionJats
     {
@@ -296,6 +297,22 @@ abstract class PKPWorkflowHandler extends Handler
             $publication
         );
     }
+
+    /**
+     * Get the body text panel
+     */
+    protected function getEditorPanel(Submission $submission, Context $context, bool $canEditPublication, Publication $publication): PublicationSectionJats
+    {
+        return new PublicationSectionEditor(
+            'jats',
+            __('publication.bodyText'),
+            $submission,
+            $context,
+            $canEditPublication,
+            $publication
+        );
+    }
+
 
     //
     // Abstract protected methods.
