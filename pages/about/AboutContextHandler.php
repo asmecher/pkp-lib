@@ -22,6 +22,7 @@ use APP\handler\Handler;
 use APP\template\TemplateManager;
 use DateTime;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\View;
 use PKP\context\Context;
 use PKP\facades\Locale;
 use PKP\orcid\OrcidManager;
@@ -57,9 +58,21 @@ class AboutContextHandler extends Handler
      */
     public function index($args, $request)
     {
-        $templateMgr = TemplateManager::getManager($request);
-        $this->setupTemplate($request);
-        $templateMgr->display('frontend/pages/about.tpl');
+        // Render template with page.blade.php
+        // we can also use View::make('TEMPLATE', [...]);
+        echo view('bladeTest.about', [
+            'title' => 'My Title',
+            'text' => 'This is my text!',
+        ]);
+
+        // echo \Illuminate\Support\Facades\View::make('about', [
+        //     'title' => 'My Title',
+        //     'text' => 'This is my text!',
+        // ]);
+
+        // $templateMgr = TemplateManager::getManager($request);
+        // $this->setupTemplate($request);
+        // $templateMgr->display('frontend/pages/about.tpl');
     }
 
 
