@@ -31,6 +31,7 @@ use APP\submission\Submission;
 use APP\template\TemplateManager;
 use Exception;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
 use Less_Parser;
 use PKP\config\Config;
@@ -154,6 +155,24 @@ class PKPTemplateManager extends Smarty
         $this->default_resource_type = 'app';
 
         $this->error_reporting = E_ALL & ~E_NOTICE & ~E_WARNING;
+    }
+
+    /**
+     * Blade proof of concept: Override Smarty assign function to also expose variables globally to Blade
+     * (Not that this is good practice -- just to show we can!)
+     *
+     * @param null|mixed $value
+     */
+    public function assign($tpl_var, $value = null, $nocache = false)
+    {
+        parent::assign($tpl_var, $value, $nocache);
+        if (is_array($tpl_var)) {
+            foreach ($tpl_var as $key => $value) {
+                View::share($key, $value);
+            }
+        } else {
+            View::share($tpl_var, $value);
+        }
     }
 
     /**
