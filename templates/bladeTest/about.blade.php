@@ -3,3 +3,5 @@ params :
     title : {{$title}}
     text : {{$text}}
     currentJournalPath: {{$currentJournal->getPath()}}
+
+@include('bladeTest.about-included')
