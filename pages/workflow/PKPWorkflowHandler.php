@@ -301,10 +301,10 @@ abstract class PKPWorkflowHandler extends Handler
     /**
      * Get the body text panel
      */
-    protected function getEditorPanel(Submission $submission, Context $context, bool $canEditPublication, Publication $publication): PublicationSectionJats
+    protected function getEditorPanel(Submission $submission, Context $context, bool $canEditPublication, Publication $publication): PublicationSectionEditor
     {
         return new PublicationSectionEditor(
-            'jats',
+            'bodyText',
             __('publication.bodyText'),
             $submission,
             $context,

@@ -23,6 +23,8 @@ class BodyTextFile
 {
     public ?string $loadingContentError = null;
     public ?string $bodyTextContent = null;
+
+    public ?SubmissionFile $sourceFile = null;
     public bool $isDefaultContent = true;
     public array $props = [];
 
@@ -38,6 +40,9 @@ class BodyTextFile
 
                 $this->bodyTextContent = Repo::submissionFile()
                     ->getSubmissionFileContent($submissionFile);
+
+                $this->sourceFile = Repo::submissionFile()
+                    ->get($submissionFile->getData('sourceSubmissionFileId'), $submissionId);
             } else {
                 $this->bodyTextContent = '';
             }

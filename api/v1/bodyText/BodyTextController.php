@@ -70,8 +70,12 @@ class BodyTextController extends PKPBaseController
             Route::get('', $this->get(...))
                 ->name('publication.bodyText.get');
 
-            Route::post('', $this->post(...))
-                ->name('publication.bodyText.post');
+            Route::post('{submissionFileId}', $this->add(...))
+                ->name('publication.bodyText.add')
+                ->whereNumber('submissionFileId');
+
+            // Route::post('', $this->post(...))
+            //     ->name('publication.bodyText.post');
 
             Route::delete('', $this->delete(...))
                 ->name('publication.bodyText.delete');
@@ -97,7 +101,7 @@ class BodyTextController extends PKPBaseController
             $this->addPolicy(new PublicationWritePolicy($request, $args, $roleAssignments));
         }
 
-        if ($actionName === 'post') {
+        if ($actionName === 'add') {
             $params = $illuminateRequest->input();
             $fileStage = isset($params['fileStage']) ? (int) $params['fileStage'] : SubmissionFile::SUBMISSION_FILE_BODY_TEXT;
             $this->addPolicy(
@@ -111,7 +115,37 @@ class BodyTextController extends PKPBaseController
 
         return parent::authorize($request, $args, $roleAssignments);
     }
+    
+    /**
+     * Add a JATS XML Submission File to a publication
+     */
+    public function add(Request $illuminateRequest): JsonResponse
+    {
+        $submission = $this->getAuthorizedContextObject(Application::ASSOC_TYPE_SUBMISSION);
+        $publication = $this->getAuthorizedContextObject(Application::ASSOC_TYPE_PUBLICATION);
 
+        $submissionFileId = (int) $illuminateRequest->route('submissionFileId');
+
+        $context = Application::get()->getRequest()->getContext();
+        $genreDao = DAORegistry::getDAO('GenreDAO');
+        $genres = $genreDao->getEnabledByContextId($context->getId());
+        $jatsFile = Repo::bodyText()
+            ->getBodyTextFile($publication->getId(), $submission->getId(), $genres->toArray());
+
+        if ($jatsFile->submissionFile) {
+            Repo::submissionFile()->delete($jatsFile->submissionFile);
+        }
+
+        Repo::bodyText()->addBodyTextFile($submissionFileId, $publication->getId(), $submission->getId());
+
+        $jatsFile = Repo::bodyText()
+            ->getBodyTextFile($publication->getId(), $submission->getId(), $genres->toArray());
+
+        $jatsFilesProp = Repo::bodyText()
+            ->summarize($jatsFile);
+        
+        return response()->json($jatsFilesProp, Response::HTTP_OK);
+    }
     /**
      * Get body text files
      */
