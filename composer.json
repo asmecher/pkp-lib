@@ -1,4 +1,14 @@
 {
+    "name": "pkp/pkp-lib",
+    "description": "PKP Web Application Library: A scholarly application development toolkit underpinning OJS, OMP, and OPS.",
+    "type": "library",
+    "license": "GPL-3.0",
+    "authors": [
+        {
+            "name": "Alec Smecher",
+            "email": "asmecher@sfu.ca"
+        }
+    ],
 	"require": {
 		"php": "^8.2",
 		"ext-bcmath": "*",
