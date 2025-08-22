@@ -20,6 +20,11 @@ use APP\publication\Publication;
 use APP\submission\Submission;
 use DOMDocument;
 use Exception;
+use PhpOffice\PhpWord\Element\Image;
+use PhpOffice\PhpWord\Element\ListItem;
+use PhpOffice\PhpWord\Element\Table;
+use PhpOffice\PhpWord\Element\Text;
+use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\IOFactory;
 use PKP\config\Config;
 use PKP\db\DAORegistry;
@@ -27,12 +32,6 @@ use PKP\file\FileManager;
 use PKP\file\TemporaryFileManager;
 use PKP\submissionFile\SubmissionFile;
 use Throwable;
-use PhpOffice\PhpWord\Element\TextRun;
-use PhpOffice\PhpWord\Element\Text;
-use PhpOffice\PhpWord\Element\ListItem;
-use PhpOffice\PhpWord\Element\ListItemRun;
-use PhpOffice\PhpWord\Element\Table;
-use PhpOffice\PhpWord\Element\Image;
 
 class Repository
 {
@@ -44,8 +43,8 @@ class Repository
         $fileProps = [];
         if ($bodyTextFile->submissionFile) {
             $fileProps = Repo::submissionFile()
-                ->getSchemaMap()
-                ->summarize($bodyTextFile->submissionFile, $bodyTextFile->genres);
+                ->getSchemaMap(Repo::submission()->get($bodyTextFile->submissionFile->getData('submissionId')), $bodyTextFile->genres)
+                ->summarize($bodyTextFile->submissionFile);
         }
 
         if ($bodyTextFile->bodyTextContent) {
@@ -58,8 +57,8 @@ class Repository
 
         if ($bodyTextFile->sourceFile) {
             $fileProps['sourceFile'] = Repo::submissionFile()
-                ->getSchemaMap()
-                ->summarize($bodyTextFile->sourceFile, $bodyTextFile->genres);
+                ->getSchemaMap(Repo::submission()->get($bodyTextFile->sourceFile->getData('submissionId')), $bodyTextFile->genres)
+                ->summarize($bodyTextFile->sourceFile);
         }
 
         return $fileProps;
@@ -129,7 +128,7 @@ class Repository
         return Repo::submissionFile()->get($newFileId);
     }
 
-    function isDocxFile(SubmissionFile $file): bool 
+    public function isDocxFile(SubmissionFile $file): bool
     {
         $filePath = $file->getData('path'); // e.g., '45-1-1234.docx'
         $extension = pathinfo($filePath, PATHINFO_EXTENSION);
@@ -137,7 +136,7 @@ class Repository
         return strtolower($extension) === 'docx' || strtolower($extension) === 'odt';
     }
 
-    function convertDocxSubmissionFileToHtml(SubmissionFile $submissionFile): string
+    public function convertDocxSubmissionFileToHtml(SubmissionFile $submissionFile): string
     {
         // Check file extension
         $filePath = $submissionFile->getData('path');
@@ -151,7 +150,7 @@ class Repository
         $fullFilePath = Config::getVar('files', 'files_dir') . '/' . $filePath;
 
         if (!file_exists($fullFilePath)) {
-            throw new Exception("File not found at $fullFilePath");
+            throw new Exception("File not found at {$fullFilePath}");
         }
 
         try {
@@ -274,45 +273,53 @@ class Repository
         }
     }
 
-    function renderStyledText($textEl): string 
+    public function renderStyledText($textEl): string
     {
-        if (!($textEl instanceof Text)) return '';
+        if (!($textEl instanceof Text)) {
+            return '';
+        }
 
         $text = htmlspecialchars($textEl->getText());
         $style = $textEl->getFontStyle();
 
         if ($style instanceof Font) {
-            if ($style->isBold()) $text = "<strong>$text</strong>";
-            if ($style->isItalic()) $text = "<em>$text</em>";
+            if ($style->isBold()) {
+                $text = "<strong>{$text}</strong>";
+            }
+            if ($style->isItalic()) {
+                $text = "<em>{$text}</em>";
+            }
             if ($style->getUnderline()) {
-                $text = "<span style=\"text-decoration:underline;\">$text</span>";
+                $text = "<span style=\"text-decoration:underline;\">{$text}</span>";
             }
             if ($color = $style->getColor()) {
-                $text = "<span style=\"color:#$color\">$text</span>";
+                $text = "<span style=\"color:#{$color}\">{$text}</span>";
             }
         }
 
         return $text;
     }
 
-    function renderListBuffer(array $items): string 
+    public function renderListBuffer(array $items): string
     {
-        if (empty($items)) return '';
+        if (empty($items)) {
+            return '';
+        }
 
         // Assume first item defines list type
         $isNumbered = strtolower($items[0]->getStyle()) === 'number';
         $listTag = $isNumbered ? 'ol' : 'ul';
 
-        $html = "<$listTag>\n";
+        $html = "<{$listTag}>\n";
         foreach ($items as $li) {
-            $html .= "<li>" . htmlspecialchars($li->getText()) . "</li>\n";
+            $html .= '<li>' . htmlspecialchars($li->getText()) . "</li>\n";
         }
-        $html .= "</$listTag>\n";
+        $html .= "</{$listTag}>\n";
 
         return $html;
     }
 
-    function createHtmlSubmissionFile(
+    public function createHtmlSubmissionFile(
         Submission $submission,
         Publication $publication,
         string $tmpFilePath,
@@ -389,11 +396,11 @@ class Repository
 
         try {
             $submissionFile = Repo::submissionFile()->get($submissionFileId, $submissionId);
-            $fileName = Config::getVar('files', 'files_dir') .  '/'  .  $submissionFile->getData('path') .  '';
+            $fileName = Config::getVar('files', 'files_dir') . '/' . $submissionFile->getData('path') . '';
 
             $phpWord = IOFactory::load($fileName);
 
-            $htmlPath = sys_get_temp_dir() .  '/temp_doc.html';
+            $htmlPath = sys_get_temp_dir() . '/temp_doc.html';
 
             IOFactory::createWriter($phpWord, 'HTML')->save($htmlPath);
 
