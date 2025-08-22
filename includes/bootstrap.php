@@ -25,7 +25,7 @@
  */
 
 // Load Composer autoloader
-require_once 'lib/pkp/lib/vendor/autoload.php';
+require_once 'vendor/autoload.php';
 
 define('BASE_SYS_DIR', dirname(INDEX_FILE_LOCATION));
 chdir(BASE_SYS_DIR);

@@ -67,10 +67,7 @@ use PKP\userGroup\UserGroup;
 use Smarty;
 use Smarty_Internal_Template;
 
-require_once('./lib/pkp/lib/vendor/smarty/smarty/libs/plugins/modifier.escape.php'); // Seems to be needed?
-
-/* This definition is required by Smarty */
-define('SMARTY_DIR', Core::getBaseDir() . '/lib/pkp/lib/vendor/smarty/smarty/libs/');
+require_once('./vendor/smarty/smarty/libs/plugins/modifier.escape.php'); // Seems to be needed?
 
 class PKPTemplateManager extends Smarty
 {
@@ -733,15 +730,15 @@ class PKPTemplateManager extends Smarty
 
         $this->addJavaScript(
             'plUpload',
-            $baseUrl . '/lib/pkp/lib/vendor/moxiecode/plupload/js/plupload.full.min.js',
+            $baseUrl . '/vendor/moxiecode/plupload/js/plupload.full.min.js',
             $args
         );
         $this->addJavaScript(
             'jQueryPlUpload',
-            $baseUrl . '/lib/pkp/lib/vendor/moxiecode/plupload/js/jquery.ui.plupload/jquery.ui.plupload.js',
+            $baseUrl . '/vendor/moxiecode/plupload/js/jquery.ui.plupload/jquery.ui.plupload.js',
             $args
         );
-        $plLocalePath = 'lib/pkp/lib/vendor/moxiecode/plupload/js/i18n/';
+        $plLocalePath = 'vendor/moxiecode/plupload/js/i18n/';
         foreach ($localeChecks as $localeCheck) {
             if (file_exists($plLocalePath . $localeCheck . '.js')) {
                 $this->addJavaScript('plUploadLocale', $baseUrl . '/' . $plLocalePath . $localeCheck . '.js', $args);
@@ -1777,7 +1774,7 @@ class PKPTemplateManager extends Smarty
             $params['values'] = array_map(__(...), $params['values']);
         }
 
-        require_once('lib/pkp/lib/vendor/smarty/smarty/libs/plugins/function.html_options.php');
+        require_once('vendor/smarty/smarty/libs/plugins/function.html_options.php');
         /** @var Smarty_Internal_Template $smarty */
         return smarty_function_html_options($params, $smarty);
     }
