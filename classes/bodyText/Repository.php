@@ -31,8 +31,8 @@ class Repository
         $fileProps = [];
         if ($bodyTextFile->submissionFile) {
             $fileProps = Repo::submissionFile()
-                ->getSchemaMap()
-                ->summarize($bodyTextFile->submissionFile, $bodyTextFile->genres);
+                ->getSchemaMap(Repo::submission()->get($bodyTextFile->submissionFile->getData('submissionId')), $bodyTextFile->genres)
+                ->summarize($bodyTextFile->submissionFile);
         }
 
         if ($bodyTextFile->bodyTextContent) {
