@@ -115,9 +115,9 @@ class DAO extends EntityDAO
     /**
      * @copydoc EntityDAO::fromRow()
      */
-    public function fromRow(object $row): EventLogEntry
+    public function fromRow(object $row, ?Collection $settings = null): EventLogEntry
     {
-        $logEntry = parent::fromRow($row);
+        $logEntry = parent::fromRow($row, $settings);
         $schema = $this->schemaService->get($this->schema);
 
         DB::table($this->settingsTable)

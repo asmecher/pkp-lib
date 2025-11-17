@@ -106,9 +106,9 @@ class DAO extends EntityDAO
     /**
      * @copydoc EntityDAO::fromRow()
      */
-    public function fromRow(object $row): Category
+    public function fromRow(object $row, ?Collection $settings = null): Category
     {
-        return parent::fromRow($row);
+        return parent::fromRow($row, $settings);
     }
 
     /**

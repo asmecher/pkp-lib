@@ -16,6 +16,7 @@ namespace PKP\core;
 
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Collection;
 use PKP\core\traits\EntityUpdate;
 use PKP\db\DAO;
 use PKP\services\PKPSchemaService;
@@ -94,12 +95,19 @@ abstract class EntityDAO
         throw new Exception('Not implemented');
     }
 
+    public function getSettings(array $ids) : Collection
+    {
+        return DB::table($this->settingsTable)
+            ->whereIn($this->primaryKeyColumn, $ids)
+            ->get();
+    }
+
     /**
      * Convert a row from the database query into a DataObject
-     *
+     * @param Collection $settings Optional settings for this entity; if none supplied, they will be fetched.
      * @return T
      */
-    public function fromRow(object $row): DataObject
+    public function fromRow(object $row, ?Collection $settings): DataObject
     {
         $schema = $this->schemaService->get($this->schema);
 
@@ -115,9 +123,7 @@ abstract class EntityDAO
         }
 
         if ($this->settingsTable) {
-            $rows = DB::table($this->settingsTable)
-                ->where($this->primaryKeyColumn, '=', $row->{$this->primaryKeyColumn})
-                ->get();
+            $rows = $settings ?? $this->getSettings([$row->{$this->primaryKeyColumn}]);
 
             $rows->each(function ($row) use ($object, $schema) {
                 if (!empty($schema->properties->{$row->setting_name})) {

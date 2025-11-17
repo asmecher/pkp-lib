@@ -163,9 +163,9 @@ class DAO extends EntityDAO
     /**
      * @copydoc EntityDAO::fromRow()
      */
-    public function fromRow(object $row): Publication
+    public function fromRow(object $row, ?Collection $settings = null): Publication
     {
-        $publication = parent::fromRow($row);
+        $publication = parent::fromRow($row, $settings);
 
         $this->setDoiObject($publication);
 

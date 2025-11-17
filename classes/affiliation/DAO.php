@@ -113,9 +113,9 @@ class DAO extends EntityDAO
     }
 
     /** @copydoc EntityDAO::fromRow() */
-    public function fromRow(object $row): Affiliation
+    public function fromRow(object $row, ?Collection $settings = null): Affiliation
     {
-        $affiliation = parent::fromRow($row);
+        $affiliation = parent::fromRow($row, $settings);
         if (!empty($affiliation->getRor())) {
             $affiliation->setData('rorObject', Repo::ror()->getCollector()->filterByRor($affiliation->getRor())->getMany()->first());
         }

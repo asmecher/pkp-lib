@@ -17,6 +17,7 @@ namespace PKP\emailTemplate;
 use APP\core\Application;
 use APP\facades\Repo;
 use Exception;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\LazyCollection;
 use Illuminate\Support\Str;
@@ -155,10 +156,10 @@ class DAO extends EntityDAO
      *
      * @copydoc EntityDAO::fromRow()
      */
-    public function fromRow(object $row): EmailTemplate
+    public function fromRow(object $row, ?Collection $settings = null): EmailTemplate
     {
         /** @var EmailTemplate $emailTemplate */
-        $emailTemplate = parent::fromRow($row);
+        $emailTemplate = parent::fromRow($row, $settings);
         $schema = $this->schemaService->get($this->schema);
         $contextDao = Application::getContextDAO();
 

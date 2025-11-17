@@ -149,9 +149,9 @@ class DAO extends EntityDAO
     /**
      * @copydoc EntityDAO::fromRow()
      */
-    public function fromRow(object $row): Author
+    public function fromRow(object $row, ?Collection $settings = null): Author
     {
-        $author = parent::fromRow($row);
+        $author = parent::fromRow($row, $settings);
 
         // Set the primary locale from the submission
         $author->setData('submissionLocale', $row->submission_locale);

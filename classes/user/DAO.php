@@ -125,13 +125,15 @@ class DAO extends EntityDAO
      */
     public function getMany(Collector $query): LazyCollection
     {
-        return LazyCollection::make(function () use ($query) {
-            $rows = $query
-                ->getQueryBuilder()
-                ->get();
+        $queryBuilder = $query->getQueryBuilder();
+
+        $settings = $this->getSettings($this->getIds($query)->all())->groupBy('user_id');
+
+        return LazyCollection::make(function () use ($queryBuilder, $query, $settings) {
+            $rows = $queryBuilder->get();
 
             foreach ($rows as $row) {
-                yield $row->user_id => $this->fromRow($row, $query->includeReviewerData);
+                yield $row->user_id => $this->fromRow($row, $settings->get($row->user_id), $query->includeReviewerData);
             }
         });
     }
@@ -248,9 +250,9 @@ class DAO extends EntityDAO
      * @copydoc EntityDAO::fromRow
      *
      */
-    public function fromRow(object $row, bool $includeReviewerData = false): DataObject
+    public function fromRow(object $row, ?Collection $settings = null, bool $includeReviewerData = false): DataObject
     {
-        $user = parent::fromRow($row);
+        $user = parent::fromRow($row, $settings);
         if ($includeReviewerData) {
             $user->setData('lastAssigned', $row->last_assigned);
             $user->setData('incompleteCount', (int) $row->incomplete_count);

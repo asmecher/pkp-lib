@@ -137,10 +137,10 @@ class DAO extends EntityDAO
     /**
      * @copydoc EntityDAO::fromRow()
      */
-    public function fromRow(object $row): Institution
+    public function fromRow(object $row, ?Collection $settings = null): Institution
     {
         /** @var Institution */
-        $institution = parent::fromRow($row);
+        $institution = parent::fromRow($row, $settings);
 
         $ipRanges = DB::table('institution_ip')
             ->where($this->primaryKeyColumn, '=', $institution->getId())
