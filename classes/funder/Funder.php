@@ -19,7 +19,6 @@ use APP\facades\Repo;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Queue\Events\Looping;
 use PKP\context\Context;
 use PKP\core\traits\ModelWithSettings;
 use PKP\i18n\LocaleConversion;
@@ -39,11 +38,11 @@ class Funder extends Model
 
     protected $guarded = ['funderId', 'id'];
 
-    /** Per-request caches keyed by id — shared across all Funder instances. */
-    private static array $submissionCache = [];
-    private static array $contextCache = [];
-    private static array $rorCache = [];
-    private static array $localesCache = [];
+    /** Batch-injected resolution (set by Repository::loadForSubmissions); avoids per-instance fan-out. */
+    private bool $resolversInjected = false;
+    private ?Ror $injectedRor = null;
+    private ?array $injectedLocales = null;
+    private ?string $injectedDefaultLocale = null;
 
     /**
      * @inheritDoc
@@ -78,66 +77,71 @@ class Funder extends Model
     }
 
     /**
-     * The parent Submission, lazily loaded and memoized.
+     * Filter by a set of submission IDs (batched form of scopeWithSubmissionId()).
+     */
+    protected function scopeWithSubmissionIds(EloquentBuilder $builder, array $submissionIds): EloquentBuilder
+    {
+        return $builder->whereIn('submission_id', $submissionIds);
+    }
+
+    /**
+     * Inject pre-resolved, batch-loaded dependencies (ROR object, the submission's publication
+     * languages, and its primary locale) so the name/rorObject accessors read from memory.
+     */
+    public function injectResolvers(?Ror $ror, array $locales, ?string $defaultLocale): void
+    {
+        $this->resolversInjected = true;
+        $this->injectedRor = $ror;
+        $this->injectedLocales = $locales;
+        $this->injectedDefaultLocale = $defaultLocale;
+    }
+
+    /**
+     * The parent Submission, lazily loaded and memoized on the instance.
      */
     protected function submission(): Attribute
     {
         return Attribute::make(
             get: function (): ?PKPSubmission {
                 $id = (int) $this->getRawOriginal('submission_id');
-                if (!$id) {
-                    return null;
-                }
-                if (!array_key_exists($id, self::$submissionCache)) {
-                    self::$submissionCache[$id] = Repo::submission()->get($id);
-                }
-                return self::$submissionCache[$id];
+                return $id ? Repo::submission()->get($id) : null;
             },
         )->shouldCache();
     }
 
     /**
-     * The submission's Context, lazily loaded and memoized.
+     * The submission's Context, lazily loaded and memoized on the instance.
      */
     protected function context(): Attribute
     {
         return Attribute::make(
             get: function (): ?Context {
-                $submission = $this->submission;
-                if (!$submission) {
-                    return null;
-                }
-                $contextId = (int) $submission->getData('contextId');
-                if (!$contextId) {
-                    return null;
-                }
-                if (!array_key_exists($contextId, self::$contextCache)) {
-                    self::$contextCache[$contextId] = Application::getContextDAO()->getById($contextId);
-                }
-                return self::$contextCache[$contextId];
+                $contextId = (int) $this->submission?->getData('contextId');
+                return $contextId ? Application::getContextDAO()->getById($contextId) : null;
             },
         )->shouldCache();
     }
 
     /**
-     * The resolved ROR object, lazily loaded and memoized.
+     * The resolved ROR object. Prefers the batch-injected value; otherwise resolves for this
+     * instance
      */
     protected function rorObject(): Attribute
     {
         return Attribute::make(
             get: function (): ?Ror {
+                if ($this->resolversInjected) {
+                    return $this->injectedRor;
+                }
                 $ror = $this->getRawOriginal('ror');
                 if (empty($ror)) {
                     return null;
                 }
-                if (!array_key_exists($ror, self::$rorCache)) {
-                    self::$rorCache[$ror] = Repo::ror()
-                        ->getCollector()
-                        ->filterByRor($ror)
-                        ->getMany()
-                        ->first();
-                }
-                return self::$rorCache[$ror];
+                return Repo::ror()
+                    ->getCollector()
+                    ->filterByRor($ror)
+                    ->getMany()
+                    ->first();
             },
         )->shouldCache();
     }
@@ -180,60 +184,37 @@ class Funder extends Model
      */
     public function getDefaultLocale(): ?string
     {
-        return $this->submission?->getData('locale');
+        return $this->resolversInjected
+            ? $this->injectedDefaultLocale
+            : $this->submission?->getData('locale');
     }
 
     /**
-     * Compute the full locale set for this funder's submission, memoized.
+     * Compute the full locale set for this funder's submission. Prefers the batch-injected
+     * value; otherwise resolves for this instance.
      *
      * @return string[]
      */
     private function resolvedPublicationLanguages(): array
     {
-        $submissionId = (int) $this->getRawOriginal('submission_id');
-        if (!$submissionId) {
-            return [];
-        }
-        if (isset(self::$localesCache[$submissionId])) {
-            return self::$localesCache[$submissionId];
+        if ($this->resolversInjected) {
+            return $this->injectedLocales ?? [];
         }
         $submission = $this->submission;
         $context = $this->context;
         if (!$submission || !$context) {
-            return self::$localesCache[$submissionId] = [];
+            return [];
         }
-        return self::$localesCache[$submissionId] = $submission->getPublicationLanguages(
+        return $submission->getPublicationLanguages(
             $context->getSupportedSubmissionMetadataLocales() ?? []
         );
     }
 
     /**
-     * Reset per-process caches.
-     */
-    public static function clearResolverCaches(): void
-    {
-        self::$submissionCache = [];
-        self::$contextCache = [];
-        self::$rorCache = [];
-        self::$localesCache = [];
-    }
-
-    /**
-     * Between each worker loop iteration (CLI mode only), flush the per-request
-     * static caches so data from the previous job can't bleed into the next one.
+     * Invalidate the funder facet cache when funder data changes.
      */
     protected static function booted(): void
     {
-        app('events')->listen(
-            Looping::class,
-            function (Looping $event): void {
-                if (!app()->runningInConsole() || app()->runningUnitTests()) {
-                    return;
-                }
-                self::clearResolverCaches();
-            }
-        );
-
         static::saved(function (Funder $funder): void {
             if ($contextId = $funder->context?->getId()) {
                 Repo::funder()->forgetFunderFacetCache($contextId);

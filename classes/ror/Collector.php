@@ -39,6 +39,9 @@ class Collector implements CollectorInterface
     /** Get rors with given ROR */
     public ?string $ror = null;
 
+    /** Get rors with any of the given ROR ids */
+    public ?array $rors = null;
+
     public ?array $authorAffiliationIds = null;
 
     public ?int $count = null;
@@ -110,6 +113,15 @@ class Collector implements CollectorInterface
     }
 
     /**
+     * Filter rors by a set of ror ids (batched form of filterByRor()).
+     */
+    public function filterByRors(?array $rors): self
+    {
+        $this->rors = $rors;
+        return $this;
+    }
+
+    /**
      * Filter by ror name.
      */
     public function filterByName(?string $name): self
@@ -161,6 +173,7 @@ class Collector implements CollectorInterface
             })
             ->when($this->isActive !== null, fn ($q) => $q->where('r.is_active', $this->isActive))
             ->when($this->ror !== null, fn ($q) => $q->where('r.ror', $this->ror))
+            ->when($this->rors !== null, fn ($q) => $q->whereIn('r.ror', $this->rors))
             ->when(!is_null($this->count), fn ($q) => $q->limit($this->count))
             ->when(!is_null($this->offset), fn ($q) => $q->offset($this->offset));
 

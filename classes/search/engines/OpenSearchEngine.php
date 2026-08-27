@@ -23,7 +23,6 @@ use Laravel\Scout\Engines\Engine as ScoutEngine;
 use OpenSearch\Client;
 use PKP\config\Config;
 use PKP\facades\Locale;
-use PKP\funder\Funder;
 use PKP\plugins\Hook;
 use PKP\publication\PKPPublication;
 use PKP\search\parsers\SearchFileParser;
@@ -127,7 +126,8 @@ class OpenSearchEngine extends ScoutEngine
             $funderNamesByLocale = [];
             $funderRors = [];
             $funderFilterKeys = [];
-            foreach (Funder::withSubmissionId($submission->getId())->orderBySeq()->get() as $funder) {
+            $funders = Repo::funder()->loadForSubmissions([$submission->getId()])->get($submission->getId()) ?? collect();
+            foreach ($funders as $funder) {
                 $names = $funder->name;
                 if (is_array($names)) {
                     foreach ($names as $locale => $name) {
@@ -206,10 +206,6 @@ class OpenSearchEngine extends ScoutEngine
                     ],
                 ]
             ];
-            // Funder name accessor memoizes submissions/RORs in unbounded
-            // per-process caches; flush so bulk reindexing (CLI) does not
-            // accumulate every submission in memory.
-            Funder::clearResolverCaches();
 
             // Give hooks a chance to alter the record before indexing
             if (Hook::run('OpenSearchEngine::update', ['json' => &$json, 'submission' => $submission]) !== Hook::ABORT) {

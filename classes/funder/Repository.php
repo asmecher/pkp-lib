@@ -16,6 +16,7 @@ namespace PKP\funder;
 
 use APP\core\Application;
 use APP\core\Request;
+use APP\facades\Repo;
 use DateInterval;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
@@ -24,6 +25,7 @@ use PKP\context\Context;
 use PKP\facades\Locale;
 use PKP\i18n\LocaleConversion;
 use PKP\plugins\Hook;
+use PKP\ror\Ror;
 use PKP\services\PKPSchemaService;
 use PKP\validation\ValidatorFactory;
 
@@ -188,6 +190,89 @@ class Repository
     public function getSchemaMap(): maps\Schema
     {
         return app('maps')->withExtensions($this->schemaMap);
+    }
+
+    /**
+     * Batch-load the funders for a set of submissions, resolving each funder's ROR object and its
+     * submission's publication-languages + primary locale in bulk, and injecting them (see
+     * Funder::injectResolvers()) so the name/rorObject accessors read from memory instead of
+     * fanning out per instance.
+     *
+     * @return Collection<int, Collection<int, Funder>> keyed by submission_id
+     */
+    public function loadForSubmissions(array $submissionIds): Collection
+    {
+        $submissionIds = array_values(array_unique(array_map('intval', $submissionIds)));
+        if (empty($submissionIds)) {
+            return collect();
+        }
+
+        $funders = Funder::withSubmissionIds($submissionIds)->orderBySeq()->get();
+        if ($funders->isEmpty()) {
+            return collect();
+        }
+
+        // Every referenced ROR in ONE query → map ror string ⇒ Ror.
+        $rorStrings = $funders->map(fn (Funder $funder) => $funder->getRawOriginal('ror'))
+            ->filter()
+            ->unique()
+            ->values()
+            ->all();
+
+        $rors = empty($rorStrings)
+            ? collect()
+            : Repo::ror()->getCollector()->filterByRors($rorStrings)->getMany()
+                ->collect()
+                ->keyBy(fn (Ror $ror) => $ror->getData('ror'));
+
+        // Resolve each submission's languages + primary locale ONCE, reusing the canonical
+        // getPublicationLanguages() so the derived name is identical to the per-instance path.
+        $submissions = Repo::submission()->getCollector()
+            ->filterBySubmissionIds($submissionIds)
+            ->getMany()
+            ->collect()
+            ->keyBy(fn ($submission) => $submission->getId());
+
+        $contexts = [];
+        $localesBySubmission = [];
+        $primaryLocaleBySubmission = [];
+        foreach ($submissions as $submissionId => $submission) {
+            $contextId = (int) $submission->getData('contextId');
+            $context = $contexts[$contextId] ??= Application::getContextDAO()->getById($contextId);
+            $localesBySubmission[$submissionId] = $submission->getPublicationLanguages(
+                $context?->getSupportedSubmissionMetadataLocales() ?? []
+            );
+            $primaryLocaleBySubmission[$submissionId] = $submission->getData('locale');
+        }
+
+        foreach ($funders as $funder) {
+            $submissionId = (int) $funder->getRawOriginal('submission_id');
+            $funder->injectResolvers(
+                $rors->get($funder->getRawOriginal('ror')),
+                $localesBySubmission[$submissionId] ?? [],
+                $primaryLocaleBySubmission[$submissionId] ?? null,
+            );
+        }
+
+        return $funders->groupBy(fn (Funder $funder) => (int) $funder->getRawOriginal('submission_id'));
+    }
+
+    /**
+     * Batch-load funders for a set of publications (mapping each to its submission).
+     *
+     * @return Collection<int, Collection<int, Funder>> keyed by submission_id
+     */
+    public function loadForPublicationBatch(array $publicationIds): Collection
+    {
+        if (empty($publicationIds)) {
+            return collect();
+        }
+        $submissionIds = DB::table('publications')
+            ->whereIn('publication_id', $publicationIds)
+            ->distinct()
+            ->pluck('submission_id')
+            ->all();
+        return $this->loadForSubmissions($submissionIds);
     }
 
     /**

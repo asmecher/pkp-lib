@@ -29,7 +29,6 @@ use PKP\core\EntityDAO;
 use PKP\core\interfaces\CollectorInterface;
 use PKP\core\traits\EntityWithParent;
 use PKP\dataCitation\DataCitation;
-use PKP\funder\Funder;
 use PKP\notification\Notification;
 use PKP\services\PKPSchemaService;
 
@@ -170,7 +169,7 @@ class DAO extends EntityDAO
         $publicationVersionString = Repo::publication()->getVersionString($publication);
         $publication->setData('versionString', $publicationVersionString);
 
-        $this->setFunders($publication);
+        $this->setFunders($publication, $row, $ids, $cache);
 
         $publication->setData('citationsRaw', new class ($publication->getId()) implements \Stringable {
             public function __construct(public int $publicationId)
@@ -475,17 +474,15 @@ class DAO extends EntityDAO
     }
 
     /**
-     * Set a publication's Funders
+     * Set a publication's Funders (batch-loaded and pre-resolved across the whole publication
+     * batch --> see Repo::funder()->loadForPublicationBatch()).
      */
-    protected function setFunders(Publication $publication): void
+    protected function setFunders(Publication $publication, object $row, array $ids, object $cache): void
     {
-        $publication->setData(
-            'funders',
-            Funder::withSubmissionId($publication->getData('submissionId'))
-                ->orderBySeq()
-                ->lazy()
-                ->remember()
-        );
+        $publication->setData('funders', LazyCollection::make(function () use ($row, $ids, $cache) {
+            $cache->funders ??= Repo::funder()->loadForPublicationBatch($ids);
+            yield from $cache->funders->get($row->submission_id) ?? [];
+        })->remember());
     }
 
     /**
