@@ -848,15 +848,18 @@ class FileManager
         if (getimagesize($temporaryFile->getFilePath()) === false) {
             return false;
         }
-        $extension = pathinfo($temporaryFile->getOriginalFileName(), PATHINFO_EXTENSION);
+        $extension = strtolower(pathinfo($temporaryFile->getOriginalFileName(), PATHINFO_EXTENSION));
         $extensionFromMimeType = $this->getImageExtension(
             PKPString::mime_content_type($temporaryFile->getFilePath())
         );
-        if ($extensionFromMimeType !== '.' . $extension) {
-            return false;
+        // Special case: Accept .jpeg as a valid JPEG extension
+        if ($extensionFromMimeType === '.jpg' && $extension === 'jpeg') {
+            return true;
         }
-
-        return true;
+        if ($extensionFromMimeType === '.' . $extension) {
+            return true;
+        }
+        return false;
     }
 }
 
